@@ -1,2 +1,2 @@
 # WebTechFinal
-My group's final project in Web Technologies
+Teamang's final project in Web Technologies
