@@ -4,6 +4,19 @@
 
 The Document Review Tracker is a web application designed to streamline document reviews within a collaborative environment. This application facilitates the submission of documents, allows reviewers to provide comments on PDFs, and enables efficient communication between reviewers and document owners. The system includes user authentication, user roles (admin, reviewer, user), session management, and features sorting and filtering capabilities.
 
+## Technologies Used
+
+### Front End
+
+- **HTML:** The markup language for structuring the application's content.
+- **CSS:** Stylesheets to enhance the visual presentation and layout.
+- **JavaScript:** Used for dynamic and interactive elements on the client side.
+
+### Back End
+
+- **PHP:** A server-side scripting language for handling backend logic and interactions.
+- **Node.js:** A JavaScript runtime that enables server-side development, enhancing the web application's scalability and responsiveness.
+
 ## Features
 
 ### 1. User Authentication
@@ -30,18 +43,15 @@ The Document Review Tracker is a web application designed to streamline document
 
 - Secure session management to ensure user authentication and authorization.
 - Automatic logout after a period of inactivity.
-- Token-based authentication for enhanced security.
 
 ### 4. Document Submission
 
 - Users can submit documents for review.
-- Supported file formats include PDF, DOCX, and TXT.
+- Supported file formats only includes PDF.
 
 ### 5. Commenting System
 
 - Reviewers can leave comments on specific sections of a document.
-- Document owners and submitters receive notifications about new comments.
-- Seamless communication between document owners, reviewers, and submitters.
 
 ### 6. Document Status
 
@@ -52,29 +62,3 @@ The Document Review Tracker is a web application designed to streamline document
 
 - Users can sort documents based on criteria such as submission date, review status, and document owner.
 - Filter documents based on various parameters to easily locate specific files.
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js installed
-- MongoDB database set up
-
-### Installation
-
-1. Clone the repository: `git clone https://github.com/your-username/document-review-tracker.git`
-2. Navigate to the project folder: `cd document-review-tracker`
-3. Install dependencies: `npm install`
-4. Configure environment variables: Create a `.env` file and set the necessary variables (see `.env.example` for reference).
-5. Start the application: `npm start`
-
-## Usage
-
-1. Access the application at `http://localhost:3000` in your web browser.
-2. Sign in with your credentials or create a new account.
-3. Upload documents for review.
-4. Track the status of submitted documents.
-5. Reviewers can provide comments and send back the document.
-6. Receive notifications about document status changes.
-
-
