@@ -21,7 +21,6 @@ The Document Review Tracker is a web application designed to streamline document
 
 ### 1. User Authentication
 
-- Users can create accounts with unique credentials.
 - Login functionality to access the system securely.
 
 ### 2. User Roles
