@@ -12,11 +12,15 @@ body{
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+	flex-direction: column;
     background-color: #004AAD;
 }
 
-.image{
+.image-pos{
+	margin-top: 15px;
+}
+
+.img{
 	max-width: 430px;
     width: 100%;
 }
@@ -34,7 +38,7 @@ body{
 .container .forms{
     display: flex;
     align-items: center;
-    height: 440px;
+    height: 408px;
     width: 200%;
     transition: height 0.2s ease;
 }
@@ -53,21 +57,12 @@ body{
     transition: margin-left 0.18s ease, opacity 0.15s ease;
 }
 
-.container .signup{
-    opacity: 0;
-    transition: opacity 0.09s ease;
-}
-.container.active .signup{
-    opacity: 1;
-    transition: opacity 0.2s ease;
-}
-
 .container.active .forms{
     height: 600px;
 }
 .container .form .title{
 	display: flex;
-    font-size: 43px;
+    font-size: 33px;
     font-weight: bolder;
 }
 
