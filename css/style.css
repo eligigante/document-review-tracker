@@ -12,7 +12,7 @@ body{
     display: flex;
     align-items: center;
 	flex-direction: column;
-    background-color: #004AAD;
+    background-color: #073066;
 }
 
 .image-pos{
@@ -87,7 +87,7 @@ body{
 }
 
 .input-field input:is(:focus, :valid){
-    border-bottom-color: #4070f4;
+    border-bottom-color: #073066;
 }
 
 .input-field i{
@@ -131,7 +131,7 @@ body{
 }
 
 .form a.text{
-    color: #4070f4;
+    color: #073066;
     text-decoration: none;
 }
 .form a:hover{
@@ -149,11 +149,11 @@ body{
     font-weight: 500;
     letter-spacing: 1px;
     border-radius: 6px;
-    background-color: #3063ed;
+    background-color: #1a3ea3;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .button input:hover{
-    background-color: #004AAD;
+    background-color: #073066;
 }
