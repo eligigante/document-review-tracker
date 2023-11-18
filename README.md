@@ -8,7 +8,7 @@ The Document Review Tracker is a web application designed to streamline document
 
 ### Front End
 
-- **HTML:** The markup language for structuring the application's content
+- **HTML:** The markup language for structuring the application's content.
 - **CSS:** Stylesheets to enhance the visual presentation and layout.
 - **JavaScript:** Used for dynamic and interactive elements on the client side.
 
