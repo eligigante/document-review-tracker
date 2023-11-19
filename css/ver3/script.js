@@ -1,4 +1,8 @@
 const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
+const section = document.querySelector("section"),
+overlay = document.querySelector(".overlay"),
+showBtn = document.querySelector(".logout"),
+closeBtn = document.querySelector(".close-btn");
 
 allSideMenu.forEach(item=> {
 	const li = item.parentElement;
@@ -23,6 +27,16 @@ menuBar.addEventListener('click', function () {
 })
 
 
+// Modal Pop Up
+showBtn.addEventListener("click", () => section.classList.add("active"));
+
+overlay.addEventListener("click", () =>
+  section.classList.remove("active")
+);
+
+closeBtn.addEventListener("click", () =>
+  section.classList.remove("active")
+);
 
 
 
