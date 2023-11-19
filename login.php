@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: landing.php"); 
             exit();
         } else {
-            echo "<script>alert('Invalid credentials'); window.location.href = 'index.php';</script>";
+            echo "<script>alert('Invalid credentials'); window.location.href = 'index.html';</script>";
             exit();
           
         }
