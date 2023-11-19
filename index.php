@@ -1,4 +1,20 @@
+<?php
+
+include("db.php");
+include("functions.php");
+
+session_start();
+
+$_SESSION;
+
+
+?>
+
+
 <!DOCTYPE html>
+
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -46,3 +62,4 @@
      <script src="js/script.js"></script> 
 </body>
 </html>
+
