@@ -83,7 +83,7 @@ body {
 	top: 0;
 	left: 0;
 	background: var(--light);
-	z-index: 500;
+	z-index: -1;
 	padding-bottom: 20px;
 	box-sizing: content-box;
 }
@@ -105,10 +105,11 @@ body {
 	margin-left: 6px;
 	border-radius: 48px 0 0 48px;
 	padding: 4px;
+	z-index: -1;
 }
 
 #sidebar .side-menu li.active {
-	background: var(--grey);
+	background: #f0f0f0;
 	position: relative;
 }
 
@@ -120,7 +121,7 @@ body {
 	border-radius: 50%;
 	top: -40px;
 	right: 0;
-	box-shadow: 20px 20px 0 var(--grey);
+	box-shadow: 20px 20px 0 #f0f0f0;
 	z-index: -1;
 }
 
@@ -132,7 +133,7 @@ body {
 	border-radius: 50%;
 	bottom: -40px;
 	right: 0;
-	box-shadow: 20px -20px 0 var(--grey);
+	box-shadow: 20px -20px 0 #f0f0f0;
 	z-index: -1;
 }
 
@@ -343,6 +344,7 @@ body {
 	width: 100%;
 	padding: 36px 24px;
 	font-family: var(--poppins);
+	background: #f0f0f0;
 	max-height: calc(100vh - 56px);
 	overflow-y: auto;
 }
@@ -584,20 +586,32 @@ body {
 /* CONTENT */
 
 /* Modal Pop up */
-button {
-	font-size: 18px;
+.logout-btn{
+	font-size: 16px;
 	font-weight: 400;
 	color: #fff;
-	padding: 14px 22px;
+	padding: 10px 15px;
 	border: none;
-	background: #4070f4;
+	background: #F82F2F;
 	border-radius: 6px;
 	cursor: pointer;
 }
 
-button:hover {
-	background-color: #265df2;
+.close-btn {
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    background: #A19E9E;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 15px;
 }
+
+/* button:hover {
+	background-color: #265df2;
+} */
 
 button.show-modal,
 .modal-box {
@@ -627,13 +641,10 @@ section.active .overlay {
 }
 
 .modal-box {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	max-width: 380px;
+	max-width: 415px;
 	width: 100%;
 	padding: 30px 20px;
-	border-radius: 24px;
+	border-radius: 10px;
 	background-color: #fff;
 	opacity: 0;
 	pointer-events: none;
@@ -648,26 +659,25 @@ section.active .modal-box {
 }
 
 .modal-box i {
-	font-size: 70px;
-	color: #4070f4;
+	margin-right: 5px;
 }
 
 .modal-box h2 {
-	margin-top: 20px;
 	font-size: 25px;
-	font-weight: 500;
-	color: #333;
+	font-weight: bold;
+	color: #000000;
 }
 
 .modal-box h3 {
 	font-size: 16px;
 	font-weight: 400;
-	color: #333;
-	text-align: center;
+	color: #000000;
+	padding-top: 15px;
 }
 
 .modal-box .buttons {
-	margin-top: 25px;
+    float: inline-end;
+    margin-top: 35px;
 }
 
 .modal-box button {
