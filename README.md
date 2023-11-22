@@ -41,7 +41,6 @@ The Document Review Tracker is a web application designed to streamline document
 ### 3. Session Management
 
 - Secure session management to ensure user authentication and authorization.
-- Automatic logout after a period of inactivity.
 
 ### 4. Document Submission
 
