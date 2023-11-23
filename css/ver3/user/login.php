@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $user['user_ID'];
     
         
-            header("Location: landing.php"); 
+            header("Location:index.php"); 
             exit();
         } else {
             echo "<script>alert('Invalid credentials'); window.location.href = 'index.html';</script>";

@@ -89,3 +89,13 @@ switchMode.addEventListener('change', function () {
 	}
 })
 
+
+//SPA 
+
+
+  function loadContent(page) {
+    fetch(`content.php?page=${page}`)
+      .then(response => response.text())
+      .then(data => document.getElementById('tite').innerHTML = data)
+      .catch(error => console.error('Error:', error));
+  }
