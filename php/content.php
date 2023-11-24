@@ -1,12 +1,49 @@
+
 <?php
+require_once('db.php');
+require_once('functions.php');
+
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+   
+    header("Location: index.php");
+    exit();
+
+}
+
+$userID = $_SESSION['user_id'];
+$userDetails = get_name($con, $userID);
+
+
+
+//user full name
+
+if ($userDetails) {
+    $firstName = $userDetails['first_Name'];
+    $lastName = $userDetails['last_Name'];
+} else {
+    
+  null;
+}
+
+
+
+echo var_dump($_GET['page']);
+
+
+
+
 
 if ($_GET['page'] === 'home') {
     echo '<main id="tite">
+    
 
-
+    
     <div class="head-title">
     <div class="left">
         <h1>Dashboard</h1>
+        <h1> Hello User '. $firstName ." ". $lastName .' </h1>
         <ul class="breadcrumb">
             <li>
                 <a href="#">Dashboard</a>
@@ -106,20 +143,6 @@ if ($_GET['page'] === 'home') {
 </div>
 </div>
 </div>
-
-
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     </main>';
@@ -208,4 +231,12 @@ if ($_GET['page'] === 'home') {
    
     echo '<h1>Page not found</h1>';
 }
-?>
+
+
+
+
+
+
+
+
+

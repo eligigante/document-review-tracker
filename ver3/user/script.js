@@ -75,7 +75,7 @@ switchMode.addEventListener('change', function () {
 
 //SPA 
 function loadContent(page) {
-	fetch(`content.php?page=${page}`)
+	fetch(`../../php/content.php?page=${page}`)
 		.then(response => response.text())
 		.then(data => document.getElementById('tite').innerHTML = data)
 		.catch(error => console.error('Error:', error));
@@ -134,4 +134,9 @@ function readFile(input) {
 	previewZone.addClass('hidden');
 	reset(dropzone);
   });
-  
+
+
+  //dashboard papakita
+  window.onload = function() {
+    loadContent('home'); 
+  };
