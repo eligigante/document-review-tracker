@@ -7,7 +7,9 @@
 
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <!-- My CSS -->
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
     <title>AdminHub</title>
@@ -26,8 +28,8 @@
             <div class="buttons">
                 <a class="close-btn">Cancel</a>
                 <a class="logout-btn">
-                        <i class='bx bx-log-out'></i>
-                        <span>Logout</span>
+                    <i class='bx bx-log-out'></i>
+                    <span>Logout</span>
                 </a>
             </div>
         </div>
@@ -162,17 +164,48 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-25">
-                            <label for="upload">Upload File</label>
-                        </div>
-                        <div class="col-75">
-                            <textarea id="subject" name="subject" placeholder="Write something.."
-                                style="height:200px"></textarea>
-                        </div>
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label">Upload File</label>
+                                            <div class="preview-zone hidden">
+                                                <div class="box box-solid">
+                                                    <div class="box-header with-border">
+                                                        <div><b>Preview</b></div>
+                                                        <div class="box-tools pull-right">
+                                                            <button type="button"
+                                                                class="btn btn-danger btn-xs remove-preview">
+                                                                <i class="fa fa-times"></i> Reset This Form
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-body"></div>
+                                                </div>
+                                            </div>
+                                            <div class="dropzone-wrapper">
+                                                <div class="dropzone-desc">
+                                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                                    <p>Choose an image file or drag it here.</p>
+                                                </div>
+                                                <input type="file" name="img_logo" class="dropzone">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <input type="submit" value="Submit">
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </main>
