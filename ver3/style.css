@@ -453,9 +453,18 @@ body {
 	color: var(--white);
 }
 
-
-
-
+.review-btn {
+	border: none;
+	padding: 6px 16px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    background-color: var(--red);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
 #content main .table-data {
 	display: flex;
@@ -526,9 +535,9 @@ body {
 	object-fit: cover;
 }
 
-#content main .table-data .order table tbody tr:hover {
+/* #content main .table-data .order table tbody tr:hover {
 	background: var(--grey);
-}
+} */
 
 #content main .table-data .order table tr td .status {
 	font-size: 10px;

@@ -38,13 +38,13 @@
             <span class="text">SLU</span>
         </a>
         <ul class="side-menu top">
-            <li class="active">
+            <li>
                 <a href="reviewer.html">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="review_doc.html">
                     <i class='bx bx-upload'></i>
                     <span class="text">Review Queue</span>
@@ -105,10 +105,10 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Submit Document</h1>
+                    <h1>Review Queue</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Submit Document</a>
+                            <a href="#">Review Queue</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
@@ -121,93 +121,124 @@
                     <span class="text">Download PDF</span>
                 </a>
             </div>
+
             <div class="table-data">
                 <div class="order">
                     <div class="head">
-                        <h3>Recent Orders</h3>
+                        <h3>For Review</h3>
                         <i class='bx bx-search'></i>
                         <i class='bx bx-filter'></i>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Date Order</th>
-                                <th>Status</th>
+                                <th>Document ID</th>
+                                <th>User ID</th>
+                                <th>Document Title</th>
+                                <th>Copies</th>
+                                <th>Remarks</th>
+                                <th>File</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
+                                    <span>10001</span>
                                 </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status completed">Completed</span></td>
+                                <td>20231</td>
+                                <td>
+                                    <span>Certificate of Enrollment</span>
+                                </td>
+                                <td><span>2</span></td>
+                                <td>
+                                    <span class="status pending">Pending</span>
+                                </td>
+                                <td><span class="text">doc.pdf</span></td>
+                                <td>
+                                    <a href="" class="review-btn">
+                                        <span class="text">Review</span>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
+                                    <span>10001</span>
                                 </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status pending">Pending</span></td>
+                                <td>20231</td>
+                                <td>
+                                    <span>Certificate of Enrollment</span>
+                                </td>
+                                <td><span>2</span></td>
+                                <td>
+                                    <span class="status pending">Pending</span>
+                                </td>
+                                <td><span class="text">doc.pdf</span></td>
+                                <td>
+                                    <a href="" class="review-btn">
+                                        <span class="text">Review</span>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
+                                    <span>10001</span>
                                 </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status process">Process</span></td>
+                                <td>20231</td>
+                                <td>
+                                    <span>Certificate of Enrollment</span>
+                                </td>
+                                <td><span>2</span></td>
+                                <td>
+                                    <span class="status pending">Pending</span>
+                                </td>
+                                <td><span class="text">doc.pdf</span></td>
+                                <td>
+                                    <a href="" class="review-btn">
+                                        <span class="text">Review</span>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
+                                    <span>10001</span>
                                 </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status pending">Pending</span></td>
+                                <td>20231</td>
+                                <td>
+                                    <span>Certificate of Enrollment</span>
+                                </td>
+                                <td><span>2</span></td>
+                                <td>
+                                    <span class="status pending">Pending</span>
+                                </td>
+                                <td><span class="text">doc.pdf</span></td>
+                                <td>
+                                    <a href="" class="review-btn">
+                                        <span class="text">Review</span>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
+                                    <span>10001</span>
                                 </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status completed">Completed</span></td>
+                                <td>20231</td>
+                                <td>
+                                    <span>Certificate of Enrollment</span>
+                                </td>
+                                <td><span>2</span></td>
+                                <td>
+                                    <span class="status pending">Pending</span>
+                                </td>
+                                <td><span class="text">doc.pdf</span></td>
+                                <td>
+                                    <a href="" class="review-btn">
+                                        <span class="text">Review</span>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="todo">
-                    <div class="head">
-                        <h3>Todos</h3>
-                        <i class='bx bx-plus'></i>
-                        <i class='bx bx-filter'></i>
-                    </div>
-                    <ul class="todo-list">
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="not-completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="not-completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </main>
