@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const server = require('./server');
 const express = require('express');
 const session = require('express-session');
 
@@ -10,6 +11,7 @@ app.use(session({
     saveUninitialized : true
   }));  
 
-app.listen('8001', () => {
-    console.log('Server has connected to port 8001')
-})
+server.startServer();
+
+
+

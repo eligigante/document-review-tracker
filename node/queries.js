@@ -1,30 +1,4 @@
 const mysql = require('mysql');
-const express = require('express');
-const session = require('express-session');
-
-const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'document_tracker_db'
-})
-
-db.getConnection((err)=> {
-    if (err) throw (err)
-    console.log('Successfully connected to MySQL database.')
- })
-
-const app = express();
-
-app.use(session({
-    secret : 'webslesson',
-    resave : true,
-    saveUninitialized : true
-  }));  
-
-app.listen('8001', () => {
-    console.log('Server has connected to port 8001');
-})
 
 function getUser(id) {
     if (checkUser(id) ) {
@@ -99,7 +73,6 @@ function getReviewerDocuments (department_ID, position) {
 }
 
 module.exports = {
-    db,
     getUser, 
     insertUser,
     deleteUser,
