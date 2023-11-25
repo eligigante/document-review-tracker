@@ -154,24 +154,11 @@ if ($_GET['page'] === 'home') {
     <div class="head-title">
     <div class="left">
         <h1>Submit Document</h1>
-        <ul class="breadcrumb">
-            <li>
-                <a href="#">Submit Document</a>
-            </li>
-            <li><i class="bx bx-chevron-right"></i></li>
-            <li>
-                <a class="active" href="#">Home</a>
-            </li>
-        </ul>
     </div>
-    <a href="#" class="btn-download">
-        <i class="bx bxs-cloud-download"></i>
-        <span class="text">Download PDF</span>
-    </a>
 </div>
 
 <div class="doc-container">
-    <form action="">
+    <form action="../../php/form-handling.php" method="POST" enctype="multipart/form-data">
         <div class="row">
             <div class="col-25">
                 <label for="fname">First Name</label>
@@ -211,19 +198,40 @@ if ($_GET['page'] === 'home') {
             </div>
         </div>
         <div class="row">
-            <div class="col-25">
-                <label for="upload">Upload File</label>
-            </div>
-            <div class="col-75">
-                <textarea id="upload" name="upload" placeholder="Write something.." style="height:200px"></textarea>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Upload File</label>
+                    <div class="preview-zone hidden">
+                        <div class="box box-solid">
+                            <div class="box-header with-border">
+                                <div><b>Preview</b></div>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-danger btn-xs remove-preview">
+                                        <i class="fa fa-times"></i> Reset This Form
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body"></div>
+                        </div>
+                    </div>
+                    <div class="dropzone-wrapper">
+                        <div class="dropzone-desc">
+                            <i class="glyphicon glyphicon-download-alt"></i>
+                            <p>Choose an image file or drag it here.</p>
+                        </div>
+                        <input type="file" name="img_logo" class="dropzone">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
-            <input type="submit" value="Submit">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+            </div>
         </div>
     </form>
 </div>
-
+    
     </main>';
    
 

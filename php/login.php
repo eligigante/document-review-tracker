@@ -1,13 +1,14 @@
 <?php
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once('db.php');
 require_once('functions.php');
 
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['submit'])) {
-
         $accountID = $_POST['accountID'];
         $password = $_POST['password'];
 
@@ -15,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($user) {
             $_SESSION['user_id'] = $user['user_ID'];
-
             header("Location: ../ver3/user/doc.php");
             exit();
         } else {
@@ -25,5 +25,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-ob_end_flush();
 ?>

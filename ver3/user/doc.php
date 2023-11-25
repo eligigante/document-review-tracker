@@ -40,7 +40,7 @@ if (!isset($_SESSION['user_id'])) {
 
             <div class="buttons">
                 <a class="close-btn">Cancel</a>
-                <a class="logout-btn">
+                <a class="logout-btn" href = "../../php/logout.php">
                     <i class='bx bx-log-out'></i>
                     <span>Logout</span>
                 </a>

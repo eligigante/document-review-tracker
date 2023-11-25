@@ -74,3 +74,15 @@ switchMode.addEventListener('change', function () {
 		document.body.classList.remove('dark');
 	}
 })
+
+//file han
+document.getElementById('fileInput').addEventListener('change', function(event) {
+	const fileInput = event.target;
+	const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+	if (fileInput.files.length > 0) {
+		fileNameDisplay.textContent = fileInput.files[0].name;
+	} else {
+		fileNameDisplay.textContent = '';
+	}
+});
