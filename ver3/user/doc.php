@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: index.php");
+    header("Location: index.html");
     exit();
 }
 
@@ -64,13 +64,13 @@ if (!isset($_SESSION['user_id'])) {
                 </a>
             </li>
             <li>
-                <a href="#"onclick= "loadContent('settings')">
+                <a href="#"onclick= "loadContent('myDocs')">
                     <i class='bx bxs-file-doc'></i>
                     <span class="text">My Documents</span>
                 </a>
             </li>
             <li>
-                <a href="#"onclick= "loadContent('document')">
+                <a href="#"onclick= "loadContent('profile')">
                     <i class='bx bxs-face'></i>
                     <span class="text">Profile</span>
                 </a>

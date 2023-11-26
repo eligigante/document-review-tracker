@@ -19,7 +19,7 @@ function check_login($con, $accountID, $password){
 }
 
 function get_name($con, $accountID) {
-    $query = "SELECT last_Name, first_Name FROM user WHERE user_ID = ?";
+    $query = "SELECT last_Name, first_Name, middle_Name, email, user_ID FROM user WHERE user_ID = ?";
 
     
     if ($stmt = mysqli_prepare($con, $query)) {
@@ -32,7 +32,7 @@ function get_name($con, $accountID) {
 
 
       
-        mysqli_stmt_bind_result($stmt, $last_Name, $first_Name);
+        mysqli_stmt_bind_result($stmt, $last_Name, $first_Name, $middle_Name, $email, $user_ID);
 
    
         mysqli_stmt_fetch($stmt);
@@ -47,7 +47,10 @@ function get_name($con, $accountID) {
         
         return array(
             "first_Name" => $first_Name,
-            "last_Name" => $last_Name
+            "last_Name" => $last_Name,
+            "middle_Name" => $middle_Name,
+            "email" => $email,
+            "ID" => $user_ID
         );
     } else {
        

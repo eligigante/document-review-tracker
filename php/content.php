@@ -22,6 +22,9 @@ $userDetails = get_name($con, $userID);
 if ($userDetails) {
     $firstName = $userDetails['first_Name'];
     $lastName = $userDetails['last_Name'];
+    $middleName = $userDetails['middle_Name'];
+    $email = $userDetails['email'];
+    $id = $userDetails['ID'];
 } else {
     
   null;
@@ -146,8 +149,160 @@ if ($_GET['page'] === 'home') {
     
     
     </main>';
-} elseif ($_GET['page'] === 'settings') {
-    echo '<h1>This is the Settings content</h1>';
+} elseif ($_GET['page'] === 'myDocs') {
+
+    echo '<main id = "tite">
+    
+    
+    
+    
+    <div class="head-title">
+    <div class="left">
+        <h1>My Documents</h1>
+    </div>
+</div>
+
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>My Documents</h3>
+            <i class="bx bx-search"></i>
+            <i class="bx bx-filter"></i>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Document ID</th>
+                    <th>Document Title</th>
+                    <th>Upload Date</th>
+                    <th>Document Status</th>
+                    <th>Option</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span>10001</span>
+                    </td>
+                    <td>
+                        <span>Java Doc</span>
+                    </td>
+                    <td>
+                        <span>2023-11-01</span>
+                    </td>
+                    <td>
+                        <span class="status completed">Approved</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>10002</span>
+                    </td>
+                    <td>
+                        <span>PHP Doc</span>
+                    </td>
+                    <td>
+                        <span>2023-11-02</span>
+                    </td>
+                    <td>
+                        <span class="status completed">Approved</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>10003</span>
+                    </td>
+                    <td>
+                        <span>Pytthon Doc</span>
+                    </td>
+                    <td>
+                        <span>2023-11-08</span>
+                    </td>
+                    <td>
+                        <span class="status completed">Approved</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>10004</span>
+                    </td>
+                    <td>
+                        <span>Scheme Doc</span>
+                    </td>
+                    <td>
+                        <span>2023-11-02</span>
+                    </td>
+                    <td>
+                        <span class="status completed">Approved</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>10007</span>
+                    </td>
+                    <td>
+                        <span>Go Doc</span>
+                    </td>
+                    <td>
+                        <span>2023-11-01</span>
+                    </td>
+                    <td>
+                        <span class="status completed">Approved</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+    
+    
+    
+    </main>';
+
+
+} elseif ($_GET['page'] === 'profile') {
+    echo '<main id = "tite">
+    
+    <div class="head-title">
+    <div class="left">
+        <h1>My Profile</h1>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">My Profile</a>
+            </li>
+            <li><i class="bx bx-chevron-right"></i></li>
+            <li>
+                <a class="active" href="#">Home</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- here yung container -->
+<div class="profile-container">
+    
+    <div class="sample-image">
+        <img src="img/people.png">
+    </div>
+    <div class="profile-info">
+        <div class="general-information-label">GENERAL INFORMATION</div>
+        <div class="name-label">First Name: <span class="value"> '. $firstName .'</span></div>
+        <div class="name-position">Middle Name: <span class="value">'. $middleName .'</span></div>
+        <div class="name-label">Last Name: <span class="value">'. $lastName .'</span></div>
+        <div class="name-label">Email: <span class="value">'. $email .'</span></div>
+        <div class="name-label">User ID: <span class="value">'. $id .'</span></div>
+        <!-- Add more divs for additional user information as needed -->
+    </div>
+    
+</div>
+    
+    </main>';
+   
+
+
+
+
 } elseif ($_GET['page'] === 'document') {
     echo '<main>
     
@@ -164,7 +319,7 @@ if ($_GET['page'] === 'home') {
                 <label for="fname">First Name</label>
             </div>
             <div class="col-75">
-                <input type="text" id="fname" name="firstname" placeholder="Your name..">
+                <input type="text" id="fname" name="firstname" placeholder="Your name.." value = "'.$firstName.'" readonly>
             </div>
         </div>
         <div class="row">
@@ -172,7 +327,7 @@ if ($_GET['page'] === 'home') {
                 <label for="lname">Last Name</label>
             </div>
             <div class="col-75">
-                <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+                <input type="text" id="lname" name="lastname" placeholder="Your last name.." value = "'.$lastName.'" readonly>
             </div>
         </div>
         <div class="row">
