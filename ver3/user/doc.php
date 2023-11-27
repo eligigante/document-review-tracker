@@ -23,8 +23,7 @@ if (!isset($_SESSION['user_id'])) {
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="../style.css">
     <title>AdminHub</title>
 </head>
 

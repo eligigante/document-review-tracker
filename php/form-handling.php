@@ -18,24 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $fileName = $uploadedFile["name"];
         $tempFilePath = $uploadedFile["tmp_name"];
 
-
-        
         $fileContent = file_get_contents($tempFilePath);
 
         if ($fileContent !== null) {
 
 
-        
-
             $sql = "INSERT INTO document_details (user_ID, document_Title, copies, upload_Date, file)
                     VALUES (?, ?, ?, ?, ?)";
 
 
-
-
             $stmt = $con->prepare($sql);
-
-
 
 
 

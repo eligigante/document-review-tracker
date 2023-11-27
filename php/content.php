@@ -16,9 +16,10 @@ $userID = $_SESSION['user_id'];
 $userDetails = get_name($con, $userID);
 $docDetails = get_docs($con, $userID);
 
+$docRecent = get_recent($con, $userID);
 
-
-
+$statusChange = "";
+$statusChanging = "";
 
 
 //user full name
@@ -43,117 +44,104 @@ echo var_dump($_GET['page']);
 
 
 if ($_GET['page'] === 'home') {
-    echo '<main id="tite">
+    echo '
     
+    
+    <main>
+			<div class="head-title">
+				<div class="left">
+					<h1>Hello, '. $firstName.' '.$lastName.'</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li><i class="bx bx-chevron-right"></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 
-    
-    <div class="head-title">
-    <div class="left">
-        <h1>Dashboard</h1>
-        <h1> Hello User '. $firstName ." ". $lastName .' </h1>
-        <ul class="breadcrumb">
-            <li>
-                <a href="#">Dashboard</a>
-            </li>
-            <li><i class="bx bx-chevron-right"></i></li>
-            <li>
-                <a class="active" href="#">Home</a>
-            </li>
-        </ul>
-    </div>
-    <a href="#" class="btn-download">
-        <i class="bx bxs-cloud-download"></i>
-        <span class="text">Download PDF</span>
-    </a>
-</div>
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Recent Documents</h3>
+						<i class="bx bx-search"></i>
+						<i class="bx bx-filter"></i>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Date Order</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>';
+						
+                        if($docRecent){  
+                            foreach($docRecent as $docs){
+                                switch($docs['status']){
 
-<ul class="box-info">
-    <li>
-        <i class="bx bxs-calendar-check"></i>
-        <span class="text">
-            <h3>1020</h3>
-            <p>New Order</p>
-        </span>
-    </li>
-    <li>
-        <i class="bx bxs-group"></i>
-        <span class="text">
-            <h3>2834</h3>
-            <p>Visitors</p>
-        </span>
-    </li>
-    <li>
-        <i class="bx bxs-dollar-circle"></i>
-        <span class="text">
-            <h3>$2543</h3>
-            <p>Total Sales</p>
-        </span>
-    </li>
-</ul>
+                                    case 'pending':
+                                        $statusChange = 'status pending';
+                                        break;
+                                    case 'approved':
+                                        $statusChange = 'status completed';
+                                        break;
+                                    case 'denied':
+                                        $statusChange = 'status denied';
+                                        break;
+                                }
+                                echo '
+                            
+                                
+                                <tr>
+                                    
+                                        <td>
+                                            <span>'. $docs['title'] . '</span>
+                                        </td>
+                                        <td>
+                                            <span>'. $docs['uploadDate'] . '</span>
+                                        </td>
+                                        <td>
+                                            <span class="'.$statusChange.'" >'.$docs['status'].'</span>
+                                        </td>
+                                    </tr>';
+                                
+                            }
 
-<div class="table-data">
-    <div class="order">
-        <div class="head">
-            <h3>Recent Orders</h3>
-            <i class="bx bx-search"></i>
-            <i class="bx bx-filter"></i>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Date Order</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <img src="img/people.png">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status completed">Completed</span></td>
-                </tr>
-                <!-- Other table rows -->
-            </tbody>
-        </table>
-    </div>
-    <div class="todo">
-    <div class="head">
-        <h3>Todos</h3>
-        <i class="bx bx-plus"></i>
-        <i class="bx bx-filter"></i>
-    </div>
-    <ul class="todo-list">
-        <li class="completed">
-            <p>Todo List</p>
-            <i class="bx bx-dots-vertical-rounded"></i>
-        </li>
-        <li class="completed">
-            <p>Todo List</p>
-            <i class="bx bx-dots-vertical-rounded"></i>
-        </li>
-        <li class="not-completed">
-            <p>Todo List</p>
-            <i class="bx bx-dots-vertical-rounded"></i>
-        </li>
-        <li class="completed">
-            <p>Todo List</p>
-            <i class="bx bx-dots-vertical-rounded"></i>
-        </li>
-        <li class="not-completed">
-            <p>Todo List</p>
-            <i class="bx bx-dots-vertical-rounded"></i>
-        </li>
-    </ul>
-</div>
-</div>
-</div>
-    
-    
-    </main>';
-} elseif ($_GET['page'] === 'myDocs') {
+                        }else{
+
+                            echo '
+                            
+                            
+                            <tr>
+                                        <td>
+                                            <span>'. "" . '</span>
+                                        </td>
+                                        <td>
+                                            <span>'. "". '</span>
+                                        </td>
+                                        <td>
+                                            <span>'. "" . '</span>
+                                        </td>
+                                        <td>
+                                            <span class="status completed">'. "" . '</span>
+                                        </td>
+                                    </tr>';
+
+                        }
+
+				echo '		</tbody>
+					</table>
+				</div>
+			</div>';
+		echo '</main>';
+                        
+
+    } elseif ($_GET['page'] === 'myDocs') {
 
     echo '<main id = "tite">
     
@@ -180,7 +168,6 @@ if ($_GET['page'] === 'home') {
                     <th>Document Title</th>
                     <th>Upload Date</th>
                     <th>Document Status</th>
-                    <th>Option</th>
                     <th></th>
                 </tr>
             </thead>
@@ -188,6 +175,19 @@ if ($_GET['page'] === 'home') {
 
         if($docDetails){
         foreach($docDetails as $doc){
+
+            switch($doc['status']){
+
+                case 'pending':
+                    $statusChanging = 'status pending';
+                    break;
+                case 'approved':
+                    $statusChanging = 'status completed';
+                    break;
+                case 'denied':
+                    $statusChanging =  'status denied';
+                    break;
+            }
             echo '
         
             
@@ -202,7 +202,7 @@ if ($_GET['page'] === 'home') {
                         <span>'. $doc['uploadDate'] . '</span>
                     </td>
                     <td>
-                        <span class="status completed">Approved</span>
+                        <span class= "'.$statusChanging.'">'.$doc['status'].'</span>
                     </td>
                 </tr>';
             
