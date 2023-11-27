@@ -14,6 +14,10 @@ if (!isset($_SESSION['user_id'])) {
 
 $userID = $_SESSION['user_id'];
 $userDetails = get_name($con, $userID);
+$docDetails = get_docs($con, $userID);
+
+
+
 
 
 
@@ -180,85 +184,63 @@ if ($_GET['page'] === 'home') {
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
+            <tbody>';
+
+        if($docDetails){
+        foreach($docDetails as $doc){
+            echo '
+        
+            
+            <tr>
                     <td>
-                        <span>10001</span>
+                        <span>'. $doc['docID'] . '</span>
                     </td>
                     <td>
-                        <span>Java Doc</span>
+                        <span>'. $doc['title'] . '</span>
                     </td>
                     <td>
-                        <span>2023-11-01</span>
-                    </td>
-                    <td>
-                        <span class="status completed">Approved</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>10002</span>
-                    </td>
-                    <td>
-                        <span>PHP Doc</span>
-                    </td>
-                    <td>
-                        <span>2023-11-02</span>
+                        <span>'. $doc['uploadDate'] . '</span>
                     </td>
                     <td>
                         <span class="status completed">Approved</span>
                     </td>
-                </tr>
-                <tr>
+                </tr>';
+            
+        }
+    }else{
+        echo'
+        
+        
+        <tr>
                     <td>
-                        <span>10003</span>
+                        <span>'. "" . '</span>
                     </td>
                     <td>
-                        <span>Pytthon Doc</span>
+                        <span>'. "". '</span>
                     </td>
                     <td>
-                        <span>2023-11-08</span>
+                        <span>'. "" . '</span>
                     </td>
                     <td>
-                        <span class="status completed">Approved</span>
+                        <span class="status completed">'. "" . '</span>
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>10004</span>
-                    </td>
-                    <td>
-                        <span>Scheme Doc</span>
-                    </td>
-                    <td>
-                        <span>2023-11-02</span>
-                    </td>
-                    <td>
-                        <span class="status completed">Approved</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>10007</span>
-                    </td>
-                    <td>
-                        <span>Go Doc</span>
-                    </td>
-                    <td>
-                        <span>2023-11-01</span>
-                    </td>
-                    <td>
-                        <span class="status completed">Approved</span>
-                    </td>
-                </tr>
+                </tr>';
+        
+        
+
+    }
+
+        echo'
+                
+        
             </tbody>
         </table>
     </div>
-</div>
+</div>';
     
     
     
-    </main>';
+  echo  '</main>';
 
 
 } elseif ($_GET['page'] === 'profile') {
