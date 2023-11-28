@@ -110,7 +110,11 @@ function get_recent($con, $accountID){
 
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, 'i', $accountID);
+
+
         mysqli_stmt_execute($stmt);
+
+
         mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $document_status);
         
         $documents = array();
@@ -131,14 +135,21 @@ function get_recent($con, $accountID){
     }
 }
 
+//img
 
 function getUserImg($con, $accountID) {
+
     $query = "SELECT user_img FROM user WHERE user_ID = ?";
     $stmt = mysqli_prepare($con, $query);
 
+
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, "i", $accountID);
+
+
         mysqli_stmt_execute($stmt);
+
+
         mysqli_stmt_bind_result($stmt, $imageData);
 
         if (mysqli_stmt_fetch($stmt)) {
