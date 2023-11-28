@@ -1,7 +1,4 @@
-const express = require('express');
-const app = express();
-
-function startServer() {
+function startServer(app) {
     app.listen('8001', () => {
         console.log('Server has connected to port 8001');
     })

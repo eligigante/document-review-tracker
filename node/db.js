@@ -1,15 +1,26 @@
 const mysql = require('mysql');
 
 function connectDatabase () {
-    const db = mysql.createPool({
+    mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
         database: 'document_tracker_db'
     })
+}
 
-    db.getConnection((err)=> {
-        if (err) throw (err)
-        console.log('Successfully connected to MySQL database.')
+function getConnection(db) {
+    db.connect((err) => {
+        if (err) throw (err) => {
+            console.log ('Error encountered while connecting to database.');
+        }
+        else {
+            console.log('Successfully connected to MySQL database.');
+        }
     })
+}
+
+module.exports = {
+    connectDatabase,
+    getConnection
 }
