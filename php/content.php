@@ -18,6 +18,17 @@ $docDetails = get_docs($con, $userID);
 
 $docRecent = get_recent($con, $userID);
 
+$imageUser = getUserImg($con, $userID);
+
+if ($imageUser !== false) {
+    $imageSrc = "data:image/jpeg;base64," . $imageUser; 
+} else {
+    echo "<script>alert('no image')</script>";
+}
+
+
+
+
 $statusChange = "";
 $statusChanging = "";
 
@@ -265,7 +276,7 @@ if ($_GET['page'] === 'home') {
 <div class="profile-container">
     
     <div class="sample-image">
-        <img src="img/people.png">
+        <img src="'.$imageSrc.'" class="sample-image">
     </div>
     <div class="profile-info">
         <div class="general-information-label">GENERAL INFORMATION</div>

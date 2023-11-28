@@ -102,13 +102,14 @@ function get_docs($con, $accountID){
 }
 }
 
-function get_recent($con){
+function get_recent($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, document_status FROM document_details WHERE user_ID = 2224372 ORDER BY document_ID DESC LIMIT 2";
+    $query = "SELECT document_ID, document_Title, upload_Date, document_status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
 
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'i', $accountID);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $document_status);
         
@@ -127,5 +128,27 @@ function get_recent($con){
         return $documents;
     } else {
         return null;
+    }
+}
+
+
+function getUserImg($con, $accountID) {
+    $query = "SELECT user_img FROM user WHERE user_ID = ?";
+    $stmt = mysqli_prepare($con, $query);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $accountID);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $imageData);
+
+        if (mysqli_stmt_fetch($stmt)) {
+            mysqli_stmt_close($stmt);
+            return base64_encode($imageData);
+        } else {
+            mysqli_stmt_close($stmt);
+            echo '<script>("no user image found")' ;
+        }
+    } else {
+        echo 'Error getting image' ;
     }
 }
