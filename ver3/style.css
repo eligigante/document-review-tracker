@@ -2,8 +2,12 @@
 
 * {
 	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    --shadow: rgba(0, 0, 0, 0.05) 0px 6px 10px 0px, rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+    --gap: 0.5rem;
+    --radius: 5px;
 }
 
 b {
@@ -193,8 +197,6 @@ body {
 }
 
 
-
-
 /* NAVBAR */
 #content nav {
 	height: 56px;
@@ -307,30 +309,102 @@ body {
 	border-radius: 50%;
 }
 
-#content nav .switch-mode {
-	display: block;
-	min-width: 50px;
-	height: 25px;
-	border-radius: 25px;
-	background: var(--grey);
+.drop-btn {
+	background-color: transparent;
+	color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	column-gap: var(--gap);
+	padding: 0.6rem;
 	cursor: pointer;
+	border-radius: var(--radius);
+	border: none;
 	position: relative;
 }
 
-#content nav .switch-mode::before {
-	content: '';
-	position: absolute;
-	top: 2px;
-	left: 2px;
-	bottom: 2px;
-	width: calc(25px - 4px);
-	background: var(--white);
-	border-radius: 50%;
-	transition: all .3s ease;
+.drop-btn .bx {
+	font-size: 1.1rem;
 }
 
-#content nav #switch-mode:checked+.switch-mode::before {
-	left: calc(100% - (25px - 4px) - 2px);
+.dropdown {
+	position: absolute;
+	top: 40px;
+	right: 85px;
+	width: 350px;
+	box-shadow: var(--shadow);
+	border-radius: var(--radius);
+	margin-top: 0.3rem;
+	background: #f0f0f0;
+	color: #000000;
+	visibility: hidden;
+	opacity: 0;
+	transform: translateY(0.5rem);
+	transition: all 0.1s cubic-bezier(0.16, 1, 0.5, 1);
+}
+
+.dropdown a {
+	display: flex;
+	align-items: center;
+	column-gap: var(--gap);
+	padding: 0.8rem 1rem;
+	text-decoration: none;
+	color: #00E200;
+}
+
+.dropdown a:hover {
+	background-color: black;
+	color: #000000;
+}
+
+.show {
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0rem);
+}
+
+.arrow {
+	transform: rotate(180deg);
+	transition: 0.2s ease;
+}
+
+.notify_item{
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+	border-bottom: 1px solid #dbdaff;
+}
+
+.notify_item:last-child{
+	border-bottom: 0px;
+}
+
+.notify_item .notify_img{
+	margin-left: 15px;
+}
+
+img{
+	width: 36px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.notify_item .notify_info p{
+	margin-bottom: 5px;
+	margin-left: 15px;
+	
+}
+
+.notify_item .notify_info p span{
+	color: #605dff;
+	margin-left: 5px;
+}
+
+.notify_item .notify_info .notify_time{
+	color: #c5c5e6;
+	font-size: 12px;
+	margin-left: 15px;
 }
 
 /* NAVBAR */
@@ -961,6 +1035,9 @@ input[type=submit]:hover {
 	line-height: 1.5;
 	border-radius: 3px;
 }
+
+
+
 
 @media screen and (max-width: 600px) {
 

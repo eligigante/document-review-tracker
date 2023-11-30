@@ -67,22 +67,58 @@
 	<section id="content">
 		<!-- NAVBAR -->
 		<nav>
-			<i class='bx bx-menu'></i>
-			<form action="#">
-				<div class="form-input">
-					<input type="search" placeholder="Search...">
-					<button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <button class="drop-btn" id="drop-btn">
+                <i class='bx bxs-bell'></i>
+            </button>
+            <div class="dropdown" id="dropdown">
+                <div class="notify_item">
+					<div class="notify_img">
+						<img src="img/people.png" alt="profile_pic" style="width: 50px">
+					</div>
+					<div class="notify_info">
+						<p>Alex commented on<span>Timeline Share</span></p>
+						<span class="notify_time">10 minutes ago</span>
+					</div>
 				</div>
-			</form>
-			<input type="checkbox" id="switch-mode" hidden>
-			<a href="#" class="notification">
-				<i class='bx bxs-bell'></i>
-				<span class="num">8</span>
-			</a>
-			<a href="#" class="profile">
-				<img src="img/people.png">
-			</a>
-		</nav>
+				<div class="notify_item">
+					<div class="notify_img">
+						<img src="img/people.png" alt="profile_pic" style="width: 50px">
+					</div>
+					<div class="notify_info">
+						<p>Ben hur commented on your<span>Timeline Share</span></p>
+						<span class="notify_time">55 minutes ago</span>
+					</div>
+				</div>
+				<div class="notify_item">
+					<div class="notify_img">
+						<img src="img/people.png" alt="profile_pic" style="width: 50px">
+					</div>
+					<div class="notify_info">
+						<p>Meryn trant liked your<span>Cover Picture</span></p>
+						<span class="notify_time">2 hours ago</span>
+					</div>
+				</div>
+				<div class="notify_item">
+					<div class="notify_img">
+						<img src="img/people.png" alt="profile_pic" style="width: 50px">
+					</div>
+					<div class="notify_info">
+						<p>John wick commented on your<span>Profile Picture</span></p>
+						<span class="notify_time">6 hours ago</span>
+					</div>
+				</div>
+              </div>
+            <a href="#" class="profile">
+                <img src="img/people.png">
+            </a>
+        </nav>
 		<!-- NAVBAR -->
 
 		<!-- MAIN -->
