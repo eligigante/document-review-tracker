@@ -1,7 +1,10 @@
-const mysql = require('mysql');
-
 const verifyCredentials = 'SELECT * FROM user WHERE user_ID = ? AND password = ?';
+const verifyUser = 'SELECT * FROM user WHERE user_ID = ?'
 
+module.exports = {
+    verifyCredentials, 
+    verifyUser
+}
 
 // function getUser(id) {
 //     if (checkUser(id) ) {
@@ -33,23 +36,18 @@ const verifyCredentials = 'SELECT * FROM user WHERE user_ID = ? AND password = ?
 //     return Boolean(result);
 // }
 
-function checkUser(id) {
-    var sql = 'SELECT * FROM user WHERE user_ID = ?';
-    db.query(sql, [id], function(error, result, fields) {
-        if (result.length > 0) {
-            return true
-        }
-        else {
-            return false
-        }
-    });
-}
+// function checkUser(db, id) {
+//     var sql = 'SELECT * FROM user WHERE user_ID = ?';
+//     db.query(sql, [id], function(error, result, fields) {
+//         if (result.length > 0) {
+//             return true
+//         }
+//         else {
+//             return false
+//         }
+//     });
+// }
 
-
-module.exports = {
-    verifyCredentials, 
-    checkUser
-}
 // function checkPassword (id, password) {
 //     var sql = 'SELECT user_ID, password FROM user WHERE user_ID = ? AND password = ?';
 //     const result = db.query(sql, [id, password]);
