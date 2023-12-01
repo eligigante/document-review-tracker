@@ -933,6 +933,7 @@ input[type=submit]:hover {
 	}
 
 	#content nav form.show~.notification,
+
 	#content nav form.show~.profile {
 		display: none;
 	}

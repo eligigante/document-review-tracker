@@ -44,37 +44,13 @@ closeBtn.addEventListener("click", () =>
 );
 
 
-// //SPA 
-// function loadContent(page) {
-// 	fetch(`../../php/content.php?page=${page}`)
-// 		.then(response => response.text())
-// 		.then(data => document.getElementById('tite').innerHTML = data)
-// 		.catch(error => console.error('Error:', error));
-// }
-
-
-// Upload File
-function readFile(input) {
-	if (input.files && input.files[0]) {
-		var reader = new FileReader();
-
-		reader.onload = function (e) {
-			var htmlPreview =
-				'<img width="200" src="' + e.target.result + '" />' +
-				'<p>' + input.files[0].name + '</p>';
-			var wrapperZone = $(input).parent();
-			var previewZone = $(input).parent().parent().find('.preview-zone');
-			var boxZone = $(input).parent().parent().find('.preview-zone').find('.box').find('.box-body');
-
-			wrapperZone.removeClass('dragover');
-			previewZone.removeClass('hidden');
-			boxZone.empty();
-			boxZone.append(htmlPreview);
-		};
-
-		reader.readAsDataURL(input.files[0]);
-	}
-}
+ //SPA 
+ function loadContent(page) {
+	fetch(`../../php/content.php?page=${page}`)
+ 		.then(response => response.text())
+ 		.then(data => document.getElementById('tite').innerHTML = data)
+ 		.catch(error => console.error('Error:', error));
+ }
 
 function reset(e) {
 	e.wrap('<form>').closest('form').get(0).reset();
@@ -108,9 +84,9 @@ $('.remove-preview').on('click', function () {
 
 
 //dashboard papakita
-// window.onload = function () {
-// 	loadContent('home');
-// };
+ window.onload = function () {
+ 	loadContent('home');
+ };
 
 // Toggle dropdown function
 const toggleDropdown = function () {
