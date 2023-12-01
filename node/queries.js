@@ -1,10 +1,23 @@
 const verifyCredentials = 'SELECT * FROM user WHERE user_ID = ? AND password = ?';
 const verifyUser = 'SELECT * FROM user WHERE user_ID = ?'
 
+function checkUser(connection, id){
+    return new Promise((resolve, reject) => {
+        var sql = verifyUser;
+        
+        connection.query(sql, [id], function(error, result, fields) {
+          resolve(result.length > 0);
+        });
+      });
+}
+
 module.exports = {
     verifyCredentials, 
-    verifyUser
+    verifyUser,
+    checkUser
 }
+
+// module.exports.checkUser = checkUser;
 
 // function getUser(id) {
 //     if (checkUser(id) ) {

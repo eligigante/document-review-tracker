@@ -1,28 +1,26 @@
-// const mysql = require('mysql');
+const mysql = require('mysql');
 
-// function checkUser()
+function connectDatabase (mysql) {
+    return mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'document_tracker_db'
+    })
+}
 
-// function connectDatabase () {
-//     mysql.createConnection({
-//         host: 'localhost',
-//         user: 'root',
-//         password: '',
-//         database: 'document_tracker_db'
-//     })
-// }
+function getConnection(connection) {
+    connection.connect((err) => {
+        if (err) throw (err) => {
+            console.log ('Error encountered while connecting to database.');
+        }
+        else {
+            console.log('Successfully connected to MySQL database.');
+        }
+    })
+}
 
-// function getConnection(db) {
-//     db.connect((err) => {
-//         if (err) throw (err) => {
-//             console.log ('Error encountered while connecting to database.');
-//         }
-//         else {
-//             console.log('Successfully connected to MySQL database.');
-//         }
-//     })
-// }
-
-// module.exports = {
-//     connectDatabase,
-//     getConnection
-// }
+module.exports = {
+    connectDatabase,
+    getConnection
+}
