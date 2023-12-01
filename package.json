@@ -2,7 +2,7 @@
   "name": "document-review-tracker",
   "version": "1.0.0",
   "description": "The Document Review Tracker is a web application designed to streamline document reviews within a collaborative environment. This application facilitates the submission of documents, allows reviewers to provide comments on PDFs, and enables efficient communication between reviewers and document owners. The system includes user authentication, user roles (admin, reviewer, user), session management, and features sorting and filtering capabilities.",
-  "type": "module",
+  "type": "commonjs",
   "main": "index.php",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "mysql": "^2.18.1",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7"
   }
 }
