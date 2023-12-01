@@ -33,22 +33,22 @@ app.get('/', function(request, response) {
 app.post('/login', (request, response) => {
   const id = request.body.accountID;
   const password = request.body.password;
-
   if (id && password) {
     if ((queries.checkUser(connection, id))) {
       connection.query(queries.verifyCredentials, [id, password], function(err, result, fields) {
         if (err) throw err;
         if (result.length > 0) {
-          request.session.accountID = id;
-          request.session.loggedIn = true;
-          console.log("Successfully logged in.");
-          response.redirect('/home');
+          connection.query(queries.userRole, [id], function(err, result, fields) {
+            request.session.role = result[0].role;
+            request.session.loggedIn = true;
+            console.log("Successfully logged in.");
+            response.redirect('/home');
+          })  
         }
         else {
           console.log("Incorrect password.");
           response.redirect('/');
         }
-        response.end();
       })
     }
     else {
@@ -59,8 +59,19 @@ app.post('/login', (request, response) => {
 
 app.get('/home', function(request, response) {
   if (request.session.loggedIn) {
-    response.sendFile(path.resolve(__dirname + '/../public/home.html'));
-    console.log("Welcome back, User!")
+    console.log('Role:', request.session.role);
+    if (request.session.role == 'admin') {
+    response.sendFile(path.resolve(__dirname + '/../public/admin.html'));
+    console.log("Welcome back, Admin!")
+    }
+    else if (request.session.role == 'reviewer') {
+      response.sendFile(path.resolve(__dirname + '/../public/reviewer.html'));
+      console.log("Welcome back, Reviewer!")
+    }
+    else {
+      response.sendFile(path.resolve(__dirname + '/../public/home.html'));
+      console.log("Welcome back, User!")
+    }
   }
   else {
     console.log("Please login.")
