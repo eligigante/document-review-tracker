@@ -9,14 +9,15 @@
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="style-ni-home.css">
 
-    <title>SLU</title>
+    <title>AdminHub</title>
 </head>
 
 <body>
+
+
     <!-- SIDEBAR -->
     <section id="sidebar">
         <span class="overlay"></span>
@@ -32,12 +33,12 @@
                 </a>
             </div>
         </div>
-        <a href="admin.html" class="brand">
+        <a href="#" class="brand">
             <i class='bx bxs-file-find'></i>
             <span class="text">SLU</span>
         </a>
         <ul class="side-menu top">
-            <li class="active">
+            <li>
                 <a href="admin.html">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
@@ -49,7 +50,7 @@
                     <span class="text">Manage Users</span>
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="user_logs.html">
                     <i class='bx bx-list-ul'></i>
                     <span class="text">User Logs</span>
@@ -140,10 +141,10 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Dashboard</h1>
+                    <h1>User Logs</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">User Logs</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
@@ -165,6 +166,7 @@
                                 <th>User</th>
                                 <th>Department ID</th>
                                 <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -174,6 +176,7 @@
                                 </td>
                                 <td>123123</td>
                                 <td><span class="status online">Online</span></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>
@@ -181,6 +184,7 @@
                                 </td>
                                 <td>321321</td>
                                 <td><span class="status offline">Offline</span></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>
@@ -188,6 +192,7 @@
                                 </td>
                                 <td>2121212</td>
                                 <td><span class="status online">Online</span></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
