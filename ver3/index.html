@@ -7,7 +7,9 @@
 
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-	<!-- My CSS -->
+	<!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!-- CSS -->
 	<link rel="stylesheet" href="style.css">
 
 	<title>AdminHub</title>
@@ -18,6 +20,19 @@
 
 	<!-- SIDEBAR -->
 	<section id="sidebar">
+		<span class="overlay"></span>
+        <div class="modal-box">
+            <h2>Confirmation</h2>
+            <h3>Are you sure you want to logout?</h3>
+
+            <div class="buttons">
+                <a class="close-btn">Cancel</a>
+                <a class="logout-btn">
+                    <i class='bx bx-log-out'></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
 		<a href="#" class="brand">
 			<i class='bx bxs-file-find'></i>
 			<span class="text">SLU</span>
