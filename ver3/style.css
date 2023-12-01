@@ -2,12 +2,12 @@
 
 * {
 	margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    --shadow: rgba(0, 0, 0, 0.05) 0px 6px 10px 0px, rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
-    --gap: 0.5rem;
-    --radius: 5px;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+	--shadow: rgba(0, 0, 0, 0.05) 0px 6px 10px 0px, rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+	--gap: 0.5rem;
+	--radius: 5px;
 }
 
 b {
@@ -368,40 +368,40 @@ body {
 	transition: 0.2s ease;
 }
 
-.notify_item{
+.notify_item {
 	display: flex;
 	align-items: center;
 	padding: 10px 0;
 	border-bottom: 1px solid #dbdaff;
 }
 
-.notify_item:last-child{
+.notify_item:last-child {
 	border-bottom: 0px;
 }
 
-.notify_item .notify_img{
+.notify_item .notify_img {
 	margin-left: 15px;
 }
 
-img{
+img {
 	width: 36px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
 }
 
-.notify_item .notify_info p{
+.notify_item .notify_info p {
 	margin-bottom: 5px;
 	margin-left: 15px;
-	
+
 }
 
-.notify_item .notify_info p span{
+.notify_item .notify_info p span {
 	color: #605dff;
 	margin-left: 5px;
 }
 
-.notify_item .notify_info .notify_time{
+.notify_item .notify_info .notify_time {
 	color: #c5c5e6;
 	font-size: 12px;
 	margin-left: 15px;
@@ -1036,8 +1036,22 @@ input[type=submit]:hover {
 	border-radius: 3px;
 }
 
+/* Footer */
+.footer-basic {
+	padding: 40px 0;
+	background-color: #f0f0f0;
+	color: #4b4c4d;
+}
 
-
+.footer-basic .copyright {
+	margin-top: 15px;
+	text-align: center;
+	font-weight: 400;
+	font-size: 13px;
+	font-family: var(--poppins);
+	color: #000000;
+	margin-bottom: 0;
+}
 
 @media screen and (max-width: 600px) {
 
