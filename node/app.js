@@ -69,8 +69,10 @@ app.get('/home', function(request, response) {
       console.log("Welcome back, Reviewer!")
     }
     else {
-      response.sendFile(path.resolve(__dirname + '/../public/home.html'));
-      console.log("Welcome back, User!")
+      // response.sendFile(path.resolve(__dirname + '/../public/home.html'));
+      // console.log("Welcome back, User!")
+      console.log("This login page is for reviewers and admins only.")
+      response.redirect('/');
     }
   }
   else {
