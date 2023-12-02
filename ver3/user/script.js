@@ -97,6 +97,7 @@ const toggleDropdown = function () {
 dropdownBtn.addEventListener("click", function (e) {
 	e.stopPropagation();
 	toggleDropdown();
+
 });
 
 // Close dropdown when dom element is clicked
@@ -105,3 +106,5 @@ document.documentElement.addEventListener("click", function () {
 		toggleDropdown();
 	}
 });
+
+

@@ -11,6 +11,8 @@ require_once('../../php/functions.php');
 
 $imageUser = getUserImg($con, $userID);
 
+
+
 if ($imageUser !== false) {
     $imageSrc = "data:image/jpeg;base64," . $imageUser; 
 } else {
@@ -118,42 +120,10 @@ if ($imageUser !== false) {
                 <i class='bx bxs-bell'></i>
             </button>
             <div class="dropdown" id="dropdown">
-                <div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Alex commented on<span>Timeline Share</span></p>
-						<span class="notify_time">10 minutes ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Ben hur commented on your<span>Timeline Share</span></p>
-						<span class="notify_time">55 minutes ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Meryn trant liked your<span>Cover Picture</span></p>
-						<span class="notify_time">2 hours ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>John wick commented on your<span>Profile Picture</span></p>
-						<span class="notify_time">6 hours ago</span>
-					</div>
-				</div>
+                
+
+                <?php documentNotif($con,$userID) ?>
+                
               </div>
             <a href="#" class="profile">
                 <img src="<?php echo $imageSrc ?>">

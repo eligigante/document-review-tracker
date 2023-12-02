@@ -163,3 +163,42 @@ function getUserImg($con, $accountID) {
         echo 'Error getting image' ;
     }
 }
+
+
+function documentNotif($con, $userID){
+
+    $query = "SELECT DISTINCT document_ID, department_ID FROM document_logs WHERE user_ID = $userID";
+    $result = mysqli_query($con, $query);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+
+            $documentID = $row['document_ID'];
+
+
+            $departmentID = $row['department_ID'];
+
+            $deptQuery = "SELECT department_name FROM departments WHERE department_ID = $departmentID";
+
+            $deptResult = mysqli_query($con, $deptQuery);
+
+            if ($deptResult && mysqli_num_rows($deptResult) > 0) {
+
+                $departmentRow = mysqli_fetch_assoc($deptResult);
+
+
+                $departmentName = $departmentRow['department_name'];
+
+                echo 
+                " <div class='notify_item'>
+                <div class='notify_info'>
+                    <p>Document ID: $documentID is now at: $departmentName.</p>
+                    <span class='notify_time'>" . date('Y-m-d H:i:s') . "</span>
+                </div>
+            </div>";
+            }
+        }
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
