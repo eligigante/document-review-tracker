@@ -165,40 +165,48 @@ function getUserImg($con, $accountID) {
 }
 
 
-function documentNotif($con, $userID){
+function documentNotif($con, $userID) {
+    $notifications = array();
 
     $query = "SELECT DISTINCT document_ID, department_ID FROM document_logs WHERE user_ID = $userID";
+
+
     $result = mysqli_query($con, $query);
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
 
+
             $documentID = $row['document_ID'];
-
-
             $departmentID = $row['department_ID'];
 
+
+            
             $deptQuery = "SELECT department_name FROM departments WHERE department_ID = $departmentID";
+
 
             $deptResult = mysqli_query($con, $deptQuery);
 
             if ($deptResult && mysqli_num_rows($deptResult) > 0) {
 
+
                 $departmentRow = mysqli_fetch_assoc($deptResult);
-
-
                 $departmentName = $departmentRow['department_name'];
 
-                echo 
-                " <div class='notify_item'>
-                <div class='notify_info'>
-                    <p>Document ID: $documentID is now at: $departmentName.</p>
-                    <span class='notify_time'>" . date('Y-m-d H:i:s') . "</span>
-                </div>
-            </div>";
+
+                $notification = array(
+
+                    "documentID" => $documentID,
+                    "departmentName" => $departmentName,
+                    "timestamp" => date('Y-m-d H:i:s')
+                );
+
+                array_push($notifications, $notification);
             }
         }
+        //serialize to json string
+        return json_encode($notifications);
     } else {
-        echo "Error: " . mysqli_error($con);
+        return null;
     }
 }

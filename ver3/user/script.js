@@ -108,3 +108,24 @@ document.documentElement.addEventListener("click", function () {
 });
 
 
+//notif asynch
+function getNotifications() {
+    $.ajax({
+        type: "GET",
+        url: "../../php/notification.php",
+        dataType: "html",
+        success: function (response) {
+            $('#dropdown').html(response);
+        },
+        error: function (xhr, status, error) {
+            console.error(status + ": " + error);
+        }
+    });
+}
+
+
+getNotifications();
+
+
+setInterval(getNotifications, 5000);
+

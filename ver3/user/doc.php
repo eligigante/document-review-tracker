@@ -122,8 +122,7 @@ if ($imageUser !== false) {
             <div class="dropdown" id="dropdown">
                 
 
-                <?php documentNotif($con,$userID) ?>
-                
+            
               </div>
             <a href="#" class="profile">
                 <img src="<?php echo $imageSrc ?>">
