@@ -93,7 +93,7 @@ function get_docs($con, $accountID){
     
     mysqli_stmt_close($stmt);
 
-    return $documents;
+    return json_encode($documents);
 } else {
    
     return null;
@@ -109,7 +109,7 @@ function get_recent($con, $accountID){
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'i', $accountID);
+        mysqli_stmt_bind_param($stmt, 's', $accountID);
 
 
         mysqli_stmt_execute($stmt);
@@ -129,7 +129,7 @@ function get_recent($con, $accountID){
         }
 
         mysqli_stmt_close($stmt);
-        return $documents;
+        return json_encode($documents);
     } else {
         return null;
     }

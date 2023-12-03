@@ -123,9 +123,68 @@ function getNotifications() {
     });
 }
 
+function getDocs() {
+    $.ajax({
+        type: "GET",
+        url: "../../php/document.php",
+        dataType: "html",
+        success: function (response) {
+            $('#tbody').html(response);
+        },
+        error: function (xhr, status, error) {
+            console.error(status + ": " + error);
+        }
+    });
+}
+
+function getRecentDocs() {
+    $.ajax({
+        type: "GET",
+        url: "../../php/recentDocument.php",
+        dataType: "html",
+        success: function (response) {
+            $('#tbading').html(response);
+        },
+        error: function (xhr, status, error) {
+            console.error(status + ": " + error);
+        }
+    });
+}
+
 
 getNotifications();
 
 
-setInterval(getNotifications, 5000);
+setInterval(getNotifications, 10);
 
+getDocs();
+
+setInterval(getDocs, 10);
+
+getRecentDocs();
+
+setInterval(getRecentDocs, 10)
+
+
+// Upload File
+function readFile(input) {
+	if (input.files && input.files[0]) {
+	  var reader = new FileReader();
+  
+	  reader.onload = function(e) {
+		var htmlPreview =
+		  '<img width="200" src="' + e.target.result + '" />' +
+		  '<p>' + input.files[0].name + '</p>';
+		var wrapperZone = $(input).parent();
+		var previewZone = $(input).parent().parent().find('.preview-zone');
+		var boxZone = $(input).parent().parent().find('.preview-zone').find('.box').find('.box-body');
+  
+		wrapperZone.removeClass('dragover');
+		previewZone.removeClass('hidden');
+		boxZone.empty();
+		boxZone.append(htmlPreview);
+	  };
+  
+	  reader.readAsDataURL(input.files[0]);
+	}
+  }
