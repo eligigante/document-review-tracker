@@ -1,6 +1,7 @@
 const verifyCredentials = 'SELECT * FROM user WHERE user_ID = ? AND password = ?';
 const verifyUser = 'SELECT * FROM user WHERE user_ID = ?'
 const userRole = 'SELECT role FROM user WHERE user_ID = ?'
+const getUsers = 'SELECT user_ID, department_ID, status FROM user'
 
 function checkUser(connection, id){
     return new Promise((resolve, reject) => {
@@ -16,6 +17,7 @@ module.exports = {
     verifyCredentials, 
     verifyUser,
     userRole,
+    getUsers,
     checkUser
 }
 
