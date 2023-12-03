@@ -165,7 +165,7 @@ document.documentElement.addEventListener("click", function () {
 
 // For destroying session once tab is closed
 $(window).unload(function () {
-	$.get('/session/destroy');
+	$.get('/destroy');
 });
 
 

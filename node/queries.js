@@ -1,7 +1,9 @@
 const verifyCredentials = 'SELECT * FROM user WHERE user_ID = ? AND password = ?';
 const verifyUser = 'SELECT * FROM user WHERE user_ID = ?'
-const userRole = 'SELECT role FROM user WHERE user_ID = ?'
-const getUsers = 'SELECT user_ID, department_ID, status FROM user'
+const userLogin = 'SELECT user_ID, role, status FROM user WHERE user_ID = ?'
+const getUsers = 'SELECT first_Name, last_Name, department_ID, status FROM user'
+const setOnlineStatus = 'UPDATE user SET status = \'Online\' WHERE user_ID = ?'
+const setOfflineStatus = 'UPDATE user SET status = \'Offline\' WHERE user_ID = ?'
 
 function checkUser(connection, id){
     return new Promise((resolve, reject) => {
@@ -16,8 +18,10 @@ function checkUser(connection, id){
 module.exports = {
     verifyCredentials, 
     verifyUser,
-    userRole,
+    userLogin,
     getUsers,
+    setOnlineStatus,
+    setOfflineStatus,
     checkUser
 }
 
