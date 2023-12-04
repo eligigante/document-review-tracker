@@ -1,7 +1,10 @@
 const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
 const section = document.querySelector("section"),
 	overlay = document.querySelector(".overlay"),
+	overlayAdd = document.querySelector(".overlay-add"),
 	showBtn = document.querySelector(".logout"),
+	addBtn = document.querySelector(".btn-add"),
+	cancelBtn = document.querySelector(".cancel-btn"),
 	closeBtn = document.querySelector(".close-btn");
 const searchButton = document.querySelector('#content nav form .form-input button');
 const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
@@ -34,8 +37,14 @@ menuBar.addEventListener('click', function () {
 
 // Modal Pop Up
 showBtn.addEventListener("click", () => section.classList.add("active"));
+addBtn.addEventListener("click", () => section.classList.add("active"));
+
 
 overlay.addEventListener("click", () =>
+	section.classList.remove("active")
+);
+
+overlayAdd.addEventListener("click", () =>
 	section.classList.remove("active")
 );
 
@@ -43,6 +52,9 @@ closeBtn.addEventListener("click", () =>
 	section.classList.remove("active")
 );
 
+cancelBtn.addEventListener("click", () =>
+	section.classList.remove("active")
+);
 
  //SPA 
  function loadContent(page) {
