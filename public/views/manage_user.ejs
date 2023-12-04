@@ -16,20 +16,89 @@
 </head>
 
 <body>
-
-
     <!-- SIDEBAR -->
     <section id="sidebar">
         <span class="overlay"></span>
+        <span class="overlay-add"></span>
         <div class="modal-box">
             <h2>Confirmation</h2>
             <h3>Are you sure you want to logout?</h3>
-
             <div class="buttons">
                 <a class="close-btn">Cancel</a>
                 <a class="logout-btn">
                     <i class='bx bx-log-out'></i>
                     <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        <div class="modal-box-add">
+            <h2>Add New User</h2>
+            <div class="form-container">
+                <form name="frmContact" id="" frmContact"" method="post" action="" enctype=""
+                    onsubmit="">
+                    <div class="first-row">
+                        <div class="inline-block right-margin">
+                            <div class="label">
+                                User ID <span id="firstName-info" class="info"></span>
+                            </div>
+                            <input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
+                        </div>
+                        <div class="inline-block responsive">
+                            <div class="label">
+                                Password <span id="lastName-info" class="info"></span>
+                            </div>
+                            <input type="text" class="input-field" name="contact-last-name" id="contact-last-name" />
+                        </div>
+                    </div>
+                    <div class="second-row">
+                        <div class="inline-block right-margin">
+                            <div class="label">
+                                First Name <span id="email-info" class="info"></span>
+                            </div>
+                            <input type="text" class="input-field" name="contact-email" id="contact-email" />
+                        </div>
+                        <div class="inline-block responsive">
+                            <div class="label">
+                                Middle Name <span id="phone-info" class="info"></span>
+                            </div>
+                            <input type="text" class="input-field" name="contact-phone" id="contact-phone" />
+                        </div>
+                    </div>
+                    <div class="third-row">
+                        <div class="inline-block right-margin">
+                            <div class="label">
+                                Last Name <span id="subject-info" class="info"></span>
+                            </div>
+                            <input type="text" class="input-field" name="contact-phone" id="contact-phone" />
+                        </div>
+                    </div>
+                    <div class="fourth-row">
+                        <div class="inline-block right-margin">
+                            <div class="label">
+                                Email <span id="firstName-info" class="info"></span>
+                            </div>
+                            <input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
+                        </div>
+                        <div class="inline-block responsive">
+                            <div class="label">
+                                Position <span id="lastName-info" class="info"></span>
+                            </div>
+                            <select id="department" name="department">
+                                <option value="OGRAA">OGRAA</option>
+                                <option value="OVPAA">OVPAA</option>
+                                <option value="OVPF">OVPF</option>
+                                <option value="OLA">OLA</option>
+                                <option value="OVPA">OVPA</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="buttons">
+                <a class="cancel-btn">Cancel</a>
+                <a class="create-btn">
+                    <i class='bx bx-log-in' ></i>
+                    <span>Create</span>
                 </a>
             </div>
         </div>
@@ -39,7 +108,7 @@
         </a>
         <ul class="side-menu top">
             <li>
-                <a href="home">
+                <a href="admin.html">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
                 </a>
@@ -95,42 +164,42 @@
             </button>
             <div class="dropdown" id="dropdown">
                 <div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Alex commented on<span>Timeline Share</span></p>
-						<span class="notify_time">10 minutes ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Ben hur commented on your<span>Timeline Share</span></p>
-						<span class="notify_time">55 minutes ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Meryn trant liked your<span>Cover Picture</span></p>
-						<span class="notify_time">2 hours ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>John wick commented on your<span>Profile Picture</span></p>
-						<span class="notify_time">6 hours ago</span>
-					</div>
-				</div>
-              </div>
+                    <div class="notify_img">
+                        <img src="img/people.png" alt="profile_pic" style="width: 50px">
+                    </div>
+                    <div class="notify_info">
+                        <p>Alex commented on<span>Timeline Share</span></p>
+                        <span class="notify_time">10 minutes ago</span>
+                    </div>
+                </div>
+                <div class="notify_item">
+                    <div class="notify_img">
+                        <img src="img/people.png" alt="profile_pic" style="width: 50px">
+                    </div>
+                    <div class="notify_info">
+                        <p>Ben hur commented on your<span>Timeline Share</span></p>
+                        <span class="notify_time">55 minutes ago</span>
+                    </div>
+                </div>
+                <div class="notify_item">
+                    <div class="notify_img">
+                        <img src="img/people.png" alt="profile_pic" style="width: 50px">
+                    </div>
+                    <div class="notify_info">
+                        <p>Meryn trant liked your<span>Cover Picture</span></p>
+                        <span class="notify_time">2 hours ago</span>
+                    </div>
+                </div>
+                <div class="notify_item">
+                    <div class="notify_img">
+                        <img src="img/people.png" alt="profile_pic" style="width: 50px">
+                    </div>
+                    <div class="notify_info">
+                        <p>John wick commented on your<span>Profile Picture</span></p>
+                        <span class="notify_time">6 hours ago</span>
+                    </div>
+                </div>
+            </div>
             <a href="#" class="profile">
                 <img src="img/people.png">
             </a>
@@ -152,7 +221,7 @@
                         </li>
                     </ul>
                 </div>
-                <a href="#" class="btn-download">
+                <a href="#" class="btn-add">
                     <i class='bx bx-plus'></i>
                     <span class="text">Add User</span>
                 </a>
@@ -235,7 +304,7 @@
     <!-- CONTENT -->
 
 
-    <script src="user/script.js"></script>
+    <script src="../ver3/user/script.js"></script>
 </body>
 
 </html>
