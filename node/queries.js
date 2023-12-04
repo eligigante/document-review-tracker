@@ -1,9 +1,11 @@
 const verifyCredentials = 'SELECT * FROM user WHERE user_ID = ? AND password = ?';
 const verifyUser = 'SELECT * FROM user WHERE user_ID = ?'
 const userLogin = 'SELECT user_ID, role, status FROM user WHERE user_ID = ?'
-const getUsers = 'SELECT first_Name, last_Name, department_ID, status FROM user'
+const getUsers = 'SELECT departments.department_ID, user.first_Name, user.last_Name, user.status FROM user JOIN departments ON user.department_ID = departments.department_ID';
 const setOnlineStatus = 'UPDATE user SET status = \'Online\' WHERE user_ID = ?'
 const setOfflineStatus = 'UPDATE user SET status = \'Offline\' WHERE user_ID = ?'
+
+// SELECT departments.department_ID, user.first_Name, user.last_Name, user.status FROM user JOIN departments ON user.department_ID = departments.department_ID;
 
 function checkUser(connection, id){
     return new Promise((resolve, reject) => {

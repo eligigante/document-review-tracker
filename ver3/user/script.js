@@ -200,3 +200,8 @@ function readFile(input) {
 	  reader.readAsDataURL(input.files[0]);
 	}
   }
+  
+  $(window).unload(function () {
+	$.get('/destroy');
+});
+  

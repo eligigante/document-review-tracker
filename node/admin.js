@@ -6,6 +6,7 @@ const cookie = require('cookie-parser');
 const queries = require('./queries');
 const server = require('./server');
 const db = require('./db');
+const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -68,7 +69,7 @@ app.get('/verify', function(request, response) {
     connection.query(queries.setOnlineStatus, [request.session.userID])
     // response.sendFile(path.resolve(__dirname + '/../public/admin.html'));
     console.log("Successfully logged in. Welcome back, Admin!");
-    response.redirect('/home');
+    response.redirect('/home_admin');
     }
 
     else if (request.session.role == 'reviewer') {
@@ -88,19 +89,35 @@ app.get('/verify', function(request, response) {
     response.redirect('/');
     }})
 
-app.get('/home', (request, response) => {
+app.get('/home_admin', (request, response) => {
   connection.query(queries.getUsers, function(error, result, fields) {
-    console.log(result)
-    response.render('admin.ejs', {data: result})})
+    console.log(result[0].department_ID)
+    response.render('admin', {data: result})})
   })
 
-function destroySession(request, response) {
+app.get('/manage_user', (request, response) => {
+  response.render('manage_user');
+})
+
+app.get('/user_logs', (request, response) => {
+  response.render('user_logs');
+})
+
+app.get('/admin_profile', (request, response) => {
+  response.render('admin_profile');
+})
+
+app.get('/logout', (request, response) => {
   connection.query(queries.setOfflineStatus, [request.session.userID])
   request.session.destroy();
   response.redirect('/')
-}
+})
 
-app.get(['/logout', '/destroy'], destroySession);
+app.get('/destroy', (request, response) => {
+  connection.query(queries.setOfflineStatus, [request.session.userID])
+  request.session.destroy();
+  response.redirect('/')
+});
 
 
   
