@@ -16,7 +16,7 @@ module.exports = {
     verifyCredentials, 
     verifyUser,
     userRole,
-    checkUser
+    checkUser,
 }
 
 // module.exports.checkUser = checkUser;
