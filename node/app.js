@@ -77,14 +77,11 @@ app.post("/login", (request, response) => {
   const password = request.body.password;
   if (id && password) {
     if (queries.checkUser(connection, id)) {
-      connection.query(
-        queries.verifyCredentials,
-        [id, password],
-        function (err, result, fields) {
+      connection.query(queries.verifyCredentials, [id, password], function (err, result, fields) {
           if (err) throw err;
           if (result.length > 0) {
             connection.query(
-              queries.userRole,
+              queries.userLogin,
               [id],
               function (err, result, fields) {
                 request.session.role = result[0].role;

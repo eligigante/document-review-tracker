@@ -96,14 +96,15 @@ app.get('/home_admin', (request, response) => {
   })
 
 app.get('/manage_user', (request, response) => {
+  connection.query(queries.verifyUser, [request.session.userID], function(error, result, fields) {
+    console.log(result);
+    response.render('admin_profile', {data: result})
+  })
   response.render('manage_user');
 })
 
-app.get('/user_logs', (request, response) => {
-  response.render('user_logs');
-})
-
 app.get('/admin_profile', (request, response) => {
+  connection.query
   response.render('admin_profile');
 })
 
@@ -113,11 +114,45 @@ app.get('/logout', (request, response) => {
   response.redirect('/')
 })
 
-app.get('/destroy', (request, response) => {
-  connection.query(queries.setOfflineStatus, [request.session.userID])
-  request.session.destroy();
-  response.redirect('/')
-});
+app.post('/add_user', (request, response) => {
+  var id = request.session.userID;
+  var email = request.body.email;
+  var password = request.body.password;
+  var lastName = request.body.lastName;
+  var firstName = request.body.firstName;
+  var middleName = request.body.middleName;
+  var departmentID = request.body.departmentID;
+  var position = request.body.position;
+  var role = request.body.role;
+  var status = request.body.status;
+
+  connection.query(queries.addUser, [id, email, password, lastName, firstName, middleName, departmentID, position, role, status]);
+  console.log('User successfully added.');
+  response.redirect('/manage_user');
+})
+
+app.get('/delete_user', (request, response) => {
+  connection.query(queries.deleteUser, [id]);
+  console.log('User successfully deleted.');
+  response.redirect('/manage_user');
+})
+
+app.post('/edit_user', (request, response) => {
+  var id = request.session.userID;
+  var email = request.body.email;
+  var password = request.body.password;
+  var lastName = request.body.lastName;
+  var firstName = request.body.firstName;
+  var middleName = request.body.middleName;
+  var departmentID = request.body.departmentID;
+  var position = request.body.position;
+  var role = request.body.role;
+  var status = request.body.status;
+
+  connection.query(queries.editUser, [id, email, password, lastName, firstName, middleName, departmentID, position, role, status]);
+  console.log('User details successfully updated.');
+  response.redirect('/manage_user');
+})
 
 
   
