@@ -134,7 +134,7 @@ function createAddUserModal() {
 		modalBoxAdd.innerHTML = `
 	<h2>Add New User</h2>
 	<div class="form-container">
-		<form name="frmContact" id="" frmContact"" method="post" action="" enctype=""
+		<form name="frmContact" id="" frmContact"" method="post" action="/add_user" enctype=""
 			onsubmit="">
 			<div class="first-row">
 				<div class="inline-block right-margin">
@@ -250,15 +250,63 @@ document.addEventListener('DOMContentLoaded', function () {
 	logoutBtn.addEventListener('click', function (event) {
 		event.preventDefault();
 		createLogoutModal();
+		sendLogoutUserServerRequest();
 	});
 
 	addUserBtn.addEventListener('click', function (event) {
 		event.preventDefault();
 		createAddUserModal();
+		sendAddUserServerRequest();
 	});
 });
 
+function sendAddUserServerRequest() {
+	fetch('/add_user', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+		.then(response => response.text())
+		.then(data => console.log(data))
+		.catch(error => console.error('Error:', error));
+}
 
+function sendEditUserServerRequest() {
+	fetch('/edit_user', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+		.then(response => response.text())
+		.then(data => console.log(data))
+		.catch(error => console.error('Error:', error));
+}
+
+function sendDeleteUserServerRequest() {
+	fetch('/delete_user', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+		.then(response => response.text())
+		.then(data => console.log(data))
+		.catch(error => console.error('Error:', error));
+}
+
+function sendLogoutUserServerRequest() {
+	fetch('/logout_user', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+		.then(response => response.text())
+		.then(data => console.log(data))
+		.catch(error => console.error('Error:', error));
+}
 
 //SPA 
 function loadContent(page) {
