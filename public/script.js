@@ -92,6 +92,7 @@ function createLogoutModal() {
       firstSection.removeChild(overlay);
       overlayLogoutAdded = null;
       firstSection.classList.remove("active");
+      sendLogoutUserServerRequest();
     });
   }
 
@@ -188,7 +189,7 @@ function createAddUserModal() {
 					<div class="label">
 						Position <span id="lastName-info" class="info"></span>
 					</div>
-					<select id="department" name="department">
+					<select id="department" class="input-field" name="department">
 						<option value="OGRAA">OGRAA</option>
 						<option value="OVPAA">OVPAA</option>
 						<option value="OVPF">OVPF</option>
@@ -259,7 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
   logoutBtn.addEventListener("click", function (event) {
     event.preventDefault();
     createLogoutModal();
-    sendLogoutUserServerRequest();
   });
 
   addUserBtn.addEventListener("click", function (event) {
@@ -306,24 +306,33 @@ function sendDeleteUserServerRequest() {
 }
 
 function sendLogoutUserServerRequest() {
-  fetch("/logout_user", {
-    method: "GET",
+  fetch('/logout', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ logout: true })
   })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
+    .then(response => {
+      if (response.redirected) {
+        console.log('Redirecting to:', response.url);
+        window.location.href = response.url;
+      } else {
+        return response.text().then(data => {
+          console.log('Response data:', data);
+        });
+      }
+    })
+    .catch(error => console.error('Error:', error));
 }
 
-//SPA
-function loadContent(page) {
-  fetch(`../../php/content.php?page=${page}`)
-    .then((response) => response.text())
-    .then((data) => (document.getElementById("tite").innerHTML = data))
-    .catch((error) => console.error("Error:", error));
-}
+//SPA 
+// function loadContent(page) {
+// 	fetch(`../../php/content.php?page=${page}`)
+// 		.then(response => response.text())
+// 		.then(data => document.getElementById('tite').innerHTML = data)
+// 		.catch(error => console.error('Error:', error));
+// }
 
 function reset(e) {
   e.wrap("<form>").closest("form").get(0).reset();
@@ -379,59 +388,61 @@ document.documentElement.addEventListener("click", function () {
 });
 
 //notif asynch
-function getNotifications() {
-  $.ajax({
-    type: "GET",
-    url: "../../php/notification.php",
-    dataType: "html",
-    success: function (response) {
-      $("#dropdown").html(response);
-    },
-    error: function (xhr, status, error) {
-      console.error(status + ": " + error);
-    },
-  });
-}
+// function getNotifications() {
+// 	$.ajax({
+// 		type: "GET",
+// 		url: "../../php/notification.php",
+// 		dataType: "html",
+// 		success: function (response) {
+// 			$('#dropdown').html(response);
+// 		},
+// 		error: function (xhr, status, error) {
+// 			console.error(status + ": " + error);
+// 		}
+// 	});
+// }
 
-function getDocs() {
-  $.ajax({
-    type: "GET",
-    url: "../../php/document.php",
-    dataType: "html",
-    success: function (response) {
-      $("#tbody").html(response);
-    },
-    error: function (xhr, status, error) {
-      console.error(status + ": " + error);
-    },
-  });
-}
+// function getDocs() {
+// 	$.ajax({
+// 		type: "GET",
+// 		url: "../../php/document.php",
+// 		dataType: "html",
+// 		success: function (response) {
+// 			$('#tbody').html(response);
+// 		},
+// 		error: function (xhr, status, error) {
+// 			console.error(status + ": " + error);
+// 		}
+// 	});
+// }
 
-function getRecentDocs() {
-  $.ajax({
-    type: "GET",
-    url: "../../php/recentDocument.php",
-    dataType: "html",
-    success: function (response) {
-      $("#tbading").html(response);
-    },
-    error: function (xhr, status, error) {
-      console.error(status + ": " + error);
-    },
-  });
-}
+// function getRecentDocs() {
+// 	$.ajax({
+// 		type: "GET",
+// 		url: "../../php/recentDocument.php",
+// 		dataType: "html",
+// 		success: function (response) {
+// 			$('#tbading').html(response);
+// 		},
+// 		error: function (xhr, status, error) {
+// 			console.error(status + ": " + error);
+// 		}
+// 	});
+// }
 
-getNotifications();
 
-setInterval(getNotifications, 10);
+// getNotifications();
 
-getDocs();
+// setInterval(getNotifications, 10);
 
-setInterval(getDocs, 10);
+// getDocs();
 
-getRecentDocs();
+// setInterval(getDocs, 10);
 
-setInterval(getRecentDocs, 10);
+// getRecentDocs();
+
+// setInterval(getRecentDocs, 10)
+
 
 // Upload File
 function readFile(input) {

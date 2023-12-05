@@ -439,12 +439,23 @@ img{
     border-radius: 3px;
     font-size: .9em;
     color: #1e2a28;
-    width: 650px;
+    width: 784px;
     margin: 0 auto;
 }
 
 .label {
     color: #000000;
+}
+
+input[type="text"].input-field,
+select.input-field,
+textarea.input-field {
+    width: 340px;
+    border-radius: 3px;
+    padding: 10px;
+    border: #91949d 1px solid;
+    box-sizing: border-box;
+    margin: 5px 10px 0px 0px;
 }
 
 .input-field {
@@ -509,7 +520,6 @@ img{
 }
 
 .fourth-row {
-    margin: 18px 0;
     display: flex;
 }
 
@@ -1000,9 +1010,9 @@ section.active .overlay-add {
 }
 
 .modal-box-add {
-	max-width: 782px;
+	max-width: 800px;
 	width: 100%;
-	padding: 30px 20px;
+	padding: 39px 39px;
 	border-radius: 10px;
 	background-color: #fff;
 	opacity: 0;
@@ -1037,8 +1047,8 @@ section.active .modal-box-add {
 }
 
 .modal-box-add .buttons {
-	float: inline-end;
-	margin-top: 35px;
+	margin-left: 64%;
+    margin-top: 25px;
 }
 
 .modal-box-add button {
@@ -1075,6 +1085,8 @@ input[type=submit] {
 input[type=submit]:hover {
 	background-color: #45a049;
 }
+
+
 
 .general-information-label {
 	font-size: 22px;
