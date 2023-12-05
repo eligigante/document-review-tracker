@@ -258,6 +258,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
+
+
 //SPA 
 function loadContent(page) {
 	fetch(`../../php/content.php?page=${page}`)
