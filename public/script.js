@@ -528,27 +528,27 @@ function sendDeleteUserServerRequest() {
 }
 
 function sendLogoutUserServerRequest() {
-  fetch('/logout', {
-    method: 'POST',
+  fetch("/logout", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ logout: true })
+    body: JSON.stringify({ logout: true }),
   })
-    .then(response => {
+    .then((response) => {
       if (response.redirected) {
-        console.log('Redirecting to:', response.url);
+        console.log("Redirecting to:", response.url);
         window.location.href = response.url;
       } else {
-        return response.text().then(data => {
-          console.log('Response data:', data);
+        return response.text().then((data) => {
+          console.log("Response data:", data);
         });
       }
     })
-    .catch(error => console.error('Error:', error));
+    .catch((error) => console.error("Error:", error));
 }
 
-//SPA 
+//SPA
 // function loadContent(page) {
 // 	fetch(`../../php/content.php?page=${page}`)
 // 		.then(response => response.text())
@@ -652,7 +652,6 @@ document.documentElement.addEventListener("click", function () {
 // 	});
 // }
 
-
 // getNotifications();
 
 // setInterval(getNotifications, 10);
@@ -664,7 +663,6 @@ document.documentElement.addEventListener("click", function () {
 // getRecentDocs();
 
 // setInterval(getRecentDocs, 10)
-
 
 // Upload File
 function readFile(input) {
@@ -698,18 +696,43 @@ function readFile(input) {
   }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM content loaded");
+  document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("review-btn")) {
+      console.log("Review button clicked");
+      var documentId = event.target.dataset.documentId;
+      console.log("Document ID:", documentId);
+      downloadPDF(documentId);
+    }
+  });
+});
+
 function downloadPDF(documentId) {
   fetch(`/downloadAndConvert/${documentId}`)
-    .then((response) => response.blob())
-    .then((blob) => {
-      const blobUrl = URL.createObjectURL(blob);
-
-      console.log("Blob URL:", blobUrl);
-
-      document.getElementById(`viewer_${documentId}`).src = blobUrl;
-
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const filename = `document_${documentId}.pdf`;
+      return { filename, blob: response.blob() };
+    })
+    .then(({ filename, blob }) => {
+      openNewPageWithPDF(filename);
     })
     .catch((error) => {
       console.error("Error downloading and converting Blob to PDF:", error);
     });
+}
+
+function openNewPageWithPDF(filename) {
+  const relativePath = `/public/pdfviewer.html?filePath=${encodeURIComponent(
+    filename
+  )}`;
+  console.log(relativePath);
+  const newWindow = window.open(relativePath, "_blank");
+
+  if (!newWindow) {
+    alert("Popup Failed.");
+  }
 }

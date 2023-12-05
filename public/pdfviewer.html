@@ -1,9 +1,21 @@
 <html>
   <head>
-    <script src='../node_modules/@pdftron/webviewer/webviewer.min.js'></script>
+    <script src="/node_modules/@pdftron/webviewer/webviewer.min.js"></script>
   </head>
-  <body style='width: 100%; height: 100%; padding: 0; margin: 0'>
-    <div id='viewer' style='width: 100%; height: 100%'></div>
-    <script src='pdfviewer.js'></script>
+  <body style="width: 100%; height: 100%; padding: 0; margin: 0">
+    <div id="viewer" style="width: 100%; height: 100%"></div>
+    <script>
+      var queryString = window.location.search;
+      var urlParams = new URLSearchParams(queryString);
+      var filePath = urlParams.get('filePath');
+
+      WebViewer(
+        {
+          path: "/node_modules/@pdftron/webviewer", 
+          initialDoc: filePath,
+        },
+        document.getElementById("viewer")
+      );
+    </script>
   </body>
 </html>
