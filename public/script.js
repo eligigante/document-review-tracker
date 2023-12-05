@@ -465,18 +465,32 @@ function readFile(input) {
   }
 }
 
+// script.js
 function downloadPDF(documentId) {
   fetch(`/downloadAndConvert/${documentId}`)
-    .then((response) => response.blob())
-    .then((blob) => {
-      const blobUrl = URL.createObjectURL(blob);
-
-      console.log("Blob URL:", blobUrl);
-
-       document.getElementById(`viewer_${documentId}`).src = blobUrl;
-
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const filename = `document_${documentId}.pdf`;
+      return { filename, blob: response.blob() };
+    })
+    .then(({ filename, blob }) => {
+      openNewPageWithPDF(filename);
     })
     .catch((error) => {
       console.error("Error downloading and converting Blob to PDF:", error);
     });
+}
+
+function openNewPageWithPDF(filename) {
+  const relativePath = `/public/pdfviewer.html?filePath=${encodeURIComponent(
+    filename
+  )}`;
+  console.log(relativePath);
+  const newWindow = window.open(relativePath, "_blank");
+
+  if (!newWindow) {
+    alert("Popup Failed.");
+  }
 }

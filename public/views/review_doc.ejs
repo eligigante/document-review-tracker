@@ -11,7 +11,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../node_modules/@pdftron/webviewer/webviewer.min.js"></script>
     <!-- Include the pdfviewer.js script after WebViewer to avoid ReferenceError -->
-    <script src="pdfviewer.js"></script>
     <script src="script.js"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="style-ni-home.css">
@@ -188,7 +187,6 @@
                                     </td>
                                     <td>
                                         <a href="#" class="review-btn" onclick="downloadPDF('<%= row.document_ID %>')">Review</a>
-                                      
                                         <div id="viewer_<%= row.document_ID %>" class="pdf-viewer-container"></div>
                                       </td>
                                   </td>
@@ -205,7 +203,6 @@
         <!-- MAIN -->
     </section>
     <!-- CONTENT -->
-    <script src="pdfviewer.js"></script>
     <script src="/public/script.js"></script>
 </body>
 
