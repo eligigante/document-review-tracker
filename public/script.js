@@ -10,21 +10,30 @@ const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
+
+// const overlay = document.createElement('span');
+// const overlayAdd = document.createElement('span');
+// const showBtn = document.querySelector('.logout');
+// const addBtn = document.querySelector('.btn-add');
+// const cancelBtn = document.querySelector('.cancel-btn');
+// const closeBtn = document.querySelector('.close-btn');
+
+
 // TOGGLE SIDEBAR
-const menuBar = document.querySelector("#content nav .bx.bx-menu");
-const sidebar = document.getElementById("sidebar");
-const switchMode = document.getElementById("switch-mode");
+const menuBar = document.querySelector('#content nav .bx.bx-menu');
+const sidebar = document.getElementById('sidebar');
+const switchMode = document.getElementById('switch-mode');
 
 
 allSideMenu.forEach(item => {
 	const li = item.parentElement;
 
-  item.addEventListener("click", function () {
-    allSideMenu.forEach((i) => {
-      i.parentElement.classList.remove("active");
-    });
-    li.classList.add("active");
-  });
+	item.addEventListener('click', function () {
+		allSideMenu.forEach(i => {
+			i.parentElement.classList.remove('active');
+		})
+		li.classList.add('active');
+	})
 });
 
 menuBar.addEventListener('click', function () {
@@ -251,12 +260,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-//SPA
+//SPA 
 function loadContent(page) {
-  fetch(`../../php/content.php?page=${page}`)
-    .then((response) => response.text())
-    .then((data) => (document.getElementById("tite").innerHTML = data))
-    .catch((error) => console.error("Error:", error));
+	fetch(`../../php/content.php?page=${page}`)
+		.then(response => response.text())
+		.then(data => document.getElementById('tite').innerHTML = data)
+		.catch(error => console.error('Error:', error));
 }
 
 function reset(e) {
@@ -289,22 +298,6 @@ $('.remove-preview').on('click', function () {
 	reset(dropzone);
 });
 
-    reader.onload = function (e) {
-      var htmlPreview =
-        '<img width="200" src="' +
-        e.target.result +
-        '" />' +
-        "<p>" +
-        input.files[0].name +
-        "</p>";
-      var wrapperZone = $(input).parent();
-      var previewZone = $(input).parent().parent().find(".preview-zone");
-      var boxZone = $(input)
-        .parent()
-        .parent()
-        .find(".preview-zone")
-        .find(".box")
-        .find(".box-body");
 
 //dashboard papakita
 window.onload = function () {
@@ -313,7 +306,7 @@ window.onload = function () {
 
 // Toggle dropdown function
 const toggleDropdown = function () {
-  dropdownMenu.classList.toggle("show");
+	dropdownMenu.classList.toggle("show");
 };
 
 // Toggle dropdown open/close when dropdown button is clicked
@@ -325,9 +318,9 @@ dropdownBtn.addEventListener("click", function (e) {
 
 // Close dropdown when dom element is clicked
 document.documentElement.addEventListener("click", function () {
-  if (dropdownMenu.classList.contains("show")) {
-    toggleDropdown();
-  }
+	if (dropdownMenu.classList.contains("show")) {
+		toggleDropdown();
+	}
 });
 
 
