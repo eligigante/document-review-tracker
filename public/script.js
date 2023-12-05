@@ -92,6 +92,7 @@ function createLogoutModal() {
       firstSection.removeChild(overlay);
       overlayLogoutAdded = null;
       firstSection.classList.remove("active");
+      sendLogoutUserServerRequest();
     });
   }
 
@@ -188,7 +189,7 @@ function createAddUserModal() {
 					<div class="label">
 						Position <span id="lastName-info" class="info"></span>
 					</div>
-					<select id="department" name="department">
+					<select id="department" class="input-field" name="department">
 						<option value="OGRAA">OGRAA</option>
 						<option value="OVPAA">OVPAA</option>
 						<option value="OVPF">OVPF</option>
@@ -259,7 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
   logoutBtn.addEventListener("click", function (event) {
     event.preventDefault();
     createLogoutModal();
-    sendLogoutUserServerRequest();
   });
 
   addUserBtn.addEventListener("click", function (event) {
@@ -306,22 +306,25 @@ function sendDeleteUserServerRequest() {
 }
 
 function sendLogoutUserServerRequest() {
-	fetch('/logout', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({logout: true})
-	})
-	.then(response => {
-		if (response.redirected) {
-			window.location.href = response.url
-		} else {
-		  return response.text();  
-		}
-	  })
-		.then(data => console.log(data))
-		.catch(error => console.error('Error:', error));
+  fetch('/logout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ logout: true })
+  })
+    .then(response => {
+      if (response.redirected) {
+        console.log('Redirecting to:', response.url);
+        window.location.href = response.url;
+      } else {
+        return response.text().then(data => {
+          console.log('Response data:', data);
+          // Process data here if needed
+        });
+      }
+    })
+    .catch(error => console.error('Error:', error));
 }
 
 //SPA 
