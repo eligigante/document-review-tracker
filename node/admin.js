@@ -7,10 +7,6 @@ const queries = require('./queries');
 const server = require('./server');
 const db = require('./db');
 const { request } = require('http');
-const fs = require("fs");
-// const multer = require('multer');
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage: storage });
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -27,7 +23,7 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));;
 app.use(cookie());
-app.use(express.static(path.resolve(__dirname, "../public")));
+app.use(express.static(path.resolve(__dirname + "/../public")));
 app.set('views', path.resolve(__dirname + "/../public/views"))
 app.set('view engine', 'ejs');
 server.startServer(app);
@@ -35,11 +31,6 @@ server.startServer(app);
 app.get('/', function(request, response) {
   response.sendFile(path.resolve(__dirname + '/../public/index.html'))
 })
-
-const tempFolderPath = path.resolve(__dirname, "../temp");
-if (!fs.existsSync(tempFolderPath)) {
-  fs.mkdirSync(tempFolderPath);
-}
 
 app.post('/login', (request, response) => {
   const id = request.body.accountID;
@@ -72,6 +63,7 @@ app.post('/login', (request, response) => {
 
 app.get('/verify', function(request, response) {
   if (request.session.loggedIn && request.session.status != 'Online') {
+    request.session.verify = true;
     console.log('Role:', request.session.role);
     if (request.session.role == 'admin') {
     console.log(request.session.userID);
@@ -99,34 +91,47 @@ app.get('/verify', function(request, response) {
     }})
 
 app.get('/home_admin', (request, response) => {
+  if (request.session.verify) {
   connection.query(queries.getUsers, function(error, result, fields) {
     console.log(result[0].department_ID)
     response.render('admin', {data: result})})
-  })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
 
 app.get('/manage_user', (request, response) => {
   // connection.query(queries.verifyUser, [request.session.userID], function(error, result, fields) {
   //   console.log(result);
   // })
-  response.render('manage_user');
+  if (request.session.verify) {
+    response.render('manage_user');
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
 })
 
 app.get('/admin_profile', (request, response) => {
-  connection.query(queries.getUserDetails, [request.session.userID], function(error, result, fields) {
+  if (request.session.verify) {
+    connection.query(queries.getUserDetails, [request.session.userID], function(error, result, fields) {
     console.log(result[0])
     response.render('admin_profile', {data: result[0]});
-  })
+  })}
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
 })
 
-app.post('/logout', (request, response) => {
-  const check = request.body.logout;
-  if (check) {
-    console.log(check)
-    connection.query(queries.setOfflineStatus, [request.session.userID]);
-    request.session.destroy();
-    response.redirect('/');
-    console.log('User has logged out.');
-  }
+app.get('/logout', (request, response) => {
+  connection.query(queries.setOfflineStatus, [request.session.userID]);
+  console.log('User has logged out.');
+  request.session.destroy();
+  response.redirect('/');
 })
 
 app.post('/add_user', (request, response) => {
@@ -146,7 +151,7 @@ app.post('/add_user', (request, response) => {
   response.redirect('/manage_user');
 })
 
-app.post('/delete_user', (request, response) => {
+app.get('/delete_user', (request, response) => {
   connection.query(queries.deleteUser, [id]);
   console.log('User successfully deleted.');
   response.redirect('/manage_user');
@@ -168,56 +173,6 @@ app.post('/edit_user', (request, response) => {
   console.log('User details successfully updated.');
   response.redirect('/manage_user');
 })
-
-app.get("/review_doc", (request, response) => {
-  if (request.session.loggedIn && request.session.role === "reviewer") {
-    connection.query(
-      "SELECT document_ID, user_ID, document_Title, copies, upload_Date, file FROM document_details",
-      (err, results) => {
-        if (err) throw err;
-        response.render("review_doc", { data: results });
-      }
-    );
-  } else {
-    response.redirect("/");
-  }
-});
-
-app.get("/pdfviewer", function (req, res) {
-  res.sendFile(path.resolve(__dirname + "../public/pdfviewer.html"));
-  console.log(path.resolve(__dirname, "../public/pdfviewer.html"));
-});
-
-app.get("/downloadAndConvert/:documentId", (req, res) => {
-  try {
-    const documentId = req.params.documentId;
-
-    if (!documentId) {
-      return res.status(400).json({ error: "Invalid request" });
-    }
-
-    connection.query(
-      "SELECT file FROM document_details WHERE document_ID = ?",
-      [documentId],
-      (err, results) => {
-        if (err) throw err;
-
-        const blobData = results[0].file;
-
-        const filename = `../temp/document_${documentId}.pdf`;
-        fs.writeFileSync(filename, Buffer.from(blobData));
-
-        res.contentType("application/pdf");
-        res.sendFile(path.resolve(__dirname, filename));
-      }
-    );
-  } catch (error) {
-    console.error("Error downloading and converting Blob data:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-
 
 
   

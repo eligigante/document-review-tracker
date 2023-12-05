@@ -315,7 +315,7 @@ function sendLogoutUserServerRequest() {
 	})
 	.then(response => {
 		if (response.redirected) {
-			window.location.href = response.url
+			console.log(response.url)
 		} else {
 		  return response.text();  
 		}
