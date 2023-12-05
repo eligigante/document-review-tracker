@@ -93,7 +93,7 @@ function get_docs($con, $accountID){
     
     mysqli_stmt_close($stmt);
 
-    return $documents;
+    return json_encode($documents);
 } else {
    
     return null;
@@ -109,7 +109,7 @@ function get_recent($con, $accountID){
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'i', $accountID);
+        mysqli_stmt_bind_param($stmt, 's', $accountID);
 
 
         mysqli_stmt_execute($stmt);
@@ -129,7 +129,7 @@ function get_recent($con, $accountID){
         }
 
         mysqli_stmt_close($stmt);
-        return $documents;
+        return json_encode($documents);
     } else {
         return null;
     }
@@ -161,5 +161,52 @@ function getUserImg($con, $accountID) {
         }
     } else {
         echo 'Error getting image' ;
+    }
+}
+
+
+function documentNotif($con, $userID) {
+    $notifications = array();
+
+    $query = "SELECT DISTINCT document_ID, department_ID FROM document_logs WHERE user_ID = $userID";
+
+
+    $result = mysqli_query($con, $query);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+
+
+            $documentID = $row['document_ID'];
+            $departmentID = $row['department_ID'];
+
+
+            
+            $deptQuery = "SELECT department_name FROM departments WHERE department_ID = $departmentID";
+
+
+            $deptResult = mysqli_query($con, $deptQuery);
+
+            if ($deptResult && mysqli_num_rows($deptResult) > 0) {
+
+
+                $departmentRow = mysqli_fetch_assoc($deptResult);
+                $departmentName = $departmentRow['department_name'];
+
+
+                $notification = array(
+
+                    "documentID" => $documentID,
+                    "departmentName" => $departmentName,
+                    "timestamp" => date('Y-m-d H:i:s')
+                );
+
+                array_push($notifications, $notification);
+            }
+        }
+        //serialize to json string
+        return json_encode($notifications);
+    } else {
+        return null;
     }
 }

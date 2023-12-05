@@ -10,8 +10,7 @@ const ejs = require("ejs");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
-// Set up Multer to store uploaded files in the 'temp' folder
-const storage = multer.memoryStorage(); // Store the file in memory
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const connection = db.connectDatabase(mysql);
@@ -36,7 +35,6 @@ app.use(express.static(path.resolve(__dirname, "../public")));
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname + "/../public"));
 
-// Ensure the 'temp' folder exists
 const tempFolderPath = path.resolve(__dirname, "../temp");
 if (!fs.existsSync(tempFolderPath)) {
   fs.mkdirSync(tempFolderPath);

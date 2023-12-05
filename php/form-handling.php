@@ -23,8 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($fileContent !== null) {
 
 
-            $sql = "INSERT INTO document_details (user_ID, document_Title, copies, upload_Date, file)
-                    VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO document_details (user_ID, document_Title, copies, document_status, upload_Date, file)
+                    VALUES (?, ?, ?,'pending',?, ?)";
 
 
             $stmt = $con->prepare($sql);
@@ -36,7 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $stmt->execute();
 
                 if ($stmt->affected_rows > 0) {
-                    echo "New record created successfully";
+
+            
+                    header("Location: ../ver3/user/doc.php");
+                    exit();
+
                 } else {
                     echo "failed to insert " . $con->error;
                 }

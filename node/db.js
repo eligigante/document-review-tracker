@@ -1,5 +1,3 @@
-const mysql = require('mysql');
-
 function connectDatabase (mysql) {
     return mysql.createConnection({
         host: 'localhost',

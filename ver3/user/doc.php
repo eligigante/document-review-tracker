@@ -5,6 +5,20 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: index.html");
     exit();
 }
+$userID = $_SESSION['user_id'];
+
+require_once('../../php/functions.php');
+
+$imageUser = getUserImg($con, $userID);
+
+
+
+if ($imageUser !== false) {
+    $imageSrc = "data:image/jpeg;base64," . $imageUser; 
+} else {
+    echo "<script>alert('no image')</script>";
+}
+
 
 
 ?>
@@ -102,13 +116,16 @@ if (!isset($_SESSION['user_id'])) {
                     <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
                 </div>
             </form>
-            <input type="checkbox" id="switch-mode" hidden>
-            <a href="#" class="notification">
+            <button class="drop-btn" id="drop-btn">
                 <i class='bx bxs-bell'></i>
-                <span class="num">8</span>
-            </a>
+            </button>
+            <div class="dropdown" id="dropdown">
+                
+
+            
+              </div>
             <a href="#" class="profile">
-                <img src="img/people.png">
+                <img src="<?php echo $imageSrc ?>">
             </a>
         </nav>
         <!-- NAVBAR -->

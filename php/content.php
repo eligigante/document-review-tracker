@@ -7,7 +7,7 @@ session_start();
 
 if (!isset($_SESSION['user_id'])) {
    
-    header("Location: index.php");
+    header("Location: index.html");
     exit();
 
 }
@@ -15,6 +15,7 @@ if (!isset($_SESSION['user_id'])) {
 $userID = $_SESSION['user_id'];
 $userDetails = get_name($con, $userID);
 $docDetails = get_docs($con, $userID);
+$docs = json_decode($docDetails, true);
 
 $docRecent = get_recent($con, $userID);
 
@@ -89,43 +90,9 @@ if ($_GET['page'] === 'home') {
 								<th>Status</th>
 							</tr>
 						</thead>
-						<tbody>';
+						<tbody id = tbading>
 						
-                        if($docRecent){  
-                            foreach($docRecent as $docs){
-                                switch($docs['status']){
-
-                                    case 'pending':
-                                        $statusChange = 'status pending';
-                                        break;
-                                    case 'approved':
-                                        $statusChange = 'status completed';
-                                        break;
-                                    case 'denied':
-                                        $statusChange = 'status denied';
-                                        break;
-                                }
-                                echo '
-                            
-                                
-                                <tr>
-                                    
-                                        <td>
-                                            <span>'. $docs['title'] . '</span>
-                                        </td>
-                                        <td>
-                                            <span>'. $docs['uploadDate'] . '</span>
-                                        </td>
-                                        <td>
-                                            <span class="'.$statusChange.'" >'.$docs['status'].'</span>
-                                        </td>
-                                    </tr>';
-                                
-                            }
-
-                        }else{
-
-                            echo '
+            
                             
                             
                             <tr>
@@ -139,17 +106,17 @@ if ($_GET['page'] === 'home') {
                                             <span>'. "" . '</span>
                                         </td>
                                         <td>
-                                            <span class="status completed">'. "" . '</span>
+            
                                         </td>
-                                    </tr>';
+                                 </tr>
 
-                        }
+                        
 
-				echo '		</tbody>
+						</tbody>
 					</table>
 				</div>
-			</div>';
-		echo '</main>';
+			</div>
+		 </main>';
                         
 
     } elseif ($_GET['page'] === 'myDocs') {
@@ -182,45 +149,9 @@ if ($_GET['page'] === 'home') {
                     <th></th>
                 </tr>
             </thead>
-            <tbody>';
+            <tbody id = tbody>
+  
 
-        if($docDetails){
-        foreach($docDetails as $doc){
-
-            switch($doc['status']){
-
-                case 'pending':
-                    $statusChanging = 'status pending';
-                    break;
-                case 'approved':
-                    $statusChanging = 'status completed';
-                    break;
-                case 'denied':
-                    $statusChanging =  'status denied';
-                    break;
-            }
-            echo '
-        
-            
-            <tr>
-                    <td>
-                        <span>'. $doc['docID'] . '</span>
-                    </td>
-                    <td>
-                        <span>'. $doc['title'] . '</span>
-                    </td>
-                    <td>
-                        <span>'. $doc['uploadDate'] . '</span>
-                    </td>
-                    <td>
-                        <span class= "'.$statusChanging.'">'.$doc['status'].'</span>
-                    </td>
-                </tr>';
-            
-        }
-    }else{
-        echo'
-        
         
         <tr>
                     <td>
@@ -235,23 +166,24 @@ if ($_GET['page'] === 'home') {
                     <td>
                         <span class="status completed">'. "" . '</span>
                     </td>
-                </tr>';
+                </tr>
         
         
 
-    }
 
-        echo'
+
+   
                 
         
             </tbody>
         </table>
     </div>
-</div>';
+</div>
     
     
     
-  echo  '</main>';
+   </main>';
+   
 
 
 } elseif ($_GET['page'] === 'profile') {

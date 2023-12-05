@@ -409,9 +409,121 @@ img{
 
 /* NAVBAR */
 
+.doc-container {
+	margin-top: 25px;
+	border-radius: 15px;
+	padding: 20px;
+	background-color: #fff;
+	/* padding-left: 300px; */
+	/* box-shadow: 0 0 40px #999999; */
+	transition: box-shadow 0.2s ease-in-out;
+}
+
+.doc-container:before {
+	content: "";
+	display: block;
+	position: absolute;
+	background-color: #ccc;
+	left: 20px;
+	right: 20px;
+	bottom: 0;
+	top: 50%;
+	z-index: -1;
+	box-shadow: 0 0 40px #999999;
+	transition: box-shadow 0.2s ease-in-out;
+}
 
 
+/* Form Container in Modal Pop Up Box */
+.form-container {
+    border-radius: 3px;
+    font-size: .9em;
+    color: #1e2a28;
+    width: 650px;
+    margin: 0 auto;
+}
 
+.label {
+    color: #000000;
+}
+
+.input-field {
+    width: 340px;
+    border-radius: 3px;
+    padding: 10px;
+    border: #91949d 1px solid;
+    box-sizing: border-box;
+    margin: 5px 10px 0px 0px;
+}
+
+.btn-submit {
+    width: 340px;
+    padding: 10px 60px;
+    background: #555454;
+    border: #464646 1px solid;
+    color: #ffffff;
+    font-size: 0.9em;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.errorMessage {
+    background-color: #e66262;
+    border: #AA4502 1px solid;
+    padding: 8px 10px;
+    color: #FFFFFF;
+    border-radius: 3px;
+}
+
+.successMessage {
+    background-color: #9fd2a1;
+    border: #91bf93 1px solid;
+    padding: 8px 10px;
+    color: #3d503d;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.info {
+    font-size: .8em;
+    color: #e66262;
+    letter-spacing: 2px;
+    padding-left: 5px;
+}
+
+.first-row {
+    margin: 18px 0;
+    margin-bottom: 50px;
+    display: flex;
+}
+
+.second-row {
+    margin: 18px 0;
+    display: flex;
+}
+
+.third-row {
+    margin: 18px 0;
+    display: flex;
+}
+
+.fourth-row {
+    margin: 18px 0;
+    display: flex;
+}
+
+.right-margin {
+    margin-right: 25px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.text-center {
+    text-align: center;
+}
 
 /* MAIN */
 #content main {
@@ -458,7 +570,7 @@ img{
 	pointer-events: unset;
 }
 
-#content main .head-title .btn-download {
+#content main .head-title .btn-add {
 	height: 36px;
 	padding: 0 16px;
 	border-radius: 5px;
@@ -726,6 +838,18 @@ img{
 	cursor: pointer;
 }
 
+.create-btn {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--poppins);
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	background: #1DC455;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
 .close-btn {
 	font-size: 16px;
 	font-weight: 400;
@@ -818,6 +942,110 @@ section.active .modal-box {
 	margin: 0 10px;
 }
 
+/* Modal Box Pop Up Add User */
+.add-btn {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--poppins);
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	background: #F82F2F;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.cancel-btn {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--poppins);
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	background: #A19E9E;
+	border-radius: 6px;
+	cursor: pointer;
+	margin-right: 15px;
+}
+
+/* button:hover {
+	background-color: #265df2;
+} */
+
+button.show-modal,
+.modal-box-add {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+section.active .show-modal {
+	display: none;
+}
+
+.overlay-add{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.3);
+	opacity: 0;
+	pointer-events: none;
+}
+
+section.active .overlay-add {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.modal-box-add {
+	max-width: 782px;
+	width: 100%;
+	padding: 30px 20px;
+	border-radius: 10px;
+	background-color: #fff;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.3s ease;
+	transform: translate(-50%, -50%) scale(1.2);
+}
+
+section.active .modal-box-add {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-box-add i {
+	margin-right: 5px;
+}
+
+.modal-box-add h2 {
+	font-size: 25px;
+	font-weight: bold;
+	color: #000000;
+	font-family: var(--poppins);
+}
+
+.modal-box-add h3 {
+	font-size: 16px;
+	font-weight: 400;
+	color: #000000;
+	padding-top: 15px;
+	font-family: var(--poppins);
+}
+
+.modal-box-add .buttons {
+	float: inline-end;
+	margin-top: 35px;
+}
+
+.modal-box-add button {
+	font-size: 14px;
+	padding: 6px 12px;
+	margin: 0 10px;
+}
 
 /* Form container */
 input[type=text],
@@ -1092,6 +1320,7 @@ input[type=submit]:hover {
 	}
 
 	#content nav form.show~.notification,
+
 	#content nav form.show~.profile {
 		display: none;
 	}
@@ -1112,4 +1341,42 @@ input[type=submit]:hover {
 		min-width: 420px;
 	}
 
+}
+
+@media only screen and (max-width: 760px) {
+    .form-container {
+        width: 500px;
+    }
+    .row {
+        margin: 18px 0;
+        display: flex;
+    }
+    .input-field {
+        width: 200px;
+    }
+    .input-field-radio {
+        width: 210px;
+    }
+    .btn-submit {
+        width: 200px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .form-container {
+        width: 300px;
+    }
+    .row {
+        margin: 10px;
+        display: inline-block;
+    }
+    .input-field {
+        width: 280px;
+    }
+    .btn-submit {
+        width: 280px;
+    }
+    .responsive {
+        margin-top: 20px;
+    }
 }

@@ -180,3 +180,11 @@ function download(documentId) {
       console.error("Error downloading and converting Blob to PDF:", error);
     });
 }
+
+// For destroying session once tab is closed
+$(window).unload(function () {
+	$.get('/destroy');
+});
+
+
+
