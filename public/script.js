@@ -306,22 +306,24 @@ function sendDeleteUserServerRequest() {
 }
 
 function sendLogoutUserServerRequest() {
-	fetch('/logout', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({logout: true})
-	})
-	.then(response => {
-		if (response.redirected) {
-			console.log(response.url)
-		} else {
-		  return response.text();  
-		}
-	  })
-		.then(data => console.log(data))
-		.catch(error => console.error('Error:', error));
+  fetch('/logout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ logout: true })
+  })
+    .then(response => {
+      if (response.redirected) {
+        console.log('Redirecting to:', response.url);
+        window.location.href = response.url;
+      } else {
+        return response.text().then(data => {
+          console.log('Response data:', data);
+        });
+      }
+    })
+    .catch(error => console.error('Error:', error));
 }
 
 //SPA 
