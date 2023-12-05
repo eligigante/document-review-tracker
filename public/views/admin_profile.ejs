@@ -50,12 +50,6 @@
                     <span class="text">Manage Users</span>
                 </a>
             </li>
-            <li>
-                <a href="user_logs">
-                    <i class='bx bxs-file-doc'></i>
-                    <span class="text">User Logs</span>
-                </a>
-            </li>
             <li class="active">
                 <a href="admin_profile">
                     <i class='bx bxs-face'></i>
@@ -76,9 +70,6 @@
 
     </section>
     <!-- SIDEBAR -->
-
-
-
     <!-- CONTENT -->
     <section id="content">
         <!-- NAVBAR -->
@@ -126,11 +117,11 @@
                 </div>
                 <div class="profile-info">
                     <div class="general-information-label">GENERAL INFORMATION</div>
-                    <div class="name-label">First Name: <span class="value">John</span></div>
-                    <div class="name-position">Middle Name: <span class="value">Woods</span></div>
-                    <div class="name-label">Last Name: <span class="value">Doe</span></div>
-                    <div class="name-label">Email: <span class="value">2220001@slu.edu.ph</span></div>
-                    <div class="name-label">User ID: <span class="value">2220001</span></div>
+                    <div class="name-label">First Name: <span class="value"><%= data.first_Name %></span></div>
+                    <div class="name-position">Middle Name: <span class="value"><%= data.middle_Name %></span></div>
+                    <div class="name-label">Last Name: <span class="value"><%= data.last_Name %></span></div>
+                    <div class="name-label">Email: <span class="value"><%= data.email %></span></div>
+                    <div class="name-label">User ID: <span class="value"><%= data.user_ID %></span></div>
                     <!-- Add more divs for additional user information as needed -->
                 </div>
                 
@@ -141,8 +132,7 @@
     </section>
     <!-- CONTENT -->
 
-
-    <script src="public/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

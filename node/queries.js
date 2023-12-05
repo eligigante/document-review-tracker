@@ -4,6 +4,12 @@ const userLogin = 'SELECT user_ID, role, status FROM user WHERE user_ID = ?'
 const getUsers = 'SELECT departments.department_ID, user.first_Name, user.middle_Name, user.last_Name, user.status FROM user JOIN departments ON user.department_ID = departments.department_ID';
 const setOnlineStatus = 'UPDATE user SET status = \'Online\' WHERE user_ID = ?'
 const setOfflineStatus = 'UPDATE user SET status = \'Offline\' WHERE user_ID = ?'
+const addUser = 'INSERT INTO user (user_ID, email, password, last_Name, first_Name, middle_Name, department_ID, position, role, status)' +
++ 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+const deleteUser = 'DELETE FROM user WHERE user.`user_ID` = ?'
+const editUser = 'UPDATE user SET email = ?, password = ?, last_Name = ?, first_Name = ?, middle_Name = ?, ' + 
+'department_ID = ?, position = ?, role = ?, status = ? WHERE user_ID = ?' ;
+const getUserDetails = 'SELECT first_Name, middle_Name, last_Name, email, user_ID FROM user WHERE user_ID = ?'; 
 
 // SELECT departments.department_ID, user.first_Name, user.last_Name, user.status FROM user JOIN departments ON user.department_ID = departments.department_ID;
 
@@ -24,6 +30,10 @@ module.exports = {
     getUsers,
     setOnlineStatus,
     setOfflineStatus,
+    addUser,
+    deleteUser,
+    editUser,
+    getUserDetails,
     checkUser
 }
 
@@ -41,8 +51,7 @@ module.exports = {
 // }
 
 // function insertUser(user_ID, email, password, last_Name, first_Name, middle_Name, department_ID, position, status) {
-//     var sql = 'INSERT INTO user (user_ID, email, password, last_Name, first_Name, middle_Name, department_ID, position, status)' +
-//     'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+//     var sql = ;
 //     db.query(sql, [user_ID, email, password, last_Name, first_Name, middle_Name, department_ID, position, status])
 //     console.log("User data has been inserted into the database.")
 // }
