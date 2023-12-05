@@ -96,22 +96,28 @@ app.get('/home_admin', (request, response) => {
   })
 
 app.get('/manage_user', (request, response) => {
-  connection.query(queries.verifyUser, [request.session.userID], function(error, result, fields) {
-    console.log(result);
-    response.render('admin_profile', {data: result})
-  })
+  // connection.query(queries.verifyUser, [request.session.userID], function(error, result, fields) {
+  //   console.log(result);
+  // })
   response.render('manage_user');
 })
 
 app.get('/admin_profile', (request, response) => {
-  connection.query
-  response.render('admin_profile');
+  connection.query(queries.getUserDetails, [request.session.userID], function(error, result, fields) {
+    console.log(result[0])
+    response.render('admin_profile', {data: result[0]});
+  })
 })
 
-app.get('/logout', (request, response) => {
-  connection.query(queries.setOfflineStatus, [request.session.userID])
-  request.session.destroy();
-  response.redirect('/')
+app.post('/logout', (request, response) => {
+  const check = request.body.logout;
+  if (check) {
+    console.log(check)
+    connection.query(queries.setOfflineStatus, [request.session.userID]);
+    request.session.destroy();
+    response.redirect('/');
+    console.log('User has logged out.');
+  }
 })
 
 app.post('/add_user', (request, response) => {
@@ -131,7 +137,7 @@ app.post('/add_user', (request, response) => {
   response.redirect('/manage_user');
 })
 
-app.get('/delete_user', (request, response) => {
+app.post('/delete_user', (request, response) => {
   connection.query(queries.deleteUser, [id]);
   console.log('User successfully deleted.');
   response.redirect('/manage_user');
