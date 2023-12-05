@@ -127,13 +127,16 @@ app.get('/admin_profile', (request, response) => {
     }
 })
 
-app.get('/logout', (request, response) => {
-  connection.query(queries.setOfflineStatus, [request.session.userID]);
-  console.log('User has logged out.');
-  request.session.destroy();
-  response.redirect('/');
+app.post('/logout', (request, response) => {
+  const check = request.body.logout;
+  if (check) {
+    console.log(check)
+    connection.query(queries.setOfflineStatus, [request.session.userID]);
+    request.session.destroy();
+    response.redirect('/');
+    console.log('User has logged out.');
+  }
 })
-
 app.post('/add_user', (request, response) => {
   var id = request.session.userID;
   var email = request.body.email;
