@@ -8,10 +8,9 @@ const server = require('./server');
 const db = require('./db');
 const { request } = require('http');
 const fs = require("fs");
-const { v4: uuidv4 } = require("uuid");
-const multer = require('multer');
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// const multer = require('multer');
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -28,7 +27,7 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));;
 app.use(cookie());
-app.use(express.static(path.resolve(__dirname + "/../public")));
+app.use(express.static(path.resolve(__dirname, "../public")));
 app.set('views', path.resolve(__dirname + "/../public/views"))
 app.set('view engine', 'ejs');
 server.startServer(app);
@@ -179,31 +178,18 @@ app.get("/review_doc", (request, response) => {
 });
 
 app.get("/pdfviewer", function (req, res) {
-  res.sendFile(path.resolve(__dirname, "../public/pdfviewer.html"));
-});
-
-app.get("/temp/document/:documentId.pdf", (req, res) => {
-  const documentId = req.params.documentId;
-
-  if (!documentId) {
-    return res.status(400).json({ error: "Invalid request" });
-  }
-
-  const filename = `document_${documentId}.pdf`;
-  const filePath = path.resolve(__dirname, "../temp", filename);
-
-  res.contentType("application/pdf");
-  res.sendFile(filePath);
+  res.sendFile(path.resolve(__dirname + "../public/pdfviewer.html"));
+  console.log(path.resolve(__dirname, "../public/pdfviewer.html"));
 });
 
 app.get("/downloadAndConvert/:documentId", (req, res) => {
   try {
-    console.log("Reviewing Document: " + documentId)
     const documentId = req.params.documentId;
 
     if (!documentId) {
       return res.status(400).json({ error: "Invalid request" });
     }
+
     connection.query(
       "SELECT file FROM document_details WHERE document_ID = ?",
       [documentId],
@@ -224,6 +210,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 
 

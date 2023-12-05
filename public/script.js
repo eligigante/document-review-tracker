@@ -471,16 +471,12 @@ function downloadPDF(documentId) {
     .then((blob) => {
       const blobUrl = URL.createObjectURL(blob);
 
-      window.open(
-        `../public/pdfviewer.html?blobUrl=${encodeURIComponent(blobUrl)}`,
-        "_blank"
-      );
+      console.log("Blob URL:", blobUrl);
+
+       document.getElementById(`viewer_${documentId}`).src = blobUrl;
+
     })
     .catch((error) => {
       console.error("Error downloading and converting Blob to PDF:", error);
     });
 }
-
-$(window).unload(function () {
-  $.get("/destroy");
-});
