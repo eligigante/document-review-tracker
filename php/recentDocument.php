@@ -55,9 +55,9 @@ if ($docs !== null) {
     }
 } else {
     echo '<tr>
-            <td>td>
+            <td></td>
         </tr>';
 }
 
 
-header('Content-Type: text/html');
+
