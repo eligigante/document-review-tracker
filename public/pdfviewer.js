@@ -8,6 +8,7 @@ console.log("This is the filepath being loaded: " + filePath);
 
 WebViewer(
   {
+    path: "/public",
     initialDoc: filePath,
   },
   viewerElement
