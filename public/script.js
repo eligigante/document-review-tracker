@@ -1,6 +1,7 @@
 const allSideMenu = document.querySelectorAll("#sidebar .side-menu.top li a");
 const section = document.querySelector("section");
 const firstSection = document.getElementById("sidebar");
+const secondSection = document.getElementById("content");
 const searchButton = document.querySelector(
   "#content nav form .form-input button"
 );
@@ -253,19 +254,246 @@ function createAddUserModal() {
   );
 }
 
+let overlayRevokeAdded = null;
+
+function createRevokeModal() {
+  const overlayRevoke = document.createElement("span");
+  overlayRevoke.classList.add("overlay-revoke");
+  firstSection.insertBefore(overlayRevoke, firstSection.firstChild);
+
+  // Show the overlay immediately
+  firstSection.classList.add("active");
+
+  // Remove existing overlay if present
+  if (overlayRevokeAdded) {
+    firstSection.removeChild(overlayRevokeAdded);
+    overlayRevokeAdded = null;
+  }
+
+  if (!overlayRevokeAdded) {
+    const modalBoxRevoke = document.createElement("div");
+    modalBoxRevoke.classList.add("modal-box-revoke");
+    modalBoxRevoke.innerHTML = `
+                <h2>Confirmation</h2>
+                <h3>Are you sure you want to revoke this user?</h3>
+                <div class="buttons">
+                    <a class="close-btn">Cancel</a>
+                    <a class="rvk-btn">
+                    <i class="bx bxs-user-x"></i>
+                    <span>Revoke</span>
+                    </a>
+                </div>
+        `;
+    firstSection.appendChild(modalBoxRevoke);
+    overlayRevokeAdded = modalBoxRevoke;
+
+    const closeBtn = modalBoxRevoke.querySelector(".close-btn");
+    const rvkBtn = modalBoxRevoke.querySelector(".rvk-btn");
+
+    closeBtn.addEventListener("click", () => {
+      firstSection.removeChild(modalBoxRevoke);
+      firstSection.removeChild(overlayRevoke);
+      overlayRevokeAdded = null;
+      firstSection.classList.remove("active");
+    });
+
+    rvkBtn.addEventListener("click", () => {
+      firstSection.removeChild(modalBoxRevoke);
+      firstSection.removeChild(overlayRevoke);
+      overlayRevokeAdded = null;
+      firstSection.classList.remove("active");
+      sendDeleteUserServerRequest();
+    });
+  }
+
+  const revokeBtn = document.querySelector(".revoke-btn");
+  const closeBtn = document.querySelector(".close-btn");
+  let isActive = false; // Flag to track the active state
+
+  function toggleActiveClass() {
+    if (!isActive) {
+      firstSection.classList.add("active");
+    } else {
+      firstSection.classList.remove("active");
+    }
+    isActive = !isActive; // Toggle the active state
+  }
+
+  revokeBtn.addEventListener("click", () => firstSection.classList.add("active"));
+  overlayRevoke.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
+  closeBtn.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
+}
+
+let overlayEditAdded = null;
+
+function editUserModal() {
+  const overlayEdit = document.createElement("span");
+  overlayEdit.classList.add("overlay-edit");
+  firstSection.insertBefore(overlayEdit, firstSection.firstChild);
+
+  // Show the overlay immediately
+  firstSection.classList.add("active");
+
+  // Remove existing overlay if present
+  if (overlayEditAdded) {
+    firstSection.removeChild(overlayEditAdded);
+    overlayEditAdded = null;
+  }
+
+  if (!overlayEditAdded) {
+    const modalBoxEdit = document.createElement("div");
+    modalBoxEdit.classList.add("modal-box-edit");
+    modalBoxEdit.innerHTML = `
+	<h2>Edit User</h2>
+	<div class="form-container">
+		<form name="frmContact" id="" frmContact"" method="post" action="/add_user" enctype=""
+			onsubmit="">
+			<div class="first-row">
+				<div class="inline-block right-margin">
+					<div class="label">
+						User ID <span id="firstName-info" class="info"></span>
+					</div>
+					<input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
+				</div>
+				<div class="inline-block responsive">
+					<div class="label">
+						Password <span id="lastName-info" class="info"></span>
+					</div>
+					<input type="text" class="input-field" name="contact-last-name" id="contact-last-name" />
+				</div>
+			</div>
+			<div class="second-row">
+				<div class="inline-block right-margin">
+					<div class="label">
+						First Name <span id="email-info" class="info"></span>
+					</div>
+					<input type="text" class="input-field" name="contact-email" id="contact-email" />
+				</div>
+				<div class="inline-block responsive">
+					<div class="label">
+						Middle Name <span id="phone-info" class="info"></span>
+					</div>
+					<input type="text" class="input-field" name="contact-phone" id="contact-phone" />
+				</div>
+			</div>
+			<div class="third-row">
+				<div class="inline-block right-margin">
+					<div class="label">
+						Last Name <span id="subject-info" class="info"></span>
+					</div>
+					<input type="text" class="input-field" name="contact-phone" id="contact-phone" />
+				</div>
+			</div>
+			<div class="fourth-row">
+				<div class="inline-block right-margin">
+					<div class="label">
+						Email <span id="firstName-info" class="info"></span>
+					</div>
+					<input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
+				</div>
+				<div class="inline-block responsive">
+					<div class="label">
+						Position <span id="lastName-info" class="info"></span>
+					</div>
+					<select id="department" class="input-field" name="department">
+						<option value="OGRAA">OGRAA</option>
+						<option value="OVPAA">OVPAA</option>
+						<option value="OVPF">OVPF</option>
+						<option value="OLA">OLA</option>
+						<option value="OVPA">OVPA</option>
+					</select>
+				</div>
+			</div>
+		</form>
+		<div class="buttons">
+		<a class="cancel-btn">Cancel</a>
+		<a class="edt-btn">
+      <i class='bx bxs-edit'></i>
+			<span>Edit</span>
+		</a>
+		</div>
+	</div>
+    `;
+    firstSection.appendChild(modalBoxEdit);
+    overlayEditAdded = modalBoxEdit;
+
+    // Additional logic for form submission or other actions
+    const cancelBtn = modalBoxEdit.querySelector(".cancel-btn");
+    const edtBtn = modalBoxEdit.querySelector(".edt-btn");
+
+    cancelBtn.addEventListener("click", () => {
+      firstSection.removeChild(modalBoxEdit);
+      firstSection.removeChild(overlayEdit);
+      overlayEditAdded = null;
+      firstSection.classList.remove("active");
+    });
+
+    edtBtn.addEventListener("click", () => {
+      // Perform create action here
+      firstSection.removeChild(modalBoxEdit);
+      firstSection.removeChild(overlayEdit);
+      overlayAdded = null;
+      firstSection.classList.remove("active");
+    });
+  }
+
+  const editBtn = document.querySelector(".edit-btn");
+  const cancelBtn = document.querySelector(".cancel-btn");
+  let isActive = false; // Flag to track the active state
+
+  function toggleActiveClass() {
+    if (!isActive) {
+      firstSection.classList.add("active");
+    } else {
+      firstSection.classList.remove("active");
+    }
+    isActive = !isActive; // Toggle the active state
+  }
+
+  editBtn.addEventListener("click", () => firstSection.classList.add("active"));
+  overlayEdit.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
+  cancelBtn.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
+}
+
+// Event Listener
 document.addEventListener("DOMContentLoaded", function () {
   const logoutBtn = document.querySelector(".logout");
   const addUserBtn = document.querySelector(".btn-add");
+  const revokeBtn = document.querySelector('.revoke-btn');
+  const editBtn = document.querySelector('.edit-btn');
+  const reviewBtn = document.querySelector('.review-btn');
 
   logoutBtn.addEventListener("click", function (event) {
     event.preventDefault();
     createLogoutModal();
   });
 
-  addUserBtn.addEventListener("click", function (event) {
+  // addUserBtn.addEventListener("click", function (event) {
+  //   event.preventDefault();
+  //   createAddUserModal();
+  // });
+
+  // revokeBtn.addEventListener("click", function (event) {
+  //   event.preventDefault();
+  //   createRevokeModal();
+  // });
+
+  // editBtn.addEventListener("click", function (event) {
+  //   event.preventDefault();
+  //   editUserModal();
+  // });
+
+  reviewBtn.addEventListener("click", function (event) {
     event.preventDefault();
-    createAddUserModal();
-    sendAddUserServerRequest();
+    downloadPDF(documentId)
   });
 });
 
@@ -365,9 +593,9 @@ $(".remove-preview").on("click", function () {
 });
 
 //dashboard papakita
-window.onload = function () {
-  loadContent("home");
-};
+// window.onload = function () {
+//   loadContent("home");
+// };
 
 // Toggle dropdown function
 const toggleDropdown = function () {
@@ -489,10 +717,12 @@ document.addEventListener("DOMContentLoaded", function () {
 function downloadPDF(documentId) {
   fetch(`/downloadAndConvert/${documentId}`)
     .then((response) => {
+      console.log(response)
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const filename = `document_${documentId}.pdf`;
+      console.log(filename);
       return { filename, blob: response.blob() };
     })
     .then(({ filename, blob }) => {
@@ -504,10 +734,10 @@ function downloadPDF(documentId) {
 }
 
 function openNewPageWithPDF(filename) {
-  const relativePath = `/public/pdfviewer.html?filePath=${encodeURIComponent(
+  const relativePath = `/pdfviewer.html?filePath=../temp/${encodeURIComponent(
     filename
   )}`;
-  console.log(relativePath);
+  console.log("This is the path: " + relativePath);
   const newWindow = window.open(relativePath, "_blank");
 
   if (!newWindow) {

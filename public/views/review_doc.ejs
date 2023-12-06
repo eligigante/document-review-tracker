@@ -7,11 +7,10 @@
 
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../node_modules/@pdftron/webviewer/webviewer.min.js"></script>
-    <!-- Include the pdfviewer.js script after WebViewer to avoid ReferenceError -->
-    <script src="/public/script.js"></script>
+    <script src="https://unpkg.com/@pdftron/webviewer@7.3.0/webviewer.min.js"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="style-ni-home.css">
 
@@ -186,7 +185,7 @@
                                         <span class="status pending">Pending</span>
                                     </td>
                                     <td>
-                                        <a href="#" class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>
+                                        <a class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>
                                         <div id="viewer_<%= row.document_ID %>" class="pdf-viewer-container"></div>
                                       </td>
                                   </td>
@@ -203,7 +202,7 @@
         <!-- MAIN -->
     </section>
     <!-- CONTENT -->
-    <script src="/public/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

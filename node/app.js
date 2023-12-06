@@ -24,7 +24,7 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));;
 app.use(cookie());
-app.use(express.static(path.join(__dirname, 'node_modules')));
+app.use(express.static(path.join(__dirname, 'node_modules/@pdftron')));
 app.use(express.static(path.resolve(__dirname, "../public")));
 app.set('views', path.resolve(__dirname + "/../public/views"))
 app.set('view engine', 'ejs');
@@ -133,6 +133,7 @@ app.get("/review_doc", (request, response) => {
 app.get("/downloadAndConvert/:documentId", (req, res) => {
   try {
     const documentId = req.params.documentId;
+    console.log(documentId);
 
     if (!documentId) {
       return res.status(400).json({ error: "Invalid request" });
@@ -148,7 +149,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
 
         const filename = `../temp/document_${documentId}.pdf`;
         fs.writeFileSync(filename, Buffer.from(blobData));
-
+        console.log(filename);
         res.contentType("application/pdf");
         res.sendFile(path.resolve(__dirname, filename));
       }
