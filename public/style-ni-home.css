@@ -671,6 +671,18 @@ textarea.input-field {
 	transition: all 0.3s ease;
 }
 
+.rvk-btn {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--poppins);
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	background: #747474;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
 .edit-btn {
 	border: none;
 	padding: 6px 16px;
@@ -1057,6 +1069,217 @@ section.active .modal-box-add {
 	margin: 0 10px;
 }
 
+/* Modal Box Pop Up Revoke User */
+.rvk-btn {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--poppins);
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	background: #1b1b1b;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.close-btn {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--poppins);
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	background: #A19E9E;
+	border-radius: 6px;
+	cursor: pointer;
+	margin-right: 15px;
+}
+
+/* button:hover {
+	background-color: #265df2;
+} */
+
+button.show-modal,
+.modal-box-revoke {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+section.active .show-modal {
+	display: none;
+}
+
+.overlay-revoke{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.3);
+	opacity: 0;
+	pointer-events: none;
+}
+
+section.active .overlay-revoke {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.modal-box-revoke {
+	max-width: 455px;
+	width: 100%;
+	padding: 39px 39px;
+	border-radius: 10px;
+	background-color: #fff;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.3s ease;
+	transform: translate(-50%, -50%) scale(1.2);
+}
+
+section.active .modal-box-revoke {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-box-revoke i {
+	margin-right: 5px;
+}
+
+.modal-box-revoke h2 {
+	font-size: 25px;
+	font-weight: bold;
+	color: #000000;
+	font-family: var(--poppins);
+}
+
+.modal-box-revoke h3 {
+	font-size: 16px;
+	font-weight: 400;
+	color: #000000;
+	padding-top: 15px;
+	font-family: var(--poppins);
+}
+
+.modal-box-revoke .buttons {
+	float: inline-end;
+    margin-top: 35px;
+}
+
+.modal-box-revoke button {
+	font-size: 14px;
+	padding: 6px 12px;
+	margin: 0 10px;
+}
+
+/* Modal Box Pop Up Edit User */
+.edt-btn {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--poppins);
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	background: #428bca;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.cancel-btn {
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--poppins);
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	background: #A19E9E;
+	border-radius: 6px;
+	cursor: pointer;
+	margin-right: 15px;
+}
+
+/* button:hover {
+	background-color: #265df2;
+} */
+
+button.show-modal,
+.modal-box-edit {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+section.active .show-modal {
+	display: none;
+}
+
+.overlay-edit{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.3);
+	opacity: 0;
+	pointer-events: none;
+}
+
+section.active .overlay-edit {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.modal-box-edit {
+	max-width: 800px;
+	width: 100%;
+	padding: 39px 39px;
+	border-radius: 10px;
+	background-color: #fff;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.3s ease;
+	transform: translate(-50%, -50%) scale(1.2);
+}
+
+section.active .modal-box-edit {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-box-edit i {
+	margin-right: 5px;
+}
+
+.modal-box-edit h2 {
+	font-size: 25px;
+	font-weight: bold;
+	color: #000000;
+	font-family: var(--poppins);
+}
+
+.modal-box-edit h3 {
+	font-size: 16px;
+	font-weight: 400;
+	color: #000000;
+	padding-top: 15px;
+	font-family: var(--poppins);
+}
+
+.modal-box-edit .buttons {
+	margin-left: 64%;
+    margin-top: 25px;
+}
+
+.modal-box-edit button {
+	font-size: 14px;
+	padding: 6px 12px;
+	margin: 0 10px;
+}
+
+
 /* Form container */
 input[type=text],
 select,
@@ -1164,8 +1387,6 @@ input[type=submit]:hover {
 }
 
 /* Upload File */
-.container {}
-
 .box {
 	position: relative;
 	background: #ffffff;
