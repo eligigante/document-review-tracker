@@ -8,6 +8,9 @@ const server = require("./server");
 const db = require("./db");
 const { request } = require("http");
 const fs = require("fs");
+const annotationHandler = require('./annotationHandler');
+const bodyParser = require('body-parser');
+
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -32,9 +35,6 @@ app.set("views", path.resolve(__dirname + "/../public/views"));
 app.set("view engine", "ejs");
 server.startServer(app);
 
-app.get("/pdfviewer", function (req, res) {
-  res.sendFile(path.resolve(__dirname, "/../public/pdfviewer.html"));
-});
 
 app.get("/", function (request, response) {
   response.sendFile(path.resolve(__dirname + "/../public/index.html"));
@@ -166,6 +166,19 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+app.use('/temp', express.static(path.join(__dirname, 'temp')));
+
+app.get("/pdfviewer", (request, response) => {
+
+  const filePath = path.join(__dirname, 'temp', request.query.filePath);
+
+
+  response.render("pdfviewer", { filePath });
+});
+
+annotationHandler(app);
+
 
 app.post("/acceptDocument", async (req, res) => {
   const { filePath } = req.body;
