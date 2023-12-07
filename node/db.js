@@ -3,7 +3,7 @@ function connectDatabase (mysql) {
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'documentite2'
+        database: 'document_tracker_db'
     })
 }
 

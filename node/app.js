@@ -8,6 +8,9 @@ const server = require("./server");
 const db = require("./db");
 const { request } = require("http");
 const fs = require("fs");
+const annotationHandler = require('./annotationHandler');
+const bodyParser = require('body-parser');
+
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -37,10 +40,10 @@ app.get("/", function (request, response) {
   response.sendFile(path.resolve(__dirname + "/../public/index.html"));
 });
 
-
 app.post("/login", (request, response) => {
   const id = request.body.accountID;
   const password = request.body.password;
+
   if (id && password) {
     if (queries.checkUser(connection, id)) {
       connection.query(
@@ -53,9 +56,15 @@ app.post("/login", (request, response) => {
               queries.userLogin,
               [id],
               function (err, result, fields) {
-                request.session.role = result[0].role;
+                const user = result[0];
+
+                request.session.user_ID = user.user_ID;
+                request.session.role = user.role;
                 request.session.loggedIn = true;
+                request.session.department_ID = user.department_ID;
+
                 console.log("Successfully logged in.");
+                console.log("Session:", request.session);
                 response.redirect("/home");
               }
             );
@@ -98,32 +107,28 @@ app.get("/logout", (request, response) => {
 
 app.get("/review_doc", (request, response) => {
   if (request.session.loggedIn && request.session.role === "reviewer") {
-    connection.query(
-      "SELECT document_ID, user_ID, document_Title, copies, upload_Date, file FROM document_details",
-      (err, results) => {
-        if (err) throw err;
-        response.render("review_doc", { data: results });
+    const departmentID = request.session.department_ID;
+
+    let query =
+    "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file " + 
+    "FROM document_logs AS dl " +
+    "JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
+    "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
+    let queryParams = [departmentID];
+
+    connection.query(query, queryParams, (err, results) => {
+      if (err) {
+        console.error("Error querying documents:", err);
+        throw err;
       }
-    );
+
+      console.log("Results:", results);
+      response.render("review_doc", { data: results });
+    });
   } else {
     response.redirect("/");
   }
 });
-
-app.get("/review_doc", (request, response) => {
-  if (request.session.loggedIn && request.session.role === "reviewer") {
-    connection.query(
-      "SELECT document_ID, user_ID, document_Title, copies, upload_Date, file FROM document_details",
-      (err, results) => {
-        if (err) throw err;
-        response.render("review_doc", { data: results });
-      }
-    );
-  } else {
-    response.redirect("/");
-  }
-});
-
 app.get("/downloadAndConvert/:documentId", (req, res) => {
   try {
     const documentId = req.params.documentId;
@@ -171,3 +176,132 @@ app.get("/pdfviewer", (request, response) => {
 
   response.render("pdfviewer", { filePath });
 });
+
+annotationHandler(app);
+
+
+app.post("/acceptDocument", async (req, res) => {
+  const { filePath } = req.body;
+
+  if (!filePath) {
+    return res.status(400).json({ error: "Invalid request" });
+  }
+
+  const documentId = extractDocumentId(filePath);
+
+  if (!documentId) {
+    return res.status(400).json({ error: "Invalid document ID" });
+  }
+
+  const reviewedFilePath = path.resolve(
+    __dirname,
+    "public",
+    "reviewed",
+    `document_${documentId}.pdf`
+  );
+
+  try {
+    const referralDate = await getReferralDate(documentId);
+    const originalFileData = await getOriginalFile(documentId);
+    const documentLog = {
+      document_ID: documentId,
+      department_ID: req.session.department_ID,
+      user_ID: req.session.user_ID,
+      referral_Date: referralDate,
+      review_Date: new Date(),
+      remarks: "Noice",
+      received_file: originalFileData,
+      reviewed_file: reviewedFilePath,
+      approved_file: filePath,
+      document_status: "accepted",
+    };
+
+    connection.query(
+      "INSERT INTO document_logs SET ?",
+      documentLog,
+      async (err, result) => {
+        if (err) {
+          console.error("Error updating database:", err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        const nextDepartmentID = req.session.department_ID + 1;
+        const nextReviewerDocumentLog = {
+          document_ID: documentId,
+          department_ID: nextDepartmentID,
+          user_ID: req.session.user_ID,
+          referral_Date: referralDate,
+          review_Date: null,
+          remarks: null,
+          received_file: filePath,
+          reviewed_file: null,
+          approved_file: null,
+          document_status: "Processing",
+        };
+
+        await insertDocumentLog(nextReviewerDocumentLog);
+
+        return res.json({ success: true });
+      }
+    );
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+function insertDocumentLog(documentLog) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "INSERT INTO document_logs SET ?",
+      documentLog,
+      (err, result) => {
+        if (err) {
+          console.error("Error updating database:", err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
+function extractDocumentId(filePath) {
+  const match = filePath.match(/document_(\d+)\.pdf/);
+  return match ? match[1] : null;
+}
+
+function getReferralDate(documentId) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT upload_Date FROM document_details WHERE document_ID = ?",
+      [documentId],
+      (err, result) => {
+        if (err || result.length === 0) {
+          console.error("Error fetching referral date:", err);
+          reject(err);
+        } else {
+          resolve(result[0].upload_Date);
+        }
+      }
+    );
+  });
+}
+
+function getOriginalFile(documentId) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT file FROM document_details WHERE document_ID = ?",
+      [documentId],
+      (err, result) => {
+        if (err || result.length === 0) {
+          console.error("Error fetching original file data:", err);
+          reject(err);
+        } else {
+          resolve(result[0].file);
+        }
+      }
+    );
+  });
+}
