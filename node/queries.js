@@ -5,8 +5,7 @@ const getUsers = 'SELECT departments.department_ID, user.first_Name, user.middle
 + 'FROM user JOIN departments ON user.department_ID = departments.department_ID';
 const setOnlineStatus = 'UPDATE user SET status = \'Online\' WHERE user_ID = ?'
 const setOfflineStatus = 'UPDATE user SET status = \'Offline\' WHERE user_ID = ?'
-const addUser = 'INSERT INTO user (user_ID, email, password, last_Name, first_Name, middle_Name, department_ID, position, role, status)' +
-+ 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+const addUser = 'INSERT INTO user (email, password, last_Name, first_Name, middle_Name, department_ID, position, role, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 const deleteUser = 'DELETE FROM user WHERE user.`user_ID` = ?'
 const editUser = 'UPDATE user SET email = ?, password = ?, last_Name = ?, first_Name = ?, middle_Name = ?, ' + 
 'department_ID = ?, position = ?, role = ?, status = ? WHERE user_ID = ?' ;
