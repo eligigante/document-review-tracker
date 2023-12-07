@@ -526,10 +526,11 @@ document.addEventListener("DOMContentLoaded", function () {
     createLogoutModal();
   });
 
-  addUserBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    createAddUserModal();
-  });
+  // addUserBtn.addEventListener("click", function (event) {
+  //   event.preventDefault();
+  //   // createAddUserModal();
+  //   sendAddUserFormRequest();
+  // });
 
   revokeBtn.addEventListener("click", function (event) {
     event.preventDefault();
@@ -555,8 +556,20 @@ document.addEventListener("DOMContentLoaded", function () {
   //   downloadPDF(documentId)
 });
 
+// function sendAddUserFormRequest() {
+//   fetch("/add_user", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
+
 function sendAddUserServerRequest() {
-  fetch("/add_user", {
+  fetch("/add_user_request", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
