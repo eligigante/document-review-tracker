@@ -1,7 +1,8 @@
 const verifyCredentials = 'SELECT * FROM user WHERE user_ID = ? AND password = ?';
 const verifyUser = 'SELECT * FROM user WHERE user_ID = ?'
 const userLogin = 'SELECT user_ID, role, status FROM user WHERE user_ID = ?'
-const getUsers = 'SELECT departments.department_ID, user.first_Name, user.middle_Name, user.last_Name, user.status FROM user JOIN departments ON user.department_ID = departments.department_ID';
+const getUsers = 'SELECT departments.department_ID, user.first_Name, user.middle_Name, user.last_Name, user.status '
++ 'FROM user JOIN departments ON user.department_ID = departments.department_ID';
 const setOnlineStatus = 'UPDATE user SET status = \'Online\' WHERE user_ID = ?'
 const setOfflineStatus = 'UPDATE user SET status = \'Offline\' WHERE user_ID = ?'
 const addUser = 'INSERT INTO user (user_ID, email, password, last_Name, first_Name, middle_Name, department_ID, position, role, status)' +
@@ -10,6 +11,8 @@ const deleteUser = 'DELETE FROM user WHERE user.`user_ID` = ?'
 const editUser = 'UPDATE user SET email = ?, password = ?, last_Name = ?, first_Name = ?, middle_Name = ?, ' + 
 'department_ID = ?, position = ?, role = ?, status = ? WHERE user_ID = ?' ;
 const getUserDetails = 'SELECT first_Name, middle_Name, last_Name, email, user_ID FROM user WHERE user_ID = ?'; 
+const manageUserDetails = 'SELECT departments.department_ID, user.user_ID, user.first_Name, user.middle_Name, user.last_Name, user.status '
++ 'FROM user JOIN departments ON user.department_ID = departments.department_ID';
 
 // SELECT departments.department_ID, user.first_Name, user.last_Name, user.status FROM user JOIN departments ON user.department_ID = departments.department_ID;
 
@@ -34,6 +37,7 @@ module.exports = {
     deleteUser,
     editUser,
     getUserDetails,
+    manageUserDetails,
     checkUser
 }
 

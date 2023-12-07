@@ -32,7 +32,7 @@ app.get('/', function(request, response) {
   response.sendFile(path.resolve(__dirname + '/../public/index.html'))
 })
 
-app.post('/login', (request, response) => {
+app.post('/login.html', (request, response) => {
   const id = request.body.accountID;
   const password = request.body.password;
   if (id && password) {
@@ -107,7 +107,11 @@ app.get('/manage_user', (request, response) => {
   //   console.log(result);
   // })
   if (request.session.verify) {
-    response.render('manage_user');
+    connection.query(queries.manageUserDetails, function(error, result, fields) {
+      console.log(result);
+      response.render('manage_user', {data: result});
+    })
+   
   }
   else {
     console.log("Please login or logout from your current session.")

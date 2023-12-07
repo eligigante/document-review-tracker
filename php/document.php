@@ -61,4 +61,3 @@ if ($docs !== null) {
 }
 
 
-header('Content-Type: text/html');

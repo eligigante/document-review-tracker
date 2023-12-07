@@ -24,6 +24,7 @@ if ($imageUser !== false) {
 ?>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -120,6 +121,8 @@ if ($imageUser !== false) {
                 <i class='bx bxs-bell'></i>
             </button>
             <div class="dropdown" id="dropdown">
+
+
                 
 
             
@@ -139,7 +142,7 @@ if ($imageUser !== false) {
     <!-- CONTENT -->
 
 
-    <script src="script.js"></script>
+    <script src="scripter.js"></script>
 </body>
 
 </html>

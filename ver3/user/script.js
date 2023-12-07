@@ -1,6 +1,14 @@
 const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
 const section = document.querySelector("section");
 const firstSection = document.getElementById("sidebar");
+
+
+if (firstSection) {
+    const overlay = document.createElement('span');
+    firstSection.insertBefore(overlay, firstSection.firstChild);
+
+}
+
 const searchButton = document.querySelector('#content nav form .form-input button');
 const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
 const searchForm = document.querySelector('#content nav form');
@@ -11,12 +19,12 @@ const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
 
-// const overlay = document.createElement('span');
-// const overlayAdd = document.createElement('span');
-// const showBtn = document.querySelector('.logout');
-// const addBtn = document.querySelector('.btn-add');
-// const cancelBtn = document.querySelector('.cancel-btn');
-// const closeBtn = document.querySelector('.close-btn');
+ const overlay = document.createElement('span');
+ const overlayAdd = document.createElement('span');
+ const showBtn = document.querySelector('.logout');
+ const addBtn = document.querySelector('.btn-add');
+ const cancelBtn = document.querySelector('.cancel-btn');
+ const closeBtn = document.querySelector('.close-btn');
 
 
 // TOGGLE SIDEBAR
@@ -405,6 +413,11 @@ function readFile(input) {
 	}
 }
 
+
+
+
 $(window).unload(function () {
 	$.get('/destroy');
 });
+
+

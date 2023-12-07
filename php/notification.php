@@ -33,8 +33,7 @@ if ($notifArr !== null) {
     }
 } else {
  
-    echo "Error decoding notifications.";
+    echo "Error showing notifs";
 }
 
-header('Content-Type: text/html');
 ?>

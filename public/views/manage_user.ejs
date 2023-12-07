@@ -146,14 +146,24 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>User ID</th>
                                 <th>User</th>
                                 <th>Department ID</th>
                                 <th>Status</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+
+                            <% data.forEach(element => { %> 
+                                <tr>
+                                    <td><%= element.user_ID %></td>
+                                    <td><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></td> 
+                                    <td><%= element.department_ID %></td>
+                                    <td><span><%= element.status%></span></td>  
+                                </tr>
+                            <% }) %>
+                            <!-- <tr>
+                                <td>1213123</td>
                                 <td>
                                     <p>John Doe</p>
                                 </td>
@@ -169,7 +179,7 @@
                                         <span class="text">Edit</span>
                                     </a>
                                 </td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td>
                                     <p>John Doe</p>

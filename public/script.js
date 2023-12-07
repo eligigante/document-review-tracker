@@ -342,7 +342,9 @@ function createRevokeModal() {
     isActive = !isActive; // Toggle the active state
   }
 
-  revokeBtn.addEventListener("click", () => firstSection.classList.add("active"));
+  revokeBtn.addEventListener("click", () =>
+    firstSection.classList.add("active")
+  );
   overlayRevoke.addEventListener("click", () =>
     firstSection.classList.remove("active")
   );
@@ -513,9 +515,9 @@ function editUserModal() {
 document.addEventListener("DOMContentLoaded", function () {
   const logoutBtn = document.querySelector(".logout");
   const addUserBtn = document.querySelector(".btn-add");
-  const revokeBtn = document.querySelector('.revoke-btn');
-  const editBtn = document.querySelector('.edit-btn');
-  const reviewBtn = document.querySelector('.review-btn');
+  const revokeBtn = document.querySelector(".revoke-btn");
+  const editBtn = document.querySelector(".edit-btn");
+  const reviewBtn = document.querySelector(".review-btn");
 
   logoutBtn.addEventListener("click", function (event) {
     event.preventDefault();
@@ -537,10 +539,9 @@ document.addEventListener("DOMContentLoaded", function () {
     editUserModal();
   });
 
-  reviewBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    downloadPDF(documentId)
-  });
+  // reviewBtn.addEventListener("click", function (event) {
+  //   event.preventDefault();
+  //   downloadPDF(documentId)
 });
 
 function sendAddUserServerRequest() {
@@ -763,7 +764,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function downloadPDF(documentId) {
   fetch(`/downloadAndConvert/${documentId}`)
     .then((response) => {
-      console.log(response)
+      console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -780,13 +781,10 @@ function downloadPDF(documentId) {
 }
 
 function openNewPageWithPDF(filename) {
-  const relativePath = `/pdfviewer.html?filePath=../temp/${encodeURIComponent(
-    filename
-  )}`;
+  
+  const relativePath = `/pdfviewer?filePath=/temp/${encodeURIComponent(filename)}`;
   console.log("This is the path: " + relativePath);
-  const newWindow = window.open(relativePath, "_blank");
 
-  if (!newWindow) {
-    alert("Popup Failed.");
-  }
+ 
+  window.location.href = relativePath;
 }

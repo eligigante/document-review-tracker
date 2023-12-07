@@ -1,16 +1,17 @@
-import WebViewer from "../@pdftron/webviewer";
+var viewerElement = document.getElementById("viewer");
 
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
-var filePath = urlParams.get('filePath');
+var filePath = urlParams.get("filePath");
 
-console.log("This is the filepath being loaded: " + filePath)
-document.getElementById("viewer")
+console.log("This is the filepath being loaded: " + filePath);
+
 WebViewer(
   {
-    path: "/public", 
+    path: "/public",
+    initialDoc: filePath,
   },
-).then(instance => {
-  instance.UI.loadDocument(filePath)
-  // window.open(filePath);
-})
+  viewerElement
+).then((instance) => {
+
+});
