@@ -131,7 +131,7 @@
                         </li>
                     </ul>
                 </div>
-                <a href="#" class="btn-add">
+                <a href="add_user" class="btn-add">
                     <i class='bx bx-plus'></i>
                     <span class="text">Add User</span>
                 </a>
@@ -160,60 +160,18 @@
                                     <td><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></td> 
                                     <td><%= element.department_ID %></td>
                                     <td><span><%= element.status%></span></td>  
+                                    <td>
+                                        <a href="delete_user" class="revoke-btn">
+                                            <i class='bx bxs-user-x'></i>
+                                            <span class="text">Revoke</span>
+                                        </a>
+                                        <a href="edit_user" class="edit-btn">
+                                            <i class='bx bxs-user'></i>
+                                            <span class="text">Edit</span>
+                                        </a>
+                                    </td>
                                 </tr>
                             <% }) %>
-                            <!-- <tr>
-                                <td>1213123</td>
-                                <td>
-                                    <p>John Doe</p>
-                                </td>
-                                <td>123123</td>
-                                <td><span class="status online">Online</span></td>
-                                <td>
-                                    <a href="delete_user" class="revoke-btn">
-                                        <i class='bx bxs-user-x'></i>
-                                        <span class="text">Revoke</span>
-                                    </a>
-                                    <a href="edit_user" class="edit-btn">
-                                        <i class='bx bxs-user'></i>
-                                        <span class="text">Edit</span>
-                                    </a>
-                                </td>
-                            </tr> -->
-                            <tr>
-                                <td>
-                                    <p>John Doe</p>
-                                </td>
-                                <td>321321</td>
-                                <td><span class="status offline">Offline</span></td>
-                                <td>
-                                    <a href="" class="revoke-btn">
-                                        <i class='bx bxs-user-x'></i>
-                                        <span class="text">Revoke</span>
-                                    </a>
-                                    <a href="" class="edit-btn">
-                                        <i class='bx bxs-user'></i>
-                                        <span class="text">Edit</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p>John Doe</p>
-                                </td>
-                                <td>2121212</td>
-                                <td><span class="status online">Online</span></td>
-                                <td>
-                                    <a href="" class="revoke-btn">
-                                        <i class='bx bxs-user-x'></i>
-                                        <span class="text">Revoke</span>
-                                    </a>
-                                    <a href="" class="edit-btn">
-                                        <i class='bx bxs-user'></i>
-                                        <span class="text">Edit</span>
-                                    </a>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

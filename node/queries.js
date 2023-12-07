@@ -11,10 +11,11 @@ const deleteUser = 'DELETE FROM user WHERE user.`user_ID` = ?'
 const editUser = 'UPDATE user SET email = ?, password = ?, last_Name = ?, first_Name = ?, middle_Name = ?, ' + 
 'department_ID = ?, position = ?, role = ?, status = ? WHERE user_ID = ?' ;
 const getUserDetails = 'SELECT first_Name, middle_Name, last_Name, email, user_ID FROM user WHERE user_ID = ?'; 
-const manageUserDetails = 'SELECT departments.department_ID, user.user_ID, user.first_Name, user.middle_Name, user.last_Name, user.status '
+const manageUserDetails = 'SELECT user.user_ID, user.first_Name, user.middle_Name, user.last_Name, departments.department_ID, user.status '
 + 'FROM user JOIN departments ON user.department_ID = departments.department_ID';
-
-// SELECT departments.department_ID, user.first_Name, user.last_Name, user.status FROM user JOIN departments ON user.department_ID = departments.department_ID;
+const getLastUserID = 'SELECT user_ID FROM user ORDER BY user_ID DESC LIMIT 1';
+const getDepartmentOptions = 'SELECT department_ID, department_Name FROM departments';
+const getDepartmentID = 'SELECT department_ID FROM departments WHERE department_Name = ?'
 
 function checkUser(connection, id){
     return new Promise((resolve, reject) => {
@@ -38,6 +39,9 @@ module.exports = {
     editUser,
     getUserDetails,
     manageUserDetails,
+    getLastUserID,
+    getDepartmentOptions,
+    getDepartmentID,
     checkUser
 }
 

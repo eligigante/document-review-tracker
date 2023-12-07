@@ -32,7 +32,7 @@ app.get('/', function(request, response) {
   response.sendFile(path.resolve(__dirname + '/../public/index.html'))
 })
 
-app.post('/login.html', (request, response) => {
+app.post('/login', (request, response) => {
   const id = request.body.accountID;
   const password = request.body.password;
   if (id && password) {
@@ -141,19 +141,47 @@ app.post('/logout', (request, response) => {
     console.log('User has logged out.');
   }
 })
-app.post('/add_user', (request, response) => {
-  var id = request.session.userID;
-  var email = request.body.email;
-  var password = request.body.password;
-  var lastName = request.body.lastName;
-  var firstName = request.body.firstName;
-  var middleName = request.body.middleName;
-  var departmentID = request.body.departmentID;
-  var position = request.body.position;
+app.get('/add_user', (request, response) => {
+  var userID = ''; 
+  var departmentOptions = '';
+  connection.query(queries.getLastUserID, function(error, result, fields) {
+    userID = (result[0].user_ID + 1) ;
+    console.log(userID);  
+    connection.query(queries.getDepartmentOptions, function(error, result, fields) {
+      departmentOptions = result.map(row => ({
+        department_ID: row.department_ID,
+        department_Name: row.department_Name
+      }))
+  
+      console.log(departmentOptions);
+      console.log("Rendering add user form...")
+      response.render('add_user', {userID, departmentOptions});
+    });
+  });
+})
+  
+app.post('/add_user_request', (request, response) => {
+  var id = request.body.contact-user-id;
+  var email = request.body.contact-email;
+  var password = request.body.contact-password;
+  var lastName = request.body.contact-last-name;
+  var firstName = request.body.contact-first-name;
+  var middleName = request.body.contact-middle-name;
+  var departmentName = request.body.department;
+  var departmentID = ''
+  var position = request.body.contact-position;
   var role = request.body.role;
-  var status = request.body.status;
+  var status = 'Offline'
 
-  connection.query(queries.addUser, [id, email, password, lastName, firstName, middleName, departmentID, position, role, status]);
+  connection.query(queries.getDepartmentID, [departmentName], function(error, result, fields) {
+    departmentID = result[0].department_ID;
+  })
+
+  connection.query(queries.addUser, [id, email, password, lastName, firstName, middleName, departmentID, position, role, status], 
+    function(error, result, fields) {
+      console.log(result);
+    });
+
   console.log('User successfully added.');
   response.redirect('/manage_user');
 })

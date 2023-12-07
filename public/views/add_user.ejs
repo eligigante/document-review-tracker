@@ -139,15 +139,15 @@
                                 <div class="label">
                                     User ID <span id="user-id-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-user-id" id="contact-user-id" />
+                                <input type="text" class="input-field" name="contact-user-id" id="contact-user-id" value="<%- include('user_id.ejs') %>" readonly/>
                             </div>
-                            <div class="inline-block responsive">
+                            <!-- <div class="inline-block responsive">
                                 <div class="label">
                                     Department ID <span id="department-id-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-department-id"
                                     id="contact-department-id" />
-                            </div>
+                            </div> -->
                         </div>
                         <div class="second-row">
                             <div class="inline-block right-margin">
@@ -192,9 +192,9 @@
                                     Role <span id="role-info" class="info"></span>
                                 </div>
                                 <select id="role" class="input-field" name="role">
-                                    <option value="User">User</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Reviewer">Reviewer</option>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="reviewer">Reviewer</option>
                                 </select>
                             </div>
                         </div>
@@ -204,11 +204,12 @@
                                     Department <span id="department-info" class="info"></span>
                                 </div>
                                 <select id="department" class="input-field" name="department">
-                                    <option value="OGRAA">OGRAA</option>
+                                    <%- include('department_options.ejs') %>
+                                    <!-- <option value="OGRAA">OGRAA</option>
                                     <option value="OVPAA">OVPAA</option>
                                     <option value="OVPF">OVPF</option>
                                     <option value="OLA">OLA</option>
-                                    <option value="OVPA">OVPA</option>
+                                    <option value="OVPA">OVPA</option> -->
                                 </select>
                             </div>
                             <div class="inline-block responsive">
@@ -219,8 +220,8 @@
                             </div>
                         </div>
                         <div class="buttons">
-                            <a href="#" class="cancel-btn">Cancel</a>
-                            <a href="#" class="create-btn">
+                            <a href="manage_user" class="cancel-btn">Cancel</a>
+                            <a href="add_user_request" method="post" class="create-btn">
                                 <i class='bx bx-log-in'></i>
                                 <span>Create</span>
                             </a>
