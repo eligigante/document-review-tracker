@@ -8,9 +8,8 @@ const server = require("./server");
 const db = require("./db");
 const { request } = require("http");
 const fs = require("fs");
-const annotationHandler = require('./annotationHandler');
-const bodyParser = require('body-parser');
-
+const annotationHandler = require("./annotationHandler");
+const bodyParser = require("body-parser");
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -34,7 +33,6 @@ app.use("/public", express.static(path.resolve(__dirname, "../public")));
 app.set("views", path.resolve(__dirname + "/../public/views"));
 app.set("view engine", "ejs");
 server.startServer(app);
-
 
 app.get("/", function (request, response) {
   response.sendFile(path.resolve(__dirname + "/../public/index.html"));
@@ -110,10 +108,10 @@ app.get("/review_doc", (request, response) => {
     const departmentID = request.session.department_ID;
 
     let query =
-    "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file " + 
-    "FROM document_logs AS dl " +
-    "JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
-    "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
+      "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file " +
+      "FROM document_logs AS dl " +
+      "JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
+      "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
     let queryParams = [departmentID];
 
     connection.query(query, queryParams, (err, results) => {
@@ -129,9 +127,11 @@ app.get("/review_doc", (request, response) => {
     response.redirect("/");
   }
 });
+
 app.get("/downloadAndConvert/:documentId", (req, res) => {
   try {
     const documentId = req.params.documentId;
+    const departmentID = req.session.department_ID;
     console.log(documentId);
 
     if (!documentId) {
@@ -139,12 +139,21 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     }
 
     connection.query(
-      "SELECT file FROM document_details WHERE document_ID = ?",
-      [documentId],
+      "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'Processing'",
+      [documentId, departmentID],
       (err, results) => {
-        if (err) throw err;
+        if (err) {
+          console.error("Error executing query:", err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
 
-        const blobData = results[0].file;
+        if (results.length === 0 || !results[0].received_file) {
+          return res
+            .status(404)
+            .json({ error: "Document not found or not processing" });
+        }
+
+        const blobData = results[0].received_file;
 
         const tempFolderPath = path.resolve(__dirname, "../public/temp");
         if (!fs.existsSync(tempFolderPath)) {
@@ -154,7 +163,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
         const filename = `temp/document_${documentId}.pdf`;
         fs.writeFileSync(
           path.resolve(__dirname, "../public", filename),
-          Buffer.from(blobData)
+          Buffer.from(blobData, "binary") // Specify binary encoding
         );
         console.log(filename);
         res.contentType("application/pdf");
@@ -167,18 +176,13 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
   }
 });
 
-app.use('/temp', express.static(path.join(__dirname, 'temp')));
-
 app.get("/pdfviewer", (request, response) => {
-
-  const filePath = path.join(__dirname, 'temp', request.query.filePath);
-
+  const filePath = path.join(__dirname, "temp", request.query.filePath);
 
   response.render("pdfviewer", { filePath });
 });
 
 annotationHandler(app);
-
 
 app.post("/acceptDocument", async (req, res) => {
   const { filePath } = req.body;
@@ -196,20 +200,30 @@ app.post("/acceptDocument", async (req, res) => {
   const reviewedFilePath = path.resolve(
     __dirname,
     "public",
-    "reviewed",
+    "temp",
     `document_${documentId}.pdf`
   );
 
   try {
     const referralDate = await getReferralDate(documentId);
-    const originalFileData = await getOriginalFile(documentId);
+
+    const originalFilePath = path.resolve(
+      __dirname,
+      "public",
+      "temp",
+      `filename_${documentId}.pdf`
+    );
+
+    // Read the content of the original file
+    const originalFileData = fs.readFileSync(originalFilePath, 'binary');
+
     const documentLog = {
       document_ID: documentId,
       department_ID: req.session.department_ID,
       user_ID: req.session.user_ID,
       referral_Date: referralDate,
       review_Date: new Date(),
-      remarks: "Noice",
+      remarks: "Notice",
       received_file: originalFileData,
       reviewed_file: reviewedFilePath,
       approved_file: filePath,

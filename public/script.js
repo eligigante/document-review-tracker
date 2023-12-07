@@ -198,7 +198,7 @@ function createLogoutModal() {
 //           <select id="role" class="input-field" name="role">
 //               <option value="User">User</option>
 //               <option value="Admin">Admin</option>
-//               <option value="Reviewer">Reviewer</option>    
+//               <option value="Reviewer">Reviewer</option>
 //           </select>
 //       </div>
 //   </div>
@@ -432,7 +432,7 @@ function createRevokeModal() {
 //           <select id="role" class="input-field" name="role">
 //               <option value="User">User</option>
 //               <option value="Admin">Admin</option>
-//               <option value="Reviewer">Reviewer</option>    
+//               <option value="Reviewer">Reviewer</option>
 //           </select>
 //       </div>
 //   </div>
@@ -548,7 +548,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   edtBtn.addEventListener("click", function (event) {
     event.preventDefault();
-  
   });
 
   // reviewBtn.addEventListener("click", function (event) {
@@ -793,10 +792,13 @@ function downloadPDF(documentId) {
 }
 
 function openNewPageWithPDF(filename) {
-  
-  const relativePath = `/pdfviewer?filePath=/temp/${encodeURIComponent(filename)}`;
+  const relativePath = `/pdfviewer?filePath=/temp/${encodeURIComponent(
+    filename
+  )}`;
   console.log("This is the path: " + relativePath);
+  const newWindow = window.open(relativePath, "_blank");
 
- 
-  window.location.href = relativePath;
+  if (!newWindow) {
+    alert("Popup Failed.");
+  }
 }
