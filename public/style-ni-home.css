@@ -1496,6 +1496,11 @@ input[type=submit]:hover {
 	line-height: 1.5;
 	border-radius: 3px;
 }
+#viewer{
+	height: 500px;
+	width: 500px;
+}
+
 
 
 

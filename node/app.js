@@ -32,9 +32,6 @@ app.set("views", path.resolve(__dirname + "/../public/views"));
 app.set("view engine", "ejs");
 server.startServer(app);
 
-app.get("/pdfviewer", function (req, res) {
-  res.sendFile(path.resolve(__dirname, "/../public/pdfviewer.html"));
-});
 
 app.get("/", function (request, response) {
   response.sendFile(path.resolve(__dirname + "/../public/index.html"));
@@ -163,4 +160,14 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     console.error("Error downloading and converting Blob data:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+app.use('/temp', express.static(path.join(__dirname, 'temp')));
+
+app.get("/pdfviewer", (request, response) => {
+
+  const filePath = path.join(__dirname, 'temp', request.query.filePath);
+
+
+  response.render("pdfviewer", { filePath });
 });

@@ -735,13 +735,10 @@ function downloadPDF(documentId) {
 }
 
 function openNewPageWithPDF(filename) {
-  const relativePath = `/public/pdfviewer.html?filePath=/temp/${encodeURIComponent(
-    filename
-  )}`;
+  
+  const relativePath = `/pdfviewer?filePath=/temp/${encodeURIComponent(filename)}`;
   console.log("This is the path: " + relativePath);
-  const newWindow = window.open(relativePath, "_blank");
 
-  if (!newWindow) {
-    alert("Popup Failed.");
-  }
+ 
+  window.location.href = relativePath;
 }
