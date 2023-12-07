@@ -518,6 +518,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const revokeBtn = document.querySelector(".revoke-btn");
   const editBtn = document.querySelector(".edit-btn");
   const reviewBtn = document.querySelector(".review-btn");
+  const createBtn = document.querySelector(".create-btn");
+  const edtBtn = document.querySelector(".edt-btn");
 
   logoutBtn.addEventListener("click", function (event) {
     event.preventDefault();
@@ -537,6 +539,16 @@ document.addEventListener("DOMContentLoaded", function () {
   editBtn.addEventListener("click", function (event) {
     event.preventDefault();
     editUserModal();
+  });
+
+  createBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    sendAddUserServerRequest();
+  });
+
+  edtBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+  
   });
 
   // reviewBtn.addEventListener("click", function (event) {
