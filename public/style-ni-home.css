@@ -520,6 +520,11 @@ textarea.input-field {
 }
 
 .fourth-row {
+	margin: 18px 0;
+    display: flex;
+}
+
+.fifth-row {
     display: flex;
 }
 

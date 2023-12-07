@@ -141,65 +141,88 @@ function createAddUserModal() {
     modalBoxAdd.innerHTML = `
 	<h2>Add New User</h2>
 	<div class="form-container">
-		<form name="frmContact" id="" frmContact"" method="post" action="/add_user" enctype=""
-			onsubmit="">
-			<div class="first-row">
-				<div class="inline-block right-margin">
-					<div class="label">
-						User ID <span id="firstName-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
-				</div>
-				<div class="inline-block responsive">
-					<div class="label">
-						Password <span id="lastName-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-last-name" id="contact-last-name" />
-				</div>
-			</div>
-			<div class="second-row">
-				<div class="inline-block right-margin">
-					<div class="label">
-						First Name <span id="email-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-email" id="contact-email" />
-				</div>
-				<div class="inline-block responsive">
-					<div class="label">
-						Middle Name <span id="phone-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-phone" id="contact-phone" />
-				</div>
-			</div>
-			<div class="third-row">
-				<div class="inline-block right-margin">
-					<div class="label">
-						Last Name <span id="subject-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-phone" id="contact-phone" />
-				</div>
-			</div>
-			<div class="fourth-row">
-				<div class="inline-block right-margin">
-					<div class="label">
-						Email <span id="firstName-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
-				</div>
-				<div class="inline-block responsive">
-					<div class="label">
-						Position <span id="lastName-info" class="info"></span>
-					</div>
-					<select id="department" class="input-field" name="department">
-						<option value="OGRAA">OGRAA</option>
-						<option value="OVPAA">OVPAA</option>
-						<option value="OVPF">OVPF</option>
-						<option value="OLA">OLA</option>
-						<option value="OVPA">OVPA</option>
-					</select>
-				</div>
-			</div>
-		</form>
+  <form name="frmContact" id="" frmContact"" method="post" action="/add_user" enctype="" onsubmit="">
+  <div class="first-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              User ID <span id="user-id-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-user-id" id="contact-user-id" />
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Department ID <span id="department-id-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-department-id" id="contact-department-id" />
+      </div>
+  </div>
+  <div class="second-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              First Name <span id="first-name-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Middle Name <span id="middle-name-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-middle-name" id="contact-middle-name" />
+      </div>
+  </div>
+  <div class="third-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              Last Name <span id="last-name-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-last-name" id="contact-last-name" />
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Password <span id="password-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-password" id="contact-password" />
+      </div>
+  </div>
+  <div class="fourth-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              Email <span id="email-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-email" id="contact-email" />
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Role <span id="role-info" class="info"></span>
+          </div>
+          <select id="role" class="input-field" name="role">
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
+              <option value="Reviewer">Reviewer</option>    
+          </select>
+      </div>
+  </div>
+  <div class="fifth-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              Department <span id="department-info" class="info"></span>
+          </div>
+          <select id="department" class="input-field" name="department">
+              <option value="OGRAA">OGRAA</option>
+              <option value="OVPAA">OVPAA</option>
+              <option value="OVPF">OVPF</option>
+              <option value="OLA">OLA</option>
+              <option value="OVPA">OVPA</option>
+          </select>
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Position <span id="position-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-position" id="contact-position" />
+      </div>
+  </div>
+      </form>
 		<div class="buttons">
 		<a class="cancel-btn">Cancel</a>
 		<a class="create-btn">
@@ -350,65 +373,88 @@ function editUserModal() {
     modalBoxEdit.innerHTML = `
 	<h2>Edit User</h2>
 	<div class="form-container">
-		<form name="frmContact" id="" frmContact"" method="post" action="/add_user" enctype=""
-			onsubmit="">
-			<div class="first-row">
-				<div class="inline-block right-margin">
-					<div class="label">
-						User ID <span id="firstName-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
-				</div>
-				<div class="inline-block responsive">
-					<div class="label">
-						Password <span id="lastName-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-last-name" id="contact-last-name" />
-				</div>
-			</div>
-			<div class="second-row">
-				<div class="inline-block right-margin">
-					<div class="label">
-						First Name <span id="email-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-email" id="contact-email" />
-				</div>
-				<div class="inline-block responsive">
-					<div class="label">
-						Middle Name <span id="phone-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-phone" id="contact-phone" />
-				</div>
-			</div>
-			<div class="third-row">
-				<div class="inline-block right-margin">
-					<div class="label">
-						Last Name <span id="subject-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-phone" id="contact-phone" />
-				</div>
-			</div>
-			<div class="fourth-row">
-				<div class="inline-block right-margin">
-					<div class="label">
-						Email <span id="firstName-info" class="info"></span>
-					</div>
-					<input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
-				</div>
-				<div class="inline-block responsive">
-					<div class="label">
-						Position <span id="lastName-info" class="info"></span>
-					</div>
-					<select id="department" class="input-field" name="department">
-						<option value="OGRAA">OGRAA</option>
-						<option value="OVPAA">OVPAA</option>
-						<option value="OVPF">OVPF</option>
-						<option value="OLA">OLA</option>
-						<option value="OVPA">OVPA</option>
-					</select>
-				</div>
-			</div>
-		</form>
+  <form name="frmContact" id="" frmContact"" method="post" action="/add_user" enctype="" onsubmit="">
+  <div class="first-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              User ID <span id="user-id-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-user-id" id="contact-user-id" />
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Department ID <span id="department-id-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-department-id" id="contact-department-id" />
+      </div>
+  </div>
+  <div class="second-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              First Name <span id="first-name-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-first-name" id="contact-first-name" />
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Middle Name <span id="middle-name-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-middle-name" id="contact-middle-name" />
+      </div>
+  </div>
+  <div class="third-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              Last Name <span id="last-name-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-last-name" id="contact-last-name" />
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Password <span id="password-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-password" id="contact-password" />
+      </div>
+  </div>
+  <div class="fourth-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              Email <span id="email-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-email" id="contact-email" />
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Role <span id="role-info" class="info"></span>
+          </div>
+          <select id="role" class="input-field" name="role">
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
+              <option value="Reviewer">Reviewer</option>    
+          </select>
+      </div>
+  </div>
+  <div class="fifth-row">
+      <div class="inline-block right-margin">
+          <div class="label">
+              Department <span id="department-info" class="info"></span>
+          </div>
+          <select id="department" class="input-field" name="department">
+              <option value="OGRAA">OGRAA</option>
+              <option value="OVPAA">OVPAA</option>
+              <option value="OVPF">OVPF</option>
+              <option value="OLA">OLA</option>
+              <option value="OVPA">OVPA</option>
+          </select>
+      </div>
+      <div class="inline-block responsive">
+          <div class="label">
+              Position <span id="position-info" class="info"></span>
+          </div>
+          <input type="text" class="input-field" name="contact-position" id="contact-position" />
+      </div>
+  </div>
+      </form>
 		<div class="buttons">
 		<a class="cancel-btn">Cancel</a>
 		<a class="edt-btn">
@@ -476,20 +522,20 @@ document.addEventListener("DOMContentLoaded", function () {
     createLogoutModal();
   });
 
-  // addUserBtn.addEventListener("click", function (event) {
-  //   event.preventDefault();
-  //   createAddUserModal();
-  // });
+  addUserBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    createAddUserModal();
+  });
 
-  // revokeBtn.addEventListener("click", function (event) {
-  //   event.preventDefault();
-  //   createRevokeModal();
-  // });
+  revokeBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    createRevokeModal();
+  });
 
-  // editBtn.addEventListener("click", function (event) {
-  //   event.preventDefault();
-  //   editUserModal();
-  // });
+  editBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    editUserModal();
+  });
 
   reviewBtn.addEventListener("click", function (event) {
     event.preventDefault();
