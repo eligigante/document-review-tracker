@@ -8,6 +8,9 @@ const server = require("./server");
 const db = require("./db");
 const { request } = require("http");
 const fs = require("fs");
+const annotationHandler = require('./annotationHandler');
+const bodyParser = require('body-parser');
+
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -171,3 +174,6 @@ app.get("/pdfviewer", (request, response) => {
 
   response.render("pdfviewer", { filePath });
 });
+
+annotationHandler(app);
+
