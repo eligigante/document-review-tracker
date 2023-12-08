@@ -6,7 +6,6 @@ const upload = multer();
 module.exports = (app) => {
   app.post("/node/annotationHandler.js", upload.any(), async (req, res) => {
     const filename = req.query.filename;
-
     try {
       const tempFolderPath = path.resolve(__dirname, "../public/");
       if (!fs.existsSync(tempFolderPath)) {

@@ -214,7 +214,7 @@ app.post("/acceptDocument", async (req, res) => {
     );
 
     console.log("Original file path: " + originalFilePath);
-    const originalFileData = fs.readFileSync(originalFilePath, "base64");
+    const originalFileData = fs.readFileSync(originalFilePath);
 
     console.log(originalFileData);
 

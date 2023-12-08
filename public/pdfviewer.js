@@ -38,7 +38,7 @@ WebViewer(
             var blob = new Blob([arr], { type: "application/pdf" });
 
             var formData = new FormData();
-            formData.append("blob", blob);
+            formData.append("pdfFile", blob);
             fetch(`/node/annotationHandler.js?filename=${filename}`, {
               method: "POST",
               body: formData,
@@ -53,11 +53,26 @@ WebViewer(
   };
 
   const acceptButton = document.getElementById("accept-btn");
-  acceptButton.addEventListener("click", () => {
+  acceptButton.addEventListener("click", async () => {
     const confirmAccept = window.confirm("Are you sure you want to accept?");
     if (confirmAccept) {
+      const allAnnotations = annotationManager.getAnnotationsList();
+      annotationManager.deleteAnnotations(allAnnotations);
+
+      try {
+        await saveDocument(filePath);
+      } catch (error) {
+        console.error("Error saving document:", error);
+        return;
+      }
       acceptDocument(filePath);
     }
+  });
+
+  const clearButton = document.getElementById("clear-btn");
+  clearButton.addEventListener("click", () => {
+    const allAnnotations = annotationManager.getAnnotationsList();
+    annotationManager.deleteAnnotations(allAnnotations);
   });
 
   function acceptDocument(filePath) {
