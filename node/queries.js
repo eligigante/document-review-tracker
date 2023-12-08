@@ -17,7 +17,15 @@ const getDepartmentOptions = 'SELECT department_ID, department_Name FROM departm
 const getDepartmentID = 'SELECT department_ID FROM departments WHERE department_Name = ?'
 const getUsersAndDepartments = 'SELECT user.user_ID, departments.department_ID, departments.department_Name ' 
 + 'FROM user JOIN departments ON user.department_ID = departments.department_ID';
-const getUserOptions = 'SELECT user_ID from user'
+const getUserOptions = 'SELECT user_ID from user';
+const getReviewerDocuments = "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file "
+ + "FROM document_logs AS dl JOIN document_details AS dd ON dl.document_ID = dd.document_ID " 
+ + "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
+const getReceivedFile = "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'Processing'";
+const updateAcceptDocumentLog = "UPDATE document_logs SET review_Date = ?, received_file = ?, reviewed_file = ?, approved_file = ?, " 
++ "document_status = ? WHERE document_ID = ? AND department_ID = ?";
+const updateRejectDocumentLog = "UPDATE document_logs SET review_Date = ?, received_file = ?, reviewed_file = ?, " 
++ "returned_file = ?, approved_file = ?, document_status = ? WHERE document_ID = ? AND department_ID = ?"
 
 function checkUser(connection, id){
     return new Promise((resolve, reject) => {
@@ -46,5 +54,9 @@ module.exports = {
     getDepartmentID,
     getUsersAndDepartments,
     getUserOptions,
+    getReviewerDocuments,
+    getReceivedFile,
+    updateAcceptDocumentLog,
+    updateRejectDocumentLog,
     checkUser
 }

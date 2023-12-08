@@ -6,10 +6,8 @@ const cookie = require("cookie-parser");
 const queries = require("./queries");
 const server = require("./server");
 const db = require("./db");
-const { request } = require("http");
 const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
-const bodyParser = require("body-parser");
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -107,14 +105,7 @@ app.get("/review_doc", (request, response) => {
   if (request.session.loggedIn && request.session.role === "reviewer") {
     const departmentID = request.session.department_ID;
 
-    let query =
-      "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file " +
-      "FROM document_logs AS dl " +
-      "JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
-      "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
-    let queryParams = [departmentID];
-
-    connection.query(query, queryParams, (err, results) => {
+    connection.query(queries.getReviewerDocuments, [departmentID], (err, results) => {
       if (err) {
         console.error("Error querying documents:", err);
         throw err;
@@ -138,10 +129,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
       return res.status(400).json({ error: "Invalid request" });
     }
 
-    connection.query(
-      "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'Processing'",
-      [documentId, departmentID],
-      (err, results) => {
+    connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
         if (err) {
           console.error("Error executing query:", err);
           return res.status(500).json({ error: "Internal Server Error" });
@@ -273,13 +261,7 @@ async function updateAcceptLog(
 ) {
   return new Promise((resolve, reject) => {
     connection.query(
-      "UPDATE document_logs SET " +
-        "review_Date = ?, " +
-        "received_file = ?, " +
-        "reviewed_file = ?, " +
-        "approved_file = ?, " +
-        "document_status = ? " +
-        "WHERE document_ID = ? AND department_ID = ?",
+      queries.updateAcceptDocumentLog,
       [
         new Date(),
         originalFileData,
@@ -394,14 +376,7 @@ async function updateRejectLog(
 ) {
   return new Promise((resolve, reject) => {
     connection.query(
-      "UPDATE document_logs SET " +
-        "review_Date = ?, " +
-        "received_file = ?, " +
-        "reviewed_file = ?, " +
-        "returned_file = ?, " +
-        "approved_file = ?, " +
-        "document_status = ? " +
-        "WHERE document_ID = ? AND department_ID = ?",
+      queries.updateRejectDocumentLog,
       [
         new Date(),
         originalFileData,

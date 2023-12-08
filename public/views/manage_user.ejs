@@ -133,10 +133,6 @@
                         <i class='bx bx-plus'></i>
                         <span class="text">Add User</span>
                     </a>
-                    <a href="delete_user" class="revoke-btn">
-                        <i class='bx bxs-user-x'></i>
-                        <span class="text">Revoke</span>
-                    </a>
                     <a href="edit_user" class="edit-btn">
                         <i class='bx bxs-user'></i>
                         <span class="text">Edit</span>
@@ -173,33 +169,6 @@
                     </table>
                 </div>
             </div>
-            <div id="overlay" class="overlay">
-                <div class="modal-box-revoke">
-                  <h2>Confirmation</h2>
-                  <h3>Are you sure you want to revoke this user?</h3>
-                  <form name="frmContact" id="" method="post" action="/delete_user_request" enctype="" onsubmit="">
-                    <div class="first-row">
-                      <div class="inline-block right-margin">
-                        <div class="label">
-                          User ID <span id="user-id-info" class="info"></span>
-                        </div>
-                        <select id="user-id" class="input-field" name="user-id">
-                            <% data.forEach(element => { %>
-                                <option value="<%= element.user_ID %>"><%= element.user_ID %></option>
-                            <% }) %> 
-                        </select>
-                      </div>
-                    </div>
-                    <div class="buttons">
-                      <button type="button" class="close-btn" onclick="closeOverlay()">Cancel</button>
-                      <button type="submit" class="rvk-btn">
-                        <i class="bx bxs-user-x"></i>
-                        Revoke
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
         </main>
         <!-- MAIN -->
     </section>
