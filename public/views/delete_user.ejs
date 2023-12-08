@@ -1,0 +1,27 @@
+<div class="overlay" id="overlay">
+    <h2>Confirmation</h2>
+    <h3>Are you sure you want to revoke this user?</h3>
+    <form name="frmContact" id="" method="post" action="/delete_user_request" enctype="" onsubmit="">
+      <div class="first-row">
+          <div class="inline-block right-margin">
+            <div class="label">
+            User ID <span id="user-id-info" class="info"></span>
+            </div>
+            <select id="user-id" class="input-field" name="user-id">
+                <% data.forEach(element => { %>
+                    <option value="<%= element.user_ID %>"><%= element.user_ID %></option>
+                <% }) %>
+            </select>
+          </div>
+      </div>
+      <div class="buttons">
+          <button type="submit" class="close-btn">
+            Cancel
+          </button>
+          <button type="submit" class="rvk-btn">
+            <i class="bx bxs-user-x"></i>
+            Revoke
+          </button>
+      </div>
+    </form>
+</div>

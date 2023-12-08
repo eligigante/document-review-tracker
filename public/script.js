@@ -119,6 +119,7 @@ function createLogoutModal() {
   );
 }
 
+// Function to open the overlay
 function openOverlay() {
   document.getElementById('overlay').style.display = 'block';
 }
@@ -127,6 +128,7 @@ function openOverlay() {
 function closeOverlay() {
   document.getElementById('overlay').style.display = 'none';
 }
+
 
 // let overlayAdded = null;
 
@@ -286,95 +288,95 @@ function closeOverlay() {
 //   );
 // }
 
-// let overlayRevokeAdded = null;
+let overlayRevokeAdded = null;
 
-// function createRevokeModal() {
-//   const overlayRevoke = document.createElement("span");
-//   overlayRevoke.classList.add("overlay-revoke");
-//   firstSection.insertBefore(overlayRevoke, firstSection.firstChild);
+function createRevokeModal() {
+  const overlayRevoke = document.createElement("span");
+  overlayRevoke.classList.add("overlay-revoke");
+  firstSection.insertBefore(overlayRevoke, firstSection.firstChild);
 
-//   // Show the overlay immediately
-//   firstSection.classList.add("active");
+  // Show the overlay immediately
+  firstSection.classList.add("active");
 
-//   // Remove existing overlay if present
-//   if (overlayRevokeAdded) {
-//     firstSection.removeChild(overlayRevokeAdded);
-//     overlayRevokeAdded = null;
-//   }
+  // Remove existing overlay if present
+  if (overlayRevokeAdded) {
+    firstSection.removeChild(overlayRevokeAdded);
+    overlayRevokeAdded = null;
+  }
 
-//   if (!overlayRevokeAdded) {
-//     const modalBoxRevoke = document.createElement("div");
-//     modalBoxRevoke.classList.add("modal-box-revoke");
-//     modalBoxRevoke.innerHTML = `
-                // <h2>Confirmation</h2>
-                // <h3>Are you sure you want to revoke this user?</h3>
-                // <form name="frmContact" id="" method="post" action="/delete_user_request" enctype="" onsubmit="">
-                //   <div class="first-row">
-                //       <div class="inline-block right-margin">
-                //         <div class="label">
-                //         User ID <span id="user-id-info" class="info"></span>
-                //         </div>
-                //         <select id="user-id" class="input-field" name="user-id">
+  if (!overlayRevokeAdded) {
+    const modalBoxRevoke = document.createElement("div");
+    modalBoxRevoke.classList.add("modal-box-revoke");
+    modalBoxRevoke.innerHTML = `
+                <h2>Confirmation</h2>
+                <h3>Are you sure you want to revoke this user?</h3>
+                <form name="frmContact" id="" method="post" action="/delete_user_request" enctype="" onsubmit="">
+                  <div class="first-row">
+                      <div class="inline-block right-margin">
+                        <div class="label">
+                        User ID <span id="user-id-info" class="info"></span>
+                        </div>
+                        <select id="user-id" class="input-field" name="user-id">
                         
-                //         </select>
-                //       </div>
-                //   </div>
-                //   <div class="buttons">
-                //       <button type="submit" class="close-btn">
-                //         Cancel
-                //       </button>
-                //       <button type="submit" class="rvk-btn">
-                //         <i class="bx bxs-user-x"></i>
-                //         Revoke
-                //       </button>
-                //   </div>
-                // </form>
-//         `;
-//     firstSection.appendChild(modalBoxRevoke);
-//     overlayRevokeAdded = modalBoxRevoke;
+                        </select>
+                      </div>
+                  </div>
+                  <div class="buttons">
+                      <button type="submit" class="close-btn">
+                        Cancel
+                      </button>
+                      <button type="submit" class="rvk-btn">
+                        <i class="bx bxs-user-x"></i>
+                        Revoke
+                      </button>
+                  </div>
+                </form>
+        `;
+    firstSection.appendChild(modalBoxRevoke);
+    overlayRevokeAdded = modalBoxRevoke;
 
-//     const closeBtn = modalBoxRevoke.querySelector(".close-btn");
-//     const rvkBtn = modalBoxRevoke.querySelector(".rvk-btn");
+    const closeBtn = modalBoxRevoke.querySelector(".close-btn");
+    const rvkBtn = modalBoxRevoke.querySelector(".rvk-btn");
 
-//     closeBtn.addEventListener("click", () => {
-//       firstSection.removeChild(modalBoxRevoke);
-//       firstSection.removeChild(overlayRevoke);
-//       overlayRevokeAdded = null;
-//       firstSection.classList.remove("active");
-//     });
+    closeBtn.addEventListener("click", () => {
+      firstSection.removeChild(modalBoxRevoke);
+      firstSection.removeChild(overlayRevoke);
+      overlayRevokeAdded = null;
+      firstSection.classList.remove("active");
+    });
 
-//     rvkBtn.addEventListener("click", () => {
-//       firstSection.removeChild(modalBoxRevoke);
-//       firstSection.removeChild(overlayRevoke);
-//       overlayRevokeAdded = null;
-//       firstSection.classList.remove("active");
-//       sendDeleteUserServerRequest();
-//     });
-//   }
+    rvkBtn.addEventListener("click", () => {
+      firstSection.removeChild(modalBoxRevoke);
+      firstSection.removeChild(overlayRevoke);
+      overlayRevokeAdded = null;
+      firstSection.classList.remove("active");
+      sendDeleteUserServerRequest();
+    });
+  }
 
-//   const revokeBtn = document.querySelector(".revoke-btn");
-//   const closeBtn = document.querySelector(".close-btn");
-//   let isActive = false; // Flag to track the active state
+  const revokeBtn = document.querySelector(".revoke-btn");
+  const closeBtn = document.querySelector(".close-btn");
+  let isActive = false; // Flag to track the active state
 
-//   function toggleActiveClass() {
-//     if (!isActive) {
-//       firstSection.classList.add("active");
-//     } else {
-//       firstSection.classList.remove("active");
-//     }
-//     isActive = !isActive; // Toggle the active state
-//   }
+  function toggleActiveClass() {
+    if (!isActive) {
+      firstSection.classList.add("active");
+    } else {
+      firstSection.classList.remove("active");
+    }
+    isActive = !isActive; // Toggle the active state
+  }
 
-//   revokeBtn.addEventListener("click", () =>
-//     firstSection.classList.add("active")
-//   );
-//   overlayRevoke.addEventListener("click", () =>
-//     firstSection.classList.remove("active")
-//   );
-//   closeBtn.addEventListener("click", () =>
-//     firstSection.classList.remove("active")
-//   );
-// }
+  revokeBtn.addEventListener("click", () =>
+    firstSection.classList.add("active")
+  );
+  overlayRevoke.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
+  closeBtn.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
+}
 
 // let overlayEditAdded = null;
 
@@ -556,6 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // });
 
   revokeBtn.addEventListener("click", function (event) {
+    console.log("Revoke button clicked.")
     event.preventDefault();
     openOverlay();
   });
@@ -616,7 +619,7 @@ function sendEditUserServerRequest() {
 }
 
 function sendDeleteUserServerRequest() {
-  fetch("/delete_user/request", {
+  fetch("/delete_user_request", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

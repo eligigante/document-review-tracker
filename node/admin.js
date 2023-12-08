@@ -90,7 +90,6 @@ app.get('/verify', function(request, response) {
 app.get('/home_admin', (request, response) => {
   if (request.session.verify) {
   connection.query(queries.getUsers, function(error, result, fields) {
-    console.log(result[0].department_ID)
     response.render('admin', {data: result})})
   }
   else {
@@ -111,6 +110,7 @@ app.get('/manage_user', (request, response) => {
           department_ID: row.department_ID,
           status: row.status
         }));
+        console.log(data);
         response.render('manage_user', {data});
     })
   }
@@ -174,13 +174,13 @@ app.post('/add_user_request', (request, response) => {
 
   connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
     function(error, result, fields) {
-      console.log(result);
       console.log('User successfully added.');
       response.redirect('/manage_user');
   });  
 })
 
 app.get('/delete_user', (request, response) => {
+  console.log("Rendering delete user...")
   var data = '';
   connection.query(queries.manageUserDetails, function(error, result, fields) {
     data = result.map(row => ({
