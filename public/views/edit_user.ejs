@@ -133,20 +133,26 @@
             <div class="doc-container">
                 <h2 class="new-user">Edit User</h2>
                 <div class="form-container">
-                    <form name="frmContact" id="" frmContact"" method="post" action="/add_user" enctype="" onsubmit="">
+                    <form name="frmContact" id="" frmContact"" method="post" action="/edit_user_request" enctype="" onsubmit="">
                         <div class="first-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
                                     User ID <span id="user-id-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-user-id" id="contact-user-id" />
+                                <select id="user" class="input-field" name="user">
+                                    <% data.forEach(element => { %>
+                                        <option value="<%= element %>"><%= element %></option>
+                                    <% }) %> 
+                                </select>
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
-                                    Department ID <span id="department-id-info" class="info"></span>
+                                    Status <span id="department-id-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-department-id"
-                                    id="contact-department-id" />
+                                <select id="status" class="input-field" name="status">
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                </select>
                             </div>
                         </div>
                         <div class="second-row">
@@ -204,11 +210,7 @@
                                     Department <span id="department-info" class="info"></span>
                                 </div>
                                 <select id="department" class="input-field" name="department">
-                                    <option value="OGRAA">OGRAA</option>
-                                    <option value="OVPAA">OVPAA</option>
-                                    <option value="OVPF">OVPF</option>
-                                    <option value="OLA">OLA</option>
-                                    <option value="OVPA">OVPA</option>
+                                    <%- include('department_options.ejs') %>
                                 </select>
                             </div>
                             <div class="inline-block responsive">
@@ -219,11 +221,11 @@
                             </div>
                         </div>
                         <div class="buttons">
-                            <a href="#" class="cancel-btn">Cancel</a>
-                            <a href="#" class="edt-btn">
+                            <a href="manage_user" class="cancel-btn">Cancel</a>
+                            <button type="submit" class="edt-btn">
                                 <i class='bx bx-log-in'></i>
-                                <span>Edit</span>
-                            </a>
+                                Create
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -9,21 +9,14 @@ if (!isset($_SESSION['user_id'])) {
 require_once('functions.php');
 require_once('db.php');
 
-
 $userID = $_SESSION['user_id'];
 
 $documents = get_docs($con, $userID);
 
-
 $docs = json_decode($documents, true);
-
-
 
 if ($docs !== null) {
     foreach ($docs as $doc) {
-
-
-
         switch ($doc['status']) {
             case 'pending':
                 $statusChanging = 'status pending';
@@ -31,12 +24,10 @@ if ($docs !== null) {
             case 'approved':
                 $statusChanging = 'status completed';
                 break;
-            case 'denied':
-                $statusChanging =  'status denied';
+            case 'rejected':
+                $statusChanging = 'status denied';
                 break;
         }
-
-
 
         echo '
         <tr>
@@ -59,5 +50,4 @@ if ($docs !== null) {
             <td>No documents found.</td>
         </tr>';
 }
-
-
+?>

@@ -17,7 +17,7 @@ app.use(session({
     secret : 'document-tracker-key',
     resave : true,
     saveUninitialized : true,
-    cookie: {maxAge: 86400}
+    cookie: {maxAge: 1800000}
   }));  
 
 app.use(express.json());
@@ -66,9 +66,8 @@ app.get('/verify', function(request, response) {
     request.session.verify = true;
     console.log('Role:', request.session.role);
     if (request.session.role == 'admin') {
-    console.log(request.session.userID);
     connection.query(queries.setOnlineStatus, [request.session.userID])
-    // response.sendFile(path.resolve(__dirname + '/../public/admin.html'));
+    console.log("User ID:", request.session.userID)
     console.log("Successfully logged in. Welcome back, Admin!");
     response.redirect('/home_admin');
     }
@@ -79,8 +78,6 @@ app.get('/verify', function(request, response) {
     }
 
     else {
-      // response.sendFile(path.resolve(__dirname + '/../public/home.html'));
-      // console.log("Welcome back, User!")
       console.log("This login page is for reviewers and admins only.")
       response.redirect('/');
     }
@@ -93,7 +90,7 @@ app.get('/verify', function(request, response) {
 app.get('/home_admin', (request, response) => {
   if (request.session.verify) {
   connection.query(queries.getUsers, function(error, result, fields) {
-    console.log(result[0].department_ID)
+    console.log("Showing admin home page...")
     response.render('admin', {data: result})})
   }
   else {
@@ -103,15 +100,20 @@ app.get('/home_admin', (request, response) => {
 })
 
 app.get('/manage_user', (request, response) => {
-  // connection.query(queries.verifyUser, [request.session.userID], function(error, result, fields) {
-  //   console.log(result);
-  // })
+  var data = '';
   if (request.session.verify) {
-    connection.query(queries.manageUserDetails, function(error, result, fields) {
-      console.log(result);
-      response.render('manage_user', {data: result});
+      connection.query(queries.manageUserDetails, function(error, result, fields) {
+        data = result.map(row => ({
+          user_ID: row.user_ID,
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_ID: row.department_ID,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
     })
-   
   }
   else {
     console.log("Please login or logout from your current session.")
@@ -122,7 +124,7 @@ app.get('/manage_user', (request, response) => {
 app.get('/admin_profile', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.getUserDetails, [request.session.userID], function(error, result, fields) {
-    console.log(result[0])
+    console.log("Showing admin profile...")
     response.render('admin_profile', {data: result[0]});
   })}
   else {
@@ -142,77 +144,96 @@ app.post('/logout', (request, response) => {
   }
 })
 app.get('/add_user', (request, response) => {
-  var userID = ''; 
-  var departmentOptions = '';
-  connection.query(queries.getLastUserID, function(error, result, fields) {
-    userID = (result[0].user_ID + 1) ;
-    console.log(userID);  
-    connection.query(queries.getDepartmentOptions, function(error, result, fields) {
-      departmentOptions = result.map(row => ({
-        department_ID: row.department_ID,
-        department_Name: row.department_Name
-      }))
-  
-      console.log(departmentOptions);
-      console.log("Rendering add user form...")
-      response.render('add_user', {userID, departmentOptions});
+  if (request.session.verify) {
+    var userID = ''; 
+    var departmentOptions = '';
+    connection.query(queries.getLastUserID, function(error, result, fields) {
+      userID = (result[0].user_ID + 1) ;
+      console.log(userID);  
+      connection.query(queries.getDepartmentOptions, function(error, result, fields) {
+        departmentOptions = result.map(row => ({
+          department_ID: row.department_ID,
+          department_Name: row.department_Name
+        }))
+    
+        console.log(departmentOptions);
+        console.log("Rendering add user form...")
+        response.render('add_user', {userID, departmentOptions});
+      });
     });
-  });
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
 })
   
 app.post('/add_user_request', (request, response) => {
-  // var userID = request.body['contact-id'];
-  // console.log(userID);
-  var email = request.body['contact-email'].toString();
-  console.log(email);
-  var password = request.body['contact-password'];
-  console.log(password);
-  var lastName = request.body['contact-last-name'];
-  console.log(lastName);
-  var firstName = request.body['contact-first-name'];
-  console.log(firstName);
-  var middleName = request.body['contact-middle-name'];
-  console.log(middleName);
-  var departmentID = request.body.department;
-  console.log(departmentID);
-  var position = request.body['contact-position'];
-  console.log(position);
-  var role = request.body.role;
-  console.log(role);
-  var status = 'Offline'
+  if (request.session.verify) {
+    var email = request.body['contact-email'];
+    var password = request.body['contact-password'];
+    var lastName = request.body['contact-last-name'];
+    var firstName = request.body['contact-first-name'];
+    var middleName = request.body['contact-middle-name'];
+    var departmentID = request.body.department;
+    var position = request.body['contact-position'];
+    var role = request.body.role;
+    var status = 'Offline'
 
-
-  connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
+    connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
     function(error, result, fields) {
-      console.log(result);
       console.log('User successfully added.');
       response.redirect('/manage_user');
-  });
+  });  
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
+  app.get('/edit_user', (request, response) => {
+    if (request.session.verify) {
+      var departmentOptions = '';
+      var data = '';
+      connection.query(queries.getDepartmentOptions, function(error, result, fields) {
+          departmentOptions = result.map(row => ({
+            department_ID: row.department_ID,
+            department_Name: row.department_Name
+          }))
+          connection.query(queries.getUserOptions, function(error, result, fields) {
+          data = result.map(row => row.user_ID)
+          console.log("Rendering edit user form...")
+          response.render('edit_user', {data, departmentOptions});
+        });
+      });
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+      }
+  })
 
+app.post('/edit_user_request', (request, response) => {
+  if (request.session.verify) {
+    var id = request.body.user;
+    var email = request.body['contact-email'];
+    var password = request.body['contact-password'];
+    var lastName = request.body['contact-last-name'];
+    var firstName = request.body['contact-first-name'];
+    var middleName = request.body['contact-middle-name'];
+    var departmentID = request.body.department;
+    var position = request.body['contact-position'];
+    var role = request.body.role;
+    var status = request.body.status;
   
-})
-
-app.get('/delete_user', (request, response) => {
-  connection.query(queries.deleteUser, [id]);
-  console.log('User successfully deleted.');
-  response.redirect('/manage_user');
-})
-
-app.post('/edit_user', (request, response) => {
-  var id = request.session.userID;
-  var email = request.body.email;
-  var password = request.body.password;
-  var lastName = request.body.lastName;
-  var firstName = request.body.firstName;
-  var middleName = request.body.middleName;
-  var departmentID = request.body.departmentID;
-  var position = request.body.position;
-  var role = request.body.role;
-  var status = request.body.status;
-
-  connection.query(queries.editUser, [id, email, password, lastName, firstName, middleName, departmentID, position, role, status]);
-  console.log('User details successfully updated.');
-  response.redirect('/manage_user');
+    connection.query(queries.editUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status, id]);
+    console.log('User details successfully updated.');
+    response.redirect('/manage_user');
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
 })
 
 

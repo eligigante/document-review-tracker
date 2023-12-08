@@ -188,7 +188,7 @@ body {
   transition: 0.3s ease;
 }
 
-#sidebar.hide ~ #content {
+#sidebar.hide~#content {
   width: calc(100% - 60px);
   left: 60px;
 }
@@ -452,6 +452,17 @@ textarea.input-field {
   margin: 5px 10px 0px 0px;
 }
 
+.input-field-select {
+  position: relative;
+  left: 23%;
+  width: 398px;
+  border-radius: 3px;
+  padding: 10px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+}
+
 .input-field {
   width: 340px;
   border-radius: 3px;
@@ -560,6 +571,19 @@ textarea.input-field {
   color: var(--dark);
 }
 
+#content main .head-title .right {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 5px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+  font-family: var(--poppins);
+}
+
 #content main .head-title .left .breadcrumb {
   display: flex;
   align-items: center;
@@ -584,7 +608,35 @@ textarea.input-field {
   height: 36px;
   padding: 0 16px;
   border-radius: 5px;
-  background: var(--light);
+  background: #1dc455;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+  font-family: var(--poppins);
+}
+
+#content main .head-title .edit-btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 5px;
+  background: #428bca;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+  font-family: var(--poppins);
+}
+
+#content main .head-title .revoke-btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 5px;
+  background: #f82f2f;
   color: #ffffff;
   display: flex;
   justify-content: center;
@@ -662,7 +714,7 @@ textarea.input-field {
   border: none;
   padding: 6px 16px;
   color: #fff;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 1px;
   border-radius: 6px;
@@ -678,7 +730,7 @@ textarea.input-field {
   color: #fff;
   padding: 10px 15px;
   border: none;
-  background: #747474;
+  background: #f82f2f;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -687,14 +739,13 @@ textarea.input-field {
   border: none;
   padding: 6px 16px;
   color: #fff;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 1px;
   border-radius: 6px;
   background-color: #747474;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-left: 10px;
 }
 
 #content main .table-data {
@@ -706,7 +757,7 @@ textarea.input-field {
   color: #000000;
 }
 
-#content main .table-data > div {
+#content main .table-data>div {
   border-radius: 20px;
   background: #fffafa;
   padding: 24px;
@@ -962,6 +1013,11 @@ section.active .modal-box {
   margin-right: -20px;
 }
 
+.buttons-revoke {
+  text-align: center;
+  margin-top: 50px;
+}
+
 .modal-box button {
   font-size: 14px;
   padding: 6px 12px;
@@ -1081,7 +1137,7 @@ section.active .modal-box-add {
   color: #fff;
   padding: 10px 15px;
   border: none;
-  background: #1b1b1b;
+  background: #f82f2f;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -1169,12 +1225,10 @@ section.active .modal-box-revoke {
 
 .modal-box-revoke .buttons {
   float: inline-end;
-  margin-top: 35px;
 }
 
 .modal-box-revoke button {
-  font-size: 14px;
-  padding: 6px 12px;
+  font-size: 16px;
   margin: 0 10px;
 }
 
@@ -1354,6 +1408,31 @@ input[type="submit"]:hover {
   transition: box-shadow 0.2s ease-in-out;
 }
 
+.confirmation-text {
+  text-align: center;
+}
+
+.revoke-text {
+  text-align: center;
+  font-weight: 300;
+}
+
+.user-label {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.doc-container-delete {
+  margin: 0 auto;
+  margin-top: 20px;
+  border-radius: 15px;
+  padding: 20px;
+  background-color: #fff;
+  height: 325px;
+  transition: box-shadow 0.2s ease-in-out;
+  width: 50%;
+}
+
 .doc-container:before {
   content: "";
   display: block;
@@ -1489,7 +1568,7 @@ input[type="submit"]:hover {
   border-color: #d43f3a;
 }
 
-.btn-group-xs > .btn,
+.btn-group-xs>.btn,
 .btn-xs {
   padding: 6px 12px;
   font-size: 12px;
@@ -1498,6 +1577,7 @@ input[type="submit"]:hover {
 }
 
 @media screen and (max-width: 600px) {
+
   .col-25,
   .col-75,
   input[type="submit"] {
@@ -1547,8 +1627,8 @@ input[type="submit"]:hover {
     background: var(--red);
   }
 
-  #content nav form.show ~ .notification,
-  #content nav form.show ~ .profile {
+  #content nav form.show~.notification,
+  #content nav form.show~.profile {
     display: none;
   }
 
@@ -1573,16 +1653,20 @@ input[type="submit"]:hover {
   .form-container {
     width: 500px;
   }
+
   .row {
     margin: 18px 0;
     display: flex;
   }
+
   .input-field {
     width: 200px;
   }
+
   .input-field-radio {
     width: 210px;
   }
+
   .btn-submit {
     width: 200px;
   }
@@ -1592,16 +1676,20 @@ input[type="submit"]:hover {
   .form-container {
     width: 300px;
   }
+
   .row {
     margin: 10px;
     display: inline-block;
   }
+
   .input-field {
     width: 280px;
   }
+
   .btn-submit {
     width: 280px;
   }
+
   .responsive {
     margin-top: 20px;
   }
@@ -1634,6 +1722,22 @@ input[type="submit"]:hover {
   right: 155px;
   border: none;
   background: #f82f2f;
+  border-radius: 40px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#clear-btn {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 6px 17px;
+  position: absolute;
+  top: 40px;
+  right: 81px;
+  border: none;
+  background: #a19e9e;
   border-radius: 40px;
   cursor: pointer;
   z-index: 1;

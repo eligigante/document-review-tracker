@@ -75,7 +75,7 @@ function get_docs($con, $accountID){
 
 
 
-    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$document_status);
+    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status);
 
     $documents = array();
 
@@ -85,7 +85,7 @@ function get_docs($con, $accountID){
             "docID" => $document_ID,
             "title" => $document_Title,
             "uploadDate" => $upload_Date,
-            "status" => $document_status
+            "status" => $status
       
         );
     }
@@ -118,7 +118,7 @@ function get_recent($con, $accountID){
         mysqli_stmt_execute($stmt);
 
 
-        mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $document_status);
+        mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $status);
         
         $documents = array();
 
@@ -127,7 +127,7 @@ function get_recent($con, $accountID){
                 "docID" => $document_ID,
                 "title" => $document_Title,
                 "uploadDate" => $upload_Date,
-                "status" => $document_status
+                "status" => $status
             );
         }
 

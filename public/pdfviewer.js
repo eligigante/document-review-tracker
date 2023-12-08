@@ -38,7 +38,7 @@ WebViewer(
             var blob = new Blob([arr], { type: "application/pdf" });
 
             var formData = new FormData();
-            formData.append("blob", blob);
+            formData.append("pdfFile", blob);
             fetch(`/node/annotationHandler.js?filename=${filename}`, {
               method: "POST",
               body: formData,
@@ -53,14 +53,56 @@ WebViewer(
   };
 
   const acceptButton = document.getElementById("accept-btn");
-  acceptButton.addEventListener("click", () => {
+  acceptButton.addEventListener("click", async () => {
     const confirmAccept = window.confirm("Are you sure you want to accept?");
     if (confirmAccept) {
+      // const allAnnotations = annotationManager.getAnnotationsList();
+      // annotationManager.deleteAnnotations(allAnnotations);
+
+      try {
+        await saveDocument(filePath);
+      } catch (error) {
+        console.error("Error saving document:", error);
+        return;
+      }
       acceptDocument(filePath);
     }
   });
 
-  function acceptDocument(filePath) {
+  const clearButton = document.getElementById("clear-btn");
+  clearButton.addEventListener("click", () => {
+    const allAnnotations = annotationManager.getAnnotationsList();
+    annotationManager.deleteAnnotations(allAnnotations);
+  });
+
+  const rejectButton = document.getElementById("reject-btn");
+  rejectButton.addEventListener("click", async () => {
+    const confirmReject = window.confirm("Are you sure you want to reject?");
+    if (confirmReject) {
+      try {
+        await saveDocument(filePath);
+      } catch (error) {
+        console.error("Error saving document:", error);
+        return;
+      }
+      rejectDocument(filePath);
+    }
+  });
+
+  async function rejectDocument(filePath) {
+    const response = await fetch("/rejectDocument", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath }),
+    });
+
+    const data = await response.json();
+    console.log("Reject document response:", data);
+  }
+
+  async function acceptDocument(filePath) {
     fetch("/acceptDocument", {
       method: "POST",
       headers: {

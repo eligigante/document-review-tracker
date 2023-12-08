@@ -1,73 +1,72 @@
-const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
+const allSideMenu = document.querySelectorAll("#sidebar .side-menu.top li a");
 const section = document.querySelector("section");
 const firstSection = document.getElementById("sidebar");
 
-
 if (firstSection) {
-    const overlay = document.createElement('span');
-    firstSection.insertBefore(overlay, firstSection.firstChild);
-
+  const overlay = document.createElement("span");
+  firstSection.insertBefore(overlay, firstSection.firstChild);
 }
 
-const searchButton = document.querySelector('#content nav form .form-input button');
-const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
-const searchForm = document.querySelector('#content nav form');
+const searchButton = document.querySelector(
+  "#content nav form .form-input button"
+);
+const searchButtonIcon = document.querySelector(
+  "#content nav form .form-input button .bx"
+);
+const searchForm = document.querySelector("#content nav form");
 
 // TOGGLE NOTIFICATION POP UP
 const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
-
- const overlay = document.createElement('span');
- const overlayAdd = document.createElement('span');
- const showBtn = document.querySelector('.logout');
- const addBtn = document.querySelector('.btn-add');
- const cancelBtn = document.querySelector('.cancel-btn');
- const closeBtn = document.querySelector('.close-btn');
-
+const overlay = document.createElement("span");
+const overlayAdd = document.createElement("span");
+const showBtn = document.querySelector(".logout");
+const addBtn = document.querySelector(".btn-add");
+const cancelBtn = document.querySelector(".cancel-btn");
+const closeBtn = document.querySelector(".close-btn");
 
 // TOGGLE SIDEBAR
-const menuBar = document.querySelector('#content nav .bx.bx-menu');
-const sidebar = document.getElementById('sidebar');
-const switchMode = document.getElementById('switch-mode');
+const menuBar = document.querySelector("#content nav .bx.bx-menu");
+const sidebar = document.getElementById("sidebar");
+const switchMode = document.getElementById("switch-mode");
 
+allSideMenu.forEach((item) => {
+  const li = item.parentElement;
 
-allSideMenu.forEach(item => {
-	const li = item.parentElement;
-
-	item.addEventListener('click', function () {
-		allSideMenu.forEach(i => {
-			i.parentElement.classList.remove('active');
-		})
-		li.classList.add('active');
-	})
+  item.addEventListener("click", function () {
+    allSideMenu.forEach((i) => {
+      i.parentElement.classList.remove("active");
+    });
+    li.classList.add("active");
+  });
 });
 
-menuBar.addEventListener('click', function () {
-	sidebar.classList.toggle('hide');
-})
+menuBar.addEventListener("click", function () {
+  sidebar.classList.toggle("hide");
+});
 
 let overlayLogoutAdded = null;
 
 function createLogoutModal() {
-    const overlay = document.createElement('span');
-    overlay.classList.add('overlay');
-    firstSection.insertBefore(overlay, firstSection.firstChild);
+  const overlay = document.createElement("span");
+  overlay.classList.add("overlay");
+  firstSection.insertBefore(overlay, firstSection.firstChild);
 
-    // Show the overlay immediately
-    firstSection.classList.add('active');
+  // Show the overlay immediately
+  firstSection.classList.add("active");
 
-    // Remove existing overlay if present
-    if (overlayLogoutAdded) {
-        firstSection.removeChild(overlayLogoutAdded);
-        overlayLogoutAdded = null;
-    }
+  // Remove existing overlay if present
+  if (overlayLogoutAdded) {
+    firstSection.removeChild(overlayLogoutAdded);
+    overlayLogoutAdded = null;
+  }
 
-    if (!overlayLogoutAdded) {
-        const modalBox = document.createElement('div');
-        modalBox.classList.add('modal-box');
-        modalBox.innerHTML = `
+  if (!overlayLogoutAdded) {
+    const modalBox = document.createElement("div");
+    modalBox.classList.add("modal-box");
+    modalBox.innerHTML = `
             <div class="modal-box">
                 <h2>Confirmation</h2>
                 <h3>Are you sure you want to logout?</h3>
@@ -80,66 +79,70 @@ function createLogoutModal() {
                 </div>
             </div>
         `;
-        firstSection.appendChild(modalBox);
-        overlayLogoutAdded = modalBox;
+    firstSection.appendChild(modalBox);
+    overlayLogoutAdded = modalBox;
 
-        const closeBtn = modalBox.querySelector('.close-btn');
-        const logoutBtn = modalBox.querySelector('.logout-btn');
+    const closeBtn = modalBox.querySelector(".close-btn");
+    const logoutBtn = modalBox.querySelector(".logout-btn");
 
-        closeBtn.addEventListener('click', () => {
-            firstSection.removeChild(modalBox);
-            firstSection.removeChild(overlay);
-            overlayLogoutAdded = null;
-            firstSection.classList.remove('active');
-        });
+    closeBtn.addEventListener("click", () => {
+      firstSection.removeChild(modalBox);
+      firstSection.removeChild(overlay);
+      overlayLogoutAdded = null;
+      firstSection.classList.remove("active");
+    });
 
-        logoutBtn.addEventListener('click', () => {
-            // Perform logout action here
-            firstSection.removeChild(modalBox);
-            firstSection.removeChild(overlay);
-            overlayLogoutAdded = null;
-            firstSection.classList.remove('active');
-        });
+    logoutBtn.addEventListener("click", () => {
+      // Perform logout action here
+      firstSection.removeChild(modalBox);
+      firstSection.removeChild(overlay);
+      overlayLogoutAdded = null;
+      firstSection.classList.remove("active");
+    });
+  }
+
+  const showBtn = document.querySelector(".logout");
+  const closeBtn = document.querySelector(".close-btn");
+  let isActive = false; // Flag to track the active state
+
+  function toggleActiveClass() {
+    if (!isActive) {
+      firstSection.classList.add("active");
+    } else {
+      firstSection.classList.remove("active");
     }
+    isActive = !isActive; // Toggle the active state
+  }
 
-    const showBtn = document.querySelector('.logout');
-    const closeBtn = document.querySelector('.close-btn');
-    let isActive = false; // Flag to track the active state
-
-    function toggleActiveClass() {
-        if (!isActive) {
-            firstSection.classList.add('active');
-        } else {
-            firstSection.classList.remove('active');
-        }
-        isActive = !isActive; // Toggle the active state
-    }
-
-    showBtn.addEventListener('click', () => firstSection.classList.add("active"));
-    overlay.addEventListener('click', () => firstSection.classList.remove("active"));
-    closeBtn.addEventListener('click', () => firstSection.classList.remove("active"));
+  showBtn.addEventListener("click", () => firstSection.classList.add("active"));
+  overlay.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
+  closeBtn.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
 }
 
 let overlayAdded = null;
 
 function createAddUserModal() {
-	const overlayAdd = document.createElement('span');
-	overlayAdd.classList.add('overlay-add');
-	firstSection.insertBefore(overlayAdd, firstSection.firstChild);
-	
-	// Show the overlay immediately
-	firstSection.classList.add('active');
+  const overlayAdd = document.createElement("span");
+  overlayAdd.classList.add("overlay-add");
+  firstSection.insertBefore(overlayAdd, firstSection.firstChild);
 
-	// Remove existing overlay if present
-	if (overlayAdded) {
-		firstSection.removeChild(overlayAdded);
-		overlayAdded = null;
-	}
+  // Show the overlay immediately
+  firstSection.classList.add("active");
 
-	if (!overlayAdded) {
-		const modalBoxAdd = document.createElement('div');
-		modalBoxAdd.classList.add('modal-box-add');
-		modalBoxAdd.innerHTML = `
+  // Remove existing overlay if present
+  if (overlayAdded) {
+    firstSection.removeChild(overlayAdded);
+    overlayAdded = null;
+  }
+
+  if (!overlayAdded) {
+    const modalBoxAdd = document.createElement("div");
+    modalBoxAdd.classList.add("modal-box-add");
+    modalBoxAdd.innerHTML = `
 	<h2>Add New User</h2>
 	<div class="form-container">
 		<form name="frmContact" id="" frmContact"" method="post" action="" enctype=""
@@ -210,174 +213,171 @@ function createAddUserModal() {
 		</div>
 	</div>
     `;
-		firstSection.appendChild(modalBoxAdd);
-		overlayAdded = modalBoxAdd;
+    firstSection.appendChild(modalBoxAdd);
+    overlayAdded = modalBoxAdd;
 
-		// Additional logic for form submission or other actions
-		const cancelBtn = modalBoxAdd.querySelector('.cancel-btn');
-		const createBtn = modalBoxAdd.querySelector('.create-btn');
+    // Additional logic for form submission or other actions
+    const cancelBtn = modalBoxAdd.querySelector(".cancel-btn");
+    const createBtn = modalBoxAdd.querySelector(".create-btn");
 
-		cancelBtn.addEventListener('click', () => {
-			firstSection.removeChild(modalBoxAdd);
-			firstSection.removeChild(overlayAdd);
-			overlayAdded = null;
-			firstSection.classList.remove('active');
-		});
+    cancelBtn.addEventListener("click", () => {
+      firstSection.removeChild(modalBoxAdd);
+      firstSection.removeChild(overlayAdd);
+      overlayAdded = null;
+      firstSection.classList.remove("active");
+    });
 
-		createBtn.addEventListener('click', () => {
-			// Perform create action here
-			firstSection.removeChild(modalBoxAdd);
-			firstSection.removeChild(overlayAdd)
-			overlayAdded = null;
-			firstSection.classList.remove('active');
-		});
-	}
+    createBtn.addEventListener("click", () => {
+      // Perform create action here
+      firstSection.removeChild(modalBoxAdd);
+      firstSection.removeChild(overlayAdd);
+      overlayAdded = null;
+      firstSection.classList.remove("active");
+    });
+  }
 
-	const addBtn = document.querySelector('.btn-add');
-	const cancelBtn = document.querySelector('.cancel-btn');
-	let isActive = false; // Flag to track the active state
+  const addBtn = document.querySelector(".btn-add");
+  const cancelBtn = document.querySelector(".cancel-btn");
+  let isActive = false; // Flag to track the active state
 
-	function toggleActiveClass() {
-		if (!isActive) {
-			firstSection.classList.add('active');
-		} else {
-			firstSection.classList.remove('active');
-		}
-		isActive = !isActive; // Toggle the active state
-	}
+  function toggleActiveClass() {
+    if (!isActive) {
+      firstSection.classList.add("active");
+    } else {
+      firstSection.classList.remove("active");
+    }
+    isActive = !isActive; // Toggle the active state
+  }
 
-	addBtn.addEventListener('click', () => firstSection.classList.add("active"));
-    overlayAdd.addEventListener('click', () => firstSection.classList.remove("active"));
-    cancelBtn.addEventListener('click', () => firstSection.classList.remove("active"));
+  addBtn.addEventListener("click", () => firstSection.classList.add("active"));
+  overlayAdd.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
+  cancelBtn.addEventListener("click", () =>
+    firstSection.classList.remove("active")
+  );
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-	const logoutBtn = document.querySelector('.logout');
-	const addUserBtn = document.querySelector('.btn-add');
+document.addEventListener("DOMContentLoaded", function () {
+  const logoutBtn = document.querySelector(".logout");
+  const addUserBtn = document.querySelector(".btn-add");
 
-	logoutBtn.addEventListener('click', function (event) {
-		event.preventDefault();
-		createLogoutModal();
-	});
+  logoutBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    createLogoutModal();
+  });
 
-	addUserBtn.addEventListener('click', function (event) {
-		event.preventDefault();
-		createAddUserModal();
-	});
+  addUserBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    createAddUserModal();
+  });
 });
 
-
-
-//SPA 
+//SPA
 function loadContent(page) {
-	fetch(`../../php/content.php?page=${page}`)
-		.then(response => response.text())
-		.then(data => document.getElementById('tite').innerHTML = data)
-		.catch(error => console.error('Error:', error));
+  fetch(`../../php/content.php?page=${page}`)
+    .then((response) => response.text())
+    .then((data) => (document.getElementById("tite").innerHTML = data))
+    .catch((error) => console.error("Error:", error));
 }
 
 function reset(e) {
-	e.wrap('<form>').closest('form').get(0).reset();
-	e.unwrap();
+  e.wrap("<form>").closest("form").get(0).reset();
+  e.unwrap();
 }
 
 $(".dropzone").change(function () {
-	readFile(this);
+  readFile(this);
 });
 
-$('.dropzone-wrapper').on('dragover', function (e) {
-	e.preventDefault();
-	e.stopPropagation();
-	$(this).addClass('dragover');
+$(".dropzone-wrapper").on("dragover", function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  $(this).addClass("dragover");
 });
 
-$('.dropzone-wrapper').on('dragleave', function (e) {
-	e.preventDefault();
-	e.stopPropagation();
-	$(this).removeClass('dragover');
+$(".dropzone-wrapper").on("dragleave", function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  $(this).removeClass("dragover");
 });
 
-$('.remove-preview').on('click', function () {
-	var boxZone = $(this).parents('.preview-zone').find('.box-body');
-	var previewZone = $(this).parents('.preview-zone');
-	var dropzone = $(this).parents('.form-group').find('.dropzone');
-	boxZone.empty();
-	previewZone.addClass('hidden');
-	reset(dropzone);
+$(".remove-preview").on("click", function () {
+  var boxZone = $(this).parents(".preview-zone").find(".box-body");
+  var previewZone = $(this).parents(".preview-zone");
+  var dropzone = $(this).parents(".form-group").find(".dropzone");
+  boxZone.empty();
+  previewZone.addClass("hidden");
+  reset(dropzone);
 });
-
 
 //dashboard papakita
 window.onload = function () {
-	loadContent('home');
+  loadContent("home");
 };
 
 // Toggle dropdown function
 const toggleDropdown = function () {
-	dropdownMenu.classList.toggle("show");
+  dropdownMenu.classList.toggle("show");
 };
 
 // Toggle dropdown open/close when dropdown button is clicked
 dropdownBtn.addEventListener("click", function (e) {
-	e.stopPropagation();
-	toggleDropdown();
-
+  e.stopPropagation();
+  toggleDropdown();
 });
 
 // Close dropdown when dom element is clicked
 document.documentElement.addEventListener("click", function () {
-	if (dropdownMenu.classList.contains("show")) {
-		toggleDropdown();
-	}
+  if (dropdownMenu.classList.contains("show")) {
+    toggleDropdown();
+  }
 });
-
 
 //notif asynch
 function getNotifications() {
-	$.ajax({
-		type: "GET",
-		url: "../../php/notification.php",
-		dataType: "html",
-		success: function (response) {
-			$('#dropdown').html(response);
-		},
-		error: function (xhr, status, error) {
-			console.error(status + ": " + error);
-		}
-	});
+  $.ajax({
+    type: "GET",
+    url: "../../php/notification.php",
+    dataType: "html",
+    success: function (response) {
+      $("#dropdown").html(response);
+    },
+    error: function (xhr, status, error) {
+      console.error(status + ": " + error);
+    },
+  });
 }
 
 function getDocs() {
-	$.ajax({
-		type: "GET",
-		url: "../../php/document.php",
-		dataType: "html",
-		success: function (response) {
-			$('#tbody').html(response);
-		},
-		error: function (xhr, status, error) {
-			console.error(status + ": " + error);
-		}
-	});
+  $.ajax({
+    type: "GET",
+    url: "../../php/document.php",
+    dataType: "html",
+    success: function (response) {
+      $("#tbody").html(response);
+    },
+    error: function (xhr, status, error) {
+      console.error(status + ": " + error);
+    },
+  });
 }
 
 function getRecentDocs() {
-	$.ajax({
-		type: "GET",
-		url: "../../php/recentDocument.php",
-		dataType: "html",
-		success: function (response) {
-			$('#tbading').html(response);
-		},
-		error: function (xhr, status, error) {
-			console.error(status + ": " + error);
-		}
-	});
+  $.ajax({
+    type: "GET",
+    url: "../../php/recentDocument.php",
+    dataType: "html",
+    success: function (response) {
+      $("#tbading").html(response);
+    },
+    error: function (xhr, status, error) {
+      console.error(status + ": " + error);
+    },
+  });
 }
 
-
 getNotifications();
-
 
 setInterval(getNotifications, 10);
 
@@ -387,37 +387,40 @@ setInterval(getDocs, 10);
 
 getRecentDocs();
 
-setInterval(getRecentDocs, 10)
-
+setInterval(getRecentDocs, 10);
 
 // Upload File
 function readFile(input) {
-	if (input.files && input.files[0]) {
-		var reader = new FileReader();
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
 
-		reader.onload = function (e) {
-			var htmlPreview =
-				'<img width="200" src="' + e.target.result + '" />' +
-				'<p>' + input.files[0].name + '</p>';
-			var wrapperZone = $(input).parent();
-			var previewZone = $(input).parent().parent().find('.preview-zone');
-			var boxZone = $(input).parent().parent().find('.preview-zone').find('.box').find('.box-body');
+    reader.onload = function (e) {
+      var htmlPreview =
+        '<img width="200" src="' +
+        e.target.result +
+        '" />' +
+        "<p>" +
+        input.files[0].name +
+        "</p>";
+      var wrapperZone = $(input).parent();
+      var previewZone = $(input).parent().parent().find(".preview-zone");
+      var boxZone = $(input)
+        .parent()
+        .parent()
+        .find(".preview-zone")
+        .find(".box")
+        .find(".box-body");
 
-			wrapperZone.removeClass('dragover');
-			previewZone.removeClass('hidden');
-			boxZone.empty();
-			boxZone.append(htmlPreview);
-		};
+      wrapperZone.removeClass("dragover");
+      previewZone.removeClass("hidden");
+      boxZone.empty();
+      boxZone.append(htmlPreview);
+    };
 
-		reader.readAsDataURL(input.files[0]);
-	}
+    reader.readAsDataURL(input.files[0]);
+  }
 }
 
-
-
-
 $(window).unload(function () {
-	$.get('/destroy');
+  $.get("/destroy");
 });
-
-
