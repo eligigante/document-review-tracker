@@ -105,15 +105,19 @@ app.get("/review_doc", (request, response) => {
   if (request.session.loggedIn && request.session.role === "reviewer") {
     const departmentID = request.session.department_ID;
 
-    connection.query(queries.getReviewerDocuments, [departmentID], (err, results) => {
-      if (err) {
-        console.error("Error querying documents:", err);
-        throw err;
-      }
+    connection.query(
+      queries.getReviewerDocuments,
+      [departmentID],
+      (err, results) => {
+        if (err) {
+          console.error("Error querying documents:", err);
+          throw err;
+        }
 
-      console.log("Results:", results);
-      response.render("review_doc", { data: results });
-    });
+        console.log("Results:", results);
+        response.render("review_doc", { data: results });
+      }
+    );
   } else {
     response.redirect("/");
   }
@@ -129,7 +133,10 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
       return res.status(400).json({ error: "Invalid request" });
     }
 
-    connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
+    connection.query(
+      queries.getReceivedFile,
+      [documentId, departmentID],
+      (err, results) => {
         if (err) {
           console.error("Error executing query:", err);
           return res.status(500).json({ error: "Internal Server Error" });
@@ -151,7 +158,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
         const filename = `temp/document_${documentId}.pdf`;
         fs.writeFileSync(
           path.resolve(__dirname, "../public", filename),
-          Buffer.from(blobData, "binary") // Specify binary encoding
+          Buffer.from(blobData, "binary") 
         );
         console.log(filename);
         res.contentType("application/pdf");
@@ -359,7 +366,7 @@ app.post("/rejectDocument", async (req, res) => {
     } else {
       await updateDocumentStatus(documentId, "Finished");
     }
-
+    updateDocumentStatus(documentId, "rejected");
     return res.json({ success: true });
   } catch (error) {
     console.error("Error:", error);
@@ -381,8 +388,7 @@ async function updateRejectLog(
         new Date(),
         originalFileData,
         filePath,
-        filePath,
-        null,
+        originalFileData, 
         "rejected",
         documentId,
         departmentId,
@@ -398,6 +404,7 @@ async function updateRejectLog(
     );
   });
 }
+
 
 async function updateDocumentStatus(documentId, status) {
   return new Promise((resolve, reject) => {

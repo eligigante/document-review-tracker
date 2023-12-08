@@ -265,7 +265,10 @@ function getRejected($con, $accountID){
     }
 }
 function getFile($con, $documentID) {
-    $query = "SELECT document_Title, file FROM document_details WHERE document_ID = ?";
+    $query = "SELECT dd.document_Title, dl.returned_file 
+    FROM document_details dd
+    JOIN document_logs dl ON dd.document_ID = dl.document_ID
+    WHERE dd.document_ID = ?";
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
