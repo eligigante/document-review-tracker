@@ -75,7 +75,34 @@ WebViewer(
     annotationManager.deleteAnnotations(allAnnotations);
   });
 
-  function acceptDocument(filePath) {
+  const rejectButton = document.getElementById("reject-btn");
+  rejectButton.addEventListener("click", async () => {
+    const confirmReject = window.confirm("Are you sure you want to reject?");
+    if (confirmReject) {
+      try {
+        await saveDocument(filePath);
+      } catch (error) {
+        console.error("Error saving document:", error);
+        return;
+      }
+      rejectDocument(filePath);
+    }
+  });
+
+  async function rejectDocument(filePath) {
+    const response = await fetch("/rejectDocument", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath }),
+    });
+
+    const data = await response.json();
+    console.log("Reject document response:", data);
+  }
+
+  async function acceptDocument(filePath) {
     fetch("/acceptDocument", {
       method: "POST",
       headers: {
