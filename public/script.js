@@ -305,7 +305,9 @@ function createRevokeModal() {
                         <div class="label">
                         User ID <span id="user-id-info" class="info"></span>
                         </div>
-                        <input type="text" class="input-field" name="contact-user-id" id="contact-user-id" />
+                        <select id="user-id" class="input-field" name="user-id">
+                        
+                        </select>
                       </div>
                   </div>
                   <div class="buttons">
