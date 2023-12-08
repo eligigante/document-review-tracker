@@ -199,23 +199,24 @@ app.post("/acceptDocument", async (req, res) => {
 
   const reviewedFilePath = path.resolve(
     __dirname,
-    "public",
-    "temp",
+    "../public/temp",
     `document_${documentId}.pdf`
   );
 
+  console.log("Original reviewed path: " + reviewedFilePath);
   try {
     const referralDate = await getReferralDate(documentId);
 
     const originalFilePath = path.resolve(
       __dirname,
-      "public",
-      "temp",
-      `filename_${documentId}.pdf`
+      "../public/temp",
+      `document_${documentId}.pdf`
     );
 
-    // Read the content of the original file
-    const originalFileData = fs.readFileSync(originalFilePath, 'binary');
+    console.log("Original file path: " + originalFilePath);
+    const originalFileData = fs.readFileSync(originalFilePath, "base64");
+
+    console.log(originalFileData);
 
     const documentLog = {
       document_ID: documentId,
@@ -247,7 +248,7 @@ app.post("/acceptDocument", async (req, res) => {
           referral_Date: referralDate,
           review_Date: null,
           remarks: null,
-          received_file: filePath,
+          received_file: originalFileData, 
           reviewed_file: null,
           approved_file: null,
           document_status: "Processing",
