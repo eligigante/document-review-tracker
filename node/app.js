@@ -105,7 +105,10 @@ app.get("/logout", (request, response) => {
     if (request.session.loggedIn && request.session.role === "reviewer") {
       const departmentID = request.session.department_ID;
 
-      connection.query(queries.getReviewerDocuments, [departmentID], (err, results) => {
+    connection.query(
+      queries.getReviewerDocuments,
+      [departmentID],
+      (err, results) => {
         if (err) {
           console.error("Error querying documents:", err);
           throw err;
@@ -113,11 +116,12 @@ app.get("/logout", (request, response) => {
 
         console.log("Results:", results);
         response.render("review_doc", { data: results });
-      });
-    } else {
-      response.redirect("/");
-    }
-  });
+      }
+    );
+  } else {
+    response.redirect("/");
+  }
+});
 
   app.get("/downloadAndConvert/:documentId", (req, res) => {
     try {
@@ -129,11 +133,14 @@ app.get("/logout", (request, response) => {
         return res.status(400).json({ error: "Invalid request" });
       }
 
-      connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
-          if (err) {
-            console.error("Error executing query:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
-          }
+    connection.query(
+      queries.getReceivedFile,
+      [documentId, departmentID],
+      (err, results) => {
+        if (err) {
+          console.error("Error executing query:", err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
 
           if (results.length === 0 || !results[0].received_file) {
             return res
@@ -148,21 +155,21 @@ app.get("/logout", (request, response) => {
             fs.mkdirSync(tempFolderPath);
           }
 
-          const filename = `temp/document_${documentId}.pdf`;
-          fs.writeFileSync(
-            path.resolve(__dirname, "../public", filename),
-            Buffer.from(blobData, "binary") // Specify binary encoding
-          );
-          console.log(filename);
-          res.contentType("application/pdf");
-          res.sendFile(path.resolve(__dirname, "../public", filename));
-        }
-      );
-    } catch (error) {
-      console.error("Error downloading and converting Blob data:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
+        const filename = `temp/document_${documentId}.pdf`;
+        fs.writeFileSync(
+          path.resolve(__dirname, "../public", filename),
+          Buffer.from(blobData, "binary") 
+        );
+        console.log(filename);
+        res.contentType("application/pdf");
+        res.sendFile(path.resolve(__dirname, "../public", filename));
+      }
+    );
+  } catch (error) {
+    console.error("Error downloading and converting Blob data:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
   app.get("/pdfviewer", (request, response) => {
     const filePath = path.join(__dirname, "temp", request.query.filePath);
@@ -348,56 +355,56 @@ app.get("/logout", (request, response) => {
 
       const departmentId = req.session.department_ID;
 
-      if (departmentId < 5) {
-        await updateRejectLog(
-          documentId,
-          departmentId,
-          originalFileData,
-          filePath,
-          referralDate
-        );
-      } else {
-        await updateDocumentStatus(documentId, "Finished");
-      }
-
-      return res.json({ success: true });
-    } catch (error) {
-      console.error("Error:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
-
-  async function updateRejectLog(
-    documentId,
-    departmentId,
-    originalFileData,
-    filePath,
-    referralDate
-  ) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        queries.updateRejectDocumentLog,
-        [
-          new Date(),
-          originalFileData,
-          filePath,
-          filePath,
-          null,
-          "rejected",
-          documentId,
-          departmentId,
-        ],
-        (err, result) => {
-          if (err) {
-            console.error("Error updating database:", err);
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        }
+    if (departmentId < 5) {
+      await updateRejectLog(
+        documentId,
+        departmentId,
+        originalFileData,
+        filePath,
+        referralDate
       );
-    });
+    } else {
+      await updateDocumentStatus(documentId, "Finished");
+    }
+    updateDocumentStatus(documentId, "rejected");
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+async function updateRejectLog(
+  documentId,
+  departmentId,
+  originalFileData,
+  filePath,
+  referralDate
+) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      queries.updateRejectDocumentLog,
+      [
+        new Date(),
+        originalFileData,
+        filePath,
+        originalFileData, 
+        "rejected",
+        documentId,
+        departmentId,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating database:", err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
 
   async function updateDocumentStatus(documentId, status) {
     return new Promise((resolve, reject) => {

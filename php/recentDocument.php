@@ -2,7 +2,6 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    
     header("Location: index.html");
     exit();
 }
@@ -14,9 +13,7 @@ $userID = $_SESSION['user_id'];
 
 $documents = getRejected($con, $userID);
 
-
 $docs = json_decode($documents, true);
-
 
 if ($docs !== null) {
     foreach ($docs as $doc) {
@@ -29,7 +26,11 @@ if ($docs !== null) {
                 <span>' . $doc['uploadDate'] . '</span>
             </td>
             <td>
-            <a href="../../php/download.php?file_id=' . $doc['docID'] . '" target="_blank">Download</a>
+
+                <form action="../../php/download.php" method="get" target="_blank">
+                    <input type="hidden" name="file_id" value="' . $doc['docID'] . '">
+                    <button type="submit">Download</button>
+                </form>
             </td>
         </tr>';
     }
@@ -40,10 +41,11 @@ if ($docs !== null) {
 }
 
 if (json_last_error() !== JSON_ERROR_NONE) {
-    echo 'Error decoding JSON: ' . json_last_error_msg();
+    
+    echo 'erro decoding json';
 }
 
 if ($documents === false) {
-    echo 'Error retrieving documents.';
+    echo 'error getting documents.';
 }
 ?>
