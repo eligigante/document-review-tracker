@@ -133,13 +133,13 @@
             <div class="doc-container">
                 <h2 class="new-user">Add New User</h2>
                 <div class="form-container">
-                    <form name="frmContact" id="" frmContact"" method="post" action="/add_user" enctype="" onsubmit="">
+                    <form name="frmContact" id="" frmContact"" method="post" action="/add_user_request" enctype="" onsubmit="">
                         <div class="first-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
                                     User ID <span id="user-id-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-user-id" id="contact-user-id" value="<%- include('user_id.ejs') %>" readonly/>
+                                <input type="text" class="input-field" name="contact-id" id="contact-id" value="<%- include('user_id.ejs') %>" readonly/>
                             </div>
                             <!-- <div class="inline-block responsive">
                                 <div class="label">
@@ -221,10 +221,10 @@
                         </div>
                         <div class="buttons">
                             <a href="manage_user" class="cancel-btn">Cancel</a>
-                            <a href="add_user_request" method="post" class="create-btn">
+                            <button type="submit" class="create-btn">
                                 <i class='bx bx-log-in'></i>
-                                <span>Create</span>
-                            </a>
+                                Create
+                            </button>
                         </div>
                     </form>
                 </div>
