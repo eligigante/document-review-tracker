@@ -143,34 +143,19 @@ function getDocs() {
     });
 }
 
-function getRecentDocs() {
-    $.ajax({
-        type: "GET",
-        url: "../../php/recentDocument.php",
-        dataType: "html",
-        success: function (response) {
-            $('#tbading').html(response);
-        },
-        error: function (xhr, status, error) {
-            console.error('getRecentDocs error:', status, error);
-            console.error('Response:', xhr.responseText);
-        }
-    });
-}
+
 
 
 getNotifications();
 
 
-setInterval(getNotifications, 10);
+setInterval(getNotifications, 100);
 
 getDocs();
 
-setInterval(getDocs, 10);
+setInterval(getDocs, 100);
 
-getRecentDocs();
 
-setInterval(getRecentDocs, 10)
 
 
 // Upload File

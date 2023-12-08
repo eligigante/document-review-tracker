@@ -28,9 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             $mime = 'application/pdf';
 
+
+
             header('Content-Type: ' . $mime);
+
             
-            header('Content-Disposition: attachment; filename="' . $title . '.pdf"');
+            header('Content-Disposition: inline; filename="' . $title . '.pdf"');
 
             echo $fileContent;
             exit();
