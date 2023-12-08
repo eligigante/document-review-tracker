@@ -560,6 +560,19 @@ textarea.input-field {
   color: var(--dark);
 }
 
+#content main .head-title .right{
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 5px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+  font-family: var(--poppins);
+}
+
 #content main .head-title .left .breadcrumb {
   display: flex;
   align-items: center;
@@ -584,7 +597,35 @@ textarea.input-field {
   height: 36px;
   padding: 0 16px;
   border-radius: 5px;
-  background: var(--light);
+  background: #1dc455;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+  font-family: var(--poppins);
+}
+
+#content main .head-title .edit-btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 5px;
+  background: #428bca;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+  font-family: var(--poppins);
+}
+
+#content main .head-title .revoke-btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 5px;
+  background: #f82f2f;
   color: #ffffff;
   display: flex;
   justify-content: center;
@@ -662,7 +703,7 @@ textarea.input-field {
   border: none;
   padding: 6px 16px;
   color: #fff;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 1px;
   border-radius: 6px;
@@ -678,7 +719,7 @@ textarea.input-field {
   color: #fff;
   padding: 10px 15px;
   border: none;
-  background: #747474;
+  background: #f82f2f;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -687,14 +728,13 @@ textarea.input-field {
   border: none;
   padding: 6px 16px;
   color: #fff;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 1px;
   border-radius: 6px;
   background-color: #747474;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-left: 10px;
 }
 
 #content main .table-data {
@@ -1081,7 +1121,7 @@ section.active .modal-box-add {
   color: #fff;
   padding: 10px 15px;
   border: none;
-  background: #1b1b1b;
+  background: #f82f2f;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -1169,12 +1209,10 @@ section.active .modal-box-revoke {
 
 .modal-box-revoke .buttons {
   float: inline-end;
-  margin-top: 35px;
 }
 
 .modal-box-revoke button {
-  font-size: 14px;
-  padding: 6px 12px;
+  font-size: 16px;
   margin: 0 10px;
 }
 

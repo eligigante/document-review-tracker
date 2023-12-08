@@ -277,7 +277,7 @@ function createLogoutModal() {
 //   );
 // }
 
-// let overlayRevokeAdded = null;
+let overlayRevokeAdded = null;
 
 function createRevokeModal() {
   const overlayRevoke = document.createElement("span");

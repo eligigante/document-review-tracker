@@ -131,10 +131,20 @@
                         </li>
                     </ul>
                 </div>
-                <a href="add_user" class="btn-add">
-                    <i class='bx bx-plus'></i>
-                    <span class="text">Add User</span>
-                </a>
+                <div class="right">
+                    <a href="add_user" class="btn-add">
+                        <i class='bx bx-plus'></i>
+                        <span class="text">Add User</span>
+                    </a>
+                    <a href="delete_user" class="revoke-btn">
+                        <i class='bx bxs-user-x'></i>
+                        <span class="text">Revoke</span>
+                    </a>
+                    <a href="edit_user" class="edit-btn">
+                        <i class='bx bxs-user'></i>
+                        <span class="text">Edit</span>
+                    </a>
+                </div>
             </div>
             <div class="table-data">
                 <div class="order">
@@ -154,24 +164,23 @@
                         </thead>
                         <tbody>
 
-                            <% data.forEach(element => { %> 
+                            <% data.forEach(element=> { %>
                                 <tr>
-                                    <td><%= element.user_ID %></td>
-                                    <td><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></td> 
-                                    <td><%= element.department_ID %></td>
-                                    <td><span><%= element.status%></span></td>  
                                     <td>
-                                        <a href="delete_user" class="revoke-btn">
-                                            <i class='bx bxs-user-x'></i>
-                                            <span class="text">Revoke</span>
-                                        </a>
-                                        <a href="edit_user" class="edit-btn">
-                                            <i class='bx bxs-user'></i>
-                                            <span class="text">Edit</span>
-                                        </a>
+                                        <%= element.user_ID %>
                                     </td>
+                                    <td>
+                                        <%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' +
+                                            element.last_Name %>
+                                    </td>
+                                    <td>
+                                        <%= element.department_ID %>
+                                    </td>
+                                    <td><span>
+                                            <%= element.status%>
+                                        </span></td>
                                 </tr>
-                            <% }) %>
+                                <% }) %>
                         </tbody>
                     </table>
                 </div>
