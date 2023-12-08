@@ -63,7 +63,7 @@ function get_name($con, $accountID) {
 
 function get_docs($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, document_status FROM document_details WHERE user_ID = ?";
+    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ?";
 
       
     if ($stmt = mysqli_prepare($con, $query)) {
@@ -104,7 +104,10 @@ function get_docs($con, $accountID){
 
 function get_recent($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, document_status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
+    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
+
+
+
 
     $stmt = mysqli_prepare($con, $query);
 
@@ -171,6 +174,7 @@ function documentNotif($con, $userID) {
     $query = "SELECT DISTINCT document_ID, department_ID FROM document_logs WHERE user_ID = $userID";
 
 
+
     $result = mysqli_query($con, $query);
 
     if ($result) {
@@ -206,6 +210,86 @@ function documentNotif($con, $userID) {
         }
         //serialize to json string
         return json_encode($notifications);
+    } else {
+        return null;
+    }
+}
+
+function getRejected($con, $accountID){
+
+    $query = "SELECT document_ID, document_Title, file, upload_Date FROM document_details WHERE user_ID = ? AND status = ?";
+
+
+
+
+    $stmt = mysqli_prepare($con, $query);
+
+    if ($stmt) {
+
+        $rejected = 'rejected';
+
+        mysqli_stmt_bind_param($stmt, 'ss', $accountID, $rejected);
+
+
+
+        mysqli_stmt_execute($stmt);
+
+
+        mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $file, $upload_Date);
+        
+        $documents = array();
+
+
+
+        while (mysqli_stmt_fetch($stmt)) {
+
+            $decodeblob = base64_encode($file);
+
+
+
+            $documents[] = array(
+                "docID" => $document_ID,
+
+                "title" => $document_Title,
+                "uploadDate" => $upload_Date,
+                "file" => $decodeblob
+            );
+        }
+
+        mysqli_stmt_close($stmt);
+
+
+        return json_encode($documents);
+    } else {
+        return null;
+    }
+}
+function getFile($con, $documentID) {
+    $query = "SELECT document_Title, file FROM document_details WHERE document_ID = ?";
+    $stmt = mysqli_prepare($con, $query);
+
+    if ($stmt) {
+
+        mysqli_stmt_bind_param($stmt, 's', $documentID);
+
+        mysqli_stmt_execute($stmt);
+
+
+        mysqli_stmt_bind_result($stmt, $document_Title, $file);
+
+
+        if (mysqli_stmt_fetch($stmt)) {
+            $documentInfo = array(
+                "title" => $document_Title,
+                "file" => $file
+            );
+
+            mysqli_stmt_close($stmt);
+            return $documentInfo;
+        } else {
+            mysqli_stmt_close($stmt);
+            return null;
+        }
     } else {
         return null;
     }

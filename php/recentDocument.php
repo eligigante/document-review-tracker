@@ -2,44 +2,24 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
+    
     header("Location: index.html");
     exit();
 }
 
 require_once('functions.php');
-
 require_once('db.php');
-
 
 $userID = $_SESSION['user_id'];
 
-
-$documents = get_recent($con, $userID);
+$documents = getRejected($con, $userID);
 
 
 $docs = json_decode($documents, true);
 
 
-
 if ($docs !== null) {
     foreach ($docs as $doc) {
-
-
-
-        switch ($doc['status']) {
-            case 'pending':
-                $statusChanging = 'status pending';
-                break;
-            case 'approved':
-                $statusChanging = 'status completed';
-                break;
-            case 'denied':
-                $statusChanging =  'status denied';
-                break;
-        }
-
-
-
         echo '
         <tr>
             <td>
@@ -49,7 +29,7 @@ if ($docs !== null) {
                 <span>' . $doc['uploadDate'] . '</span>
             </td>
             <td>
-                <span class="' . $statusChanging . '">' . $doc['status'] . '</span>
+            <a href="../../php/download.php?file_id=' . $doc['docID'] . '" target="_blank">Download</a>
             </td>
         </tr>';
     }
@@ -59,5 +39,11 @@ if ($docs !== null) {
         </tr>';
 }
 
+if (json_last_error() !== JSON_ERROR_NONE) {
+    echo 'Error decoding JSON: ' . json_last_error_msg();
+}
 
-
+if ($documents === false) {
+    echo 'Error retrieving documents.';
+}
+?>
