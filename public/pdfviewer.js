@@ -56,8 +56,8 @@ WebViewer(
   acceptButton.addEventListener("click", async () => {
     const confirmAccept = window.confirm("Are you sure you want to accept?");
     if (confirmAccept) {
-      const allAnnotations = annotationManager.getAnnotationsList();
-      annotationManager.deleteAnnotations(allAnnotations);
+      // const allAnnotations = annotationManager.getAnnotationsList();
+      // annotationManager.deleteAnnotations(allAnnotations);
 
       try {
         await saveDocument(filePath);
