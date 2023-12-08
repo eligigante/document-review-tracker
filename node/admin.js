@@ -6,7 +6,6 @@ const cookie = require('cookie-parser');
 const queries = require('./queries');
 const server = require('./server');
 const db = require('./db');
-const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);

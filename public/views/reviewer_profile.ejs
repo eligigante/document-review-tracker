@@ -39,25 +39,25 @@
         </a>
         <ul class="side-menu top">
             <li>
-                <a href="reviewer.html">
+                <a href="home_reviewer">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
                 </a>
             </li>
             <li>
-                <a href="review_doc.html">
+                <a href="review_doc">
                     <i class='bx bx-upload'></i>
                     <span class="text">Review Queue</span>
                 </a>
             </li>
             <li>
-                <a href="my_review.html">
+                <a href="my_review">
                     <i class='bx bxs-file-doc'></i>
                     <span class="text">My Reviews</span>
                 </a>
             </li>
             <li class="active">
-                <a href="profile.html">
+                <a href="reviewer_profile">
                     <i class='bx bxs-face'></i>
                     <span class="text">Profile</span>
                 </a>
@@ -126,11 +126,11 @@
                 </div>
                 <div class="profile-info">
                     <div class="general-information-label">GENERAL INFORMATION</div>
-                    <div class="name-label">First Name: <span class="value">John</span></div>
-                    <div class="name-position">Middle Name: <span class="value">Woods</span></div>
-                    <div class="name-label">Last Name: <span class="value">Doe</span></div>
-                    <div class="name-label">Email: <span class="value">2220001@slu.edu.ph</span></div>
-                    <div class="name-label">User ID: <span class="value">2220001</span></div>
+                    <div class="name-label">First Name: <span class="value"><%= data.first_Name %></span></div>
+                    <div class="name-position">Middle Name: <span class="value"><%= data.middle_Name %></span></div>
+                    <div class="name-label">Last Name: <span class="value"><%= data.last_Name %></span></div>
+                    <div class="name-label">Email: <span class="value"><%= data.email %></span></div>
+                    <div class="name-label">User ID: <span class="value"><%= data.user_ID %></span></div>
                     <!-- Add more divs for additional user information as needed -->
                 </div>
                 
@@ -142,7 +142,7 @@
     <!-- CONTENT -->
 
 
-    <script src="user/script.js"></script>
+    <script src="../ver3/user/script.js"></script>
 </body>
 
 </html>
