@@ -63,7 +63,7 @@ function get_name($con, $accountID) {
 
 function get_docs($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, document_status FROM document_details WHERE user_ID = ?";
+    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ?";
 
       
     if ($stmt = mysqli_prepare($con, $query)) {
@@ -75,7 +75,7 @@ function get_docs($con, $accountID){
 
 
 
-    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$document_status);
+    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status);
 
     $documents = array();
 
@@ -85,7 +85,7 @@ function get_docs($con, $accountID){
             "docID" => $document_ID,
             "title" => $document_Title,
             "uploadDate" => $upload_Date,
-            "status" => $document_status
+            "status" => $status
       
         );
     }
@@ -104,7 +104,7 @@ function get_docs($con, $accountID){
 
 function get_recent($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, document_status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
+    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
 
     $stmt = mysqli_prepare($con, $query);
 
@@ -115,7 +115,7 @@ function get_recent($con, $accountID){
         mysqli_stmt_execute($stmt);
 
 
-        mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $document_status);
+        mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $status);
         
         $documents = array();
 
@@ -124,7 +124,7 @@ function get_recent($con, $accountID){
                 "docID" => $document_ID,
                 "title" => $document_Title,
                 "uploadDate" => $upload_Date,
-                "status" => $document_status
+                "status" => $status
             );
         }
 

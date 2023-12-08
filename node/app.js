@@ -218,52 +218,88 @@ app.post("/acceptDocument", async (req, res) => {
 
     console.log(originalFileData);
 
-    const documentLog = {
-      document_ID: documentId,
-      department_ID: req.session.department_ID,
-      user_ID: req.session.user_ID,
-      referral_Date: referralDate,
-      review_Date: new Date(),
-      remarks: "Notice",
-      received_file: originalFileData,
-      reviewed_file: reviewedFilePath,
-      approved_file: filePath,
-      document_status: "accepted",
-    };
+    const departmentId = req.session.department_ID;
 
-    connection.query(
-      "INSERT INTO document_logs SET ?",
-      documentLog,
-      async (err, result) => {
-        if (err) {
-          console.error("Error updating database:", err);
-          return res.status(500).json({ error: "Internal Server Error" });
-        }
+    if (departmentId < 5) {
+      const reviewedFilePath = path.resolve(
+        __dirname,
+        "../public/temp",
+        `document_${documentId}.pdf`
+      );
+      await updateAcceptLog(
+        documentId,
+        departmentId,
+        originalFileData,
+        reviewedFilePath,
+        filePath,
+        referralDate
+      );
+    } else {
+      await updateDocumentStatus(documentId, "Finished");
+    }
 
-        const nextDepartmentID = req.session.department_ID + 1;
-        const nextReviewerDocumentLog = {
-          document_ID: documentId,
-          department_ID: nextDepartmentID,
-          user_ID: req.session.user_ID,
-          referral_Date: referralDate,
-          review_Date: null,
-          remarks: null,
-          received_file: originalFileData, 
-          reviewed_file: null,
-          approved_file: null,
-          document_status: "Processing",
-        };
+    if (departmentId < 5) {
+      const nextDepartmentID = departmentId + 1;
+      const nextReviewerDocumentLog = {
+        document_ID: documentId,
+        department_ID: nextDepartmentID,
+        user_ID: req.session.user_ID,
+        referral_Date: referralDate,
+        review_Date: null,
+        remarks: null,
+        received_file: originalFileData,
+        reviewed_file: null,
+        approved_file: null,
+        document_status: "Processing",
+      };
 
-        await insertDocumentLog(nextReviewerDocumentLog);
+      await insertDocumentLog(nextReviewerDocumentLog);
+    }
 
-        return res.json({ success: true });
-      }
-    );
+    return res.json({ success: true });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+async function updateAcceptLog(
+  documentId,
+  departmentId,
+  originalFileData,
+  reviewedFilePath,
+  filePath,
+  referralDate
+) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "UPDATE document_logs SET " +
+        "review_Date = ?, " +
+        "received_file = ?, " +
+        "reviewed_file = ?, " +
+        "approved_file = ?, " +
+        "document_status = ? " +
+        "WHERE document_ID = ? AND department_ID = ?",
+      [
+        new Date(),
+        originalFileData,
+        reviewedFilePath,
+        filePath,
+        "accepted",
+        documentId,
+        departmentId,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating database:", err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+}
 
 function insertDocumentLog(documentLog) {
   return new Promise((resolve, reject) => {
@@ -304,17 +340,101 @@ function getReferralDate(documentId) {
   });
 }
 
-function getOriginalFile(documentId) {
+app.post("/rejectDocument", async (req, res) => {
+  const { filePath } = req.body;
+
+  if (!filePath) {
+    return res.status(400).json({ error: "Invalid request" });
+  }
+
+  const documentId = extractDocumentId(filePath);
+
+  if (!documentId) {
+    return res.status(400).json({ error: "Invalid document ID" });
+  }
+
+  const originalFilePath = path.resolve(
+    __dirname,
+    "../public/temp",
+    `document_${documentId}.pdf`
+  );
+
+  try {
+    const referralDate = await getReferralDate(documentId);
+
+    const originalFileData = fs.readFileSync(originalFilePath);
+
+    const departmentId = req.session.department_ID;
+
+    if (departmentId < 5) {
+      await updateRejectLog(
+        documentId,
+        departmentId,
+        originalFileData,
+        filePath,
+        referralDate
+      );
+    } else {
+      await updateDocumentStatus(documentId, "Finished");
+    }
+
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+async function updateRejectLog(
+  documentId,
+  departmentId,
+  originalFileData,
+  filePath,
+  referralDate
+) {
   return new Promise((resolve, reject) => {
     connection.query(
-      "SELECT file FROM document_details WHERE document_ID = ?",
-      [documentId],
+      "UPDATE document_logs SET " +
+        "review_Date = ?, " +
+        "received_file = ?, " +
+        "reviewed_file = ?, " +
+        "returned_file = ?, " +
+        "approved_file = ?, " +
+        "document_status = ? " +
+        "WHERE document_ID = ? AND department_ID = ?",
+      [
+        new Date(),
+        originalFileData,
+        filePath,
+        filePath,
+        null,
+        "rejected",
+        documentId,
+        departmentId,
+      ],
       (err, result) => {
-        if (err || result.length === 0) {
-          console.error("Error fetching original file data:", err);
+        if (err) {
+          console.error("Error updating database:", err);
           reject(err);
         } else {
-          resolve(result[0].file);
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
+async function updateDocumentStatus(documentId, status) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "UPDATE document_details SET status = ? WHERE document_ID = ?",
+      [status, documentId],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating document status:", err);
+          reject(err);
+        } else {
+          resolve(result);
         }
       }
     );
