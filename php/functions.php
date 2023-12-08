@@ -269,10 +269,7 @@ function getRejected($con, $accountID){
 
 
 function getFile($con, $documentID) {
-    $query = "SELECT dd.document_Title, dl.returned_file 
-    FROM document_details dd
-    JOIN document_logs dl ON dd.document_ID = dl.document_ID
-    WHERE dd.document_ID = ?";
+    $query = "SELECT document_Title, file FROM document_details WHERE document_ID = ?";
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
@@ -302,66 +299,22 @@ function getFile($con, $documentID) {
     }
 }
 function updateFile($con, $docID, $userID, $newFileBlob) {
-
-    $getFileCurrent = "SELECT received_file FROM document_logs WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
-
-
-
-    $stmt = mysqli_prepare($con, $getFileCurrent);
+    $query = "UPDATE document_logs SET received_file = ? WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
+    $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
 
-
-        mysqli_stmt_bind_param($stmt, 'ss', $docID, $userID);
-
-
-        mysqli_stmt_execute($stmt);
-
-
-        mysqli_stmt_bind_result($stmt, $currentFileBlob);
-
-        if (mysqli_stmt_fetch($stmt)) {
-
-
+        if (mysqli_stmt_execute($stmt)) {
 
 
             mysqli_stmt_close($stmt);
 
-      
-            $merged = $currentFileBlob . $newFileBlob;
-
-  
-            $newQuery = "UPDATE document_logs SET received_file = ? WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
-            $stmtUpdateFile = mysqli_prepare($con, $newQuery);
-
-            if ($stmtUpdateFile) {
-                mysqli_stmt_bind_param($stmtUpdateFile, 'sss', $merged, $docID, $userID);
-
-                if (mysqli_stmt_execute($stmtUpdateFile)) {
-
-
-                    mysqli_stmt_close($stmtUpdateFile);
-
-                    return true;
-
-                } else {
-
-
-
-                    mysqli_stmt_close($stmtUpdateFile);
-                    return false;
-                }
-            } else {
-
-
-
-                return false;
-            }
+            return true;
         } else {
 
-
-
             mysqli_stmt_close($stmt);
+
             return false;
         }
     } else {
