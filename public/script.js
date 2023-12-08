@@ -299,13 +299,27 @@ function createRevokeModal() {
     modalBoxRevoke.innerHTML = `
                 <h2>Confirmation</h2>
                 <h3>Are you sure you want to revoke this user?</h3>
-                <div class="buttons">
-                    <a class="close-btn">Cancel</a>
-                    <a class="rvk-btn">
-                    <i class="bx bxs-user-x"></i>
-                    <span>Revoke</span>
-                    </a>
-                </div>
+                <form name="frmContact" id="" method="post" action="/delete_user" enctype="" onsubmit="">
+                  <div class="first-row">
+                      <div class="inline-block right-margin">
+                        <div class="label">
+                        User ID <span id="user-id-info" class="info"></span>
+                        </div>
+                        <select id="user-id" class="input-field" name="user-id">
+                        
+                        </select>
+                      </div>
+                  </div>
+                  <div class="buttons">
+                      <button type="submit" class="close-btn">
+                        Cancel
+                      </button>
+                      <button type="submit" class="rvk-btn">
+                        <i class="bx bxs-user-x"></i>
+                        Revoke
+                      </button>
+                  </div>
+                </form>
         `;
     firstSection.appendChild(modalBoxRevoke);
     overlayRevokeAdded = modalBoxRevoke;

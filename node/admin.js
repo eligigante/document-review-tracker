@@ -161,35 +161,22 @@ app.get('/add_user', (request, response) => {
 })
   
 app.post('/add_user_request', (request, response) => {
-  // var userID = request.body['contact-id'];
-  // console.log(userID);
   var email = request.body['contact-email'].toString();
-  console.log(email);
   var password = request.body['contact-password'];
-  console.log(password);
   var lastName = request.body['contact-last-name'];
-  console.log(lastName);
   var firstName = request.body['contact-first-name'];
-  console.log(firstName);
   var middleName = request.body['contact-middle-name'];
-  console.log(middleName);
   var departmentID = request.body.department;
-  console.log(departmentID);
   var position = request.body['contact-position'];
-  console.log(position);
   var role = request.body.role;
-  console.log(role);
   var status = 'Offline'
-
 
   connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
     function(error, result, fields) {
       console.log(result);
       console.log('User successfully added.');
       response.redirect('/manage_user');
-  });
-
-  
+  });  
 })
 
 app.get('/delete_user', (request, response) => {
