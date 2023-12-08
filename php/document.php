@@ -11,6 +11,8 @@ require_once('db.php');
 
 $userID = $_SESSION['user_id'];
 
+$statusChanging = "";
+
 $documents = get_docs($con, $userID);
 
 $docs = json_decode($documents, true);
@@ -18,7 +20,7 @@ $docs = json_decode($documents, true);
 if ($docs !== null) {
     foreach ($docs as $doc) {
         switch ($doc['status']) {
-            case 'pending':
+            case 'Processing':
                 $statusChanging = 'status pending';
                 break;
             case 'approved':
