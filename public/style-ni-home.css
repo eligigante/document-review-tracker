@@ -1644,21 +1644,12 @@ input[type="submit"]:hover {
   border-radius: 3px;
 }
 
-@media screen and (max-width: 600px) {
-
-  .col-25,
-  .col-75,
-  input[type="submit"] {
-    width: 100%;
-    margin-top: 0;
-  }
-}
-
+@media screen and (min-width: 475px) and (max-width: 639px) {
   #sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 280px;
+    width: 240px;
     height: 100%;
     background: var(--light);
     z-index: 2000;
@@ -1666,89 +1657,97 @@ input[type="submit"]:hover {
     transition: 0.3s ease;
     overflow-x: hidden;
 }
-  #sidebar .side-menu li a {
-    width: 100%;
-    height: 100%;
-    background: var(--light);
-    display: flex;
-    align-items: center;
-    border-radius: 35px;
-    font-size: 12px;
-    color: var(--white);
-    white-space: nowrap;
-    overflow-x: hidden;
+
+#sidebar .side-menu li {
+  height: 40px;
+  background: transparent;
+  margin-left: 6px;
+  border-radius: 48px 0 0 48px;
+  padding: 4px;
+  z-index: -1;
 }
 
+#sidebar .side-menu li a {
+  width: 100%;
+  height: 100%;
+  background: var(--light);
+  display: flex;
+  align-items: center;
+  border-radius: 48px;
+  font-size: 14px;
+  color: var(--white);
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+
+#content main {
+  width: 100%;
+  padding: 36px 24px;
+  font-family: var(--poppins);
+  background: #f0f0f0;
+  min-height: 94vh;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+#content main .head-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-gap: 16px;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+
+#content main .table-data {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 24px;
+  margin-top: 24px;
+  width: 100%;
+  color: #000000;
+  margin-left: -20px;
+}
+
+#content nav form .form-input button {
+  width: 36px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--white);
+  color: var(--light);
+  font-size: 15px;
+  border: none;
+  outline: none;
+  border-radius: 0 36px 36px 0;
+  cursor: pointer;
+}
 #content {
   position: relative;
-  width: calc(100% - 200px);
-  left: 280px;
+  width: calc(100% - 100px);
+  left: 240px;
   transition: 0.3s ease;
 }
 
-  #content main {
-    width: 100%;
-    padding: 36px 24px;
-    font-family: var(--poppins);
-    background: #f0f0f0;
-    min-height: 94vh;
-    overflow-y: auto;
-    font-size: 15px;
-  }
-
-  #content main .head-title .left h1 {
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: var(--dark);
-  }
-
-  #content main .table-data .head h3 {
-    margin-right: auto;
-    font-size: 18px;
-    font-weight: 600;
-    color: #000000;
-  }
-
-  #content main .table-data .order table tr td .status {
-    font-size: 7px;
-    padding: 6px 16px;
-    color: var(--light);
-    border-radius: 20px;
-    font-weight: 700;
-  }
-
-  #content main .table-data .order table th {
-    padding-bottom: 12px;
-    font-size: 8px;
-    text-align: left;
-    border-bottom: 1px solid #000000;
-  }
-
-  #content main .table-data {
-    display: flex;
-    flex-wrap: wrap;
-    grid-gap: 24px;
-    margin-top: 24px;
-    width: 100%;
-    color: #000000;
-    font-size: 8px;
-  }
-  #content main .table-data .head {
-  display: flex;
-  align-items: center;
-  grid-gap: 16px;
-  margin-bottom: 24px;
+#content main .table-data .order table th {
+  padding-bottom: 12px;
+  font-size: 12px;
+  text-align: center;
+  border-bottom: 1px solid #000000;
 }
 
-#content main .table-data .head {
+#content main .table-data .order table tr td:first-child {
   display: flex;
   align-items: center;
-  grid-gap: 16px;
-  margin-bottom: 24px;
+  grid-gap: 12px;
+  padding-left: 2px;
+  font-size: 12px;
 }
+
 #content main .table-data .order table td {
-  padding: 14px 0;
+  font-size: 12px;
+  padding: 16px 20px;
 }
 
 .sample-image {
@@ -1757,220 +1756,358 @@ input[type="submit"]:hover {
   width: 177px;
   height: 177px;
   border-radius: 14px;
-  margin-left: -20px;
+  margin-left: -15px;
+}
 }
 
-.general-information-label {
-  font-size: 20px;
-  font-weight: 500;
-  padding-right: 1400px;
-}
-  }
-
-@media screen and (min-width:601px) and (max-width: 768px) {
+@media screen and (min-width: 640px) and (max-width: 767px) {
   #sidebar {
-    width: 280px;
-  }
-  }
-  #content main .table-data {
-    display: flex;
-    flex-wrap: wrap;
-    grid-gap: 24px;
-    margin-top: 24px;
-    width: 140%;
-    color: #000000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100%;
+    background: var(--light);
+    z-index: 2000;
+    font-family: var(--lato);
+    transition: 0.3s ease;
+    overflow-x: hidden;
 }
-#content main .table-data .order table td {
-  padding: 16px 0;
+
+#content {
+  position: relative;
+  width: calc(100% - 200px);
+  left: 240px;
+  transition: 0.3s ease;
+}
+
+#content main .table-data {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 24px;
+  margin-top: 24px;
+  width: 100%;
+  color: #000000;
+  margin-left: -10px;
+}
+
+#content main .table-data .order table th {
+  padding-bottom: 12px;
+  font-size: 15px;
+  text-align: center;
+  border-bottom: 1px solid #000000;
+}
+
+#content main .table-data .order table tr td:first-child {
+  display: flex;
+  align-items: center;
+  grid-gap: 12px;
+  padding-left: 6px;
   margin-left: 10px;
 }
 
-  #content nav .nav-link {
-    display: none;
-  }
-  
-@media screen and (max-width: 576px) {
-  #content nav form .form-input input {
-    display: none;
-  }
-
-  #content nav form .form-input button {
-    width: auto;
-    height: auto;
-    background: transparent;
-    border-radius: none;
-    color: var(--white);
-  }
-
-  #content nav form.show .form-input input {
-    display: block;
-    width: 100%;
-  }
-
-  #content nav form.show .form-input button {
-    width: 36px;
-    height: 100%;
-    border-radius: 0 36px 36px 0;
-    color: var(--light);
-    background: var(--red);
-  }
-
-  #content nav form.show~.notification,
-  #content nav form.show~.profile {
-    display: none;
-  }
-
-  #content main .box-info {
-    grid-template-columns: 1fr;
-  }
-
-  #content main .table-data .head {
-    min-width: 420px;
-  }
-
-  #content main .table-data .order table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
+#content main .table-data .order table td {
+  padding: 16px;
 }
 
-  #content main .table-data .todo .todo-list {
-    min-width: 420px;
-  }
+#content main .table-data .order table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+}
 
-  #content main .table-data .order table th {
-    padding-bottom: 12px;
-    font-size: 15px;
-    text-align: left;
-    padding-right: 40px;
-    border-bottom: px solid #000000;
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100%;
+    background: var(--light);
+    z-index: 2000;
+    font-family: var(--lato);
+    transition: 0.3s ease;
+    overflow-x: hidden;
+}
+
+  #content {
+    position: relative;
+    width: calc(100% - 195px);
+    left: 240px;
+    transition: 0.3s ease;
+}
+
+#content nav a {
+  color: var(--white);
+  margin-left: 20px;
+  margin-right: 50px;
+}
+
+#content main .table-data {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 24px;
+  margin-top: 24px;
+  width: 100%;
+  color: #000000;
+  margin-left: -15px -10px;
+  text-align: center;
 }
 
 #content main .table-data .order table td {
-  padding: 16px 0;
-  margin-left: -5px;
+  padding: 16px;
+}
+
+#content main .table-data .order table th {
+  padding-bottom: 12px;
+  font-size: 13px;
+  text-align: center;
+  border-bottom: 1px solid #000000;
+}
+
+#content main .table-data .order table tr td:first-child {
+  display: flex;
+  align-items: center;
+  grid-gap: 12px;
+  padding-left: 6px;
+  margin-top: 24px;
+}
+
+.general-information-label {
+  font-size: 25px;
+  font-weight: 500;
+  padding-right: 1400px;
+  margin-top: -10px;
+}
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+  #content main .table-data .order table td {
+    padding: 16px 40px;
+    font-size: 22px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+#content main .table-data {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 24px;
+  margin-top: 24px;
+  width: 100%;
+  color: #000000;
+  font-size: 25px;
+}
+
+#content main .table-data .order {
+  flex-grow: 1;
+  flex-basis: 500px;
+  font-size: 20px;
+}
+
+#content main .table-data .order table th {
+  padding-bottom: 12px;
+  font-size: 20px;
+  text-align: center;
+  border-bottom: 1px solid #000000;
+}
+
+#content main .table-data .head {
+  display: flex;
+  align-items: center;
+  grid-gap: 16px;
+  margin-bottom: 24px;
+  font-size: 25px;
+}
+
+#content main .head-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-gap: 16px;
+  flex-wrap: wrap;
+  font-size: 25px;
+}
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 281px;
+  height: 100%;
+  background: var(--light);
+  z-index: 2000;
+  font-family: var(--lato);
+  transition: 0.3s ease;
+  overflow-x: hidden;
+}
+
+#content main .table-data .order table tr td .status.pending {
+  background: #7b8089;
+  color: #000000;
+  font-size: 15px;
+}
+
+.bx {
+  font-family: boxicons!important;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+  display: inline-block;
+  text-transform: none;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 25px;
 }
 
 #content main .table-data .order table tr td .status {
-  font-size: 10px;
+  font-size: 15px;
   padding: 6px 16px;
   color: var(--light);
   border-radius: 20px;
   font-weight: 700;
 }
+
+.general-information-label {
+  font-size: 39px;
+  font-weight: 500;
+  padding-right: 10px;
+  margin-top: -18px;
 }
 
-@media only screen and (max-width: 760px) {
-  .form-container {
-    width: 500px;
-  }
-
-  .row {
-    margin: 18px 0;
-    display: flex;
-  }
-
-  .input-field {
-    width: 200px;
-  }
-
-  .input-field-radio {
-    width: 210px;
-  }
-
-  .btn-submit {
-    width: 200px;
-  }
-
-  #content main .table-data .order table th {
-    padding-bottom: 12px;
-    text-align: center;
-    border-bottom: 1px solid #000000;
-    font-size: 15px;
+.value {
+  padding-left: 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
 }
 
-#content main .table-data .order table td {
-  padding: 16px 0;
-  margin-left: -px;
-  font-size: 14px;
+@media screen and (min-width: 1280px) and (max-width: 1536px) {
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 380px;
+    height: 100%;
+    background: var(--light);
+    z-index: 2000;
+    font-family: var(--lato);
+    transition: 0.3s ease;
+    overflow-x: hidden;
+}
+
+#content {
+  position: relative;
+  width: calc(100% - 380px);
+  left: 380px;
+  transition: 0.3s ease;
+}
+
+#content main .table-data {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 24px;
+  margin-top: 24px;
+  width: 100%;
+  color: #000000;
+  font-size: 25px;
+}
+
+#content main .table-data .order {
+  flex-grow: 1;
+  flex-basis: 500px;
+  font-size: 25px;
+  text-align: center;
+}
+
+#content main .table-data .todo {
+  flex-grow: 1;
+  flex-basis: 300px;
+  font-size: 35px;
+}
+
+#content main .table-data>div {
+  border-radius: 20px;
+  background: #fffafa;
+  padding: 24px;
+  overflow-x: auto;
+  margin-left: 20px;
+}
+
+#content main .table-data .order table th {
+  padding-bottom: 12px;
+  font-size: 25px;
+  text-align: center;
+  border-bottom: 1px solid #000000;
 }
 
 #content main .table-data .order table tr td:first-child {
   display: flex;
+  align-items: center;
   grid-gap: 12px;
-  font-size: 15px;
+  padding-left: 6px;
   margin-left: 10px;
-}
-}
-
-@media only screen and (max-width: 500px) {
-  .form-container {
-    width: 300px;
-  }
-
-  .row {
-    margin: 10px;
-    display: inline-block;
-  }
-
-  .input-field {
-    width: 280px;
-  }
-
-  .btn-submit {
-    width: 280px;
-  }
-
-  .responsive {
-    margin-top: 20px;
-  }
+  text-align: center;
 }
 
-#accept-btn {
-  font-size: 12px;
-  font-weight: 400;
-  font-family: var(--poppins);
-  color: #fff;
-  padding: 6px 14px;
-  position: absolute;
-  top: 40px;
-  right: 233px;
+#content main .table-data .order table td {
+  padding: 16px;
+  font-size: 25px;
+}
+
+#content main .table-data .order table tr td .status.pending {
+  background: #7b8089;
+  color: #000000;
+  font-size: 18px;
+}
+
+#content main .table-data .order table tr td .status.completed {
+  background: #00e200;
+  color: #000000;
+  font-size: 20px;
+}
+
+#content main .table-data .head {
+  display: flex;
+  align-items: center;
+  grid-gap: 16px;
+  font-size: 30px;
+  margin-bottom: 24px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  --shadow: rgba(0, 0, 0, 0.05) 0px 6px 10px 0px, rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+  --gap: 0.5rem;
+  --radius: 5px;
+  font-size: 25px;
+}
+
+.review-btn {
   border: none;
-  background: #1dc455;
-  border-radius: 40px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-#reject-btn {
-  font-size: 12px;
-  font-weight: 400;
-  font-family: var(--poppins);
+  padding: 16px 20px;
   color: #fff;
-  padding: 6px 17px;
-  position: absolute;
-  top: 40px;
-  right: 155px;
-  border: none;
-  background: #f82f2f;
-  border-radius: 40px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: var(--red);
   cursor: pointer;
-  z-index: 1;
+  transition: all 0.3s ease;
+  font-size: 10px;
 }
 
-#clear-btn {
-  font-size: 12px;
-  font-weight: 400;
-  font-family: var(--poppins);
-  color: #fff;
-  padding: 6px 17px;
-  position: absolute;
-  top: 40px;
-  right: 81px;
-  border: none;
-  background: #a19e9e;
-  border-radius: 40px;
-  cursor: pointer;
-  z-index: 1;
+.general-information-label {
+  font-size: 40px;
+  font-weight: 500;
+  padding-right: 0px;
+  margin-top: -20px;
 }
-
+}
