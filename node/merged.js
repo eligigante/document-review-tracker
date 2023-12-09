@@ -618,13 +618,12 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
             received_file: originalFileData,
             reviewed_file: null,
             approved_file: null,
-            document_status: "Processing",
+            document_status: "processing",
           };
   
           await insertDocumentLog(nextReviewerDocumentLog);
         } else {
-          // If the department is the last one, update the document status to "Finished"
-          await updateDocumentStatus(documentId, "Finished");
+          await updateDocumentStatus(documentId, "finished");
         }
       } else {
         await updateAcceptLog(
@@ -771,7 +770,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           referralDate
         );
       } else {
-        await updateDocumentStatus(documentId, "Finished");
+        await updateDocumentStatus(documentId, "finished");
       }
       updateDocumentStatus(documentId, "rejected");
       return res.json({ success: true });
