@@ -124,10 +124,6 @@ function createLogoutModal() {
 // Event Listener
 document.addEventListener("DOMContentLoaded", function () {
   const logoutBtn = document.querySelector(".logout");
-  const addUserBtn = document.querySelector(".btn-add");
-  const revokeBtn = document.querySelector(".revoke-btn");
-  const editBtn = document.querySelector(".edit-btn");
-  // const reviewBtn = document.querySelector(".review-btn");
   const createBtn = document.querySelector(".create-btn");
   const edtBtn = document.querySelector(".edt-btn");
 
@@ -138,129 +134,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   createBtn.addEventListener("click", function (event) {
     event.preventDefault();
-    sendAddUserServerRequest();
+    var formData = new FormData(document.getElementById("add-user"));
+    sendAddUserServerRequest(formData);
   });
 
   edtBtn.addEventListener("click", function (event) {
     event.preventDefault();
-  });
+    sendEditUserServerRequest();
+  })});
 
-});
-
-// document.getElementById('filter-btn').addEventListener('click', function(event) {
-//   event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-//   // Perform different fetch requests based on some condition
-//   if (/* condition for the first fetch */) {
-//     fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-//       .then(response => response.json())
-//       .then(data => {
-//         // Handle data from the server
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   } else {
-//     fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-//       .then(response => response.json())
-//       .then(data => {
-//         // Handle data from the server
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   }
-// });
-
-// document.getElementById('sort-btn').addEventListener('click', function(event) {
-//   event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-//   // Perform different fetch requests based on some condition
-//   if (/* condition for the first fetch */) {
-//     fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-//       .then(response => response.json())
-//       .then(data => {
-//         // Handle data from the server
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   } else {
-//     fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-//       .then(response => response.json())
-//       .then(data => {
-//         // Handle data from the server
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   }
-// });
-
-// document.getElementById('filter-manage').addEventListener('click', function(event) {
-//   event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-//   // Perform different fetch requests based on some condition
-//   if (/* condition for the first fetch */) {
-//     fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-//       .then(response => response.json())
-//       .then(data => {
-//         // Handle data from the server
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   } else {
-//     fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-//       .then(response => response.json())
-//       .then(data => {
-//         // Handle data from the server
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   }
-// });
-
-// document.getElementById('sort-manage').addEventListener('click', function(event) {
-//   event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-//   // Perform different fetch requests based on some condition
-//   if (/* condition for the first fetch */) {
-//     fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-//       .then(response => response.json())
-//       .then(data => {
-//         // Handle data from the server
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   } else {
-//     fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-//       .then(response => response.json())
-//       .then(data => {
-//         // Handle data from the server
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   }
-// });
-
-function sendAddUserServerRequest() {
+function sendAddUserServerRequest(formData) {
   fetch("/add_user_request", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    body: formData,
   })
     .then((response) => response.text())
     .then((data) => console.log(data))
@@ -300,53 +186,101 @@ function sendLogoutUserServerRequest() {
     .catch((error) => console.error("Error:", error));
 }
 
-function sendSortUserAscendingRequest() {
-  fetch("/sort_users_ascending", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
+// function sendSortUserAscendingRequest() {
+//   fetch("/sort_users_ascending", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
 
-function sendSortUserDescendingRequest() {
-  fetch("/sort_users_descending", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
+// function sendSortUserDescendingRequest() {
+//   fetch("/sort_users_descending", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
 
-function sendFilterUsersOfflineRequest() {
-  fetch("/filter_users_offline", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
+// function sendFilterUsersOfflineRequest() {
+//   fetch("/filter_users_offline", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
 
-function sendFilterUsersOnlineRequest() {
-  fetch("/filter_users_online", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
+// function sendFilterUsersOnlineRequest() {
+//   fetch("/filter_users_online", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
+
+// function sendSortManageAscendingRequest() {
+//   fetch("/sort_manage_ascending", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
+
+// function sendSortManageDescendingRequest() {
+//   fetch("/sort_manage_descending", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
+
+// function sendFilterManageOfflineRequest() {
+//   fetch("/filter_manage_offline", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
+
+// function sendFilterManageOnlineRequest() {
+//   fetch("/filter_manage_online", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => response.text())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
 
 //SPA
 // function loadContent(page) {
