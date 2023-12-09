@@ -428,6 +428,13 @@ img {
   transition: box-shadow 0.2s ease-in-out;
 }
 
+.filter-btn{
+  background: transparent;
+  border: none;
+  font-size: 30px;
+}
+
+
 /* Form Container in Modal Pop Up Box */
 .form-container {
   border-radius: 3px;
