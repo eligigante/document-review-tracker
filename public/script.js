@@ -134,8 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   createBtn.addEventListener("click", function (event) {
     event.preventDefault();
-    var formData = new FormData(document.getElementById("add-user"));
-    sendAddUserServerRequest(formData);
+    sendAddUserServerRequest();
   });
 
   edtBtn.addEventListener("click", function (event) {
@@ -143,10 +142,12 @@ document.addEventListener("DOMContentLoaded", function () {
     sendEditUserServerRequest();
   })});
 
-function sendAddUserServerRequest(formData) {
+function sendAddUserServerRequest() {
   fetch("/add_user_request", {
     method: "POST",
-    body: formData,
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
     .then((response) => response.text())
     .then((data) => console.log(data))

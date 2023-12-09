@@ -341,16 +341,14 @@ app.get('/add_user', (request, response) => {
     var userID = ''; 
     var departmentOptions = '';
     connection.query(queries.getLastUserID, function(error, result, fields) {
-      userID = (result[0].user_ID + 1) ;
-      console.log(userID);  
+      userID = (result[0].user_ID + 1);
       connection.query(queries.getDepartmentOptions, function(error, result, fields) {
         departmentOptions = result.map(row => ({
           department_ID: row.department_ID,
           department_Name: row.department_Name
         }))
     
-        console.log(departmentOptions);
-        console.log("Rendering add user form...")
+        console.log("Rendering add user form...");
         response.render('add_user', {userID, departmentOptions});
       });
     });
@@ -362,33 +360,24 @@ app.get('/add_user', (request, response) => {
 })
   
 app.post('/add_user_request', (request, response) => {
-  if (request.session.verify) {
-    const email = request.body.email;
-    const password = request.body.password;
-    const lastName = request.body.last;
-    const firstName = request.body.first;
-    const middleName = request.body.middle;
-    const departmentID = request.body.department;
-    const position = request.body.position;
-    const role = request.body.role;
-    const status = 'Offline';
+    var email = request.body['contact-email'];
+    console.log(request.body['contact-email'])
+    var password = request.body['contact-password'];
+    var lastName = request.body['contact-last-name'];
+    var firstName = request.body['contact-first-name'];
+    var middleName = request.body['contact-middle-name'];
+    var departmentID = request.body.department;
+    var position = request.body['contact-position'];
+    var role = request.body.role;
+    var status = 'Offline';
 
-    connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
+      connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
       function(error, result, fields) {
-        if (error) {
-          console.error('Error adding user:', error);
-          response.status(500).send('Internal Server Error');
-          return;
-        }
-
-        console.log('User successfully added:', result);
-        response.redirect('/manage_user');
+       
+      console.log('User successfully added: ', request.body['contact-id']);
+      response.redirect('/manage_user');
     });  
-  } else {
-    console.log('Please login or logout from your current session.');
-    response.redirect('/');
-  }
-});
+  });
 
   app.get('/edit_user', (request, response) => {
     if (request.session.verify) {
@@ -416,6 +405,7 @@ app.post('/edit_user_request', (request, response) => {
   if (request.session.verify) {
     var id = request.body.user;
     var email = request.body['contact-email'];
+    console.log(email)
     var password = request.body['contact-password'];
     var lastName = request.body['contact-last-name'];
     var firstName = request.body['contact-first-name'];
