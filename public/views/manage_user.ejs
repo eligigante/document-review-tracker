@@ -143,15 +143,21 @@
                 <div class="order">
                     <div class="head">
                         <h3>Users</h3>
-                        <i class='bx bx-search'></i>
-                        <i class='bx bx-filter'></i>
+                        <a href="" class="filter-btn" id="filter-manage">
+                            <i class='bx bx-filter-alt'></i>
+                            <span class="text">Filter</span>
+                        </a>
+                        <a href="" class="sort-btn" id="sort-manage">
+                            <i class='bx bx-sort-a-z' ></i>
+                            <span class="text">Sort</span>
+                        </a>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>User ID</th>
                                 <th>User</th>
-                                <th>Department ID</th>
+                                <th>Department</th>
+                                <th>Role</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -159,8 +165,7 @@
                             <% data.forEach(element=> { %> 
                                 <tr>
                                     <td><%= element.user_ID %></td>
-                                    <td><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' +
-                                            element.last_Name %></td> 
+                                    <td><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></td> 
                                     <td><%= element.department_ID %></td>
                                     <td><span><%= element.status%></span></td>  
                                 </tr>

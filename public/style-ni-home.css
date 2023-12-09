@@ -428,6 +428,48 @@ img {
   transition: box-shadow 0.2s ease-in-out;
 }
 
+.filter-btn {
+  background: transparent;
+  border: none;
+  font-size: 30px;
+}
+
+.container-sort {
+  position: relative;
+  display: inline-block;
+}
+
+.popover {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1;
+}
+
+.popover.active {
+  display: block;
+}
+
+.options {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px 0;
+  list-style-type: none;
+  margin: 0;
+  z-index: 1;
+}
+
+.options.active {
+  display: block;
+  position: absolute;
+  right: 50px;
+}
+
+
 /* Form Container in Modal Pop Up Box */
 .form-container {
   border-radius: 3px;
@@ -736,6 +778,32 @@ textarea.input-field {
 }
 
 .edit-btn {
+  border: none;
+  padding: 6px 16px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn {
+  border: none;
+  padding: 6px 16px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sort-btn {
   border: none;
   padding: 6px 16px;
   color: #fff;

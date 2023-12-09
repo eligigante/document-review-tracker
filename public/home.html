@@ -23,13 +23,13 @@
 		<ul class="side-menu top">
 			<li class="active">
 				<a href="home.html">
-					<i class='bx bxs-home' ></i>
+					<i class='bx bxs-home'></i>
 					<span class="text">Home</span>
 				</a>
 			</li>
 			<li>
 				<a href="doc.html">
-					<i class='bx bx-upload' ></i>
+					<i class='bx bx-upload'></i>
 					<span class="text">Submit Document</span>
 				</a>
 			</li>
@@ -41,7 +41,7 @@
 			</li>
 			<li>
 				<a href="profile.html">
-					<i class='bx bxs-face' ></i>
+					<i class='bx bxs-face'></i>
 					<span class="text">Profile</span>
 				</a>
 			</li>
@@ -49,7 +49,7 @@
 		<ul class="side-menu">
 			<li>
 				<a href="logout" class="logout">
-					<i class='bx bx-log-out' ></i>
+					<i class='bx bx-log-out'></i>
 					<span class="text">Logout</span>
 				</a>
 			</li>
@@ -64,12 +64,7 @@
 		<!-- NAVBAR -->
 		<nav>
 			<i class='bx bx-menu'></i>
-			<form action="#">
-				<div class="form-input">
-					<input type="search" placeholder="Search...">
-					<button type="submit" class="search-btn">[]<i class='bx bx-search'></i></button>
-				</div>
-			</form>
+			<form action="#"></form>
 			<input type="checkbox" id="switch-mode" hidden>
 			<a href="#" class="notification">
 				<i class='bx bxs-bell'></i>
@@ -97,73 +92,48 @@
 					</ul>
 				</div>
 			</div>
-
-			<div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3>Documents</h3>
-						<i class='bx bx-search'></i>
-						<i class='bx bx-filter'></i>
+			<form action="#">
+				<div class="table-data">
+					<div class="order">
+						<div class="head">
+							<h3>Documents</h3>
+							<a href="edit_user" class="filter-btn">
+								<i class='bx bx-filter-alt'></i>
+								<span class="text">Filter</span>
+							</a>
+							<a href="edit_user" class="sort-btn">
+								<i class='bx bx-sort-a-z' ></i>
+								<span class="text">Sort</span>
+							</a>
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>User</th>
+									<th>Date Order</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<img src="img/people.png" alt="people">
+										<p>John Doe</p>
+									</td>
+									<td>01-10-2021</td>
+									<td><span class="status completed">Reviewed</span></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<table>
-						<thead>
-							<tr>
-								<th>User</th>
-								<th>Date Order</th>
-								<th>Status</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<img src="img/people.png" alt="people">
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status completed">Reviewed</span></td>
-							</tr>
-							<tr>
-								<td>
-									<img src="img/people.png" alt="people">
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<img src="img/people.png" alt="people">
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status process">Process</span></td>
-							</tr>
-							<tr>
-								<td>
-									<img src="img/people.png" alt="people">
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status denied">Denied</span></td>
-							</tr>
-							<tr>
-								<td>
-									<img src="img/people.png" alt="people">
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status completed">Reviewed</span></td>
-							</tr>
-						</tbody>
-					</table>
 				</div>
-			</div>
+			</form>
 		</main>
 		<!-- MAIN -->
 	</section>
 	<!-- CONTENT -->
 
-	<script src="../ver3/user/script.js"></script>
+	<script src="../public/script.js"></script>
 </body>
 
 </html>
