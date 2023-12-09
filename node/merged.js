@@ -20,7 +20,7 @@ app.use(session({
     secret : 'document-tracker-key',
     resave : true,
     saveUninitialized : true,
-    cookie: {maxAge: 1800000}
+    cookie: {maxAge: 86400000}
   }));  
 
 app.use(express.json());
@@ -285,7 +285,7 @@ app.post('/edit_user_request', (request, response) => {
   else {
     console.log("Please login or logout from your current session.")
     response.redirect('/');
-    }
+  }
 })
 
 app.get("/review_doc", (request, response) => {

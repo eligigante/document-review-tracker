@@ -9,8 +9,8 @@ const getUsers =
 const setOnlineStatus = "UPDATE user SET status = 'Online' WHERE user_ID = ?";
 const setOfflineStatus = "UPDATE user SET status = 'Offline' WHERE user_ID = ?";
 const addUser =
-  "INSERT INTO user (email, password, last_Name, first_Name, middle_Name, department_ID, position, role, status) ' 
-+ 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  'INSERT INTO user (email, password, last_Name, first_Name, middle_Name, department_ID, position, role, status) ' 
++ 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 const deleteUser = "DELETE FROM user WHERE user.`user_ID` = ?";
 const editUser =
   "UPDATE user SET email = ?, password = ?, last_Name = ?, first_Name = ?, middle_Name = ?, " +
@@ -41,14 +41,13 @@ const updateAcceptDocumentLog =
 const updateRejectDocumentLog =
   "UPDATE document_logs SET review_Date = ?, received_file = ?, reviewed_file = ?, " +
   "returned_file = ?, document_status = ? WHERE document_ID = ? AND department_ID = ?";
-  // const getPendingDocuments = 'SELECT user_ID, referral_Date, status FROM user JOIN document_logs ' +
-// 'ON user.user_ID = document_logs.department_ID WHERE document_logs.department_ID = ?'
 const getPendingDocuments = 'SELECT user.first_Name, user.middle_Name, user.last_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS date, '
 + 'document_logs.document_status FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ?'
 const getDepartmentIDOfUser = 'SELECT department_ID FROM user WHERE user_ID = ?'
 const getMyReviewDetails = 'SELECT user.user_ID, user.first_Name, user.middle_Name, user.last_Name, '
 + 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_date, document_logs.document_ID, document_logs.document_status '
-+ 'FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ?'
++ 'FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ? '
++ 'AND document_logs.document_status = "accepted"';
 
 
 function checkUser(connection, id) {
@@ -82,8 +81,8 @@ module.exports = {
   getReceivedFile,
   updateAcceptDocumentLog,
   updateRejectDocumentLog,
-    getPendingDocuments,
-    getDepartmentIDOfUser,
-    getMyReviewDetails,
-  checkUser,
+  getPendingDocuments,
+  getDepartmentIDOfUser,
+  getMyReviewDetails,
+  checkUser
 };
