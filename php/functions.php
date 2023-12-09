@@ -66,7 +66,7 @@ function get_docs($con, $accountID){
     $query = "SELECT document_details.document_ID, document_details.document_Title, document_details.upload_Date, document_details.status, document_logs.department_ID, departments.department_Name FROM document_details
     JOIN document_logs ON document_details.document_ID = document_logs.document_ID
     JOIN departments ON document_logs.department_ID = departments.department_ID
-    WHERE document_details.user_ID = ?;";
+    WHERE document_details.user_ID = ?";
       
     if ($stmt = mysqli_prepare($con, $query)) {
    
@@ -105,6 +105,7 @@ function get_docs($con, $accountID){
 
 }
 }
+
 
 
 
@@ -304,6 +305,8 @@ function updateFile($con, $docID, $userID, $newFileBlob) {
         mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
 
         $result = mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_send_long_data($stmt, 0, $newFileBlob);
 
         mysqli_stmt_close($stmt);
 

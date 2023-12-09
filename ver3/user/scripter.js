@@ -129,12 +129,18 @@ function getNotifications() {
 }
 
 function getDocs() {
+    var statusFilter = $('#statusFilter').val();
+    console.log('Status Filter:', statusFilter);
+
     $.ajax({
-        type: "GET",
-        url: "../../php/document.php",
+        type: "POST", 
+		url: "../../php/document.php",
+        data: { statusFilter: statusFilter }, 
         dataType: "html",
         success: function (response) {
+            console.log('AJAX Success:', response);
             $('#tbody').html(response);
+			$('#statusFilter').change(getDocs);
         },
         error: function (xhr, status, error) {
             console.error('getDocs error:', status, error);
@@ -142,9 +148,6 @@ function getDocs() {
         }
     });
 }
-
-
-
 
 getNotifications();
 

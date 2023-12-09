@@ -358,10 +358,10 @@ app.get('/add_user', (request, response) => {
     response.redirect('/');
     }
 })
-  
+   
 app.post('/add_user_request', (request, response) => {
+  if (request.session.verify) {
     var email = request.body['contact-email'];
-    console.log(request.body['contact-email'])
     var password = request.body['contact-password'];
     var lastName = request.body['contact-last-name'];
     var firstName = request.body['contact-first-name'];
@@ -369,16 +369,21 @@ app.post('/add_user_request', (request, response) => {
     var departmentID = request.body.department;
     var position = request.body['contact-position'];
     var role = request.body.role;
-    var status = 'Offline';
+    var status = request.body.status;
 
-      connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
-      function(error, result, fields) {
-       
-      console.log('User successfully added: ', request.body['contact-id']);
+    console.log(email, password);
+
+    connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
+    function(error, result, fields) {
+      console.log('User successfully added.');
       response.redirect('/manage_user');
-    });  
-  });
-
+  });  
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
   app.get('/edit_user', (request, response) => {
     if (request.session.verify) {
       var departmentOptions = '';
@@ -579,7 +584,6 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           referralDate
         );
       }
-  
       return res.json({ success: true });
     } catch (error) {
       console.error("Error:", error);

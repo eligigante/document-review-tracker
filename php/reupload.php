@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newFileBlob = file_get_contents($newFile['tmp_name']);
 
             if (updateFile($con, $docID, $_SESSION['user_id'], $newFileBlob)) {
+
+                
                 header("Location: ../ver3/user/doc.php");
                 exit();
             } else {

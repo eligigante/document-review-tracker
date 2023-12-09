@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 include_once('db.php');
 
 $userID = $_SESSION['user_id'];
@@ -23,21 +22,88 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $fileContent = file_get_contents($tempFilePath);
 
         $totalPages = preg_match_all("/\Page\W/", $fileContent, $dummy);
-       
 
         if ($fileContent !== null) {
 
+            
+            $sqlrecentNum = "SELECT MAX(CAST(SUBSTRING(document_Title, LOCATE ('_', document_Title) + 1) AS SIGNED) ) AS latest_num
+                                         FROM document_details WHERE user_ID = ?";
+
+
+            $stmtrecentNum = $con->prepare($sqlrecentNum);
+
+            if ($stmtrecentNum) {
+                $stmtrecentNum->bind_param("i", $userID);
+
+                $stmtrecentNum->execute();
+
+                $stmtrecentNum->bind_result($recentNum);
+                
+                $stmtrecentNum->fetch();
+
+                $stmtrecentNum->close();
+
+                $nextNum = $recentNum + 1;
+
+              
+
+                $newDocumentTitle = "Document_" . $nextNum;
+
+
+                $sqlInsertDocumentDetails = "INSERT INTO document_details (user_ID, document_Title, pages, status, upload_Date, file)
+
+
+                
+                        VALUES (?, ?, ?,'Processing',?, ?)";
+
+
+
+                $stmtInsertDocumentDetails = $con->prepare($sqlInsertDocumentDetails);
+
+                if ($stmtInsertDocumentDetails) {
+                    $stmtInsertDocumentDetails->bind_param("issss", $userID, $newDocumentTitle, $totalPages, $dateFormat, $fileContent);
+                    $stmtInsertDocumentDetails->execute();
             $sqlInsertDocumentDetails = "INSERT INTO document_details (user_ID, document_Title, pages, status, upload_Date, file)
                     VALUES (?, ?, ?,'pending',?, ?)";
 
-            $stmtInsertDocumentDetails = $con->prepare($sqlInsertDocumentDetails);
+                    if ($stmtInsertDocumentDetails->affected_rows > 0) {
 
-            if ($stmtInsertDocumentDetails) {
-                $stmtInsertDocumentDetails->bind_param("issss", $userID, $fileName, $totalPages, $dateFormat, $fileContent);
-                $stmtInsertDocumentDetails->execute();
 
-                if ($stmtInsertDocumentDetails->affected_rows > 0) {
 
+                        $documentID = $stmtInsertDocumentDetails->insert_id;
+
+                        $sqlInsertDocumentLogs = "INSERT INTO document_logs (document_ID, department_ID, user_ID, referral_Date, review_Date, remarks, received_file, reviewed_file, approved_file, document_status)
+
+
+
+                            VALUES (?, 1, ?, ?, null, null, ?, null, null, 'Processing')";
+
+                        $stmtInsertDocumentLogs = $con->prepare($sqlInsertDocumentLogs);
+
+                        if ($stmtInsertDocumentLogs) {
+                            $stmtInsertDocumentLogs->bind_param("iiss", $documentID, $userID, $dateFormat, $fileContent);
+                            $stmtInsertDocumentLogs->execute();
+
+                            if ($stmtInsertDocumentLogs->affected_rows > 0) {
+                                header("Location: ../ver3/user/doc.php");
+
+                                exit();
+
+
+
+                            } else {
+                                echo "failed to insert into document_logs " . $con->error;
+                            }
+
+                            $stmtInsertDocumentLogs->close();
+                        } else {
+                            echo "error preparing statement for document_logs " . $con->error;
+                        }
+                    } else {
+                        echo "failed to insert into document_details " . $con->error;
+                    }
+
+                    $stmtInsertDocumentDetails->close();
                     $documentID = $stmtInsertDocumentDetails->insert_id;
                     
                     $sqlInsertDocumentLogs = "INSERT INTO document_logs (document_ID, department_ID, user_ID, referral_Date, review_Date, remarks, received_file, reviewed_file, approved_file, document_status)
@@ -65,12 +131,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 }
                 
                 } else {
-                    echo "failed to insert into document_details " . $con->error;
+                    echo "error preparing statement for document_details " . $con->error;
                 }
-
-                $stmtInsertDocumentDetails->close();
             } else {
-                echo "error preparing statement for document_details " . $con->error;
+                echo "error preparing statement for latest document number " . $con->error;
             }
         } else {
             echo "failed to get contents";
@@ -82,3 +146,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit();
 }
 ?>
+
