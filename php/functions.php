@@ -116,7 +116,7 @@ function get_recent($con, $accountID){
 
 
         mysqli_stmt_execute($stmt);
-
+ 
 
         mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $status);
         
@@ -140,32 +140,6 @@ function get_recent($con, $accountID){
 
 //img
 
-function getUserImg($con, $accountID) {
-
-    $query = "SELECT user_img FROM user WHERE user_ID = ?";
-    $stmt = mysqli_prepare($con, $query);
-
-
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "i", $accountID);
-
-
-        mysqli_stmt_execute($stmt);
-
-
-        mysqli_stmt_bind_result($stmt, $imageData);
-
-        if (mysqli_stmt_fetch($stmt)) {
-            mysqli_stmt_close($stmt);
-            return base64_encode($imageData);
-        } else {
-            mysqli_stmt_close($stmt);
-            echo '<script>("no user image found")' ;
-        }
-    } else {
-        echo 'Error getting image' ;
-    }
-}
 
 
 function documentNotif($con, $userID) {
@@ -298,23 +272,19 @@ function getFile($con, $documentID) {
         return null;
     }
 }
+
 function updateFile($con, $docID, $userID, $newFileBlob) {
-    $query = "UPDATE document_logs SET received_file = ? WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
+    $query = "UPDATE document_logs SET received_file = ?, document_status = 'Processing' WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
 
         if (mysqli_stmt_execute($stmt)) {
-
-
             mysqli_stmt_close($stmt);
-
             return true;
         } else {
-
             mysqli_stmt_close($stmt);
-
             return false;
         }
     } else {

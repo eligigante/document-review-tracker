@@ -9,15 +9,7 @@ $userID = $_SESSION['user_id'];
 
 require_once('../../php/functions.php');
 
-$imageUser = getUserImg($con, $userID);
 
-
-
-if ($imageUser !== false) {
-    $imageSrc = "data:image/jpeg;base64," . $imageUser; 
-} else {
-    echo "<script>alert('no image')</script>";
-}
 
 
 
@@ -128,7 +120,7 @@ if ($imageUser !== false) {
             
               </div>
             <a href="#" class="profile">
-                <img src="<?php echo $imageSrc ?>">
+                <img src="">
             </a>
         </nav>
         <!-- NAVBAR -->
