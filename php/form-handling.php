@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $fileContent = file_get_contents($tempFilePath);
 
-        $totalPages = preg_match_all("/\Page\W/", $fileContent, $dummy);
+        $totalPages = preg_match_all("/\\bPage\\b/", $fileContent, $dummy);
 
         if ($fileContent !== null) {
 
