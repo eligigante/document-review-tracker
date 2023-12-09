@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const addUserBtn = document.querySelector(".btn-add");
   const revokeBtn = document.querySelector(".revoke-btn");
   const editBtn = document.querySelector(".edit-btn");
-  const reviewBtn = document.querySelector(".review-btn");
+  // const reviewBtn = document.querySelector(".review-btn");
   const createBtn = document.querySelector(".create-btn");
   const edtBtn = document.querySelector(".edt-btn");
 
@@ -147,113 +147,113 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-document.getElementById('filter-btn').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevents the default behavior of the anchor tag
+// document.getElementById('filter-btn').addEventListener('click', function(event) {
+//   event.preventDefault(); // Prevents the default behavior of the anchor tag
 
-  // Perform different fetch requests based on some condition
-  if (/* condition for the first fetch */) {
-    fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  } else {
-    fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-});
+//   // Perform different fetch requests based on some condition
+//   if (/* condition for the first fetch */) {
+//     fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
+//       .then(response => response.json())
+//       .then(data => {
+//         // Handle data from the server
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   } else {
+//     fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
+//       .then(response => response.json())
+//       .then(data => {
+//         // Handle data from the server
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   }
+// });
 
-document.getElementById('sort-btn').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevents the default behavior of the anchor tag
+// document.getElementById('sort-btn').addEventListener('click', function(event) {
+//   event.preventDefault(); // Prevents the default behavior of the anchor tag
 
-  // Perform different fetch requests based on some condition
-  if (/* condition for the first fetch */) {
-    fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  } else {
-    fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-});
+//   // Perform different fetch requests based on some condition
+//   if (/* condition for the first fetch */) {
+//     fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
+//       .then(response => response.json())
+//       .then(data => {
+//         // Handle data from the server
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   } else {
+//     fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
+//       .then(response => response.json())
+//       .then(data => {
+//         // Handle data from the server
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   }
+// });
 
-document.getElementById('filter-manage').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevents the default behavior of the anchor tag
+// document.getElementById('filter-manage').addEventListener('click', function(event) {
+//   event.preventDefault(); // Prevents the default behavior of the anchor tag
 
-  // Perform different fetch requests based on some condition
-  if (/* condition for the first fetch */) {
-    fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  } else {
-    fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-});
+//   // Perform different fetch requests based on some condition
+//   if (/* condition for the first fetch */) {
+//     fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
+//       .then(response => response.json())
+//       .then(data => {
+//         // Handle data from the server
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   } else {
+//     fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
+//       .then(response => response.json())
+//       .then(data => {
+//         // Handle data from the server
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   }
+// });
 
-document.getElementById('sort-manage').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevents the default behavior of the anchor tag
+// document.getElementById('sort-manage').addEventListener('click', function(event) {
+//   event.preventDefault(); // Prevents the default behavior of the anchor tag
 
-  // Perform different fetch requests based on some condition
-  if (/* condition for the first fetch */) {
-    fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  } else {
-    fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-});
+//   // Perform different fetch requests based on some condition
+//   if (/* condition for the first fetch */) {
+//     fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
+//       .then(response => response.json())
+//       .then(data => {
+//         // Handle data from the server
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   } else {
+//     fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
+//       .then(response => response.json())
+//       .then(data => {
+//         // Handle data from the server
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   }
+// });
 
 function sendAddUserServerRequest() {
   fetch("/add_user_request", {

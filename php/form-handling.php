@@ -43,25 +43,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $documentID = $stmtInsertDocumentDetails->insert_id;
                     
                     $sqlInsertDocumentLogs = "INSERT INTO document_logs (document_ID, department_ID, user_ID, referral_Date, review_Date, remarks, received_file, reviewed_file, approved_file, document_status)
-                        VALUES (?, 1, ?, ?, null, null, ?, null, null, 'Processing')";
-
-                    $stmtInsertDocumentLogs = $con->prepare($sqlInsertDocumentLogs);
-
-                    if ($stmtInsertDocumentLogs) {
-                        $stmtInsertDocumentLogs->bind_param("iiss", $documentID, $userID, $dateFormat, $fileContent);
-                        $stmtInsertDocumentLogs->execute();
-
-                        if ($stmtInsertDocumentLogs->affected_rows > 0) {
-                            header("Location: ../ver3/user/doc.php");
-                            exit();
-                        } else {
-                            echo "failed to insert into document_logs " . $con->error;
-                        }
-
-                        $stmtInsertDocumentLogs->close();
+                    SELECT ?, d.department_ID, d.user_ID, ?, null, null, ?, null, null, 'Processing'
+                    FROM departments d
+                    WHERE d.department_ID = ?";
+                
+                $stmtInsertDocumentLogs = $con->prepare($sqlInsertDocumentLogs);
+                
+                if ($stmtInsertDocumentLogs) {
+                    $stmtInsertDocumentLogs->bind_param("issi", $documentID, $dateFormat, $fileContent, $departmentID);
+                    $departmentID = 1; 
+                    $stmtInsertDocumentLogs->execute();
+                
+                    if ($stmtInsertDocumentLogs->affected_rows > 0) {
+                        header("Location: ../ver3/user/doc.php");
+                        exit();
                     } else {
-                        echo "error preparing statement for document_logs " . $con->error;
+                        echo "failed to insert into document_logs " . $con->error;
                     }
+                
+                    $stmtInsertDocumentLogs->close();
+                } else {
+                    echo "error preparing statement for document_logs " . $con->error;
+                }
+                
                 } else {
                     echo "failed to insert into document_details " . $con->error;
                 }
