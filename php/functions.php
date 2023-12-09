@@ -63,8 +63,10 @@ function get_name($con, $accountID) {
 
 function get_docs($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ?";
-
+    $query = "SELECT document_details.document_ID, document_details.document_Title, document_details.upload_Date, document_details.status, document_logs.department_ID, departments.department_Name FROM document_details
+    JOIN document_logs ON document_details.document_ID = document_logs.document_ID
+    JOIN departments ON document_logs.department_ID = departments.department_ID
+    WHERE document_details.user_ID = ?;";
       
     if ($stmt = mysqli_prepare($con, $query)) {
    
@@ -75,7 +77,7 @@ function get_docs($con, $accountID){
 
 
 
-    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status);
+    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status, $department_ID, $department);
 
     $documents = array();
 
@@ -85,7 +87,9 @@ function get_docs($con, $accountID){
             "docID" => $document_ID,
             "title" => $document_Title,
             "uploadDate" => $upload_Date,
-            "status" => $status
+            "status" => $status,
+            "department" => $department_ID,
+            "depName" => $department
       
         );
     }
@@ -101,6 +105,8 @@ function get_docs($con, $accountID){
 
 }
 }
+
+
 
 function get_recent($con, $accountID){
 

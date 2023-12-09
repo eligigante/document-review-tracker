@@ -160,6 +160,7 @@ if ($_GET['page'] === 'home') {
                     <th>Document Title</th>
                     <th>Upload Date</th>
                     <th>Document Status</th>
+                    <th>Current Department</th>
                     <th></th>
                 </tr>
             </thead>

@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($fileContent !== null) {
 
             $sqlInsertDocumentDetails = "INSERT INTO document_details (user_ID, document_Title, pages, status, upload_Date, file)
-                    VALUES (?, ?, ?,'pending',?, ?)";
+                    VALUES (?, ?, ?,'Prcoessing',?, ?)";
 
             $stmtInsertDocumentDetails = $con->prepare($sqlInsertDocumentDetails);
 
