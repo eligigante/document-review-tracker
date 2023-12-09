@@ -1,9 +1,6 @@
 <?php
 session_start();
 
-require 'vendor/autoload.php';
-
-use PhpOffice\PhpWord\IOFactory;
 
 include_once('db.php');
 
@@ -22,10 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $fileName = $uploadedFile["name"];
         $tempFilePath = $uploadedFile["tmp_name"];
 
-        $phpWord = IOFactory::load($tempFilePath);
-        $numberOfPages = count($phpWord->getSections());
+ 
+        
 
         $fileContent = file_get_contents($tempFilePath);
+
+        $totalPages = preg_match_all("/\Page\W/", $fileContent, $dummy);
+       
 
         if ($fileContent !== null) {
 
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmtInsertDocumentDetails = $con->prepare($sqlInsertDocumentDetails);
 
             if ($stmtInsertDocumentDetails) {
-                $stmtInsertDocumentDetails->bind_param("issss", $userID, $fileName, $numberOfPages, $dateFormat, $fileContent);
+                $stmtInsertDocumentDetails->bind_param("issss", $userID, $fileName, $totalPages, $dateFormat, $fileContent);
                 $stmtInsertDocumentDetails->execute();
 
                 if ($stmtInsertDocumentDetails->affected_rows > 0) {
@@ -79,4 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     exit();
 }
+
+
+
+
+
+
+
 ?>
