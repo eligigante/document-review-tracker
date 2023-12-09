@@ -66,6 +66,7 @@ WebViewer(
         return;
       }
       acceptDocument(filePath);
+      response.redirect('/review_doc')
     }
   });
 
@@ -86,6 +87,7 @@ WebViewer(
         return;
       }
       rejectDocument(filePath);
+      response.redirect('/review_doc')
     }
   });
 

@@ -534,13 +534,6 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
       const departmentId = req.session.department_ID;
   
       if (departmentId <= 5) {
-        const reviewedFilePath = path.resolve(
-          __dirname,
-          "../public/temp",
-          `document_${documentId}.pdf`
-        );
-  
-        // Fetch user_ID from departments based on department_ID
         const user_ID = await getUserIDFromDepartment(departmentId);
   
         await updateAcceptLog(
@@ -552,26 +545,36 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           filePath,
           referralDate
         );
+  
+        if (departmentId < 5) {
+          const nextDepartmentID = departmentId + 1;
+          const nextUser_ID = await getUserIDFromDepartment(nextDepartmentID);
+  
+          const nextReviewerDocumentLog = {
+            document_ID: documentId,
+            department_ID: nextDepartmentID,
+            user_ID: nextUser_ID,
+            referral_Date: referralDate,
+            review_Date: null,
+            remarks: null,
+            received_file: originalFileData,
+            reviewed_file: null,
+            approved_file: null,
+            document_status: "Processing",
+          };
+  
+          await insertDocumentLog(nextReviewerDocumentLog);
+        }
       } else {
-        await updateDocumentStatus(documentId, "Finished");
-      }
-  
-      if (departmentId < 5) {
-
-        const nextReviewerDocumentLog = {
-          document_ID: documentId,
-          department_ID: nextDepartmentID,
-          user_ID: req.session.user_ID,
-          referral_Date: referralDate,
-          review_Date: null,
-          remarks: null,
-          received_file: originalFileData,
-          reviewed_file: null,
-          approved_file: null,
-          document_status: "Processing",
-        };
-  
-        await insertDocumentLog(nextReviewerDocumentLog);
+        await updateAcceptLog(
+          documentId,
+          departmentId,
+          req.session.user_ID,
+          originalFileData,
+          null,
+          filePath,
+          referralDate
+        );
       }
   
       return res.json({ success: true });
@@ -580,6 +583,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   });
+  
   
   async function getUserIDFromDepartment(departmentId) {
     return new Promise((resolve, reject) => {
@@ -591,7 +595,6 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
             console.error("Error fetching user_ID from departments:", err);
             reject(err);
           } else {
-            // Assuming result is an array with at least one element
             const user_ID = result[0].user_ID;
             resolve(user_ID);
           }
@@ -620,7 +623,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           "accepted",
           documentId,
           departmentId,
-          user_ID, // Use the user_ID from the departments table
+          user_ID, 
         ],
         (err, result) => {
           if (err) {
