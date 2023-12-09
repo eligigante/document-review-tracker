@@ -99,7 +99,7 @@ if ($_GET['page'] === 'home') {
                     <td>
                         <form action="../../php/download.php" method="get" target="_blank">
                             <input type="hidden" name="file_id" value="' . $doc['docID'] . '">
-                            <button type="submit">Download</button>
+                            <button type="submit">View</button>
                         </form>
                     </td>
                     <td>

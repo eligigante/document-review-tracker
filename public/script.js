@@ -1,4 +1,4 @@
-const { document } = require("pdfkit/js/page");
+// const { document } = require("pdfkit/js/page");
 
 const allSideMenu = document.querySelectorAll("#sidebar .side-menu.top li a");
 const section = document.querySelector("section");
@@ -124,11 +124,6 @@ function createLogoutModal() {
 // Event Listener
 document.addEventListener("DOMContentLoaded", function () {
   const logoutBtn = document.querySelector(".logout");
-  const addUserBtn = document.querySelector(".btn-add");
-  const revokeBtn = document.querySelector(".revoke-btn");
-  const editBtn = document.querySelector(".edit-btn");
-  const reviewBtn = document.querySelector(".review-btn");
-  const createBtn = document.querySelector(".create-btn");
   const edtBtn = document.querySelector(".edt-btn");
 
   logoutBtn.addEventListener("click", function (event) {
@@ -136,136 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
     createLogoutModal();
   });
 
-  createBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    sendAddUserServerRequest();
-  });
-
   edtBtn.addEventListener("click", function (event) {
     event.preventDefault();
-  });
-
-});
-
-document.getElementById('filter-btn').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-  // Perform different fetch requests based on some condition
-  if (/* condition for the first fetch */) {
-    fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  } else {
-    fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-});
-
-document.getElementById('sort-btn').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-  // Perform different fetch requests based on some condition
-  if (/* condition for the first fetch */) {
-    fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  } else {
-    fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-});
-
-document.getElementById('filter-manage').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-  // Perform different fetch requests based on some condition
-  if (/* condition for the first fetch */) {
-    fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  } else {
-    fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-});
-
-document.getElementById('sort-manage').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-  // Perform different fetch requests based on some condition
-  if (/* condition for the first fetch */) {
-    fetch('/fetchFirstData') // Replace '/fetchFirstData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  } else {
-    fetch('/fetchSecondData') // Replace '/fetchSecondData' with your server route
-      .then(response => response.json())
-      .then(data => {
-        // Handle data from the server
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-});
-
-function sendAddUserServerRequest() {
-  fetch("/add_user_request", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
+    sendEditUserServerRequest();
+  })});
 
 function sendEditUserServerRequest() {
   fetch("/edit_user", {
@@ -300,53 +169,6 @@ function sendLogoutUserServerRequest() {
     .catch((error) => console.error("Error:", error));
 }
 
-function sendSortUserAscendingRequest() {
-  fetch("/sort_users_ascending", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
-
-function sendSortUserDescendingRequest() {
-  fetch("/sort_users_descending", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
-
-function sendFilterUsersOfflineRequest() {
-  fetch("/filter_users_offline", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
-
-function sendFilterUsersOnlineRequest() {
-  fetch("/filter_users_online", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
 
 //SPA
 // function loadContent(page) {
@@ -533,6 +355,7 @@ function openNewPageWithPDF(filename) {
   )}`;
   console.log("This is the path: " + relativePath);
   const newWindow = window.open(relativePath, "_blank");
+  window.close();
 
   if (!newWindow) {
     alert("Popup Failed.");

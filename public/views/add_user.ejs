@@ -53,6 +53,9 @@
         </ul>
     </section>
     <!-- SIDEBAR -->
+
+
+
     <!-- CONTENT -->
     <section id="content">
         <!-- NAVBAR -->
@@ -128,7 +131,7 @@
                 </div>
             </div>
             <div class="doc-container">
-                <h2 class="new-user">Add New User</h2>
+                <h2 class="new-user">Edit User</h2>
                 <div class="form-container">
                     <form name="frmContact" id="" frmContact"" method="post" action="/add_user_request" enctype="" onsubmit="">
                         <div class="first-row">
@@ -138,13 +141,15 @@
                                 </div>
                                 <input type="text" class="input-field" name="contact-id" id="contact-id" value="<%- include('user_id.ejs') %>" readonly/>
                             </div>
-                            <!-- <div class="inline-block responsive">
+                            <div class="inline-block responsive">
                                 <div class="label">
-                                    Department ID <span id="department-id-info" class="info"></span>
+                                    Status <span id="department-id-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-department-id"
-                                    id="contact-department-id" />
-                            </div> -->
+                                <select id="status" class="input-field" name="status">
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="second-row">
                             <div class="inline-block right-margin">
@@ -225,7 +230,6 @@
         <!-- MAIN -->
     </section>
     <!-- CONTENT -->
-
     <script src="../script.js"></script>
 </body>
 
