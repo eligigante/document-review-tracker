@@ -308,7 +308,7 @@ app.get("/review_doc", (request, response) => {
     }
   });
   
-  app.get("/downloadAndConvert/:documentId", (req, res) => {
+app.get("/downloadAndConvert/:documentId", (req, res) => {
     try {
       const documentId = req.params.documentId;
       const departmentID = req.session.department_ID;
