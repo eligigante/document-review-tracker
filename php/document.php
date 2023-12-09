@@ -45,6 +45,9 @@ if ($docs !== null) {
             <td>
                 <span class="' . $statusChanging . '">' . $doc['status'] . '</span>
             </td>
+            <td>
+                <span>" Currently at ' .$doc['depName'].' ' .$doc['department'].'"</span>
+            </td>
         </tr>';
     }
 } else {

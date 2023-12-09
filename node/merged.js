@@ -526,6 +526,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     );
   
     console.log("Original reviewed path: " + reviewedFilePath);
+  
     try {
       const referralDate = await getReferralDate(documentId);
   
@@ -542,15 +543,20 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
   
       const departmentId = req.session.department_ID;
   
-      if (departmentId < 5) {
+      if (departmentId <= 5) {
         const reviewedFilePath = path.resolve(
           __dirname,
           "../public/temp",
           `document_${documentId}.pdf`
         );
+  
+        // Fetch user_ID from departments based on department_ID
+        const user_ID = await getUserIDFromDepartment(departmentId);
+  
         await updateAcceptLog(
           documentId,
           departmentId,
+          user_ID,
           originalFileData,
           reviewedFilePath,
           filePath,
@@ -561,7 +567,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
       }
   
       if (departmentId < 5) {
-        const nextDepartmentID = departmentId + 1;
+
         const nextReviewerDocumentLog = {
           document_ID: documentId,
           department_ID: nextDepartmentID,
@@ -585,9 +591,29 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     }
   });
   
+  async function getUserIDFromDepartment(departmentId) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        queries.getUserIDFromDepartment,
+        [departmentId],
+        (err, result) => {
+          if (err) {
+            console.error("Error fetching user_ID from departments:", err);
+            reject(err);
+          } else {
+            // Assuming result is an array with at least one element
+            const user_ID = result[0].user_ID;
+            resolve(user_ID);
+          }
+        }
+      );
+    });
+  }
+  
   async function updateAcceptLog(
     documentId,
     departmentId,
+    user_ID,
     originalFileData,
     reviewedFilePath,
     filePath,
@@ -604,6 +630,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           "accepted",
           documentId,
           departmentId,
+          user_ID, // Use the user_ID from the departments table
         ],
         (err, result) => {
           if (err) {

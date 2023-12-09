@@ -28,8 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
             if (updateFile($con, $docID, $_SESSION['user_id'], $newFileBlob)) {
-
-                echo 'uplaoded succieslf.';
+                header("Location: ../ver3/user/doc.php");
             } else {
                 echo 'update file did not execute';
             }

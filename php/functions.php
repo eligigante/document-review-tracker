@@ -63,8 +63,10 @@ function get_name($con, $accountID) {
 
 function get_docs($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ?";
-
+    $query = "SELECT document_details.document_ID, document_details.document_Title, document_details.upload_Date, document_details.status, document_logs.department_ID, departments.department_Name FROM document_details
+    JOIN document_logs ON document_details.document_ID = document_logs.document_ID
+    JOIN departments ON document_logs.department_ID = departments.department_ID
+    WHERE document_details.user_ID = ?;";
       
     if ($stmt = mysqli_prepare($con, $query)) {
    
@@ -75,7 +77,7 @@ function get_docs($con, $accountID){
 
 
 
-    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status);
+    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status, $department_ID, $department);
 
     $documents = array();
 
@@ -85,7 +87,9 @@ function get_docs($con, $accountID){
             "docID" => $document_ID,
             "title" => $document_Title,
             "uploadDate" => $upload_Date,
-            "status" => $status
+            "status" => $status,
+            "department" => $department_ID,
+            "depName" => $department
       
         );
     }
@@ -102,6 +106,8 @@ function get_docs($con, $accountID){
 }
 }
 
+
+
 function get_recent($con, $accountID){
 
     $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
@@ -116,7 +122,7 @@ function get_recent($con, $accountID){
 
 
         mysqli_stmt_execute($stmt);
-
+ 
 
         mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $status);
         
@@ -140,32 +146,6 @@ function get_recent($con, $accountID){
 
 //img
 
-function getUserImg($con, $accountID) {
-
-    $query = "SELECT user_img FROM user WHERE user_ID = ?";
-    $stmt = mysqli_prepare($con, $query);
-
-
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "i", $accountID);
-
-
-        mysqli_stmt_execute($stmt);
-
-
-        mysqli_stmt_bind_result($stmt, $imageData);
-
-        if (mysqli_stmt_fetch($stmt)) {
-            mysqli_stmt_close($stmt);
-            return base64_encode($imageData);
-        } else {
-            mysqli_stmt_close($stmt);
-            echo '<script>("no user image found")' ;
-        }
-    } else {
-        echo 'Error getting image' ;
-    }
-}
 
 
 function documentNotif($con, $userID) {
@@ -298,23 +278,19 @@ function getFile($con, $documentID) {
         return null;
     }
 }
+
 function updateFile($con, $docID, $userID, $newFileBlob) {
-    $query = "UPDATE document_logs SET received_file = ? WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
+    $query = "UPDATE document_logs SET received_file = ?, document_status = 'Processing' WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
 
         if (mysqli_stmt_execute($stmt)) {
-
-
             mysqli_stmt_close($stmt);
-
             return true;
         } else {
-
             mysqli_stmt_close($stmt);
-
             return false;
         }
     } else {

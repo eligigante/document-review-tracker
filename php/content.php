@@ -21,13 +21,8 @@ $documentRejected = getRejected($con, $userID);
 
 $docRecent = get_recent($con, $userID);
 
-$imageUser = getUserImg($con, $userID);
 
-if ($imageUser !== false) {
-    $imageSrc = "data:image/jpeg;base64," . $imageUser; 
-} else {
-    echo "<script>alert('no image')</script>";
-}
+
 
 
 
@@ -165,6 +160,7 @@ if ($_GET['page'] === 'home') {
                     <th>Document Title</th>
                     <th>Upload Date</th>
                     <th>Document Status</th>
+                    <th>Current Department</th>
                     <th></th>
                 </tr>
             </thead>
@@ -227,7 +223,7 @@ if ($_GET['page'] === 'home') {
 <div class="profile-container">
     
     <div class="sample-image">
-        <img src="'.$imageSrc.'" class="sample-image">
+        <img src="" class="sample-image">
     </div>
     <div class="profile-info">
         <div class="general-information-label">GENERAL INFORMATION</div>
