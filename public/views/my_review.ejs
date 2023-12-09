@@ -163,21 +163,19 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Document ID</th>
-                                <th>User ID</th>
-                                <th>Name of Uploader</th>
-                                <th>Referral Date</th>
-                                <th>Document Status</th>
+                                <th>User</th>
+                                <th>Document Title</th>
+                                <th>Review Date</th>
+                                <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <% data.forEach(element => { %> 
                                 <tr>
-                                    <td><%= element.document_ID %></td>
-                                    <td><%= element.user_ID %></td>
                                     <td><p><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></p></td> 
-                                    <td><%= element.referral_date %></td>
+                                    <td><%= element.document_Title %></td>
+                                    <td><%= element.review_date %></td>
                                     <td><span><%= element.document_status%></span></td>  
                                 </tr>
                             <% }) %>

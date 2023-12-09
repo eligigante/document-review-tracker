@@ -77,60 +77,12 @@
     </section>
     <!-- SIDEBAR -->
 
-
-
     <!-- CONTENT -->
     <section id="content">
         <!-- NAVBAR -->
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-            <button class="drop-btn" id="drop-btn">
-                <i class='bx bxs-bell'></i>
-            </button>
-            <div class="dropdown" id="dropdown">
-                <div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Alex commented on<span>Timeline Share</span></p>
-						<span class="notify_time">10 minutes ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Ben hur commented on your<span>Timeline Share</span></p>
-						<span class="notify_time">55 minutes ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Meryn trant liked your<span>Cover Picture</span></p>
-						<span class="notify_time">2 hours ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>John wick commented on your<span>Profile Picture</span></p>
-						<span class="notify_time">6 hours ago</span>
-					</div>
-				</div>
-              </div>
+            <form action="#"></form>
             <a href="#" class="profile">
                 <img src="img/people.png">
             </a>
@@ -164,6 +116,8 @@
                         <thead>
                             <tr>
                                 <th>User</th>
+                                <th>Document</th>
+                                <th>Upload Date</th>
                                 <th>Referral Date</th>
                                 <th>Status</th>
                             </tr>
@@ -172,83 +126,12 @@
                             <% data.forEach(element => { %> 
                                 <tr>
                                     <td><p><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></p></td> 
-                                    <td><%= element.date %></td>
+                                    <td><%= element.document_Title %></td>
+                                    <td><%= element.upload_Date %></td>
+                                    <td><%= element.referral_Date %></td>
                                     <td><span><%= element.document_status%></span></td>  
                                 </tr>
                             <% }) %>
-
-                            <!-- <tr>
-                                <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status pending">Pending</span></td>
-                            </tr> -->
-                        </tbody>
-                    </table>
-                </div>
-                <!-- <div class="todo">
-                    <div class="head">
-                        <h3>Todos</h3>
-                        <i class='bx bx-plus'></i>
-                        <i class='bx bx-filter'></i>
-                    </div>
-                    <ul class="todo-list">
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="not-completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="not-completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
         </main>
         <!-- MAIN -->

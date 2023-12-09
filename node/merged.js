@@ -8,6 +8,7 @@ const server = require('./server');
 const db = require('./db');
 const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
+const { request } = require('http');
 // const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
@@ -336,6 +337,7 @@ app.post('/logout', (request, response) => {
     console.log('User has logged out.');
   }
 })
+
 app.get('/add_user', (request, response) => {
   if (request.session.verify) {
     var userID = ''; 
@@ -447,7 +449,58 @@ app.get("/review_doc", (request, response) => {
       response.redirect("/");
     }
   });
+app.get('/sort_asc_reviewer', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortAscReviewer, function(error, result, fields) {
+      console.log("Showing sorted users (reviewer - A-Z)...")
+      response.render('admin', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/sort_desc_reviewer', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortDescReviewer, function(error, result, fields) {
+      console.log("Showing sorted users (reviewer - Z-A)...")
+      response.render('admin', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/filter_processing_reviewer', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortDescReviewer, function(error, result, fields) {
+      console.log("Showing filtered documents ()...")
+      response.render('admin', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
   
+app.get('/filter_accepted_reviewer', (request, response) => {
+  
+})
+
+app.get('/filter_rejected_reviewer', (request, response) => {
+  
+})
+
+app.get('/my_sort_asc', (request, response) => {
+
+})
+
+app.get('/my_sort_desc', (request, response) => {
+  
+})
+
 app.get("/downloadAndConvert/:documentId", (req, res) => {
     try {
       const documentId = req.params.documentId;
