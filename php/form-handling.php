@@ -19,8 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $fileName = $uploadedFile["name"];
         $tempFilePath = $uploadedFile["tmp_name"];
 
- 
-        
 
         $fileContent = file_get_contents($tempFilePath);
 

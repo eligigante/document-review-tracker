@@ -287,21 +287,21 @@ function getFile($con, $documentID) {
     }
 }
 
-function updateFile($con, $docID, $newFileBlob) {
+function updateFile($con, $docID, $userID, $newFileBlob) {
     $query = "
-        UPDATE document_logs dl
-        JOIN document_details dd ON dl.document_ID = dd.document_ID
-        SET dl.received_file = ?,
-            dl.document_status = 'Processing',
-            dd.status = 'pending',
-            dd.revisions = dd.revisions + 1
-        WHERE dl.document_ID = ? AND dl.document_status = 'rejected';
+        UPDATE document_logs
+        JOIN document_details ON document_logs.document_ID = document_details.document_ID
+        SET document_logs.received_file = ?,
+            document_logs.document_status = 'Processing',
+            document_details.status = 'Pending',
+            document_details.revisions = document_details.revisions + 1
+        WHERE document_logs.document_ID = ? AND document_details.user_ID = ? AND document_logs.document_status = 'rejected';
     ";
 
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ss', $newFileBlob, $docID);
+        mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
 
         $result = mysqli_stmt_execute($stmt);
 
@@ -312,4 +312,3 @@ function updateFile($con, $docID, $newFileBlob) {
         return false;
     }
 }
-
