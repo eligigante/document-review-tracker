@@ -148,6 +148,7 @@ app.get('/admin_profile', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.getUserDetails, [request.session.userID], function(error, result, fields) {
     console.log("Showing admin profile...")
+    console.log(result[0]);
     response.render('admin_profile', {data: result[0]});
   })}
   else {
@@ -160,6 +161,7 @@ app.get('/reviewer_profile', (request, response) => {
     if (request.session.verify) {
       connection.query(queries.getUserDetails, [request.session.userID], function(error, result, fields) {
       console.log("Showing reviewer profile...")
+      console.log(result[0]);
       response.render('reviewer_profile', {data: result[0]});
     })}
     else {
