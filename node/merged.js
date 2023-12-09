@@ -8,8 +8,7 @@ const server = require('./server');
 const db = require('./db');
 const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
-const { request } = require('http');
-
+// const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -97,6 +96,7 @@ app.get('/verify', function(request, response) {
 app.get('/home_admin', (request, response) => {
   if (request.session.verify) {
   connection.query(queries.getUsers, function(error, result, fields) {
+    console.log(result)
     console.log("Showing admin home page...")
     response.render('admin', {data: result})})
   }
@@ -106,31 +106,33 @@ app.get('/home_admin', (request, response) => {
     }
 })
 
-app.post("/sort_users_ascending", (request, response) => {
+app.get("/sort_users_ascending", (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.sortAdminUserAscending, function(error, result, fields) {
-      console.log("Showing sorted users (ascending)...")
-      response.render('admin', {data: result})})
+      connection.query(queries.sortAdminUserAscending, function(error, result, fields) {
+        console.log("User data successfully retrieved.")
+        response.render('admin', {data: result});
+    })
+  }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
     }
+})
+
+app.get("/sort_users_descending", (request, response) => {
+  if (request.session.verify) {
+      connection.query(queries.sortAdminUserDescending, function(error, result, fields) {
+        console.log("User data successfully retrieved.")
+        response.render('admin', {data: result});
+    })
+  }
     else {
       console.log("Please login or logout from your current session.")
       response.redirect('/');
       }
 })
 
-app.post("/sort_users_descending", (request, response) => {
-  if (request.session.verify) {
-    connection.query(queries.sortAdminUserDescending, [request.session.department_ID], function(error, result, fields) {
-      console.log("Showing sorted users (descending)...")
-      response.render('admin', {data: result})})
-    }
-    else {
-      console.log("Please login or logout from your current session.")
-      response.redirect('/');
-      }
-})
-
-app.post("/filter_users_offline", (request, response) => {
+app.get("/filter_users_offline", (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterByOfflineUsers, function(error, result, fields) {
       console.log("Showing filtered users (offline)...")
@@ -142,7 +144,7 @@ app.post("/filter_users_offline", (request, response) => {
       }
 })
 
-app.post("/filter_users_online", (request, response) => {
+app.get("/filter_users_online", (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterByOnlineUsers, function(error, result, fields) {
       console.log("Showing filtered users (online)...")
@@ -152,6 +154,94 @@ app.post("/filter_users_online", (request, response) => {
       console.log("Please login or logout from your current session.")
       response.redirect('/');
       }
+})
+
+app.get("/sort_manage_ascending", (request, response) => {
+  var data = '';
+  if (request.session.verify) {
+      connection.query(queries.sortAdminManageAscending, function(error, result, fields) {
+        data = result.map(row => ({
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_Name: row.department_Name,
+          role: row.role,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
+    })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
+
+app.get("/sort_manage_descending", (request, response) => {
+  var data = '';
+  if (request.session.verify) {
+      connection.query(queries.sortAdminManageDescending, function(error, result, fields) {
+        data = result.map(row => ({
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_Name: row.department_Name,
+          role: row.role,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
+    })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
+
+app.get("/filter_manage_offline", (request, response) => {
+  var data = '';
+  if (request.session.verify) {
+      connection.query(queries.filterManageOfflineUsers, function(error, result, fields) {
+        data = result.map(row => ({
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_Name: row.department_Name,
+          role: row.role,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
+    })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
+
+app.get("/filter_manage_online", (request, response) => {
+  var data = '';
+  if (request.session.verify) {
+      connection.query(queries.filterManageOnlineUsers  , function(error, result, fields) {
+        data = result.map(row => ({
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_Name: row.department_Name,
+          role: row.role,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
+    })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
 })
 
 app.get('/home_reviewer', (request, response) => {
@@ -176,11 +266,11 @@ app.get('/manage_user', (request, response) => {
   if (request.session.verify) {
       connection.query(queries.manageUserDetails, function(error, result, fields) {
         data = result.map(row => ({
-          user_ID: row.user_ID,
           first_Name: row.first_Name,
           middle_Name: row.middle_Name,
           last_Name: row.last_Name,
-          department_ID: row.department_ID,
+          department_Name: row.department_Name,
+          role: row.role,
           status: row.status
         }));
         console.log("User data successfully retrieved.")
@@ -273,27 +363,33 @@ app.get('/add_user', (request, response) => {
   
 app.post('/add_user_request', (request, response) => {
   if (request.session.verify) {
-    var email = request.body['contact-email'];
-    var password = request.body['contact-password'];
-    var lastName = request.body['contact-last-name'];
-    var firstName = request.body['contact-first-name'];
-    var middleName = request.body['contact-middle-name'];
-    var departmentID = request.body.department;
-    var position = request.body['contact-position'];
-    var role = request.body.role;
-    var status = 'Offline'
+    const email = request.body.email;
+    const password = request.body.password;
+    const lastName = request.body.last;
+    const firstName = request.body.first;
+    const middleName = request.body.middle;
+    const departmentID = request.body.department;
+    const position = request.body.position;
+    const role = request.body.role;
+    const status = 'Offline';
 
     connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
-    function(error, result, fields) {
-      console.log('User successfully added.');
-      response.redirect('/manage_user');
-  });  
-  }
-  else {
-    console.log("Please login or logout from your current session.")
+      function(error, result, fields) {
+        if (error) {
+          console.error('Error adding user:', error);
+          response.status(500).send('Internal Server Error');
+          return;
+        }
+
+        console.log('User successfully added:', result);
+        response.redirect('/manage_user');
+    });  
+  } else {
+    console.log('Please login or logout from your current session.');
     response.redirect('/');
-    }
-})
+  }
+});
+
   app.get('/edit_user', (request, response) => {
     if (request.session.verify) {
       var departmentOptions = '';
