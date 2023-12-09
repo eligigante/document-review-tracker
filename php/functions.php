@@ -63,8 +63,10 @@ function get_name($con, $accountID) {
 
 function get_docs($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ?";
-
+    $query = "SELECT document_details.document_ID, document_details.document_Title, document_details.upload_Date, document_details.status, document_logs.department_ID, departments.department_Name FROM document_details
+    JOIN document_logs ON document_details.document_ID = document_logs.document_ID
+    JOIN departments ON document_logs.department_ID = departments.department_ID
+    WHERE document_details.user_ID = ?;";
       
     if ($stmt = mysqli_prepare($con, $query)) {
    
@@ -75,7 +77,7 @@ function get_docs($con, $accountID){
 
 
 
-    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status);
+    mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status, $department_ID, $department);
 
     $documents = array();
 
@@ -85,7 +87,9 @@ function get_docs($con, $accountID){
             "docID" => $document_ID,
             "title" => $document_Title,
             "uploadDate" => $upload_Date,
-            "status" => $status
+            "status" => $status,
+            "department" => $department_ID,
+            "depName" => $department
       
         );
     }
@@ -102,6 +106,8 @@ function get_docs($con, $accountID){
 }
 }
 
+
+
 function get_recent($con, $accountID){
 
     $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
@@ -116,7 +122,7 @@ function get_recent($con, $accountID){
 
 
         mysqli_stmt_execute($stmt);
-
+ 
 
         mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $status);
         
@@ -140,32 +146,6 @@ function get_recent($con, $accountID){
 
 //img
 
-function getUserImg($con, $accountID) {
-
-    $query = "SELECT user_img FROM user WHERE user_ID = ?";
-    $stmt = mysqli_prepare($con, $query);
-
-
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "i", $accountID);
-
-
-        mysqli_stmt_execute($stmt);
-
-
-        mysqli_stmt_bind_result($stmt, $imageData);
-
-        if (mysqli_stmt_fetch($stmt)) {
-            mysqli_stmt_close($stmt);
-            return base64_encode($imageData);
-        } else {
-            mysqli_stmt_close($stmt);
-            echo '<script>("no user image found")' ;
-        }
-    } else {
-        echo 'Error getting image' ;
-    }
-}
 
 
 function documentNotif($con, $userID) {
@@ -216,34 +196,34 @@ function documentNotif($con, $userID) {
 }
 
 
-function getRejected($con, $accountID){
+function getRejected($con, $accountID) {
 
     $query = "
         SELECT
             document_logs.document_ID,
             document_logs.department_ID,
             document_logs.remarks,
+            document_logs.returned_file,
+            document_details.user_ID,
             document_details.document_Title
         FROM
             document_logs
         JOIN
             document_details ON document_logs.document_ID = document_details.document_ID
         WHERE
-            document_logs.user_ID = ? AND
-            document_logs.document_status = ?
+            document_details.user_ID = ? AND
+            document_logs.document_status = 'rejected'
     ";
 
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
 
-        $rejected = 'rejected';
-
-        mysqli_stmt_bind_param($stmt, 'ss', $accountID, $rejected);
+        mysqli_stmt_bind_param($stmt, 's', $accountID);
 
         mysqli_stmt_execute($stmt);
 
-        mysqli_stmt_bind_result($stmt, $document_ID, $departmentID, $remarks, $documentTitle);
+        mysqli_stmt_bind_result($stmt, $document_ID, $departmentID, $remarks, $returnedFile, $userID, $documentTitle);
 
         $documents = array();
 
@@ -251,8 +231,10 @@ function getRejected($con, $accountID){
             $documents[] = array(
                 "docID" => $document_ID,
                 "depID" => $departmentID,
+                "userID" => $userID,
                 "docTitle" => $documentTitle,
                 "remarks" => $remarks,
+                "returnedFile" => $returnedFile,
             );
         }
 
@@ -260,7 +242,6 @@ function getRejected($con, $accountID){
 
         return $documents;
     } else {
-        // Print the error message for debugging
         echo "Error: " . mysqli_error($con);
         return null;
     }
@@ -269,26 +250,33 @@ function getRejected($con, $accountID){
 
 
 function getFile($con, $documentID) {
-    $query = "SELECT document_Title, file FROM document_details WHERE document_ID = ?";
+    $query = "
+        SELECT
+            dd.document_Title,
+            dl.returned_file
+        FROM
+            document_details dd
+        JOIN
+            document_logs dl ON dd.document_ID = dl.document_ID
+        WHERE
+            dd.document_ID = ?
+    ";
+
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-
         mysqli_stmt_bind_param($stmt, 's', $documentID);
-
         mysqli_stmt_execute($stmt);
 
-
-        mysqli_stmt_bind_result($stmt, $document_Title, $file);
-
+        mysqli_stmt_bind_result($stmt, $document_Title, $returned_file);
 
         if (mysqli_stmt_fetch($stmt)) {
             $documentInfo = array(
                 "title" => $document_Title,
-                "file" => $file
+                "file" => $returned_file
             );
 
-            mysqli_stmt_close($stmt); 
+            mysqli_stmt_close($stmt);
             return $documentInfo;
         } else {
             mysqli_stmt_close($stmt);
@@ -298,26 +286,30 @@ function getFile($con, $documentID) {
         return null;
     }
 }
-function updateFile($con, $docID, $userID, $newFileBlob) {
-    $query = "UPDATE document_logs SET received_file = ? WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
+
+function updateFile($con, $docID, $newFileBlob) {
+    $query = "
+        UPDATE document_logs dl
+        JOIN document_details dd ON dl.document_ID = dd.document_ID
+        SET dl.received_file = ?,
+            dl.document_status = 'Processing',
+            dd.status = 'pending',
+            dd.revisions = dd.revisions + 1
+        WHERE dl.document_ID = ? AND dl.document_status = 'rejected';
+    ";
+
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
+        mysqli_stmt_bind_param($stmt, 'ss', $newFileBlob, $docID);
 
-        if (mysqli_stmt_execute($stmt)) {
+        $result = mysqli_stmt_execute($stmt);
 
+        mysqli_stmt_close($stmt);
 
-            mysqli_stmt_close($stmt);
-
-            return true;
-        } else {
-
-            mysqli_stmt_close($stmt);
-
-            return false;
-        }
+        return $result;
     } else {
         return false;
     }
 }
+

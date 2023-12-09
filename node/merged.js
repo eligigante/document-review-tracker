@@ -8,8 +8,7 @@ const server = require('./server');
 const db = require('./db');
 const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
-const { request } = require('http');
-
+// const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -97,6 +96,7 @@ app.get('/verify', function(request, response) {
 app.get('/home_admin', (request, response) => {
   if (request.session.verify) {
   connection.query(queries.getUsers, function(error, result, fields) {
+    console.log(result)
     console.log("Showing admin home page...")
     response.render('admin', {data: result})})
   }
@@ -106,31 +106,33 @@ app.get('/home_admin', (request, response) => {
     }
 })
 
-app.post("/sort_users_ascending", (request, response) => {
+app.get("/sort_users_ascending", (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.sortAdminUserAscending, function(error, result, fields) {
-      console.log("Showing sorted users (ascending)...")
-      response.render('admin', {data: result})})
+      connection.query(queries.sortAdminUserAscending, function(error, result, fields) {
+        console.log("User data successfully retrieved.")
+        response.render('admin', {data: result});
+    })
+  }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
     }
+})
+
+app.get("/sort_users_descending", (request, response) => {
+  if (request.session.verify) {
+      connection.query(queries.sortAdminUserDescending, function(error, result, fields) {
+        console.log("User data successfully retrieved.")
+        response.render('admin', {data: result});
+    })
+  }
     else {
       console.log("Please login or logout from your current session.")
       response.redirect('/');
       }
 })
 
-app.post("/sort_users_descending", (request, response) => {
-  if (request.session.verify) {
-    connection.query(queries.sortAdminUserDescending, [request.session.department_ID], function(error, result, fields) {
-      console.log("Showing sorted users (descending)...")
-      response.render('admin', {data: result})})
-    }
-    else {
-      console.log("Please login or logout from your current session.")
-      response.redirect('/');
-      }
-})
-
-app.post("/filter_users_offline", (request, response) => {
+app.get("/filter_users_offline", (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterByOfflineUsers, function(error, result, fields) {
       console.log("Showing filtered users (offline)...")
@@ -142,7 +144,7 @@ app.post("/filter_users_offline", (request, response) => {
       }
 })
 
-app.post("/filter_users_online", (request, response) => {
+app.get("/filter_users_online", (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterByOnlineUsers, function(error, result, fields) {
       console.log("Showing filtered users (online)...")
@@ -152,6 +154,94 @@ app.post("/filter_users_online", (request, response) => {
       console.log("Please login or logout from your current session.")
       response.redirect('/');
       }
+})
+
+app.get("/sort_manage_ascending", (request, response) => {
+  var data = '';
+  if (request.session.verify) {
+      connection.query(queries.sortAdminManageAscending, function(error, result, fields) {
+        data = result.map(row => ({
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_Name: row.department_Name,
+          role: row.role,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
+    })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
+
+app.get("/sort_manage_descending", (request, response) => {
+  var data = '';
+  if (request.session.verify) {
+      connection.query(queries.sortAdminManageDescending, function(error, result, fields) {
+        data = result.map(row => ({
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_Name: row.department_Name,
+          role: row.role,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
+    })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
+
+app.get("/filter_manage_offline", (request, response) => {
+  var data = '';
+  if (request.session.verify) {
+      connection.query(queries.filterManageOfflineUsers, function(error, result, fields) {
+        data = result.map(row => ({
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_Name: row.department_Name,
+          role: row.role,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
+    })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
+})
+
+app.get("/filter_manage_online", (request, response) => {
+  var data = '';
+  if (request.session.verify) {
+      connection.query(queries.filterManageOnlineUsers  , function(error, result, fields) {
+        data = result.map(row => ({
+          first_Name: row.first_Name,
+          middle_Name: row.middle_Name,
+          last_Name: row.last_Name,
+          department_Name: row.department_Name,
+          role: row.role,
+          status: row.status
+        }));
+        console.log("User data successfully retrieved.")
+        response.render('manage_user', {data});
+    })
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+    }
 })
 
 app.get('/home_reviewer', (request, response) => {
@@ -176,11 +266,11 @@ app.get('/manage_user', (request, response) => {
   if (request.session.verify) {
       connection.query(queries.manageUserDetails, function(error, result, fields) {
         data = result.map(row => ({
-          user_ID: row.user_ID,
           first_Name: row.first_Name,
           middle_Name: row.middle_Name,
           last_Name: row.last_Name,
-          department_ID: row.department_ID,
+          department_Name: row.department_Name,
+          role: row.role,
           status: row.status
         }));
         console.log("User data successfully retrieved.")
@@ -251,16 +341,14 @@ app.get('/add_user', (request, response) => {
     var userID = ''; 
     var departmentOptions = '';
     connection.query(queries.getLastUserID, function(error, result, fields) {
-      userID = (result[0].user_ID + 1) ;
-      console.log(userID);  
+      userID = (result[0].user_ID + 1);
       connection.query(queries.getDepartmentOptions, function(error, result, fields) {
         departmentOptions = result.map(row => ({
           department_ID: row.department_ID,
           department_Name: row.department_Name
         }))
     
-        console.log(departmentOptions);
-        console.log("Rendering add user form...")
+        console.log("Rendering add user form...");
         response.render('add_user', {userID, departmentOptions});
       });
     });
@@ -270,7 +358,7 @@ app.get('/add_user', (request, response) => {
     response.redirect('/');
     }
 })
-  
+   
 app.post('/add_user_request', (request, response) => {
   if (request.session.verify) {
     var email = request.body['contact-email'];
@@ -281,7 +369,9 @@ app.post('/add_user_request', (request, response) => {
     var departmentID = request.body.department;
     var position = request.body['contact-position'];
     var role = request.body.role;
-    var status = 'Offline'
+    var status = request.body.status;
+
+    console.log(email, password);
 
     connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status], 
     function(error, result, fields) {
@@ -320,6 +410,7 @@ app.post('/edit_user_request', (request, response) => {
   if (request.session.verify) {
     var id = request.body.user;
     var email = request.body['contact-email'];
+    console.log(email)
     var password = request.body['contact-password'];
     var lastName = request.body['contact-last-name'];
     var firstName = request.body['contact-first-name'];
@@ -430,6 +521,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     );
   
     console.log("Original reviewed path: " + reviewedFilePath);
+  
     try {
       const referralDate = await getReferralDate(documentId);
   
@@ -446,42 +538,52 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
   
       const departmentId = req.session.department_ID;
   
-      if (departmentId < 5) {
-        const reviewedFilePath = path.resolve(
-          __dirname,
-          "../public/temp",
-          `document_${documentId}.pdf`
-        );
+      if (departmentId <= 5) {
+        const user_ID = await getUserIDFromDepartment(departmentId);
+  
         await updateAcceptLog(
           documentId,
           departmentId,
+          user_ID,
           originalFileData,
           reviewedFilePath,
           filePath,
           referralDate
         );
+  
+        if (departmentId < 5) {
+          const nextDepartmentID = departmentId + 1;
+          const nextUser_ID = await getUserIDFromDepartment(nextDepartmentID);
+  
+          const nextReviewerDocumentLog = {
+            document_ID: documentId,
+            department_ID: nextDepartmentID,
+            user_ID: nextUser_ID,
+            referral_Date: referralDate,
+            review_Date: null,
+            remarks: null,
+            received_file: originalFileData,
+            reviewed_file: null,
+            approved_file: null,
+            document_status: "Processing",
+          };
+  
+          await insertDocumentLog(nextReviewerDocumentLog);
+        } else {
+          // If the department is the last one, update the document status to "Finished"
+          await updateDocumentStatus(documentId, "Finished");
+        }
       } else {
-        await updateDocumentStatus(documentId, "Finished");
+        await updateAcceptLog(
+          documentId,
+          departmentId,
+          req.session.user_ID,
+          originalFileData,
+          null,
+          filePath,
+          referralDate
+        );
       }
-  
-      if (departmentId < 5) {
-        const nextDepartmentID = departmentId + 1;
-        const nextReviewerDocumentLog = {
-          document_ID: documentId,
-          department_ID: nextDepartmentID,
-          user_ID: req.session.user_ID,
-          referral_Date: referralDate,
-          review_Date: null,
-          remarks: null,
-          received_file: originalFileData,
-          reviewed_file: null,
-          approved_file: null,
-          document_status: "Processing",
-        };
-  
-        await insertDocumentLog(nextReviewerDocumentLog);
-      }
-  
       return res.json({ success: true });
     } catch (error) {
       console.error("Error:", error);
@@ -489,9 +591,29 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     }
   });
   
+  
+  async function getUserIDFromDepartment(departmentId) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        queries.getUserIDFromDepartment,
+        [departmentId],
+        (err, result) => {
+          if (err) {
+            console.error("Error fetching user_ID from departments:", err);
+            reject(err);
+          } else {
+            const user_ID = result[0].user_ID;
+            resolve(user_ID);
+          }
+        }
+      );
+    });
+  }
+  
   async function updateAcceptLog(
     documentId,
     departmentId,
+    user_ID,
     originalFileData,
     reviewedFilePath,
     filePath,
@@ -508,6 +630,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           "accepted",
           documentId,
           departmentId,
+          user_ID, 
         ],
         (err, result) => {
           if (err) {
@@ -597,7 +720,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
       } else {
         await updateDocumentStatus(documentId, "Finished");
       }
-  
+      updateDocumentStatus(documentId, "rejected");
       return res.json({ success: true });
     } catch (error) {
       console.error("Error:", error);
@@ -619,8 +742,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           new Date(),
           originalFileData,
           filePath,
-          filePath,
-          null,
+          originalFileData, 
           "rejected",
           documentId,
           departmentId,
@@ -654,6 +776,9 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     });
   }
   
+  app.get('/redirect-to-review-doc', (req, res) => {
+    res.redirect('/review_doc');
+  });
   
   
 
