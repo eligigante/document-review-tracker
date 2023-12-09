@@ -176,21 +176,22 @@
                                     <td>
                                         <span><%= row.document_ID %></span>
                                     </td>
-                                    <td><%= row.user_ID %></td>
                                     <td>
-                                      <td><span class="text"><%= row.document_Title %></span></td>
+                                        <span><%= row.user_ID %></span>
                                     </td>
-                                    <td><span><%= row.pages %></span></td>
+                                    <td>
+                                        <span class="text"><%= row.document_Title %></span>
+                                    </td>
+                                    <td>
+                                        <span><%= row.pages %></span>
+                                    </td>
                                     <td>
                                         <span class="status pending">Pending</span>
                                     </td>
                                     <td>
                                         <a class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>
                                         <div id="viewer_<%= row.document_ID %>" class="pdf-viewer-container"></div>
-                                      </td>
-                                  </td>
-                                  <td>   
-
+                                    </td>
                                   </td>
                                 </tr>
                             <% }); %>
