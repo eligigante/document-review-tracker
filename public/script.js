@@ -124,7 +124,6 @@ function createLogoutModal() {
 // Event Listener
 document.addEventListener("DOMContentLoaded", function () {
   const logoutBtn = document.querySelector(".logout");
-  const createBtn = document.querySelector(".create-btn");
   const edtBtn = document.querySelector(".edt-btn");
 
   logoutBtn.addEventListener("click", function (event) {
@@ -132,27 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
     createLogoutModal();
   });
 
-  createBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    sendAddUserServerRequest();
-  });
-
   edtBtn.addEventListener("click", function (event) {
     event.preventDefault();
     sendEditUserServerRequest();
   })});
-
-function sendAddUserServerRequest() {
-  fetch("/add_user_request", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
 
 function sendEditUserServerRequest() {
   fetch("/edit_user", {
@@ -187,101 +169,6 @@ function sendLogoutUserServerRequest() {
     .catch((error) => console.error("Error:", error));
 }
 
-// function sendSortUserAscendingRequest() {
-//   fetch("/sort_users_ascending", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => response.text())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
-
-// function sendSortUserDescendingRequest() {
-//   fetch("/sort_users_descending", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => response.text())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
-
-// function sendFilterUsersOfflineRequest() {
-//   fetch("/filter_users_offline", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => response.text())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
-
-// function sendFilterUsersOnlineRequest() {
-//   fetch("/filter_users_online", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => response.text())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
-
-// function sendSortManageAscendingRequest() {
-//   fetch("/sort_manage_ascending", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => response.text())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
-
-// function sendSortManageDescendingRequest() {
-//   fetch("/sort_manage_descending", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => response.text())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
-
-// function sendFilterManageOfflineRequest() {
-//   fetch("/filter_manage_offline", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => response.text())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
-
-// function sendFilterManageOnlineRequest() {
-//   fetch("/filter_manage_online", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => response.text())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
 
 //SPA
 // function loadContent(page) {
