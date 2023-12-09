@@ -28,6 +28,7 @@ const getReviewerDocuments =
   "FROM document_logs AS dl JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
   "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
 const getReceivedFile = "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'Processing'";
+const getUserIDFromDepartment = "SELECT user_ID FROM departments WHERE department_ID = ?";
 const updateAcceptDocumentLog =
   "UPDATE document_logs SET review_Date = ?, received_file = ?, reviewed_file = ?, approved_file = ?, " +
   "document_status = ? WHERE document_ID = ? AND department_ID = ?";
@@ -90,5 +91,6 @@ module.exports = {
   sortAdminUserDescending,
   filterByOfflineUsers,
   filterByOnlineUsers,
+  getUserIDFromDepartment,
   checkUser
 };

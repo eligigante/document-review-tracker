@@ -1,4 +1,4 @@
-const { document } = require("pdfkit/js/page");
+// const { document } = require("pdfkit/js/page");
 
 const allSideMenu = document.querySelectorAll("#sidebar .side-menu.top li a");
 const section = document.querySelector("section");
