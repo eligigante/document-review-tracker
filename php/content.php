@@ -150,8 +150,15 @@ if ($_GET['page'] === 'home') {
     <div class="order">
         <div class="head">
             <h3>My Documents</h3>
-            <i class="bx bx-search"></i>
-            <i class="bx bx-filter"></i>
+
+            
+            
+  
+
+
+
+
+
         </div>
         <table>
             <thead>
@@ -275,7 +282,7 @@ if ($_GET['page'] === 'home') {
                 <label for="department">Department</label>
             </div>
             <div class="col-75">
-                <select id="department" name="department">
+                <select id="department" name="department" onchange = getDoc() >
                     <option value="OGRAA">OGRAA</option>
                     <option value="OVPAA">OVPAA</option>
                     <option value="OVPF">OVPF</option>

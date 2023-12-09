@@ -2111,3 +2111,51 @@ input[type="submit"]:hover {
   margin-top: -20px;
 }
 }
+
+#accept-btn {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 6px 14px;
+  position: absolute;
+  top: 40px;
+  right: 233px;
+  border: none;
+  background: #1dc455;
+  border-radius: 40px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#reject-btn {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 6px 17px;
+  position: absolute;
+  top: 40px;
+  right: 155px;
+  border: none;
+  background: #f82f2f;
+  border-radius: 40px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#clear-btn {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 6px 17px;
+  position: absolute;
+  top: 40px;
+  right: 81px;
+  border: none;
+  background: #a19e9e;
+  border-radius: 40px;
+  cursor: pointer;
+  z-index: 1;
+}
