@@ -130,13 +130,13 @@
             <div class="doc-container">
                 <h2 class="new-user">Add New User</h2>
                 <div class="form-container">
-                    <form name="frmContact" id="" frmContact"" method="post" action="/add_user_request" enctype="" onsubmit="">
+                    <form name="frmContact" id="add-form" frmContact"" method="post" action="/add_user_request" enctype="" onsubmit="">
                         <div class="first-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
                                     User ID <span id="user-id-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-id" id="contact-id" value="<%- include('user_id.ejs') %>" readonly/>
+                                <input type="text" class="input-field" name="userid" id="contact-id" value="<%- include('user_id.ejs') %>" readonly/>
                             </div>
                             <!-- <div class="inline-block responsive">
                                 <div class="label">
@@ -151,14 +151,14 @@
                                 <div class="label">
                                     First Name <span id="first-name-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-first-name"
+                                <input type="text" class="input-field" name="first"
                                     id="contact-first-name" />
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
                                     Middle Name <span id="middle-name-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-middle-name"
+                                <input type="text" class="input-field" name="middle"
                                     id="contact-middle-name" />
                             </div>
                         </div>
@@ -167,14 +167,14 @@
                                 <div class="label">
                                     Last Name <span id="last-name-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-last-name"
+                                <input type="text" class="input-field" name="last"
                                     id="contact-last-name" />
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
                                     Password <span id="password-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-password" id="contact-password" />
+                                <input type="text" class="input-field" name="password" id="contact-password" />
                             </div>
                         </div>
                         <div class="fourth-row">
@@ -182,7 +182,7 @@
                                 <div class="label">
                                     Email <span id="email-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-email" id="contact-email" />
+                                <input type="text" class="input-field" name="email" id="contact-email" />
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
@@ -208,7 +208,7 @@
                                 <div class="label">
                                     Position <span id="position-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-position" id="contact-position" />
+                                <input type="text" class="input-field" name="position" id="contact-position" />
                             </div>
                         </div>
                         <div class="buttons">
