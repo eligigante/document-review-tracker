@@ -48,6 +48,7 @@ app.post('/login', (request, response) => {
             request.session.userID = result[0].user_ID;
             request.session.role = result[0].role;
             request.session.status = result[0].status;
+            request.session.department_ID = result[0].department_ID;
             request.session.loggedIn = true;
             console.log('User exists.');
             response.redirect('/verify');
@@ -103,6 +104,54 @@ app.get('/home_admin', (request, response) => {
     console.log("Please login or logout from your current session.")
     response.redirect('/');
     }
+})
+
+app.post("/sort_users_ascending", (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortAdminUserAscending, function(error, result, fields) {
+      console.log("Showing sorted users (ascending)...")
+      response.render('admin', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+      }
+})
+
+app.post("/sort_users_descending", (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortAdminUserDescending, [request.session.department_ID], function(error, result, fields) {
+      console.log("Showing sorted users (descending)...")
+      response.render('admin', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+      }
+})
+
+app.post("/filter_users_offline", (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.filterByOfflineUsers, function(error, result, fields) {
+      console.log("Showing filtered users (offline)...")
+      response.render('admin', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+      }
+})
+
+app.post("/filter_users_online", (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.filterByOnlineUsers, function(error, result, fields) {
+      console.log("Showing filtered users (online)...")
+      response.render('admin', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+      }
 })
 
 app.get('/home_reviewer', (request, response) => {

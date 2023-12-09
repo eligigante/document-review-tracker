@@ -170,18 +170,6 @@ function sendEditUserServerRequest() {
     .catch((error) => console.error("Error:", error));
 }
 
-function sendDeleteUserServerRequest() {
-  fetch("/delete_user_request", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
-
 function sendLogoutUserServerRequest() {
   fetch("/logout", {
     method: "POST",
@@ -200,6 +188,54 @@ function sendLogoutUserServerRequest() {
         });
       }
     })
+    .catch((error) => console.error("Error:", error));
+}
+
+function sendSortUserAscendingRequest() {
+  fetch("/sort_users_ascending", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Error:", error));
+}
+
+function sendSortUserDescendingRequest() {
+  fetch("/sort_users_descending", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Error:", error));
+}
+
+function sendFilterUsersOfflineRequest() {
+  fetch("/filter_users_offline", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Error:", error));
+}
+
+function sendFilterUsersOnlineRequest() {
+  fetch("/filter_users_online", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.text())
+    .then((data) => console.log(data))
     .catch((error) => console.error("Error:", error));
 }
 
