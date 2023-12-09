@@ -574,6 +574,9 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           };
   
           await insertDocumentLog(nextReviewerDocumentLog);
+        } else {
+          // If the department is the last one, update the document status to "Finished"
+          await updateDocumentStatus(documentId, "Finished");
         }
       } else {
         await updateAcceptLog(
@@ -723,7 +726,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
       } else {
         await updateDocumentStatus(documentId, "Finished");
       }
-  
+      updateDocumentStatus(documentId, "rejected");
       return res.json({ success: true });
     } catch (error) {
       console.error("Error:", error);
@@ -745,8 +748,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           new Date(),
           originalFileData,
           filePath,
-          filePath,
-          null,
+          originalFileData, 
           "rejected",
           documentId,
           departmentId,
@@ -780,6 +782,9 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
     });
   }
   
+  app.get('/redirect-to-review-doc', (req, res) => {
+    res.redirect('/review_doc');
+  });
   
   
 
