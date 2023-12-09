@@ -790,6 +790,12 @@ textarea.input-field {
   transition: all 0.3s ease;
 }
 
+.input-field[readonly] {
+  color: #808080; /* Change the text color to gray */
+  background-color: #f5f5f5; /* Change the background color to a lighter shade */
+  /* You might want to add more styles to suit your design */
+}
+
 .filter-btn {
   border: none;
   padding: 6px 16px;
@@ -984,6 +990,18 @@ textarea.input-field {
 }
 
 .create-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.-btn {
   font-size: 16px;
   font-weight: 400;
   font-family: var(--poppins);
