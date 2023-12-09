@@ -17,6 +17,8 @@ $userDetails = get_name($con, $userID);
 $docDetails = get_docs($con, $userID);
 $docs = json_decode($docDetails, true);
 
+$documentRejected = getRejected($con, $userID);
+
 $docRecent = get_recent($con, $userID);
 
 $imageUser = getUserImg($con, $userID);
@@ -57,69 +59,86 @@ echo var_dump($_GET['page']);
 
 if ($_GET['page'] === 'home') {
     echo '
-    
-    
-    <main>
-			<div class="head-title">
-				<div class="left">
-					<h1>Hello, '. $firstName.' '.$lastName.'</h1>
-					<ul class="breadcrumb">
-						<li>
-							<a href="#">Dashboard</a>
-						</li>
-						<li><i class="bx bx-chevron-right"></i></li>
-						<li>
-							<a class="active" href="#">Home</a>
-						</li>
-					</ul>
-				</div>
-			</div>
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Hello, ' . $firstName . ' ' . $lastName . '</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class="bx bx-chevron-right"></i></li>
+                        <li>
+                            <a class="active" href="#">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-			<div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3>Recent Documents</h3>
-						<i class="bx bx-search"></i>
-						<i class="bx bx-filter"></i>
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th>Title</th>
-								<th>Date Order</th>
-								<th>Status</th>
-							</tr>
-						</thead>
-						<tbody id = tbading>
-						
-            
-                            
-                            
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Rejected Documents</h3>
+                        <i class="bx bx-search"></i>
+                        <i class="bx bx-filter"></i>
+                    </div>
+                    <table>
+                        <thead>
                             <tr>
-                                        <td>
-                                            <span>'. "" . '</span>
-                                        </td>
-                                        <td>
-                                            <span>'. "". '</span>
-                                        </td>
-                                        <td>
-                                            <span>'. "" . '</span>
-                                        </td>
-                                        <td>
-            
-                                        </td>
-                                 </tr>
+                                <th>Title</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbading">';
+    
+    if ($documentRejected !== null) {
+        foreach ($documentRejected as $doc) {
+            echo '
+                <tr>
+                    <td>
+                        <span>' . $doc['docTitle'] . '</span>
+                    </td>
+                    <td>
+                        <span>' . $doc['remarks'] . '</span>
+                    </td>
+                    <td>
+                        <form action="../../php/download.php" method="get" target="_blank">
+                            <input type="hidden" name="file_id" value="' . $doc['docID'] . '">
+                            <button type="submit">Download</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="../../php/reupload.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="file_id" value="' . $doc['docID'] . '">
+                            <input type="file" name="file">
+                            <input type="submit" value="submit">
+                        </form>
+                    </td>
+                </tr>';
+        }
+    } else {
+        echo '<tr>
+                    <td>
+                        <span>' . "" . '</span>
+                    </td>
+                    <td>
+                        <span>' . "" . '</span>
+                    </td>
+                    <td>
+                        <span>' . "" . '</span>
+                    </td>
+                    <td>
+                    </td>
+                </tr>';
+    }
 
-                        
-
-						</tbody>
-					</table>
-				</div>
-			</div>
-		 </main>';
-                        
-
-    } elseif ($_GET['page'] === 'myDocs') {
+    echo '</tbody>
+                </table>
+            </div>
+        </div>
+    </main>';
+                     
+    } else if ($_GET['page'] === 'myDocs') {
 
     echo '<main id = "tite">
     

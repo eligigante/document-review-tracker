@@ -33,31 +33,31 @@
                 </a>
             </div>
         </div>
-        <a href="#" class="brand">
+        <a href="home_reviewer" class="brand">
             <i class='bx bxs-file-find'></i>
             <span class="text">SLU</span>
         </a>
         <ul class="side-menu top">
             <li>
-                <a href="admin.html">
+                <a href="home_reviewer">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
                 </a>
             </li>
             <li>
-                <a href="manage_user.html">
-                    <i class='bx bx-user-plus'></i>
-                    <span class="text">Manage Users</span>
+                <a href="review_doc">
+                    <i class='bx bx-upload'></i>
+                    <span class="text">Review Queue</span>
                 </a>
             </li>
             <li class="active">
-                <a href="user_logs.html">
-                    <i class='bx bx-list-ul'></i>
-                    <span class="text">User Logs</span>
+                <a href="my_review">
+                    <i class='bx bxs-file-doc'></i>
+                    <span class="text">My Reviews</span>
                 </a>
             </li>
             <li>
-                <a href="profile.html">
+                <a href="reviewer_profile">
                     <i class='bx bxs-face'></i>
                     <span class="text">Profile</span>
                 </a>
@@ -72,7 +72,6 @@
                 </a>
             </li>
         </ul>
-
 
     </section>
     <!-- SIDEBAR -->
@@ -141,10 +140,10 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>User Logs</h1>
+                    <h1>My Review</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">User Logs</a>
+                            <a href="#">My Review</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
@@ -153,47 +152,105 @@
                     </ul>
                 </div>
             </div>
+
             <div class="table-data">
                 <div class="order">
                     <div class="head">
-                        <h3>Users</h3>
+                        <h3>Reviewed Documents</h3>
                         <i class='bx bx-search'></i>
                         <i class='bx bx-filter'></i>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Department ID</th>
-                                <th>Status</th>
+                                <th>Document ID</th>
+                                <th>User ID</th>
+                                <th>Name of Uploader</th>
+                                <th>Referral Date</th>
+                                <th>Document Status</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <% data.forEach(element => { %> 
+                                <tr>
+                                    <td><%= element.document_ID %></td>
+                                    <td><%= element.user_ID %></td>
+                                    <td><p><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></p></td> 
+                                    <td><%= element.referral_date %></td>
+                                    <td><span><%= element.document_status%></span></td>  
+                                </tr>
+                            <% }) %>
+                            <!-- <tr>
                                 <td>
-                                    <p>John Doe</p>
+                                    <span>10001</span>
                                 </td>
-                                <td>123123</td>
-                                <td><span class="status online">Online</span></td>
-                                <td></td>
+                                <td><span>2023001</span></td>
+                                <td>
+                                    <span>20231</span>
+                                </td>
+                                <td><span>2023-11-01</span></td>
+                                <td><span class="text">2023-11-02</span></td>
+                                <td>
+                                    <span class="status completed">Completed</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>John Doe</p>
+                                    <span>10001</span>
                                 </td>
-                                <td>321321</td>
-                                <td><span class="status offline">Offline</span></td>
-                                <td></td>
+                                <td><span>2023001</span></td>
+                                <td>
+                                    <span>20231</span>
+                                </td>
+                                <td><span>2023-11-01</span></td>
+                                <td><span class="text">2023-11-02</span></td>
+                                <td>
+                                    <span class="status completed">Completed</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>John Doe</p>
+                                    <span>10001</span>
                                 </td>
-                                <td>2121212</td>
-                                <td><span class="status online">Online</span></td>
-                                <td></td>
+                                <td><span>2023001</span></td>
+                                <td>
+                                    <span>20231</span>
+                                </td>
+                                <td><span>2023-11-01</span></td>
+                                <td><span class="text">2023-11-02</span></td>
+                                <td>
+                                    <span class="status completed">Completed</span>
+                                </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <span>10001</span>
+                                </td>
+                                <td><span>2023001</span></td>
+                                <td>
+                                    <span>20231</span>
+                                </td>
+                                <td><span>2023-11-01</span></td>
+                                <td><span class="text">2023-11-02</span></td>
+                                <td>
+                                    <span class="status completed">Completed</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>10001</span>
+                                </td>
+                                <td><span>2023001</span></td>
+                                <td>
+                                    <span>20231</span>
+                                </td>
+                                <td><span>2023-11-01</span></td>
+                                <td><span class="text">2023-11-02</span></td>
+                                <td>
+                                    <span class="status completed">Completed</span>
+                                </td>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -204,7 +261,7 @@
     <!-- CONTENT -->
 
 
-    <script src="../ver3/user/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

@@ -33,31 +33,31 @@
                 </a>
             </div>
         </div>
-        <a href="#" class="brand">
+        <a href="home_reviewer" class="brand">
             <i class='bx bxs-file-find'></i>
             <span class="text">SLU</span>
         </a>
         <ul class="side-menu top">
-            <li>
-                <a href="home_admin">
+            <li class="active">
+                <a href="home_reviewer">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
                 </a>
             </li>
             <li>
-                <a href="manage_user">
-                    <i class='bx bx-user-plus'></i>
-                    <span class="text">Manage Users</span>
-                </a>
-            </li>
-            <li class="active">
-                <a href="user_logs">
-                    <i class='bx bx-list-ul'></i>
-                    <span class="text">User Logs</span>
+                <a href="review_doc">
+                    <i class='bx bx-upload'></i>
+                    <span class="text">Review Queue</span>
                 </a>
             </li>
             <li>
-                <a href="admin_profile">
+                <a href="my_review">
+                    <i class='bx bxs-file-doc'></i>
+                    <span class="text">My Reviews</span>
+                </a>
+            </li>
+            <li>
+                <a href="reviewer_profile">
                     <i class='bx bxs-face'></i>
                     <span class="text">Profile</span>
                 </a>
@@ -141,10 +141,10 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>User Logs</h1>
+                    <h1>Dashboard</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">User Logs</a>
+                            <a href="#">Dashboard</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
@@ -156,7 +156,7 @@
             <div class="table-data">
                 <div class="order">
                     <div class="head">
-                        <h3>Users</h3>
+                        <h3>For Review</h3>
                         <i class='bx bx-search'></i>
                         <i class='bx bx-filter'></i>
                     </div>
@@ -164,45 +164,96 @@
                         <thead>
                             <tr>
                                 <th>User</th>
-                                <th>Department ID</th>
+                                <th>Referral Date</th>
                                 <th>Status</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <% data.forEach(element => { %> 
+                                <tr>
+                                    <td><p><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></p></td> 
+                                    <td><%= element.date %></td>
+                                    <td><span><%= element.document_status%></span></td>  
+                                </tr>
+                            <% }) %>
+
+                            <!-- <tr>
                                 <td>
+                                    <img src="img/people.png">
                                     <p>John Doe</p>
                                 </td>
-                                <td>123123</td>
-                                <td><span class="status online">Online</span></td>
-                                <td></td>
+                                <td>01-10-2021</td>
+                                <td><span class="status pending">Pending</span></td>
                             </tr>
                             <tr>
                                 <td>
+                                    <img src="img/people.png">
                                     <p>John Doe</p>
                                 </td>
-                                <td>321321</td>
-                                <td><span class="status offline">Offline</span></td>
-                                <td></td>
+                                <td>01-10-2021</td>
+                                <td><span class="status pending">Pending</span></td>
                             </tr>
                             <tr>
                                 <td>
+                                    <img src="img/people.png">
                                     <p>John Doe</p>
                                 </td>
-                                <td>2121212</td>
-                                <td><span class="status online">Online</span></td>
-                                <td></td>
+                                <td>01-10-2021</td>
+                                <td><span class="status pending">Pending</span></td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <img src="img/people.png">
+                                    <p>John Doe</p>
+                                </td>
+                                <td>01-10-2021</td>
+                                <td><span class="status pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="img/people.png">
+                                    <p>John Doe</p>
+                                </td>
+                                <td>01-10-2021</td>
+                                <td><span class="status pending">Pending</span></td>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
+                <!-- <div class="todo">
+                    <div class="head">
+                        <h3>Todos</h3>
+                        <i class='bx bx-plus'></i>
+                        <i class='bx bx-filter'></i>
+                    </div>
+                    <ul class="todo-list">
+                        <li class="completed">
+                            <p>Todo List</p>
+                            <i class='bx bx-dots-vertical-rounded'></i>
+                        </li>
+                        <li class="completed">
+                            <p>Todo List</p>
+                            <i class='bx bx-dots-vertical-rounded'></i>
+                        </li>
+                        <li class="not-completed">
+                            <p>Todo List</p>
+                            <i class='bx bx-dots-vertical-rounded'></i>
+                        </li>
+                        <li class="completed">
+                            <p>Todo List</p>
+                            <i class='bx bx-dots-vertical-rounded'></i>
+                        </li>
+                        <li class="not-completed">
+                            <p>Todo List</p>
+                            <i class='bx bx-dots-vertical-rounded'></i>
+                        </li>
+                    </ul>
+                </div> -->
             </div>
         </main>
         <!-- MAIN -->
     </section>
     <!-- CONTENT -->
-
 
     <script src="/script.js"></script>
 </body>

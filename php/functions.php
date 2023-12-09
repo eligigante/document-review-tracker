@@ -106,6 +106,9 @@ function get_recent($con, $accountID){
 
     $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
 
+
+
+
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
@@ -171,6 +174,7 @@ function documentNotif($con, $userID) {
     $query = "SELECT DISTINCT document_ID, department_ID FROM document_logs WHERE user_ID = $userID";
 
 
+
     $result = mysqli_query($con, $query);
 
     if ($result) {
@@ -208,5 +212,112 @@ function documentNotif($con, $userID) {
         return json_encode($notifications);
     } else {
         return null;
+    }
+}
+
+
+function getRejected($con, $accountID){
+
+    $query = "
+        SELECT
+            document_logs.document_ID,
+            document_logs.department_ID,
+            document_logs.remarks,
+            document_details.document_Title
+        FROM
+            document_logs
+        JOIN
+            document_details ON document_logs.document_ID = document_details.document_ID
+        WHERE
+            document_logs.user_ID = ? AND
+            document_logs.document_status = ?
+    ";
+
+    $stmt = mysqli_prepare($con, $query);
+
+    if ($stmt) {
+
+        $rejected = 'rejected';
+
+        mysqli_stmt_bind_param($stmt, 'ss', $accountID, $rejected);
+
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_bind_result($stmt, $document_ID, $departmentID, $remarks, $documentTitle);
+
+        $documents = array();
+
+        while (mysqli_stmt_fetch($stmt)) {
+            $documents[] = array(
+                "docID" => $document_ID,
+                "depID" => $departmentID,
+                "docTitle" => $documentTitle,
+                "remarks" => $remarks,
+            );
+        }
+
+        mysqli_stmt_close($stmt);
+
+        return $documents;
+    } else {
+        // Print the error message for debugging
+        echo "Error: " . mysqli_error($con);
+        return null;
+    }
+}
+
+
+
+function getFile($con, $documentID) {
+    $query = "SELECT document_Title, file FROM document_details WHERE document_ID = ?";
+    $stmt = mysqli_prepare($con, $query);
+
+    if ($stmt) {
+
+        mysqli_stmt_bind_param($stmt, 's', $documentID);
+
+        mysqli_stmt_execute($stmt);
+
+
+        mysqli_stmt_bind_result($stmt, $document_Title, $file);
+
+
+        if (mysqli_stmt_fetch($stmt)) {
+            $documentInfo = array(
+                "title" => $document_Title,
+                "file" => $file
+            );
+
+            mysqli_stmt_close($stmt); 
+            return $documentInfo;
+        } else {
+            mysqli_stmt_close($stmt);
+            return null;
+        }
+    } else {
+        return null;
+    }
+}
+function updateFile($con, $docID, $userID, $newFileBlob) {
+    $query = "UPDATE document_logs SET received_file = ? WHERE document_ID = ? AND user_ID = ? AND document_status = 'rejected'";
+    $stmt = mysqli_prepare($con, $query);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
+
+        if (mysqli_stmt_execute($stmt)) {
+
+
+            mysqli_stmt_close($stmt);
+
+            return true;
+        } else {
+
+            mysqli_stmt_close($stmt);
+
+            return false;
+        }
+    } else {
+        return false;
     }
 }

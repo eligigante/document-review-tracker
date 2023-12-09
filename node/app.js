@@ -6,10 +6,8 @@ const cookie = require("cookie-parser");
 const queries = require("./queries");
 const server = require("./server");
 const db = require("./db");
-const { request } = require("http");
 const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
-const bodyParser = require("body-parser");
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -103,43 +101,40 @@ app.get("/logout", (request, response) => {
   response.redirect("/");
 });
 
-app.get("/review_doc", (request, response) => {
-  if (request.session.loggedIn && request.session.role === "reviewer") {
-    const departmentID = request.session.department_ID;
+  app.get("/review_doc", (request, response) => {
+    if (request.session.loggedIn && request.session.role === "reviewer") {
+      const departmentID = request.session.department_ID;
 
-    let query =
-      "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file " +
-      "FROM document_logs AS dl " +
-      "JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
-      "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
-    let queryParams = [departmentID];
+    connection.query(
+      queries.getReviewerDocuments,
+      [departmentID],
+      (err, results) => {
+        if (err) {
+          console.error("Error querying documents:", err);
+          throw err;
+        }
 
-    connection.query(query, queryParams, (err, results) => {
-      if (err) {
-        console.error("Error querying documents:", err);
-        throw err;
+        console.log("Results:", results);
+        response.render("review_doc", { data: results });
       }
-
-      console.log("Results:", results);
-      response.render("review_doc", { data: results });
-    });
+    );
   } else {
     response.redirect("/");
   }
 });
 
-app.get("/downloadAndConvert/:documentId", (req, res) => {
-  try {
-    const documentId = req.params.documentId;
-    const departmentID = req.session.department_ID;
-    console.log(documentId);
+  app.get("/downloadAndConvert/:documentId", (req, res) => {
+    try {
+      const documentId = req.params.documentId;
+      const departmentID = req.session.department_ID;
+      console.log(documentId);
 
-    if (!documentId) {
-      return res.status(400).json({ error: "Invalid request" });
-    }
+      if (!documentId) {
+        return res.status(400).json({ error: "Invalid request" });
+      }
 
     connection.query(
-      "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'Processing'",
+      queries.getReceivedFile,
       [documentId, departmentID],
       (err, results) => {
         if (err) {
@@ -147,23 +142,23 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           return res.status(500).json({ error: "Internal Server Error" });
         }
 
-        if (results.length === 0 || !results[0].received_file) {
-          return res
-            .status(404)
-            .json({ error: "Document not found or not processing" });
-        }
+          if (results.length === 0 || !results[0].received_file) {
+            return res
+              .status(404)
+              .json({ error: "Document not found or not processing" });
+          }
 
-        const blobData = results[0].received_file;
+          const blobData = results[0].received_file;
 
-        const tempFolderPath = path.resolve(__dirname, "../public/temp");
-        if (!fs.existsSync(tempFolderPath)) {
-          fs.mkdirSync(tempFolderPath);
-        }
+          const tempFolderPath = path.resolve(__dirname, "../public/temp");
+          if (!fs.existsSync(tempFolderPath)) {
+            fs.mkdirSync(tempFolderPath);
+          }
 
         const filename = `temp/document_${documentId}.pdf`;
         fs.writeFileSync(
           path.resolve(__dirname, "../public", filename),
-          Buffer.from(blobData, "binary") // Specify binary encoding
+          Buffer.from(blobData, "binary") 
         );
         console.log(filename);
         res.contentType("application/pdf");
@@ -176,36 +171,176 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
   }
 });
 
-app.get("/pdfviewer", (request, response) => {
-  const filePath = path.join(__dirname, "temp", request.query.filePath);
+  app.get("/pdfviewer", (request, response) => {
+    const filePath = path.join(__dirname, "temp", request.query.filePath);
 
-  response.render("pdfviewer", { filePath });
-});
+    response.render("pdfviewer", { filePath });
+  });
 
-annotationHandler(app);
+  annotationHandler(app);
 
-app.post("/acceptDocument", async (req, res) => {
-  const { filePath } = req.body;
+  app.post("/acceptDocument", async (req, res) => {
+    const { filePath } = req.body;
 
-  if (!filePath) {
-    return res.status(400).json({ error: "Invalid request" });
+    if (!filePath) {
+      return res.status(400).json({ error: "Invalid request" });
+    }
+
+    const documentId = extractDocumentId(filePath);
+
+    if (!documentId) {
+      return res.status(400).json({ error: "Invalid document ID" });
+    }
+
+    const reviewedFilePath = path.resolve(
+      __dirname,
+      "../public/temp",
+      `document_${documentId}.pdf`
+    );
+
+    console.log("Original reviewed path: " + reviewedFilePath);
+    try {
+      const referralDate = await getReferralDate(documentId);
+
+      const originalFilePath = path.resolve(
+        __dirname,
+        "../public/temp",
+        `document_${documentId}.pdf`
+      );
+
+      console.log("Original file path: " + originalFilePath);
+      const originalFileData = fs.readFileSync(originalFilePath);
+
+      console.log(originalFileData);
+
+      const departmentId = req.session.department_ID;
+
+      if (departmentId < 5) {
+        const reviewedFilePath = path.resolve(
+          __dirname,
+          "../public/temp",
+          `document_${documentId}.pdf`
+        );
+        await updateAcceptLog(
+          documentId,
+          departmentId,
+          originalFileData,
+          reviewedFilePath,
+          filePath,
+          referralDate
+        );
+      } else {
+        await updateDocumentStatus(documentId, "Finished");
+      }
+
+      if (departmentId < 5) {
+        const nextDepartmentID = departmentId + 1;
+        const nextReviewerDocumentLog = {
+          document_ID: documentId,
+          department_ID: nextDepartmentID,
+          user_ID: req.session.user_ID,
+          referral_Date: referralDate,
+          review_Date: null,
+          remarks: null,
+          received_file: originalFileData,
+          reviewed_file: null,
+          approved_file: null,
+          document_status: "Processing",
+        };
+
+        await insertDocumentLog(nextReviewerDocumentLog);
+      }
+
+      return res.json({ success: true });
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
+  async function updateAcceptLog(
+    documentId,
+    departmentId,
+    originalFileData,
+    reviewedFilePath,
+    filePath,
+    referralDate
+  ) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        queries.updateAcceptDocumentLog,
+        [
+          new Date(),
+          originalFileData,
+          reviewedFilePath,
+          filePath,
+          "accepted",
+          documentId,
+          departmentId,
+        ],
+        (err, result) => {
+          if (err) {
+            console.error("Error updating database:", err);
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
   }
 
-  const documentId = extractDocumentId(filePath);
-
-  if (!documentId) {
-    return res.status(400).json({ error: "Invalid document ID" });
+  function insertDocumentLog(documentLog) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "INSERT INTO document_logs SET ?",
+        documentLog,
+        (err, result) => {
+          if (err) {
+            console.error("Error updating database:", err);
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
   }
 
-  const reviewedFilePath = path.resolve(
-    __dirname,
-    "../public/temp",
-    `document_${documentId}.pdf`
-  );
+  function extractDocumentId(filePath) {
+    const match = filePath.match(/document_(\d+)\.pdf/);
+    return match ? match[1] : null;
+  }
 
-  console.log("Original reviewed path: " + reviewedFilePath);
-  try {
-    const referralDate = await getReferralDate(documentId);
+  function getReferralDate(documentId) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT upload_Date FROM document_details WHERE document_ID = ?",
+        [documentId],
+        (err, result) => {
+          if (err || result.length === 0) {
+            console.error("Error fetching referral date:", err);
+            reject(err);
+          } else {
+            resolve(result[0].upload_Date);
+          }
+        }
+      );
+    });
+  }
+
+  app.post("/rejectDocument", async (req, res) => {
+    const { filePath } = req.body;
+
+    if (!filePath) {
+      return res.status(400).json({ error: "Invalid request" });
+    }
+
+    const documentId = extractDocumentId(filePath);
+
+    if (!documentId) {
+      return res.status(400).json({ error: "Invalid document ID" });
+    }
 
     const originalFilePath = path.resolve(
       __dirname,
@@ -213,158 +348,12 @@ app.post("/acceptDocument", async (req, res) => {
       `document_${documentId}.pdf`
     );
 
-    console.log("Original file path: " + originalFilePath);
-    const originalFileData = fs.readFileSync(originalFilePath);
+    try {
+      const referralDate = await getReferralDate(documentId);
 
-    console.log(originalFileData);
+      const originalFileData = fs.readFileSync(originalFilePath);
 
-    const departmentId = req.session.department_ID;
-
-    if (departmentId < 5) {
-      const reviewedFilePath = path.resolve(
-        __dirname,
-        "../public/temp",
-        `document_${documentId}.pdf`
-      );
-      await updateAcceptLog(
-        documentId,
-        departmentId,
-        originalFileData,
-        reviewedFilePath,
-        filePath,
-        referralDate
-      );
-    } else {
-      await updateDocumentStatus(documentId, "Finished");
-    }
-
-    if (departmentId < 5) {
-      const nextDepartmentID = departmentId + 1;
-      const nextReviewerDocumentLog = {
-        document_ID: documentId,
-        department_ID: nextDepartmentID,
-        user_ID: req.session.user_ID,
-        referral_Date: referralDate,
-        review_Date: null,
-        remarks: null,
-        received_file: originalFileData,
-        reviewed_file: null,
-        approved_file: null,
-        document_status: "Processing",
-      };
-
-      await insertDocumentLog(nextReviewerDocumentLog);
-    }
-
-    return res.json({ success: true });
-  } catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-async function updateAcceptLog(
-  documentId,
-  departmentId,
-  originalFileData,
-  reviewedFilePath,
-  filePath,
-  referralDate
-) {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "UPDATE document_logs SET " +
-        "review_Date = ?, " +
-        "received_file = ?, " +
-        "reviewed_file = ?, " +
-        "approved_file = ?, " +
-        "document_status = ? " +
-        "WHERE document_ID = ? AND department_ID = ?",
-      [
-        new Date(),
-        originalFileData,
-        reviewedFilePath,
-        filePath,
-        "accepted",
-        documentId,
-        departmentId,
-      ],
-      (err, result) => {
-        if (err) {
-          console.error("Error updating database:", err);
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      }
-    );
-  });
-}
-
-function insertDocumentLog(documentLog) {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "INSERT INTO document_logs SET ?",
-      documentLog,
-      (err, result) => {
-        if (err) {
-          console.error("Error updating database:", err);
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      }
-    );
-  });
-}
-
-function extractDocumentId(filePath) {
-  const match = filePath.match(/document_(\d+)\.pdf/);
-  return match ? match[1] : null;
-}
-
-function getReferralDate(documentId) {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT upload_Date FROM document_details WHERE document_ID = ?",
-      [documentId],
-      (err, result) => {
-        if (err || result.length === 0) {
-          console.error("Error fetching referral date:", err);
-          reject(err);
-        } else {
-          resolve(result[0].upload_Date);
-        }
-      }
-    );
-  });
-}
-
-app.post("/rejectDocument", async (req, res) => {
-  const { filePath } = req.body;
-
-  if (!filePath) {
-    return res.status(400).json({ error: "Invalid request" });
-  }
-
-  const documentId = extractDocumentId(filePath);
-
-  if (!documentId) {
-    return res.status(400).json({ error: "Invalid document ID" });
-  }
-
-  const originalFilePath = path.resolve(
-    __dirname,
-    "../public/temp",
-    `document_${documentId}.pdf`
-  );
-
-  try {
-    const referralDate = await getReferralDate(documentId);
-
-    const originalFileData = fs.readFileSync(originalFilePath);
-
-    const departmentId = req.session.department_ID;
+      const departmentId = req.session.department_ID;
 
     if (departmentId < 5) {
       await updateRejectLog(
@@ -377,7 +366,7 @@ app.post("/rejectDocument", async (req, res) => {
     } else {
       await updateDocumentStatus(documentId, "Finished");
     }
-
+    updateDocumentStatus(documentId, "rejected");
     return res.json({ success: true });
   } catch (error) {
     console.error("Error:", error);
@@ -394,20 +383,12 @@ async function updateRejectLog(
 ) {
   return new Promise((resolve, reject) => {
     connection.query(
-      "UPDATE document_logs SET " +
-        "review_Date = ?, " +
-        "received_file = ?, " +
-        "reviewed_file = ?, " +
-        "returned_file = ?, " +
-        "approved_file = ?, " +
-        "document_status = ? " +
-        "WHERE document_ID = ? AND department_ID = ?",
+      queries.updateRejectDocumentLog,
       [
         new Date(),
         originalFileData,
         filePath,
-        filePath,
-        null,
+        originalFileData, 
         "rejected",
         documentId,
         departmentId,
@@ -424,19 +405,20 @@ async function updateRejectLog(
   });
 }
 
-async function updateDocumentStatus(documentId, status) {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "UPDATE document_details SET status = ? WHERE document_ID = ?",
-      [status, documentId],
-      (err, result) => {
-        if (err) {
-          console.error("Error updating document status:", err);
-          reject(err);
-        } else {
-          resolve(result);
+
+  async function updateDocumentStatus(documentId, status) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE document_details SET status = ? WHERE document_ID = ?",
+        [status, documentId],
+        (err, result) => {
+          if (err) {
+            console.error("Error updating document status:", err);
+            reject(err);
+          } else {
+            resolve(result);
+          }
         }
-      }
-    );
-  });
-}
+      );
+    });
+  }
