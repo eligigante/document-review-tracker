@@ -224,24 +224,6 @@ $(".remove-preview").on("click", function () {
   reset(dropzone);
 });
 
-// Toggle dropdown function
-const toggleDropdown = function () {
-  dropdownMenu.classList.toggle("show");
-};
-
-// Toggle dropdown open/close when dropdown button is clicked
-// dropdownBtn.addEventListener("click", function (e) {
-//   e.stopPropagation();
-//   toggleDropdown();
-// });
-
-// Close dropdown when dom element is clicked
-document.documentElement.addEventListener("click", function () {
-  if (dropdownMenu.classList.contains("show")) {
-    toggleDropdown();
-  }
-});
-
 // Upload File
 function readFile(input) {
   if (input.files && input.files[0]) {
