@@ -27,11 +27,17 @@ const getUserOptions = "SELECT user_ID from user ORDER BY user_ID ASC";
 //   "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file " +
 //   "FROM document_logs AS dl JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
 //   "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
-const getReviewerDocuments = 'SELECT document_details.document_ID, document_details.user_ID, document_details.pages, '
-+ 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\'), document_details.status, document_logs.received_file, '
-+ 'user.first_Name, user.last_Name, user.middle_Name FROM user JOIN document_details ON user.user_ID = '
-+ 'document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
-+ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'Processing\'';
+// const getReviewerDocuments = 'SELECT document_details.document_ID, document_details.user_ID, document_details.pages, '
+// + 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\'), document_details.status, document_logs.received_file, '
+// + 'user.first_Name, user.last_Name, user.middle_Name FROM user JOIN document_details ON user.user_ID = '
+// + 'document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
+// + 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'Processing\'';
+const getReviewerDocuments = 'SELECT user.first_Name, user.middle_Name, user.last_Name, document_details.document_Title, '
++ 'document_details.pages, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'document_logs.document_status, document_details.document_ID FROM user JOIN '
++ 'document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.document_status = \'Processing\' '
++ 'AND document_logs.department_ID = ?'
 const getReceivedFile = "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'Processing'";
 const getUserIDFromDepartment = "SELECT user_ID FROM departments WHERE department_ID = ?";
 const updateAcceptDocumentLog =
@@ -48,10 +54,6 @@ const getPendingDocuments = 'SELECT document_details.document_Title, document_de
 + 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
 + 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ?'
 const getDepartmentIDOfUser = 'SELECT department_ID FROM user WHERE user_ID = ?'
-// const getMyReviewDetails = 'SELECT user.user_ID, user.first_Name, user.middle_Name, user.last_Name, '
-// + 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_date, document_logs.document_ID, document_logs.document_status '
-// + 'FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ? '
-// + 'AND document_logs.document_status = "accepted"';
 const getMyReviewDetails = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
 + 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
 + 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
@@ -78,12 +80,12 @@ const sortAscReviewer = 'SELECT document_details.document_Title, document_detail
 + 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
 + 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
 + 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
-+ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY user.last_NAME ASC';
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY document_logs.referral_Date ASC';
 const sortDescReviewer = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
 + 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
 + 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
 + 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
-+ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY user.last_NAME DESC';
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY document_logs.referral_Date DESC';
 const filterProcessing = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
 + 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
 + 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
@@ -106,12 +108,12 @@ const mySortAsc = 'SELECT user.last_Name, user.first_Name, user.middle_Name, doc
 + 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
 + 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
 + 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
-+ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\' ORDER BY user.last_Name ASC';
++ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\' ORDER BY document_logs.review_Date ASC';
 const mySortDesc = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
 + 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
 + 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
 + 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
-+ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\' ORDER BY user.last_Name DESC';
++ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\' ORDER BY document_logs.review_Date DESC';
 
 
 function checkUser(connection, id) {

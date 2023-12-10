@@ -20,7 +20,7 @@
 <body>
     <div class="loader-container">
         <div class="typewriter">
-            <div class="slide"><i></i></div>\
+            <div class="slide"><i></i></div>
             <div class="paper"></div>
             <div class="keyboard"></div>
         </div>
@@ -88,55 +88,9 @@
         <!-- NAVBAR -->
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-            <button class="drop-btn" id="drop-btn">
-                <i class='bx bxs-bell'></i>
-            </button>
-            <div class="dropdown" id="dropdown">
-                <div class="notify_item">
-                    <div class="notify_img">
-                        <img src="img/people.png" alt="profile_pic" style="width: 50px">
-                    </div>
-                    <div class="notify_info">
-                        <p>Alex commented on<span>Timeline Share</span></p>
-                        <span class="notify_time">10 minutes ago</span>
-                    </div>
-                </div>
-                <div class="notify_item">
-                    <div class="notify_img">
-                        <img src="img/people.png" alt="profile_pic" style="width: 50px">
-                    </div>
-                    <div class="notify_info">
-                        <p>Ben hur commented on your<span>Timeline Share</span></p>
-                        <span class="notify_time">55 minutes ago</span>
-                    </div>
-                </div>
-                <div class="notify_item">
-                    <div class="notify_img">
-                        <img src="img/people.png" alt="profile_pic" style="width: 50px">
-                    </div>
-                    <div class="notify_info">
-                        <p>Meryn trant liked your<span>Cover Picture</span></p>
-                        <span class="notify_time">2 hours ago</span>
-                    </div>
-                </div>
-                <div class="notify_item">
-                    <div class="notify_img">
-                        <img src="img/people.png" alt="profile_pic" style="width: 50px">
-                    </div>
-                    <div class="notify_info">
-                        <p>John wick commented on your<span>Profile Picture</span></p>
-                        <span class="notify_time">6 hours ago</span>
-                    </div>
-                </div>
-            </div>
+            <form action="#"></form>
             <a href="#" class="profile">
-                <img src="img/people.png">
+                <img src="img/user-img.jpg">
             </a>
         </nav>
         <!-- NAVBAR -->
@@ -162,25 +116,56 @@
                 <div class="order">
                     <div class="head">
                         <h3>For Review</h3>
-                        <i class='bx bx-search'></i>
-                        <i class='bx bx-filter'></i>
+                        <a href="my_sort_asc" class="sort-btn" id="sort-asc-queue">
+                            <i class='bx bx-sort-up'></i>
+                            <span class="text">Sort Oldest</span>
+                        </a>
+                        <a href="my_sort_desc" class="sort-btn" id="sort-desc-queue">
+                            <i class='bx bx-sort-down'></i>
+                            <span class="text">Sort Newest</span>
+                        </a>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>Document ID</th>
-                                <th>User ID</th>
+                                <th>User</th>
                                 <th>Document Title</th>
                                 <th>Pages</th>
-                                <th>Remarks</th>
-                                <th></th>
+                                <th>Referral Date</th>
+                                <th>Status</th>
+                                <th>Review Document</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- <% data.forEach((row) => { %>
+                                <tr>
+                                    <td>
+                                        <span><%= row.document_ID %></span>
+                                    </td>
+                                    <td>
+                                        <span><%= row.user_ID %></span>
+                                    </td>
+                                    <td>
+                                        <span class="text"><%= row.document_Title %></span>
+                                    </td>
+                                    <td>
+                                        <span><%= row.pages %></span>
+                                    </td>
+                                    <td>
+                                        <span class="status pending">Pending</span>
+                                    </td>
+                                    <td>
+                                        <a class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>
+                                        <div id="viewer_<%= row.document_ID %>" class="pdf-viewer-container"></div>
+                                    </td>
+                                  </td>
+                                </tr>
+                            <% }); %> -->
+
                             <% data.forEach((row) => { %>
                                 <tr>
                                     <td>
-                                        <td><p><%= row.first_Name + ' ' + row.middle_Name.charAt(0) + '. ' + row.last_Name %></p></td> 
+                                        <p><%= row.first_Name + ' ' + row.middle_Name.charAt(0) + '. ' + row.last_Name %></p>
                                     </td>
                                     <td>
                                         <span class="text"><%= row.document_Title %></span>
@@ -192,7 +177,7 @@
                                         <span><%= row.referral_Date %></span>
                                     </td>
                                     <td>
-                                        <span class="status pending"><%= row.status %></span>
+                                        <span class="status pending"><%= row.document_status %></span>
                                     </td>
                                     <td>
                                         <a class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>

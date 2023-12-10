@@ -18,7 +18,7 @@
 <body>
     <div class="loader-container">
         <div class="typewriter">
-            <div class="slide"><i></i></div>\
+            <div class="slide"><i></i></div>
             <div class="paper"></div>
             <div class="keyboard"></div>
         </div>
@@ -88,55 +88,9 @@
         <!-- NAVBAR -->
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-            <button class="drop-btn" id="drop-btn">
-                <i class='bx bxs-bell'></i>
-            </button>
-            <div class="dropdown" id="dropdown">
-                <div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Alex commented on<span>Timeline Share</span></p>
-						<span class="notify_time">10 minutes ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Ben hur commented on your<span>Timeline Share</span></p>
-						<span class="notify_time">55 minutes ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>Meryn trant liked your<span>Cover Picture</span></p>
-						<span class="notify_time">2 hours ago</span>
-					</div>
-				</div>
-				<div class="notify_item">
-					<div class="notify_img">
-						<img src="img/people.png" alt="profile_pic" style="width: 50px">
-					</div>
-					<div class="notify_info">
-						<p>John wick commented on your<span>Profile Picture</span></p>
-						<span class="notify_time">6 hours ago</span>
-					</div>
-				</div>
-              </div>
+            <form action="#"></form>
             <a href="#" class="profile">
-                <img src="img/people.png">
+                <img src="img/user-img.jpg">
             </a>
         </nav>
         <!-- NAVBAR -->
@@ -163,12 +117,12 @@
                     <div class="head">
                         <h3>Reviewed Documents</h3>
                         <a href="my_sort_asc" class="sort-btn" id="my-sort-asc">
-                            <i class='bx bx-sort-a-z' ></i>
-                            <span class="text">Sort A-Z</span>
+                            <i class='bx bx-sort-up'></i>
+                            <span class="text">Sort Oldest</span>
                         </a>
                         <a href="my_sort_desc" class="sort-btn" id="my-sort-desc">
-                            <i class='bx bx-sort-z-a'></i>
-                            <span class="text">Sort Z-A</span>
+                            <i class='bx bx-sort-down'></i>
+                            <span class="text">Sort Newest</span>
                         </a>
                     </div>
                     <table>
@@ -178,7 +132,6 @@
                                 <th>Document Title</th>
                                 <th>Review Date</th>
                                 <th>Status</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,80 +139,10 @@
                                 <tr>
                                     <td><p><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></p></td> 
                                     <td><%= element.document_Title %></td>
-                                    <td><%= element.review_date %></td>
+                                    <td><%= element.review_Date %></td>
                                     <td><span><%= element.document_status%></span></td>  
                                 </tr>
                             <% }) %>
-                            <!-- <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr> -->
                         </tbody>
                     </table>
                 </div>

@@ -4,15 +4,19 @@ include_once('db.php');
 
 
 
-function check_login($con, $accountID, $password){
+function check_login($con, $accountID, $password) {
 
-    $query = "SELECT * FROM user WHERE user_ID = '$accountID' AND password = '$password' ";
+    $query = "SELECT * FROM user WHERE user_ID = ? AND password = ?";
+
+
 
     $stmt = mysqli_prepare($con, $query);
 
 
 
+
     mysqli_stmt_bind_param($stmt, "ss", $accountID, $password);
+
 
 
     mysqli_stmt_execute($stmt);
@@ -21,23 +25,23 @@ function check_login($con, $accountID, $password){
 
 
     $result = mysqli_stmt_get_result($stmt);
+    
 
-
-    $result = mysqli_query($con, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
-      
-       $user = mysqli_fetch_assoc($result);
+        $user = mysqli_fetch_assoc($result);
 
-        if($user['role'] == 'user'){
+    
+        if ($user['role'] === 'user') {
             return $user;
         }
-    
-      
     }
+
+
+    mysqli_stmt_close($stmt);
+
     return null;
 }
-
 function get_name($con, $accountID) {
     $query = "SELECT last_Name, first_Name, middle_Name, email, user_ID FROM user WHERE user_ID = ?";
 
