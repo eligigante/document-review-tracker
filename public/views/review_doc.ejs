@@ -20,7 +20,7 @@
 <body>
     <div class="loader-container">
         <div class="typewriter">
-            <div class="slide"><i></i></div>\
+            <div class="slide"><i></i></div>
             <div class="paper"></div>
             <div class="keyboard"></div>
         </div>
@@ -168,19 +168,44 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Document ID</th>
-                                <th>User ID</th>
+                                <th>User</th>
                                 <th>Document Title</th>
                                 <th>Pages</th>
-                                <th>Remarks</th>
-                                <th></th>
+                                <th>Referral Date</th>
+                                <th>Status</th>
+                                <th>Review Document</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- <% data.forEach((row) => { %>
+                                <tr>
+                                    <td>
+                                        <span><%= row.document_ID %></span>
+                                    </td>
+                                    <td>
+                                        <span><%= row.user_ID %></span>
+                                    </td>
+                                    <td>
+                                        <span class="text"><%= row.document_Title %></span>
+                                    </td>
+                                    <td>
+                                        <span><%= row.pages %></span>
+                                    </td>
+                                    <td>
+                                        <span class="status pending">Pending</span>
+                                    </td>
+                                    <td>
+                                        <a class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>
+                                        <div id="viewer_<%= row.document_ID %>" class="pdf-viewer-container"></div>
+                                    </td>
+                                  </td>
+                                </tr>
+                            <% }); %> -->
+
                             <% data.forEach((row) => { %>
                                 <tr>
                                     <td>
-                                        <td><p><%= row.first_Name + ' ' + row.middle_Name.charAt(0) + '. ' + row.last_Name %></p></td> 
+                                        <p><%= row.first_Name + ' ' + row.middle_Name.charAt(0) + '. ' + row.last_Name %></p>
                                     </td>
                                     <td>
                                         <span class="text"><%= row.document_Title %></span>
@@ -192,7 +217,7 @@
                                         <span><%= row.referral_Date %></span>
                                     </td>
                                     <td>
-                                        <span class="status pending"><%= row.status %></span>
+                                        <span class="status pending"><%= row.document_status %></span>
                                     </td>
                                     <td>
                                         <a class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>
