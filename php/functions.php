@@ -13,7 +13,29 @@ function check_login($con, $accountID, $password) {
     if ($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
 
+
         if ($user['role'] === 'user') {
+           
+            
+            if ($user['status'] === 'Online') {
+
+                return null; 
+            }
+
+            $onlineStatus = 'Online';
+
+            $updateQuery = "UPDATE user SET status = ? WHERE user_ID = ?";
+
+            $updateStmt = mysqli_prepare($con, $updateQuery);
+
+            mysqli_stmt_bind_param($updateStmt, "ss", $onlineStatus, $user['user_ID']);
+
+
+            mysqli_stmt_execute($updateStmt);
+
+            mysqli_stmt_close($updateStmt);
+
+
             return $user;
         }
     }
@@ -21,6 +43,23 @@ function check_login($con, $accountID, $password) {
     mysqli_stmt_close($stmt);
     return null;
 }
+
+function set_user_offline($con, $userID) {
+
+
+    $offlineStatus = 'Offline';
+    $query = "UPDATE user SET status = ? WHERE user_ID = ?";
+
+
+    $stmt = mysqli_prepare($con, $query);
+
+    mysqli_stmt_bind_param($stmt, "ss", $offlineStatus, $userID);
+
+    mysqli_stmt_execute($stmt);
+    
+    mysqli_stmt_close($stmt);
+}
+
 function get_name($con, $accountID) {
     $query = "SELECT last_Name, first_Name, middle_Name, email, user_ID FROM user WHERE user_ID = ?";
 

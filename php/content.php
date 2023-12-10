@@ -36,6 +36,7 @@ if ($userDetails) {
 
 if ($_GET['page'] === 'home') {
     echo '
+    
         <main>
             <div class="head-title">
                 <div class="left">
