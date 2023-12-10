@@ -22,11 +22,16 @@ const getDepartmentOptions = "SELECT department_ID, department_Name FROM departm
 const getDepartmentID = "SELECT department_ID FROM departments WHERE department_Name = ?";
 const getUsersAndDepartments = "SELECT user.user_ID, departments.department_ID, departments.department_Name " 
 + "FROM user JOIN departments ON user.department_ID = departments.department_ID";
-const getUserOptions = "SELECT user_ID from user";
-const getReviewerDocuments =
-  "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file " +
-  "FROM document_logs AS dl JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
-  "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
+const getUserOptions = "SELECT user_ID from user ORDER BY user_ID ASC";
+// const getReviewerDocuments =
+//   "SELECT dd.document_ID, dd.user_ID, dd.document_Title, dd.pages, dd.status, dd.upload_Date, dl.received_file " +
+//   "FROM document_logs AS dl JOIN document_details AS dd ON dl.document_ID = dd.document_ID " +
+//   "WHERE dl.department_ID = ? AND dl.document_status = 'Processing'";
+const getReviewerDocuments = 'SELECT document_details.document_ID, document_details.user_ID, document_details.pages, '
++ 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\'), document_details.status, document_logs.received_file, '
++ 'user.first_Name, user.last_Name, user.middle_Name FROM user JOIN document_details ON user.user_ID = '
++ 'document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
++ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'Processing\'';
 const getReceivedFile = "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'Processing'";
 const getUserIDFromDepartment = "SELECT user_ID FROM departments WHERE department_ID = ?";
 const updateAcceptDocumentLog =
