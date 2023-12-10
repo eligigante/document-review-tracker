@@ -17,6 +17,13 @@
 </head>
 
 <body>
+    <div class="loader-container">
+        <div class="typewriter">
+            <div class="slide"><i></i></div>
+            <div class="paper"></div>
+            <div class="keyboard"></div>
+        </div>
+    </div>
     <!-- SIDEBAR -->
     <section id="sidebar">
         <span class="overlay"></span>
@@ -40,7 +47,7 @@
             <li class="active">
                 <a href="home_admin">
                     <i class='bx bxs-home'></i>
-                    <span class="text">Home</span>  
+                    <span class="text">Home</span>
                 </a>
             </li>
             <li>
@@ -111,7 +118,7 @@
 
                         </a>
                         <a href="sort_users_ascending" class="sort-btn" id="sort-asc-user">
-                            <i class='bx bx-sort-a-z' ></i>
+                            <i class='bx bx-sort-a-z'></i>
                             <span class="text">Sort A-Z</span>
                         </a>
                         <a href="sort_users_descending" class="sort-btn" id="sort-desc-user">
@@ -128,13 +135,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% data.forEach(element => { %> 
+                            <% data.forEach(element=> { %>
                                 <tr>
-                                    <td><p><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></p></td> 
-                                    <td><%= element.department_Name %></td>
-                                    <td><span><%= element.status%></span></td>  
+                                    <td>
+                                        <p>
+                                            <%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' +
+                                                element.last_Name %>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <%= element.department_Name %>
+                                    </td>
+                                    <td><span>
+                                            <%= element.status%>
+                                        </span></td>
                                 </tr>
-                            <% }) %>
+                                <% }) %>
                         </tbody>
                     </table>
                 </div>
@@ -145,4 +161,5 @@
     <!-- CONTENT -->
     <script src="/script.js"></script>
 </body>
+
 </html>

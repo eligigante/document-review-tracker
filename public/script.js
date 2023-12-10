@@ -24,6 +24,38 @@ const toggleArrow = document.getElementById("arrow");
 // const cancelBtn = document.querySelector('.cancel-btn');
 // const closeBtn = document.querySelector('.close-btn');
 
+// Loader Typewriter
+window.addEventListener('load', function() {
+  const body = document.querySelector('body'); // Get the body element
+  const loader = document.querySelector('.typewriter');
+  const loaderOverlay = document.querySelector('.loader-container');
+
+  function disableClicks() {
+    body.style.pointerEvents = 'none'; // Disable mouse events on the body
+  }
+
+  function enableClicks() {
+    body.style.pointerEvents = 'auto'; // Enable mouse events on the body
+  }
+
+  function hideLoader() {
+    loader.classList.add('fade-out'); // Add the fade-out class
+    loaderOverlay.classList.add('fade-out');
+    setTimeout(() => {
+      loader.style.display = 'none';
+      loaderOverlay.style.display = 'none';
+      enableClicks(); // Re-enable mouse events after the loader is faded out
+    }, 500); // Wait for the fade-out transition to complete before hiding
+  }
+
+  setTimeout(hideLoader, 3000); // Hide the loader after 3 seconds
+
+  loader.style.display = 'block'; // Show loader initially
+  loaderOverlay.style.opacity = '1';
+  disableClicks(); // Disable mouse events initially until the loader is hidden
+});
+
+
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector("#content nav .bx.bx-menu");
 const sidebar = document.getElementById("sidebar");
