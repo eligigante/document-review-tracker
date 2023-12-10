@@ -315,7 +315,7 @@ app.get('/my_review', (request, response) => {
         var departmentID = '';
         connection.query(queries.getDepartmentIDOfUser, [request.session.userID], function(error, result, fields) {
             departmentID = result[0].department_ID;
-            connection.query(queries.getMyReviewDetails, [request.session.userID], function(error, result, fields) {
+            connection.query(queries.getMyReviewDetails, [request.session.department_ID], function(error, result, fields) {
                 console.log("Showing my review page...")
                 response.render('my_review', {data: result})})
             })
@@ -523,7 +523,7 @@ app.get('/my_sort_asc', (request, response) => {
 
 app.get('/my_sort_desc', (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.mySortAsc, [request.session.department_ID], function(error, result, fields) {
+    connection.query(queries.mySortDesc, [request.session.department_ID], function(error, result, fields) {
       console.log("Showing sorted users (Newest) (accepted docs)...")
 
       response.render('my_review', {data: result})})

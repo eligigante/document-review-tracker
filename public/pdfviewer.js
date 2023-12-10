@@ -90,7 +90,7 @@ WebViewer(
 
   const backButton = document.getElementById("backpdf-btn");
   backButton.addEventListener("click", async () => {
-    const confirmBack = window.confirm("Are you sure you want to accept?");
+    const confirmBack = window.confirm("Are you sure you want to go back?");
     if (confirmBack) {  
       try {
         const response = await fetch('/redirect-to-review-doc', {

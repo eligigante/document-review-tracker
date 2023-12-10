@@ -2593,6 +2593,7 @@ input[type="submit"]:hover {
   --radius: 5px;
   font-size: 25px;
 }
+}
 
 .review-btn {
   border: none;
@@ -2682,5 +2683,4 @@ input[type="submit"]:hover {
   border-radius: 40px;
   cursor: pointer;
   z-index: 1;
-}
 }
