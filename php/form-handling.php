@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../index.html");
+    exit();
+   
+}
+
 include_once('db.php');
 
 $userID = $_SESSION['user_id'];
