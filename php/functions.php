@@ -7,16 +7,35 @@ include_once('db.php');
 function check_login($con, $accountID, $password){
 
     $query = "SELECT * FROM user WHERE user_ID = '$accountID' AND password = '$password' ";
+
+    $stmt = mysqli_prepare($con, $query);
+
+
+
+    mysqli_stmt_bind_param($stmt, "ss", $accountID, $password);
+
+
+    mysqli_stmt_execute($stmt);
+
+
+
+
+    $result = mysqli_stmt_get_result($stmt);
+
+
     $result = mysqli_query($con, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
       
-        return mysqli_fetch_assoc($result);
-    } else {
-     
-    return null;
+       $user = mysqli_fetch_assoc($result);
+
+        if($user['role'] == 'user'){
+            return $user;
+        }
+    
       
     }
+    return null;
 }
 
 function get_name($con, $accountID) {
@@ -293,8 +312,8 @@ function updateFile($con, $docID, $userID, $newFileBlob) {
         UPDATE document_logs
         JOIN document_details ON document_logs.document_ID = document_details.document_ID
         SET document_logs.received_file = ?,
-            document_logs.document_status = 'Processing',
-            document_details.status = 'Pending',
+            document_logs.document_status = 'processing',
+            document_details.status = 'pending',
             document_details.revisions = document_details.revisions + 1
         WHERE document_logs.document_ID = ? AND document_details.user_ID = ? AND document_logs.document_status = 'rejected';
     ";

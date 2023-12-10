@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../index.html");
+    exit();
+   
+}
+
 include_once('db.php');
 
 $userID = $_SESSION['user_id'];
@@ -8,7 +14,6 @@ $userID = $_SESSION['user_id'];
 $dateNow = new DateTime('now', new DateTimeZone('Asia/Manila'));
 
 $dateFormat = $dateNow->format('Y-m-d');
-
 
 
 $newDocumentTitle = $_POST['subject'] ?? "Default Title";
@@ -34,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
 
                 $sqlInsertDocumentDetails = "INSERT INTO document_details (user_ID, document_Title, pages, status, upload_Date, file)
-                                             VALUES (?, ?, ?,'Processing',?, ?)";
+                                             VALUES (?, ?, ?,'pending',?, ?)";
 
                 $stmtInsertDocumentDetails = $con->prepare($sqlInsertDocumentDetails);
 
