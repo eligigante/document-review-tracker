@@ -512,7 +512,7 @@ app.get('/filter_rejected_reviewer', (request, response) => {
 app.get('/my_sort_asc', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.mySortAsc, function(error, result, fields) {
-      console.log("Showing sorted users (accepted docs)...")
+      console.log("Showing sorted users (Oldest) (accepted docs)...")
       response.render('my_review', {data: result})})
     }
     else {
@@ -524,8 +524,32 @@ app.get('/my_sort_asc', (request, response) => {
 app.get('/my_sort_desc', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.mySortAsc, function(error, result, fields) {
-      console.log("Showing sorted users (accepted docs)...")
+      console.log("Showing sorted users (Newest) (accepted docs)...")
       response.render('my_review', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/sort_asc_queue', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortAscQueue, function(error, result, fields) {
+      console.log("Showing sorted users (Oldest) (pending docs)...")
+      response.render('review_doc', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/sort_desc_queue', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortDescQueue, function(error, result, fields) {
+      console.log("Showing sorted users (Newest) (pending docs)...")
+      response.render('review_doc', {data: result})})
     }
     else {
       console.log("Please login or logout from your current session.")
