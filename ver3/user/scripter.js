@@ -175,24 +175,18 @@ function getNotifications() {
 }
 
 function getDocs() {
-    var statusFilter = $('#statusFilter').val();
-    console.log('Status Filter:', statusFilter);
-
-    $.ajax({
-        type: "POST", 
-		url: "../../php/document.php",
-        data: { statusFilter: statusFilter }, 
-        dataType: "html",
-        success: function (response) {
-            console.log('AJAX Success:', response);
-            $('#tbody').html(response);
-			$('#statusFilter').change(getDocs);
-        },
-        error: function (xhr, status, error) {
-            console.error('getDocs error:', status, error);
-            console.error('Response:', xhr.responseText);
-        }
-    });
+	$.ajax({
+			type: "GET",
+			url: "../../php/document.php",
+			dataType: "html",
+			success: function (response) {
+					$('#tbody').html(response);
+			},
+			error: function (xhr, status, error) {
+					console.error('getDocs error:', status, error);
+					console.error('Response:', xhr.responseText);
+			}
+	});
 }
 
 getNotifications();

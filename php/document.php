@@ -21,17 +21,17 @@ $docs = json_decode($documents, true);
 if ($docs !== null) {
     foreach ($docs as $doc) {
         switch ($doc['status']) {
-            case 'Processing':
+            case 'processing':
                 $statusChanging = 'status pending';
                 break;
-            case 'approved':
-                $statusChanging = 'status completed';
+            case 'accepted':
+                $statusChanging = 'status finished';
                 break;
             case 'rejected':
                 $statusChanging = 'status denied';
                 break;
         }
-        
+
         echo '
         <tr>
             <td>
