@@ -81,7 +81,6 @@ if ($_GET['page'] === 'home') {
                             <tr>
                                 <th>Title</th>
                                 <th>Remarks</th>
-                                <th>Revisions</th>
                             </tr>
                         </thead>
                         <tbody id="tbading">';
@@ -91,22 +90,25 @@ if ($_GET['page'] === 'home') {
             echo '
                 <tr>
                     <td>
-                        <span>' . $doc['docTitle'] . '</span>
+                        <span class = "titleDoc">' . $doc['docTitle'] . '</span>
                     </td>
                     <td>
-                        <span>' . $doc['remarks'] . '</span>
+                        <span class = "revDoc">' . $doc['remarks'] . '</span>
                     </td>
                     <td>
                         <form action="../../php/download.php" method="get" target="_blank">
                             <input type="hidden" name="file_id" value="' . $doc['docID'] . '">
-                            <button type="submit">View</button>
+                            <button type="submit" id="view" >View</button>
                         </form>
                     </td>
                     <td>
                         <form action="../../php/reupload.php" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="file_id" value="' . $doc['docID'] . '">
-                            <input type="file" name="file">
-                            <input type="submit" value="submit">
+                       
+                   
+                            <input type="file" name="file" id = "file">
+                           
+                            <input type="submit" value="upload" id = "upload">
                         </form>
                     </td>
                 </tr>';
