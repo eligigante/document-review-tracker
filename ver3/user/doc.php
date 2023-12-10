@@ -39,8 +39,13 @@ require_once('../../php/login.php');
 </head>
 
 <body>
-
-
+    <div class="loader-container">
+        <div class="typewriter">
+            <div class="slide"><i></i></div>
+            <div class="paper"></div>
+            <div class="keyboard"></div>
+        </div>
+    </div>
     <!-- SIDEBAR -->
     <section id="sidebar">
         <span class="overlay"></span>
