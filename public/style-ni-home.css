@@ -337,6 +337,23 @@ body {
 }
 /* END OF LOADER */
 
+/* Footer */
+.footer-basic {
+	padding: 40px 0;
+	background-color: #f0f0f0;
+	color: #4b4c4d;
+}
+
+.footer-basic .copyright {
+	margin-top: 15px;
+	text-align: center;
+	font-weight: 400;
+	font-size: 13px;
+	font-family: var(--poppins);
+	color: #000000;
+	margin-bottom: 0;
+}
+
 /* SIDEBAR */
 #sidebar {
   position: fixed;

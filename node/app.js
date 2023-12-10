@@ -671,7 +671,6 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
             user_ID: nextUser_ID,
             referral_Date: referralDate,
             review_Date: null,
-            remarks: null,
             received_file: originalFileData,
             reviewed_file: null,
             approved_file: null,

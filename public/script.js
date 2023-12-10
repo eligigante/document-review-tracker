@@ -230,10 +230,10 @@ const toggleDropdown = function () {
 };
 
 // Toggle dropdown open/close when dropdown button is clicked
-dropdownBtn.addEventListener("click", function (e) {
-  e.stopPropagation();
-  toggleDropdown();
-});
+// dropdownBtn.addEventListener("click", function (e) {
+//   e.stopPropagation();
+//   toggleDropdown();
+// });
 
 // Close dropdown when dom element is clicked
 document.documentElement.addEventListener("click", function () {

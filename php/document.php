@@ -12,12 +12,9 @@ require_once('db.php');
 
 $userID = $_SESSION['user_id'];
 
-
 $statusChanging = "";
 
 $documents = get_docs($con, $userID);
-
-
 
 $docs = json_decode($documents, true);
 
@@ -34,8 +31,6 @@ if ($docs !== null) {
                 $statusChanging = 'status denied';
                 break;
         }
-
-        
 
         echo '
         <tr>
