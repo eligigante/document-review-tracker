@@ -7,12 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 $userID = $_SESSION['user_id'];
 
-require_once('../../php/functions.php');
-
-
-
-
-
+require_once('../../php/login.php');
 ?>
 
 
@@ -30,7 +25,7 @@ require_once('../../php/functions.php');
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- CSS -->
-    <link rel="stylesheet" href="../style.css">
+    <link href='style.css' rel='stylesheet'>
     <title>AdminHub</title>
 </head>
 

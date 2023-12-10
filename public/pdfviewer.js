@@ -52,7 +52,7 @@ WebViewer(
     });
   };
 
-  const acceptButton = document.getElementById("accept-btn");
+  const acceptButton = document.getElementById("acceptpdf-btn");
   acceptButton.addEventListener("click", async () => {
     const confirmAccept = window.confirm("Are you sure you want to accept?");
     if (confirmAccept) {
@@ -82,13 +82,13 @@ WebViewer(
   });
   
 
-  const clearButton = document.getElementById("clear-btn");
+  const clearButton = document.getElementById("clearpdf-btn");
   clearButton.addEventListener("click", () => {
     const allAnnotations = annotationManager.getAnnotationsList();
     annotationManager.deleteAnnotations(allAnnotations);
   });
 
-  const backButton = document.getElementById("back-btn");
+  const backButton = document.getElementById("backpdf-btn");
   backButton.addEventListener("click", async () => {
     const confirmBack = window.confirm("Are you sure you want to accept?");
     if (confirmBack) {  
@@ -114,7 +114,7 @@ WebViewer(
 
  
 
-  const rejectButton = document.getElementById("reject-btn");
+  const rejectButton = document.getElementById("rejectpdf-btn");
 rejectButton.addEventListener("click", async () => {
   const confirmReject = window.confirm("Are you sure you want to reject?");
   if (confirmReject) {

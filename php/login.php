@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../ver3/user/doc.php");
             exit();
         } else {
-            echo "<script>alert('Invalid credentials'); window.location.href = '../ver3/user/index.html';</script>";
+            echo "<script>alert('Invalid credentials'); window.location.href = '../index.html';</script>";
             exit();
         }
     }

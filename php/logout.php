@@ -9,6 +9,6 @@ $_SESSION = array();
 session_destroy();
 
 
-header("Location: ../ver3/user/index.html");
+header("Location: index.html");
 exit();
 ?>

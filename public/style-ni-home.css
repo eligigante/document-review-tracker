@@ -2321,16 +2321,67 @@ input[type="submit"]:hover {
   margin-right: 330px;
 }
 
-.cancel-btn {
-  font-size: 20px;
+#acceptpdf-btn {
+  font-size: 12px;
   font-weight: 400;
   font-family: var(--poppins);
   color: #fff;
-  padding: 10px 15px;
+  padding: 6px 14px;
+  position: absolute;
+  top: 40px;
+  right: 233px;
+  border: none;
+  background: #1dc455;
+  border-radius: 40px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#rejectpdf-btn {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 6px 17px;
+  position: absolute;
+  top: 40px;
+  right: 155px;
+  border: none;
+  background: #f82f2f;
+  border-radius: 40px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#clearpdf-btn {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 6px 17px;
+  position: absolute;
+  top: 40px;
+  right: 81px;
   border: none;
   background: #a19e9e;
-  border-radius: 6px;
+  border-radius: 40px;
   cursor: pointer;
-  margin-right: 15px;
+  z-index: 1;
+}
+
+#backpdf-btn {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 6px 17px;
+  position: absolute;
+  top: 40px;
+  left: 26px;
+  border: none;
+  background: #a19e9e;
+  border-radius: 40px;
+  cursor: pointer;
+  z-index: 1;
 }
 }
