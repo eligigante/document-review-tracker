@@ -315,9 +315,8 @@ app.get('/my_review', (request, response) => {
         var departmentID = '';
         connection.query(queries.getDepartmentIDOfUser, [request.session.userID], function(error, result, fields) {
             departmentID = result[0].department_ID;
-            connection.query(queries.getMyReviewDetails, [departmentID], function(error, result, fields) {
+            connection.query(queries.getMyReviewDetails, [request.session.userID], function(error, result, fields) {
                 console.log("Showing my review page...")
-                console.log(result);
                 response.render('my_review', {data: result})})
             })
         }
@@ -434,9 +433,8 @@ app.post('/edit_user_request', (request, response) => {
 
 app.get("/review_doc", (request, response) => {
     if (request.session.loggedIn && request.session.role === "reviewer") {
-      const departmentID = request.session.department_ID;
   
-      connection.query(queries.getReviewerDocuments, [departmentID], (err, results) => {
+      connection.query(queries.getReviewerDocuments, [request.session.userID], (err, results) => {
         if (err) {
           console.error("Error querying documents:", err);
           throw err;
@@ -452,8 +450,9 @@ app.get("/review_doc", (request, response) => {
 
 app.get('/sort_asc_reviewer', (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.sortAscReviewer, function(error, result, fields) {
+    connection.query(queries.sortAscReviewer,  [request.session.department_ID], function(error, result, fields) {
       console.log("Showing sorted users (reviewer - A-Z)...")
+      console.log(result);
       response.render('reviewer', {data: result})})
     }
     else {
@@ -464,7 +463,7 @@ app.get('/sort_asc_reviewer', (request, response) => {
 
 app.get('/sort_desc_reviewer', (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.sortDescReviewer, function(error, result, fields) {
+    connection.query(queries.sortDescReviewer, [request.session.department_ID], function(error, result, fields) {
       console.log("Showing sorted users (reviewer - Z-A)...")
       response.render('reviewer', {data: result})})
     }
@@ -476,7 +475,7 @@ app.get('/sort_desc_reviewer', (request, response) => {
 
 app.get('/filter_processing_reviewer', (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.filterProcessing, function(error, result, fields) {
+    connection.query(queries.filterProcessing, [request.session.department_ID], function(error, result, fields) {
       console.log("Showing filtered documents (processing)...")
       response.render('reviewer', {data: result})})
     }
@@ -488,7 +487,7 @@ app.get('/filter_processing_reviewer', (request, response) => {
   
 app.get('/filter_accepted_reviewer', (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.filterAccepted, function(error, result, fields) {
+    connection.query(queries.filterAccepted, [request.session.department_ID], function(error, result, fields) {
       console.log("Showing filtered documents (accepted)...")
       response.render('reviewer', {data: result})})
     }
@@ -500,7 +499,7 @@ app.get('/filter_accepted_reviewer', (request, response) => {
 
 app.get('/filter_rejected_reviewer', (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.filterRejected, function(error, result, fields) {
+    connection.query(queries.filterRejected, [request.session.department_ID], function(error, result, fields) {
       console.log("Showing filtered documents (rejected)...")
       response.render('reviewer', {data: result})})
     }
