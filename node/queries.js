@@ -48,10 +48,6 @@ const getPendingDocuments = 'SELECT document_details.document_Title, document_de
 + 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
 + 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ?'
 const getDepartmentIDOfUser = 'SELECT department_ID FROM user WHERE user_ID = ?'
-// const getMyReviewDetails = 'SELECT user.user_ID, user.first_Name, user.middle_Name, user.last_Name, '
-// + 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_date, document_logs.document_ID, document_logs.document_status '
-// + 'FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ? '
-// + 'AND document_logs.document_status = "accepted"';
 const getMyReviewDetails = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
 + 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
 + 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
@@ -78,12 +74,12 @@ const sortAscReviewer = 'SELECT document_details.document_Title, document_detail
 + 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
 + 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
 + 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
-+ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY user.last_NAME ASC';
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY document_logs.referral_Date ASC';
 const sortDescReviewer = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
 + 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
 + 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
 + 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
-+ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY user.last_NAME DESC';
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY document_logs.referral_Date DESC';
 const filterProcessing = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
 + 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
 + 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
