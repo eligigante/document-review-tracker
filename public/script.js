@@ -310,10 +310,5 @@ function openNewPageWithPDF(filename) {
     filename
   )}`;
   console.log("This is the path: " + relativePath);
-  const newWindow = window.open(relativePath, "_blank");
-  window.close();
-
-  if (!newWindow) {
-    alert("Popup Failed.");
-  }
+  window.location.href = relativePath;
 }

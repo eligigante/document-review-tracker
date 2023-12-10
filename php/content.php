@@ -6,10 +6,9 @@ require_once('functions.php');
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-   
-    header("Location: index.html");
+    header("Location: ../index.html");
     exit();
-
+   
 }
 
 $userID = $_SESSION['user_id'];
