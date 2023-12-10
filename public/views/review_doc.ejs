@@ -174,10 +174,7 @@
                             <% data.forEach((row) => { %>
                                 <tr>
                                     <td>
-                                        <span><%= row.document_ID %></span>
-                                    </td>
-                                    <td>
-                                        <span><%= row.user_ID %></span>
+                                        <td><p><%= row.first_Name + ' ' + row.middle_Name.charAt(0) + '. ' + row.last_Name %></p></td> 
                                     </td>
                                     <td>
                                         <span class="text"><%= row.document_Title %></span>
@@ -186,7 +183,10 @@
                                         <span><%= row.pages %></span>
                                     </td>
                                     <td>
-                                        <span class="status pending">Pending</span>
+                                        <span><%= row.referral_Date %></span>
+                                    </td>
+                                    <td>
+                                        <span class="status pending"><%= row.status %></span>
                                     </td>
                                     <td>
                                         <a class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>
