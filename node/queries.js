@@ -36,8 +36,6 @@ const updateAcceptDocumentLog =
 const updateRejectDocumentLog =
   "UPDATE document_logs SET review_Date = ?, received_file = ?, reviewed_file = ?, " +
   "returned_file = ?, document_status = ? WHERE document_ID = ? AND department_ID = ?";
-// const getPendingDocuments = 'SELECT user.first_Name, user.middle_Name, user.last_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS date, '
-// + 'document_logs.document_status FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ?'
 const getPendingDocuments = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
 + 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
 + 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
