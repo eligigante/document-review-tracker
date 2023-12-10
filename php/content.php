@@ -82,6 +82,7 @@ if ($_GET['page'] === 'home') {
                             <tr>
                                 <th>Title</th>
                                 <th>Remarks</th>
+                                <th>Revisions</th>
                             </tr>
                         </thead>
                         <tbody id="tbading">';
