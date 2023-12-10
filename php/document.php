@@ -31,7 +31,7 @@ if ($docs !== null) {
                 $statusChanging = 'status denied';
                 break;
         }
-
+        
         echo '
         <tr>
             <td>

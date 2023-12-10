@@ -11,30 +11,16 @@ require_once('db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['file_id'])) {
-
         $documentID = $_GET['file_id'];
-
-
         $documentInfo = getFile($con, $documentID);
 
-
         if ($documentInfo !== null) {
-
-
-
             $title = $documentInfo['title'];
-
             $fileContent = $documentInfo['file'];
-
             $mime = 'application/pdf';
-
-
-
-            header('Content-Type: ' . $mime);
-
             
+            header('Content-Type: ' . $mime);
             header('Content-Disposition: inline; filename="' . $title . '.pdf"');
-
             echo $fileContent;
             exit();
         } else {
