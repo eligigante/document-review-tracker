@@ -434,7 +434,7 @@ app.post('/edit_user_request', (request, response) => {
 app.get("/review_doc", (request, response) => {
     if (request.session.loggedIn && request.session.role === "reviewer") {
   
-      connection.query(queries.getReviewerDocuments, [request.session.userID], (err, results) => {
+      connection.query(queries.getReviewerDocuments, [request.session.department_ID], (err, results) => {
         if (err) {
           console.error("Error querying documents:", err);
           throw err;

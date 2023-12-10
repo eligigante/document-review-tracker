@@ -88,10 +88,12 @@
         <!-- NAVBAR -->
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="#"></form>
-            <a href="#" class="profile">
-                <img src="img/user-img.jpg">
-            </a>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
             <button class="drop-btn" id="drop-btn">
                 <i class='bx bxs-bell'></i>
             </button>
@@ -162,11 +164,11 @@
                         <h3>Reviewed Documents</h3>
                         <a href="my_sort_asc" class="sort-btn" id="my-sort-asc">
                             <i class='bx bx-sort-a-z' ></i>
-                            <span class="text">Sort A-Z</span>
+                            <span class="text">Sort Oldest</span>
                         </a>
                         <a href="my_sort_desc" class="sort-btn" id="my-sort-desc">
                             <i class='bx bx-sort-z-a'></i>
-                            <span class="text">Sort Z-A</span>
+                            <span class="text">Sort Newest</span>
                         </a>
                     </div>
                     <table>
@@ -176,7 +178,6 @@
                                 <th>Document Title</th>
                                 <th>Review Date</th>
                                 <th>Status</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -184,80 +185,10 @@
                                 <tr>
                                     <td><p><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></p></td> 
                                     <td><%= element.document_Title %></td>
-                                    <td><%= element.review_date %></td>
+                                    <td><%= element.review_Date %></td>
                                     <td><span><%= element.document_status%></span></td>  
                                 </tr>
                             <% }) %>
-                            <!-- <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span>10001</span>
-                                </td>
-                                <td><span>2023001</span></td>
-                                <td>
-                                    <span>20231</span>
-                                </td>
-                                <td><span>2023-11-01</span></td>
-                                <td><span class="text">2023-11-02</span></td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr> -->
                         </tbody>
                     </table>
                 </div>
