@@ -87,7 +87,7 @@ closeBtn.addEventListener("click", () =>
  function loadContent(page) {
 	fetch(`../../php/content.php?page=${page}`)
  		.then(response => response.text())
- 		.then(data => document.getElementById('tite').innerHTML = data)
+ 		.then(data => document.getElementById('doc').innerHTML = data)
  		.catch(error => console.error('Error:', error));
  }
 

@@ -2,73 +2,34 @@
 
 include_once('db.php');
 
-
-
 function check_login($con, $accountID, $password) {
-
     $query = "SELECT * FROM user WHERE user_ID = ? AND password = ?";
-
-
-
     $stmt = mysqli_prepare($con, $query);
-
-
-
-
     mysqli_stmt_bind_param($stmt, "ss", $accountID, $password);
-
-
-
     mysqli_stmt_execute($stmt);
 
-
-
-
     $result = mysqli_stmt_get_result($stmt);
-    
-
 
     if ($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
 
-    
         if ($user['role'] === 'user') {
             return $user;
         }
     }
 
-
     mysqli_stmt_close($stmt);
-
     return null;
 }
 function get_name($con, $accountID) {
     $query = "SELECT last_Name, first_Name, middle_Name, email, user_ID FROM user WHERE user_ID = ?";
 
-    
     if ($stmt = mysqli_prepare($con, $query)) {
-       
         mysqli_stmt_bind_param($stmt, "s", $accountID);
-
-     
         mysqli_stmt_execute($stmt);
-
-
-
-      
         mysqli_stmt_bind_result($stmt, $last_Name, $first_Name, $middle_Name, $email, $user_ID);
-
-   
         mysqli_stmt_fetch($stmt);
-
-
-        
         mysqli_stmt_close($stmt);
-
-
-
-
-        
         return array(
             "first_Name" => $first_Name,
             "last_Name" => $last_Name,
@@ -80,30 +41,20 @@ function get_name($con, $accountID) {
        
         return null;
     }
-
-   
 }
 
 function get_docs($con, $accountID){
-
     $query = "SELECT document_details.document_ID, document_details.document_Title, document_details.upload_Date, document_details.status, document_logs.department_ID, departments.department_Name FROM document_details
     JOIN document_logs ON document_details.document_ID = document_logs.document_ID
     JOIN departments ON document_logs.department_ID = departments.department_ID
     WHERE document_details.user_ID = ?";
       
     if ($stmt = mysqli_prepare($con, $query)) {
-   
     mysqli_stmt_bind_param($stmt, "s", $accountID);
-
- 
     mysqli_stmt_execute($stmt);
-
-
-
     mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date,$status, $department_ID, $department);
 
     $documents = array();
-
 
     while (mysqli_stmt_fetch($stmt)) {
         $documents[] = array(
@@ -113,41 +64,26 @@ function get_docs($con, $accountID){
             "status" => $status,
             "department" => $department_ID,
             "depName" => $department
-      
         );
     }
 
-    
     mysqli_stmt_close($stmt);
 
     return json_encode($documents);
 } else {
    
     return null;
-
-
 }
 }
-
-
-
 
 function get_recent($con, $accountID){
 
     $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
 
-
-
-
     $stmt = mysqli_prepare($con, $query);
-
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, 's', $accountID);
-
-
         mysqli_stmt_execute($stmt);
- 
-
         mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $status);
         
         $documents = array();
@@ -169,46 +105,29 @@ function get_recent($con, $accountID){
 }
 
 //img
-
-
-
 function documentNotif($con, $userID) {
     $notifications = array();
 
     $query = "SELECT DISTINCT document_ID, department_ID FROM document_logs WHERE user_ID = $userID";
-
-
-
     $result = mysqli_query($con, $query);
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-
-
             $documentID = $row['document_ID'];
             $departmentID = $row['department_ID'];
-
-
-            
             $deptQuery = "SELECT department_name FROM departments WHERE department_ID = $departmentID";
-
-
             $deptResult = mysqli_query($con, $deptQuery);
 
             if ($deptResult && mysqli_num_rows($deptResult) > 0) {
 
-
                 $departmentRow = mysqli_fetch_assoc($deptResult);
                 $departmentName = $departmentRow['department_name'];
 
-
                 $notification = array(
-
                     "documentID" => $documentID,
                     "departmentName" => $departmentName,
                     "timestamp" => date('Y-m-d H:i:s')
                 );
-
                 array_push($notifications, $notification);
             }
         }
@@ -219,14 +138,11 @@ function documentNotif($con, $userID) {
     }
 }
 
-
 function getRejected($con, $accountID) {
-
     $query = "
         SELECT
             document_logs.document_ID,
             document_logs.department_ID,
-            document_logs.remarks,
             document_logs.returned_file,
             document_details.user_ID,
             document_details.document_Title
@@ -242,28 +158,21 @@ function getRejected($con, $accountID) {
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-
         mysqli_stmt_bind_param($stmt, 's', $accountID);
-
         mysqli_stmt_execute($stmt);
-
-        mysqli_stmt_bind_result($stmt, $document_ID, $departmentID, $remarks, $returnedFile, $userID, $documentTitle);
+        mysqli_stmt_bind_result($stmt, $document_ID, $departmentID, $returnedFile, $userID, $documentTitle);
 
         $documents = array();
-
         while (mysqli_stmt_fetch($stmt)) {
             $documents[] = array(
                 "docID" => $document_ID,
                 "depID" => $departmentID,
                 "userID" => $userID,
                 "docTitle" => $documentTitle,
-                "remarks" => $remarks,
                 "returnedFile" => $returnedFile,
             );
         }
-
         mysqli_stmt_close($stmt);
-
         return $documents;
     } else {
         echo "Error: " . mysqli_error($con);
@@ -326,13 +235,9 @@ function updateFile($con, $docID, $userID, $newFileBlob) {
 
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
-
         $result = mysqli_stmt_execute($stmt);
-
         mysqli_stmt_send_long_data($stmt, 0, $newFileBlob);
-
         mysqli_stmt_close($stmt);
-
         return $result;
     } else {
         return false;

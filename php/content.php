@@ -15,17 +15,8 @@ $userID = $_SESSION['user_id'];
 $userDetails = get_name($con, $userID);
 $docDetails = get_docs($con, $userID);
 $docs = json_decode($docDetails, true);
-
 $documentRejected = getRejected($con, $userID);
-
 $docRecent = get_recent($con, $userID);
-
-
-
-
-
-
-
 $statusChange = "";
 $statusChanging = "";
 
@@ -42,14 +33,6 @@ if ($userDetails) {
     
   null;
 }
-
-
-
-echo var_dump($_GET['page']);
-
-
-
-
 
 if ($_GET['page'] === 'home') {
     echo '
@@ -80,10 +63,9 @@ if ($_GET['page'] === 'home') {
                         <thead>
                             <tr>
                                 <th>Title</th>
-                                <th>Remarks</th>
                             </tr>
                         </thead>
-                        <tbody id="tbading">';
+                        <tbody id="getDocs">';
     
     if ($documentRejected !== null) {
         foreach ($documentRejected as $doc) {
@@ -91,9 +73,6 @@ if ($_GET['page'] === 'home') {
                 <tr>
                     <td>
                         <span class = "titleDoc">' . $doc['docTitle'] . '</span>
-                    </td>
-                    <td>
-                        <span class = "revDoc">' . $doc['remarks'] . '</span>
                     </td>
                     <td>
                         <form action="../../php/download.php" method="get" target="_blank">
@@ -139,9 +118,6 @@ if ($_GET['page'] === 'home') {
 
     echo '<main id = "tite">
     
-    
-    
-    
     <div class="head-title">
     <div class="left">
         <h1>My Documents</h1>
@@ -152,15 +128,6 @@ if ($_GET['page'] === 'home') {
     <div class="order">
         <div class="head">
             <h3>My Documents</h3>
-
-            
-            
-  
-
-
-
-
-
         </div>
         <table>
             <thead>
@@ -174,9 +141,6 @@ if ($_GET['page'] === 'home') {
                 </tr>
             </thead>
             <tbody id = tbody>
-  
-
-        
         <tr>
                     <td>
                         <span>'. "" . '</span>
@@ -191,21 +155,10 @@ if ($_GET['page'] === 'home') {
                         <span class="status completed">'. "" . '</span>
                     </td>
                 </tr>
-        
-        
-
-
-
-   
-                
-        
             </tbody>
         </table>
     </div>
 </div>
-    
-    
-    
    </main>';
    
 
@@ -242,16 +195,9 @@ if ($_GET['page'] === 'home') {
         <div class="name-label">Email: <span class="value">'. $email .'</span></div>
         <div class="name-label">User ID: <span class="value">'. $id .'</span></div>
         <!-- Add more divs for additional user information as needed -->
-    </div>
-    
+    </div> 
 </div>
-    
     </main>';
-   
-
-
-
-
 } elseif ($_GET['page'] === 'document') {
     echo '<main>
     
@@ -335,10 +281,7 @@ if ($_GET['page'] === 'home') {
         </div>
     </form>
 </div>
-    
     </main>';
-   
-
 } else {
    
     echo '<h1>Page not found</h1>';

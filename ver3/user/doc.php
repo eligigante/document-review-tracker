@@ -1,24 +1,16 @@
 <?php
 session_start();
 
-
-
-
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../../index.html");
     exit();
    
 }
 
-
-
-
-
 $userID = $_SESSION['user_id'];
 
 require_once('../../php/login.php');
 ?>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -105,8 +97,6 @@ require_once('../../php/login.php');
     </section>
     <!-- SIDEBAR -->
 
-
-
     <!-- CONTENT -->
     <section id="content">
         <!-- NAVBAR -->
@@ -122,11 +112,6 @@ require_once('../../php/login.php');
                 <i class='bx bxs-bell'></i>
             </button>
             <div class="dropdown" id="dropdown">
-
-
-                
-
-            
               </div>
             <a href="#" class="profile">
                 <img src="">
@@ -135,13 +120,10 @@ require_once('../../php/login.php');
         <!-- NAVBAR -->
 
         <!-- MAIN -->
-        <main id = "tite">
-           
-        </main>
+        <main id = "doc"></main>
         <!-- MAIN -->
     </section>
     <!-- CONTENT -->
-
 
     <script src="scripter.js"></script>
 </body>

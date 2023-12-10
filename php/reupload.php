@@ -9,7 +9,6 @@ if (!isset($_SESSION['user_id'])) {
 require_once('functions.php');
 require_once('db.php');
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['file_id']) && isset($_FILES['file'])) {
         $docID = $_POST['file_id'];
@@ -19,8 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newFileBlob = file_get_contents($newFile['tmp_name']);
 
             if (updateFile($con, $docID, $_SESSION['user_id'], $newFileBlob)) {
-
-                
                 header("Location: ../ver3/user/doc.php");
                 exit();
             } else {

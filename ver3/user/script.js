@@ -369,7 +369,7 @@ function getRecentDocs() {
     url: "../../php/recentDocument.php",
     dataType: "html",
     success: function (response) {
-      $("#tbading").html(response);
+      $("#getDocs").html(response);
     },
     error: function (xhr, status, error) {
       console.error(status + ": " + error);

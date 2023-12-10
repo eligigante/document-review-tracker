@@ -9,18 +9,9 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once('functions.php');
 require_once('db.php');
-
-
-
 $userID = $_SESSION['user_id'];
-
-
 $notifications = documentNotif($con, $userID);
-
-//gawin associative array (JSON Format), true = associative array, or object false
 $notifArr = json_decode($notifications, true);
-
-
 
 if ($notifArr !== null) {
   
