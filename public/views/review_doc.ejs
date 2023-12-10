@@ -116,11 +116,11 @@
                 <div class="order">
                     <div class="head">
                         <h3>For Review</h3>
-                        <a href="my_sort_asc" class="sort-btn" id="sort-asc-queue">
+                        <a href="sort_asc_queue" class="sort-btn" id="sort-asc-queue">
                             <i class='bx bx-sort-down'></i>
                             <span class="text">Sort Oldest</span>
                         </a>
-                        <a href="my_sort_desc" class="sort-btn" id="sort-desc-queue">
+                        <a href="sort_desc_queue" class="sort-btn" id="sort-desc-queue">
                             <i class='bx bx-sort-up'></i>
                             <span class="text">Sort Newest</span>
                         </a>
@@ -137,31 +137,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <% data.forEach((row) => { %>
-                                <tr>
-                                    <td>
-                                        <span><%= row.document_ID %></span>
-                                    </td>
-                                    <td>
-                                        <span><%= row.user_ID %></span>
-                                    </td>
-                                    <td>
-                                        <span class="text"><%= row.document_Title %></span>
-                                    </td>
-                                    <td>
-                                        <span><%= row.pages %></span>
-                                    </td>
-                                    <td>
-                                        <span class="status pending">Pending</span>
-                                    </td>
-                                    <td>
-                                        <a class="review-btn" data-document-id="<%= row.document_ID %>">Review</a>
-                                        <div id="viewer_<%= row.document_ID %>" class="pdf-viewer-container"></div>
-                                    </td>
-                                  </td>
-                                </tr>
-                            <% }); %> -->
-
                             <% data.forEach((row) => { %>
                                 <tr>
                                     <td>
