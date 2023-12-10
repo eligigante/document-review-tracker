@@ -76,6 +76,18 @@ html {
   
 }
 
+.titleDoc{
+  position : relative;
+  top: 20px;
+
+}
+
+.revDoc{
+  position : relative;
+  top: 20px;
+  overflow: auto;
+}
+
 
 input[type=file]::file-selector-button {
   margin-right: 20px;

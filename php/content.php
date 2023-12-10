@@ -90,10 +90,10 @@ if ($_GET['page'] === 'home') {
             echo '
                 <tr>
                     <td>
-                        <span>' . $doc['docTitle'] . '</span>
+                        <span class = "titleDoc">' . $doc['docTitle'] . '</span>
                     </td>
                     <td>
-                        <span>' . $doc['remarks'] . '</span>
+                        <span class = "revDoc">' . $doc['remarks'] . '</span>
                     </td>
                     <td>
                         <form action="../../php/download.php" method="get" target="_blank">
