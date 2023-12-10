@@ -10,6 +10,45 @@ const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
+// Loader after visiting a link
+document.addEventListener('DOMContentLoaded', function() {
+	const loader = document.querySelector('.typewriter');
+	const loaderOverlay = document.querySelector('.loader-container');
+	const specificLinks = document.querySelectorAll('a.brand, ul.side-menu.top a, a.btn-add, a.edit-btn, a.cancel-btn, a.create-btn');
+  
+	function showLoader() {
+	  loader.style.display = 'block'; // Show the loader
+	  loaderOverlay.style.opacity = '1';
+	}
+  
+	function hideLoader() {
+	  loader.classList.add('fade-out'); // Add fade-out class
+	  loaderOverlay.classList.add('fade-out');
+	  setTimeout(() => {
+		loader.style.display = 'none'; // Hide loader after fade-out animation
+		loaderOverlay.style.display = 'none';
+	  }, 500); // Wait for the fade-out transition to complete before hiding
+	}
+  
+	function handleLinkClick(event) {
+	  event.preventDefault(); // Prevent default link behavior
+	  const href = this.getAttribute('href'); // Get the href attribute of the clicked link
+  
+	  showLoader(); // Show the loader before navigating
+	  setTimeout(() => {
+		window.location.href = href; // Navigate to the new page after a delay
+	  }, 1000); // Adjust the delay as needed
+  
+	  // Hide the loader after a certain time (you can adjust this)
+	  setTimeout(hideLoader, 3000);
+	}
+  
+	// Attach click event to specific anchor tags
+	specificLinks.forEach(link => {
+	  link.addEventListener('click', handleLinkClick);
+	});
+  });
+
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector('#content nav .bx.bx-menu');
 const sidebar = document.getElementById('sidebar');
