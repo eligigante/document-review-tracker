@@ -1,5 +1,3 @@
-// const { document } = require("pdfkit/js/page");
-
 const allSideMenu = document.querySelectorAll("#sidebar .side-menu.top li a");
 const section = document.querySelector("section");
 const firstSection = document.getElementById("sidebar");
@@ -17,44 +15,44 @@ const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
-// const overlay = document.createElement('span');
-// const overlayAdd = document.createElement('span');
-// const showBtn = document.querySelector('.logout');
-// const addBtn = document.querySelector('.btn-add');
-// const cancelBtn = document.querySelector('.cancel-btn');
-// const closeBtn = document.querySelector('.close-btn');
-
-// Loader Typewriter
-window.addEventListener('load', function() {
-  const body = document.querySelector('body'); // Get the body element
+// Loader after visiting a link
+document.addEventListener('DOMContentLoaded', function() {
   const loader = document.querySelector('.typewriter');
   const loaderOverlay = document.querySelector('.loader-container');
+  const specificLinks = document.querySelectorAll('a.brand, ul.side-menu.top a, a.btn-add, a.edit-btn, a.cancel-btn, a.create-btn');
 
-  function disableClicks() {
-    body.style.pointerEvents = 'none'; // Disable mouse events on the body
-  }
-
-  function enableClicks() {
-    body.style.pointerEvents = 'auto'; // Enable mouse events on the body
+  function showLoader() {
+    loader.style.display = 'block'; // Show the loader
+    loaderOverlay.style.opacity = '1';
   }
 
   function hideLoader() {
-    loader.classList.add('fade-out'); // Add the fade-out class
+    loader.classList.add('fade-out'); // Add fade-out class
     loaderOverlay.classList.add('fade-out');
     setTimeout(() => {
-      loader.style.display = 'none';
+      loader.style.display = 'none'; // Hide loader after fade-out animation
       loaderOverlay.style.display = 'none';
-      enableClicks(); // Re-enable mouse events after the loader is faded out
     }, 500); // Wait for the fade-out transition to complete before hiding
   }
 
-  setTimeout(hideLoader, 3000); // Hide the loader after 3 seconds
+  function handleLinkClick(event) {
+    event.preventDefault(); // Prevent default link behavior
+    const href = this.getAttribute('href'); // Get the href attribute of the clicked link
 
-  loader.style.display = 'block'; // Show loader initially
-  loaderOverlay.style.opacity = '1';
-  disableClicks(); // Disable mouse events initially until the loader is hidden
+    showLoader(); // Show the loader before navigating
+    setTimeout(() => {
+      window.location.href = href; // Navigate to the new page after a delay
+    }, 1000); // Adjust the delay as needed
+
+    // Hide the loader after a certain time (you can adjust this)
+    setTimeout(hideLoader, 3000);
+  }
+
+  // Attach click event to specific anchor tags
+  specificLinks.forEach(link => {
+    link.addEventListener('click', handleLinkClick);
+  });
 });
-
 
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector("#content nav .bx.bx-menu");
@@ -156,17 +154,12 @@ function createLogoutModal() {
 // Event Listener
 document.addEventListener("DOMContentLoaded", function () {
   const logoutBtn = document.querySelector(".logout");
-  const edtBtn = document.querySelector(".edt-btn");
 
   logoutBtn.addEventListener("click", function (event) {
     event.preventDefault();
     createLogoutModal();
   });
-
-  edtBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    sendEditUserServerRequest();
-  })});
+});
 
 function sendEditUserServerRequest() {
   fetch("/edit_user", {
@@ -201,15 +194,6 @@ function sendLogoutUserServerRequest() {
     .catch((error) => console.error("Error:", error));
 }
 
-
-//SPA
-// function loadContent(page) {
-// 	fetch(`../../php/content.php?page=${page}`)
-// 		.then(response => response.text())
-// 		.then(data => document.getElementById('tite').innerHTML = data)
-// 		.catch(error => console.error('Error:', error));
-// }
-
 function reset(e) {
   e.wrap("<form>").closest("form").get(0).reset();
   e.unwrap();
@@ -240,11 +224,6 @@ $(".remove-preview").on("click", function () {
   reset(dropzone);
 });
 
-//dashboard papakita
-// window.onload = function () {
-//   loadContent("home");
-// };
-
 // Toggle dropdown function
 const toggleDropdown = function () {
   dropdownMenu.classList.toggle("show");
@@ -262,61 +241,6 @@ document.documentElement.addEventListener("click", function () {
     toggleDropdown();
   }
 });
-
-//notif asynch
-// function getNotifications() {
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "../../php/notification.php",
-// 		dataType: "html",
-// 		success: function (response) {
-// 			$('#dropdown').html(response);
-// 		},
-// 		error: function (xhr, status, error) {
-// 			console.error(status + ": " + error);
-// 		}
-// 	});
-// }
-
-// function getDocs() {
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "../../php/document.php",
-// 		dataType: "html",
-// 		success: function (response) {
-// 			$('#tbody').html(response);
-// 		},
-// 		error: function (xhr, status, error) {
-// 			console.error(status + ": " + error);
-// 		}
-// 	});
-// }
-
-// function getRecentDocs() {
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "../../php/recentDocument.php",
-// 		dataType: "html",
-// 		success: function (response) {
-// 			$('#tbading').html(response);
-// 		},
-// 		error: function (xhr, status, error) {
-// 			console.error(status + ": " + error);
-// 		}
-// 	});
-// }
-
-// getNotifications();
-
-// setInterval(getNotifications, 10);
-
-// getDocs();
-
-// setInterval(getDocs, 10);
-
-// getRecentDocs();
-
-// setInterval(getRecentDocs, 10)
 
 // Upload File
 function readFile(input) {

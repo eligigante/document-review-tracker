@@ -7,16 +7,35 @@ include_once('db.php');
 function check_login($con, $accountID, $password){
 
     $query = "SELECT * FROM user WHERE user_ID = '$accountID' AND password = '$password' ";
+
+    $stmt = mysqli_prepare($con, $query);
+
+
+
+    mysqli_stmt_bind_param($stmt, "ss", $accountID, $password);
+
+
+    mysqli_stmt_execute($stmt);
+
+
+
+
+    $result = mysqli_stmt_get_result($stmt);
+
+
     $result = mysqli_query($con, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
       
-        return mysqli_fetch_assoc($result);
-    } else {
-     
-    return null;
+       $user = mysqli_fetch_assoc($result);
+
+        if($user['role'] == 'user'){
+            return $user;
+        }
+    
       
     }
+    return null;
 }
 
 function get_name($con, $accountID) {
