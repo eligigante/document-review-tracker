@@ -67,7 +67,7 @@ require_once('../../php/login.php');
         </a>
         <ul class="side-menu top">
             <li class="active">
-                <a href="#" onclick= "loadContent('home')">
+                <a href="#" onclick= "loadContent('home'), showLoader()">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
                 </a>

@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	const loader = document.querySelector('.typewriter');
 	const loaderOverlay = document.querySelector('.loader-container');
 	const specificLinks = document.querySelectorAll('a.brand, ul.side-menu.top a, a.btn-add, a.edit-btn, a.cancel-btn, a.create-btn');
+
+
   
 	function showLoader() {
 	  loader.style.display = 'block'; // Show the loader
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
 	function handleLinkClick(event) {
 	  event.preventDefault(); // Prevent default link behavior
-	  const href = this.getAttribute('href'); // Get the href attribute of the clicked link
+	  const href = this.getAttribute('href'); 
   
 	  showLoader(); // Show the loader before navigating
 	  setTimeout(() => {
@@ -48,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	  link.addEventListener('click', handleLinkClick);
 	});
   });
+
 
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector('#content nav .bx.bx-menu');
@@ -89,6 +92,10 @@ closeBtn.addEventListener("click", () =>
  		.then(response => response.text())
  		.then(data => document.getElementById('tite').innerHTML = data)
  		.catch(error => console.error('Error:', error));
+
+		showLoader();
+
+		
  }
 
 function reset(e) {
