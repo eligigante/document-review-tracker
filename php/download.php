@@ -26,7 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             $fileContent = $documentInfo['file'];
 
-            $mime = 'application/pdf'
+            $mime = 'application/pdf';
+
+
 
             header('Content-Type: ' . $mime);
 
