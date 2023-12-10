@@ -88,6 +88,32 @@ WebViewer(
     annotationManager.deleteAnnotations(allAnnotations);
   });
 
+  const backButton = document.getElementById("back-btn");
+  backButton.addEventListener("click", async () => {
+    const confirmBack = window.confirm("Are you sure you want to accept?");
+    if (confirmBack) {  
+      try {
+        const response = await fetch('/redirect-to-review-doc', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (response.ok) {
+          window.location.href = '/review_doc';
+        } else {
+          console.error('Error redirecting to /review_doc');
+        }
+      } catch (error) {
+        console.error("Error accepting document:", error);
+      }
+    }
+  });
+  
+
+ 
+
   const rejectButton = document.getElementById("reject-btn");
 rejectButton.addEventListener("click", async () => {
   const confirmReject = window.confirm("Are you sure you want to reject?");

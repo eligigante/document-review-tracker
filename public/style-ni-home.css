@@ -1758,6 +1758,89 @@ input[type="submit"]:hover {
   border-radius: 14px;
   margin-left: -15px;
 }
+
+#content main .head-title .left h1 {
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+.doc-container {
+  margin-top: 20px;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: #fff;
+  height: 620px;
+  text-align: left;
+  font-size: 15px;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.create-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 10px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 220px;
+}
+
+.form-container {
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: #1e2a28;
+  width: 940px;
+  margin: 0 auto;
+}
+
+.new-user {
+  text-align: end;
+  margin-right: -100px;
+}
+
+#content main .table-data .order {
+  flex-grow: 1;
+  flex-basis: 500px;
+  margin-right: 100px;
+  text-align: center;
+}
+
+.general-information-label {
+  font-size: 20px;
+  font-weight: 500;
+  padding-right: 380px;
+}
+
+.edt-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #428bca;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 220px;
+}
+
+#content main .head-title .right {
+  height: 35px;
+  padding: 0 1px;
+  border-radius: 5px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+  font-family: var(--poppins);
+}
 }
 
 @media screen and (min-width: 640px) and (max-width: 767px) {
@@ -1814,6 +1897,57 @@ input[type="submit"]:hover {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
+}
+
+.form-container {
+  border-radius: 3px;
+  font-size: 1em;
+  color: #1e2a28;
+  width: 820px;
+  margin: 0 auto;
+}
+
+.create-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 10px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+
+.new-user {
+  text-align: end;
+  margin-right: -60px;
+}
+
+#content main .table-data .order {
+  flex-grow: 1;
+  flex-basis: 500px;
+  text-align: center;
+}
+
+.general-information-label {
+  font-size: 25px;
+  font-weight: 500;
+  padding-right: 450px;
+}
+
+.edt-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #428bca;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 100px;
 }
 }
 
@@ -1879,6 +2013,45 @@ input[type="submit"]:hover {
   font-weight: 500;
   padding-right: 1400px;
   margin-top: -10px;
+}
+
+.create-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 130px;
+}
+
+.form-container {
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: #1e2a28;
+  width: 850px;
+  margin: 0 auto;
+}
+
+.new-user {
+  text-align: end;
+  margin-right: 85px;
+}
+
+.edt-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #428bca;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 130px;
 }
 }
 
@@ -1983,6 +2156,38 @@ input[type="submit"]:hover {
   padding-left: 5px;
   font-weight: bold;
   font-size: 20px;
+}
+
+.new-user {
+  text-align: end;
+  margin-right: 230px;
+}
+
+.edt-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #428bca;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: -20px;
+}
+
+#content main .head-title .right {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 5px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: var(--poppins);
 }
 }
 
@@ -2109,5 +2314,23 @@ input[type="submit"]:hover {
   font-weight: 500;
   padding-right: 0px;
   margin-top: -20px;
+}
+
+.new-user {
+  text-align: end;
+  margin-right: 330px;
+}
+
+.cancel-btn {
+  font-size: 20px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #a19e9e;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 15px;
 }
 }

@@ -35,13 +35,23 @@ const updateAcceptDocumentLog =
 const updateRejectDocumentLog =
   "UPDATE document_logs SET review_Date = ?, received_file = ?, reviewed_file = ?, " +
   "returned_file = ?, document_status = ? WHERE document_ID = ? AND department_ID = ?";
-const getPendingDocuments = 'SELECT user.first_Name, user.middle_Name, user.last_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS date, '
-+ 'document_logs.document_status FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ?'
+// const getPendingDocuments = 'SELECT user.first_Name, user.middle_Name, user.last_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS date, '
+// + 'document_logs.document_status FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ?'
+const getPendingDocuments = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
++ 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
++ 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ?'
 const getDepartmentIDOfUser = 'SELECT department_ID FROM user WHERE user_ID = ?'
-const getMyReviewDetails = 'SELECT user.user_ID, user.first_Name, user.middle_Name, user.last_Name, '
-+ 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_date, document_logs.document_ID, document_logs.document_status '
-+ 'FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ? '
-+ 'AND document_logs.document_status = "accepted"';
+// const getMyReviewDetails = 'SELECT user.user_ID, user.first_Name, user.middle_Name, user.last_Name, '
+// + 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_date, document_logs.document_ID, document_logs.document_status '
+// + 'FROM user JOIN document_logs ON user.user_ID = document_logs.user_ID WHERE document_logs.department_ID = ? '
+// + 'AND document_logs.document_status = "accepted"';
+const getMyReviewDetails = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
++ 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
++ 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
++ 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
++ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\'';
 const sortAdminUserAscending = 'SELECT departments.department_Name, user.first_Name, user.middle_Name, user.last_Name, '
 + 'user.status FROM user JOIN departments ON user.department_ID = departments.department_ID ORDER BY user.last_Name ASC';
 const sortAdminUserDescending = 'SELECT departments.department_Name, user.first_Name, user.middle_Name, user.last_Name, '
@@ -58,6 +68,46 @@ const filterManageOfflineUsers = 'SELECT departments.department_Name, user.first
 + 'user.role  , user.status FROM user JOIN departments ON user.department_ID = departments.department_ID WHERE user.status = \'Offline\''
 const filterManageOnlineUsers = 'SELECT departments.department_Name, user.first_Name, user.middle_Name, user.last_Name, '
 + 'user.role, user.status FROM user JOIN departments ON user.department_ID = departments.department_ID WHERE user.status = \'Online\''
+
+const sortAscReviewer = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
++ 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
++ 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY user.last_NAME ASC';
+const sortDescReviewer = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
++ 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
++ 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? ORDER BY user.last_NAME DESC';
+const filterProcessing = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
++ 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
++ 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? AND '
++ 'document_logs.document_status = \'processing\'';
+const filterAccepted = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
++ 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
++ 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? AND '
++ 'document_logs.document_status = \'accepted\'';
+const filterRejected = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
++ 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
++ 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? AND '
++ 'document_logs.document_status = \'rejected\'';
+const mySortAsc = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
++ 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
++ 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
++ 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
++ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\' ORDER BY user.last_Name ASC';
+const mySortDesc = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
++ 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
++ 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
++ 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
++ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\' ORDER BY user.last_Name DESC';
+
 
 function checkUser(connection, id) {
   return new Promise((resolve, reject) => {
@@ -102,5 +152,12 @@ module.exports = {
   sortAdminManageDescending,
   filterManageOfflineUsers,
   filterManageOnlineUsers,
+  sortAscReviewer,
+  sortDescReviewer,
+  filterProcessing,
+  filterAccepted,
+  filterRejected,
+  mySortAsc,
+  mySortDesc,
   checkUser
 };

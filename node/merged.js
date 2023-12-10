@@ -8,6 +8,7 @@ const server = require('./server');
 const db = require('./db');
 const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
+const { request } = require('http');
 // const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
@@ -336,6 +337,7 @@ app.post('/logout', (request, response) => {
     console.log('User has logged out.');
   }
 })
+
 app.get('/add_user', (request, response) => {
   if (request.session.verify) {
     var userID = ''; 
@@ -447,7 +449,91 @@ app.get("/review_doc", (request, response) => {
       response.redirect("/");
     }
   });
+
+app.get('/sort_asc_reviewer', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortAscReviewer, function(error, result, fields) {
+      console.log("Showing sorted users (reviewer - A-Z)...")
+      response.render('reviewer', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/sort_desc_reviewer', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.sortDescReviewer, function(error, result, fields) {
+      console.log("Showing sorted users (reviewer - Z-A)...")
+      response.render('reviewer', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/filter_processing_reviewer', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.filterProcessing, function(error, result, fields) {
+      console.log("Showing filtered documents (processing)...")
+      response.render('reviewer', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
   
+app.get('/filter_accepted_reviewer', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.filterAccepted, function(error, result, fields) {
+      console.log("Showing filtered documents (accepted)...")
+      response.render('reviewer', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/filter_rejected_reviewer', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.filterRejected, function(error, result, fields) {
+      console.log("Showing filtered documents (rejected)...")
+      response.render('reviewer', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/my_sort_asc', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.mySortAsc, function(error, result, fields) {
+      console.log("Showing sorted users (accepted docs)...")
+      response.render('my_review', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
+app.get('/my_sort_desc', (request, response) => {
+  if (request.session.verify) {
+    connection.query(queries.mySortAsc, function(error, result, fields) {
+      console.log("Showing sorted users (accepted docs)...")
+      response.render('my_review', {data: result})})
+    }
+    else {
+      console.log("Please login or logout from your current session.")
+      response.redirect('/');
+    }
+})
+
 app.get("/downloadAndConvert/:documentId", (req, res) => {
     try {
       const documentId = req.params.documentId;
@@ -565,13 +651,12 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
             received_file: originalFileData,
             reviewed_file: null,
             approved_file: null,
-            document_status: "Processing",
+            document_status: "processing",
           };
   
           await insertDocumentLog(nextReviewerDocumentLog);
         } else {
-          // If the department is the last one, update the document status to "Finished"
-          await updateDocumentStatus(documentId, "Finished");
+          await updateDocumentStatus(documentId, "finished");
         }
       } else {
         await updateAcceptLog(
@@ -718,7 +803,7 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
           referralDate
         );
       } else {
-        await updateDocumentStatus(documentId, "Finished");
+        await updateDocumentStatus(documentId, "finished");
       }
       updateDocumentStatus(documentId, "rejected");
       return res.json({ success: true });
