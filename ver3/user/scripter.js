@@ -114,19 +114,22 @@ function loadContent(page) {
         .catch(error => console.error('Error:', error));
 }
 
-
 /*
-Created by: 
-Description: 
-*/ 
+Created by: Hans Rafael Daligdig
+Description: This function handles the reset function of a completed web form
+             It clears all of the input fields after the user has completed
+             submitting the web form.
+*/
 function reset(e) {
 	e.wrap('<form>').closest('form').get(0).reset();
 	e.unwrap();
 }
 
 /*
-Created by: 
-Description: 
+Created by: Hans Rafael Daligdig
+Description: This event listener is responsible for creating a drag and drop
+             upload field also showing the preview of the file name when the
+             file is uploaded
 */
 $(".dropzone").change(function () {
 	readFile(this);
@@ -236,8 +239,10 @@ getDocs();
 setInterval(getDocs, 100);
 
 /*
-Created by: 
-Description: 
+Created by: Kevin King Yabut
+Description: This function handles the processing of files by reading the
+             file that was uploaded by the user and also creating a preview
+             icon.
 */
 // Upload File
 function readFile(input) {

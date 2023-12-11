@@ -226,8 +226,10 @@ function sendLogoutUserServerRequest() {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Hans Rafael Daligdig
+Description: This function handles the reset function of a completed web form
+             It clears all of the input fields after the user has completed
+             submitting the web form.
 */
 function reset(e) {
   e.wrap("<form>").closest("form").get(0).reset();
@@ -235,8 +237,10 @@ function reset(e) {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Hans Rafael Daligdig
+Description: This event listener is responsible for creating a drag and drop
+             upload field also showing the preview of the file name when the
+             file is uploaded
 */
 $(".dropzone").change(function () {
   readFile(this);
@@ -264,8 +268,10 @@ $(".remove-preview").on("click", function () {
 });
 
 /*
-Created by: 
-Description: 
+Created by: Kevin King Yabut
+Description: This function handles the processing of files by reading the
+             file that was uploaded by the user and also creating a preview
+             icon.
 */
 // Upload File
 function readFile(input) {
