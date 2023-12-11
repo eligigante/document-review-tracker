@@ -15,6 +15,11 @@ const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
+/*
+Created by: Hans Rafael Daligdig
+Description: This event listener is responsible for triggering the loader after visiting a link. It will show a loader to show that the 
+			 page that will be visited is being loaded properly.
+*/
 // Loader after visiting a link
 document.addEventListener('DOMContentLoaded', function() {
   const loader = document.querySelector('.typewriter');
@@ -54,6 +59,11 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
+/*
+Created by: Diana Mae Carino
+Description: This is the event listener for hiding the sidebar of the webpage.
+*/
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector("#content nav .bx.bx-menu");
 const sidebar = document.getElementById("sidebar");
@@ -76,6 +86,14 @@ menuBar.addEventListener("click", function () {
 
 let overlayLogoutAdded = null;
 
+
+/*
+Created by: Hans Rafael Daligdig 
+Description: This is the function for creating a logout pop up modal that shows the 
+             confirmation message with buttons named "cancel" and "logout", once the
+             logout button is pressed the user will be logged out and will be redirected
+             to the login page.
+*/
 function createLogoutModal() {
   const overlay = document.createElement("span");
   overlay.classList.add("overlay");
@@ -151,6 +169,11 @@ function createLogoutModal() {
   );
 }
 
+/*
+Created by: Hans Rafael Daligdig
+Description: This is the event listener for the logout button in the webpage. If the logout 
+             button is pressed it will trigger the event listener to perform logout actions. 
+*/
 // Event Listener
 document.addEventListener("DOMContentLoaded", function () {
   const logoutBtn = document.querySelector(".logout");
@@ -161,6 +184,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+/*
+Created by: 
+Description: 
+*/
 function sendEditUserServerRequest() {
   fetch("/edit_user", {
     method: "POST",
@@ -173,6 +200,10 @@ function sendEditUserServerRequest() {
     .catch((error) => console.error("Error:", error));
 }
 
+/*
+Created by: 
+Description: 
+*/
 function sendLogoutUserServerRequest() {
   fetch("/logout", {
     method: "POST",
@@ -194,11 +225,19 @@ function sendLogoutUserServerRequest() {
     .catch((error) => console.error("Error:", error));
 }
 
+/*
+Created by: 
+Description: 
+*/
 function reset(e) {
   e.wrap("<form>").closest("form").get(0).reset();
   e.unwrap();
 }
 
+/*
+Created by: 
+Description: 
+*/
 $(".dropzone").change(function () {
   readFile(this);
 });
@@ -224,6 +263,10 @@ $(".remove-preview").on("click", function () {
   reset(dropzone);
 });
 
+/*
+Created by: 
+Description: 
+*/
 // Upload File
 function readFile(input) {
   if (input.files && input.files[0]) {
@@ -256,6 +299,10 @@ function readFile(input) {
   }
 }
 
+/*
+Created by: 
+Description: 
+*/
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM content loaded");
   document.addEventListener("click", function (event) {
@@ -268,6 +315,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+/*
+Created by: 
+Description: 
+*/
 function downloadPDF(documentId) {
   fetch(`/downloadAndConvert/${documentId}`)
     .then((response) => {
@@ -287,6 +338,10 @@ function downloadPDF(documentId) {
     });
 }
 
+/*
+Created by: 
+Description: 
+*/
 function openNewPageWithPDF(filename) {
   const relativePath = `/pdfviewer?filePath=/temp/${encodeURIComponent(
     filename

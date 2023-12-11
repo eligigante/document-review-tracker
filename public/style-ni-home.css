@@ -1,3 +1,8 @@
+/*
+Created by: Hans Rafael Daligdig
+Description: This is the styles for the landing page of each tab in the admin module that is written in Node.js
+*/
+
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap");
 
 * {
@@ -1943,6 +1948,11 @@ input[type="submit"]:hover {
   border-radius: 3px;
 }
 
+/*
+Created by: Diana Mae Carino
+Description: This is the media query for all of the landing pages of the admin module that is written in Node.js
+*/
+
 @media screen and (min-width: 475px) and (max-width: 639px) {
   #sidebar {
     position: fixed;
@@ -2593,6 +2603,7 @@ input[type="submit"]:hover {
   --radius: 5px;
   font-size: 25px;
 }
+}
 
 .review-btn {
   border: none;
@@ -2682,5 +2693,4 @@ input[type="submit"]:hover {
   border-radius: 40px;
   cursor: pointer;
   z-index: 1;
-}
 }
