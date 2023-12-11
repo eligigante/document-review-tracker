@@ -300,8 +300,8 @@ function readFile(input) {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Dominic Gabriel O. Ronquillo
+Description: This calls the downloadPDF function once the review button is clicked
 */
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM content loaded");
@@ -316,8 +316,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /*
-Created by: 
-Description: 
+Created by: Dominic Gabriel O. Ronquillo
+Description: This sends a request to the server to download and convert a blob file from the database.
 */
 function downloadPDF(documentId) {
   fetch(`/downloadAndConvert/${documentId}`)
@@ -339,8 +339,8 @@ function downloadPDF(documentId) {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Dominic Gabriel O. Ronquillo
+Description: Once a pdf file is downloaded in the temp folder this will change the current window to view the pdf.
 */
 function openNewPageWithPDF(filename) {
   const relativePath = `/pdfviewer?filePath=/temp/${encodeURIComponent(

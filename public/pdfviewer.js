@@ -27,6 +27,10 @@ WebViewer(
     });
   });
 
+  /*
+Created by: Kevin King Yabut
+Description: This function saves the document to the temp folder.
+*/
   var saveDocument = function (filename) {
     return new Promise(function (resolve) {
       annotationManager.exportAnnotations().then(function (xfdfString) {
@@ -52,24 +56,25 @@ WebViewer(
     });
   };
 
+
   const acceptButton = document.getElementById("acceptpdf-btn");
   acceptButton.addEventListener("click", async () => {
     const confirmAccept = window.confirm("Are you sure you want to accept?");
     if (confirmAccept) {
       // const allAnnotations = annotationManager.getAnnotationsList();
       // annotationManager.deleteAnnotations(allAnnotations);
-  
+
       try {
         await saveDocument(filePath);
         await acceptDocument(filePath);
-  
+
         const response = await fetch('/redirect-to-review-doc', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
-  
+
         if (response.ok) {
           window.location.href = '/review_doc';
         } else {
@@ -80,7 +85,7 @@ WebViewer(
       }
     }
   });
-  
+
 
   const clearButton = document.getElementById("clearpdf-btn");
   clearButton.addEventListener("click", () => {
@@ -91,7 +96,7 @@ WebViewer(
   const backButton = document.getElementById("backpdf-btn");
   backButton.addEventListener("click", async () => {
     const confirmBack = window.confirm("Are you sure you want to go back?");
-    if (confirmBack) {  
+    if (confirmBack) {
       try {
         const response = await fetch('/redirect-to-review-doc', {
           method: 'GET',
@@ -99,7 +104,7 @@ WebViewer(
             'Content-Type': 'application/json',
           },
         });
-  
+
         if (response.ok) {
           window.location.href = '/review_doc';
         } else {
@@ -110,37 +115,43 @@ WebViewer(
       }
     }
   });
-  
 
- 
 
+
+  /*
+Created by: Kevin King Yabut
+Description: This function saves the document to the temp folder.
+*/
   const rejectButton = document.getElementById("rejectpdf-btn");
-rejectButton.addEventListener("click", async () => {
-  const confirmReject = window.confirm("Are you sure you want to reject?");
-  if (confirmReject) {
-    try {
-      await saveDocument(filePath);
-      await rejectDocument(filePath);
+  rejectButton.addEventListener("click", async () => {
+    const confirmReject = window.confirm("Are you sure you want to reject?");
+    if (confirmReject) {
+      try {
+        await saveDocument(filePath);
+        await rejectDocument(filePath);
 
-      const response = await fetch('/redirect-to-review-doc', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+        const response = await fetch('/redirect-to-review-doc', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (response.ok) {
-        window.location.href = '/review_doc';
-      } else {
-        console.error('Error redirecting to /review_doc');
+        if (response.ok) {
+          window.location.href = '/review_doc';
+        } else {
+          console.error('Error redirecting to /review_doc');
+        }
+      } catch (error) {
+        console.error("Error rejecting document:", error);
       }
-    } catch (error) {
-      console.error("Error rejecting document:", error);
     }
-  }
-});
+  });
 
-
+  /*
+Created by: Dominic Gabriel O. Ronquillo
+Description: Sends a request to the server to reject a document.
+*/
   async function rejectDocument(filePath) {
     const response = await fetch("/rejectDocument", {
       method: "POST",
@@ -154,6 +165,10 @@ rejectButton.addEventListener("click", async () => {
     console.log("Reject document response:", data);
   }
 
+  /*
+Created by: Dominic Gabriel O. Ronquillo
+Description: Sends a request to the server to accept a document.
+*/
   async function acceptDocument(filePath) {
     fetch("/acceptDocument", {
       method: "POST",
