@@ -16,7 +16,6 @@ $userDetails = get_name($con, $userID);
 $docDetails = get_docs($con, $userID);
 $docs = json_decode($docDetails, true);
 $documentRejected = getRejected($con, $userID);
-$docRecent = get_recent($con, $userID);
 $statusChange = "";
 $statusChanging = "";
 

@@ -2,6 +2,18 @@
 
 include_once('db.php');
 
+
+
+
+/**
+ * Checks login credentials through the data base
+ *
+ * @param mysqli $con the mysql data base connection from db.php.
+ * @param string $accountID The user's account ID in the database.
+ * @param string $password The user's password in the database.
+ *
+ * @return array|null returns the user data if execution is successful, otherwise, will return null.
+ */
 function check_login($con, $accountID, $password) {
     $query = "SELECT * FROM user WHERE user_ID = ? AND password = ?";
     $stmt = mysqli_prepare($con, $query);
@@ -44,21 +56,38 @@ function check_login($con, $accountID, $password) {
     return null;
 }
 
-function set_user_offline($con, $userID) {
+
+/**
+ * sets the user's status to 'Offline' in the database.
+ *
+ * @param mysqli $con the mysql data base connection from db.php.
+ * @param string $accountID The user's account ID in the database.
+ */
+function set_user_offline($con, $accountID) {
 
 
-    $offlineStatus = 'Offline';
+    $offline = 'Offline';
     $query = "UPDATE user SET status = ? WHERE user_ID = ?";
 
 
     $stmt = mysqli_prepare($con, $query);
 
-    mysqli_stmt_bind_param($stmt, "ss", $offlineStatus, $userID);
+    mysqli_stmt_bind_param($stmt, "ss", $offline, $accountID);
 
     mysqli_stmt_execute($stmt);
     
     mysqli_stmt_close($stmt);
 }
+
+
+/**
+ *  retrieves the general information of the user, first name, middle name, 
+ * last name, email and user ID and stores it into an array
+ *
+ * @param mysqli $con the mysql data base connection from db.php.
+ * @param string $accountID The user's account ID in the database.
+ * @return array|null returns an associative array format of the user information, otherwise, will return null.
+ */
 
 function get_name($con, $accountID) {
     $query = "SELECT last_Name, first_Name, middle_Name, email, user_ID FROM user WHERE user_ID = ?";
@@ -82,6 +111,16 @@ function get_name($con, $accountID) {
     }
 }
 
+
+/**
+ *  retrieves the general information of the user, first name, middle name, 
+ * last name, email and user ID.
+ * The information will be stored in an array, then will be later converted to a Json encoded string representation of the $documents array.
+ *
+ * @param mysqli $con the mysql data base connection from db.php.
+ * @param string $accountID The user's account ID in the database.'
+ * @return string|null returns a JSON encoded string representation of array $documents which is the document information if successful, otherwise, will return null.
+ */
 function get_docs($con, $accountID){
     $query = "SELECT document_details.document_ID, document_details.document_Title, document_details.upload_Date, document_details.status, document_logs.department_ID, departments.department_Name FROM document_details
     JOIN document_logs ON document_details.document_ID = document_logs.document_ID
@@ -115,35 +154,17 @@ function get_docs($con, $accountID){
 }
 }
 
-function get_recent($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
 
-    $stmt = mysqli_prepare($con, $query);
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 's', $accountID);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $status);
-        
-        $documents = array();
-
-        while (mysqli_stmt_fetch($stmt)) {
-            $documents[] = array(
-                "docID" => $document_ID,
-                "title" => $document_Title,
-                "uploadDate" => $upload_Date,
-                "status" => $status
-            );
-        }
-
-        mysqli_stmt_close($stmt);
-        return json_encode($documents);
-    } else {
-        return null;
-    }
-}
-
-//img
+/**
+ * retrieves the document notifications associated for the user, including document ID, department name,
+ * and timestamp, and stores them in an array, then later converted into a json representation of the array.
+ *
+ * @param mysqli $con the MySQL database connection obtained from db.php.
+ * @param string $userID The user's ID in the database.
+ *
+ * @return string|null Returns the JSON encoded string of  $notifications array if successful, otherwise, will null.
+ */
 function documentNotif($con, $userID) {
     $notifications = array();
 
@@ -177,6 +198,16 @@ function documentNotif($con, $userID) {
     }
 }
 
+
+/**
+ * retrieves the rejected documents for the user, including document ID,
+ * department ID, returned file, user ID, and document title, and stores it in an array.
+ *
+ * @param mysqli $con the MySQL database connection obtained from db.php.
+ * @param string $accountID The user's account ID in the database.
+ *
+ * @return array|null Returns an array of $documents which are the rejected documents if successful, otherwise, will return null.
+ */
 function getRejected($con, $accountID) {
     $query = "
         SELECT
@@ -220,7 +251,15 @@ function getRejected($con, $accountID) {
 }
 
 
-
+/**
+ * retrieves the document title and the blob file of the rejected documents associated based on the documentID to the user.
+ * and stores it into $documentInfo array
+ *
+ * @param mysqli $con the MySQL database connection obtained from db.php.
+ * @param string $documentID The ID of the document in the database.
+ *
+ * @return array|null Returns an array of $documentInfo which is the retrieved title and file of the rejected document if successful, otherwise, will return null.
+ */
 function getFile($con, $documentID) {
     $query = "
     SELECT dd.document_Title, dl.returned_file
@@ -254,7 +293,17 @@ function getFile($con, $documentID) {
     }
 }
 
-function updateFile($con, $docID, $userID, $newFileBlob) {
+/**
+ * Updates a rejected document with a new file, changing its status to 'processing' and
+ * incrementing the revision count.
+ * @param string $docID The ID of the document in the database.
+ * @param mysqli $con the MySQL database connection obtained from db.php.
+ * @param string $accountID The user's account ID in the database.
+ * @param string $newFileBlob The new file to be re-uploaded.
+ *
+ * @return bool returns true if the updating/reuploading of file is successful, otherwise false.
+ */
+function updateFile($con, $docID, $accountID, $newFileBlob) {
     $query = "
         UPDATE document_logs
         JOIN document_details ON document_logs.document_ID = document_details.document_ID
@@ -268,7 +317,7 @@ function updateFile($con, $docID, $userID, $newFileBlob) {
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
+        mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $accountID);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_send_long_data($stmt, 0, $newFileBlob);
         mysqli_stmt_close($stmt);

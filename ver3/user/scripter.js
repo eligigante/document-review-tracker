@@ -98,18 +98,21 @@ closeBtn.addEventListener("click", () =>
 ); // end of modal pop up
 
 /*
-Created by: 
-Description: 
+Created by: Kevin Yabut
+Description: a single-page application content loading by making an asynchronous
+HTTP request to the server-side PHP script 'content.php' that contains the html contents, with 'page' as
+parameter. The fetched content is then inserted into the html element with the ID 'doc' if successful.
+			
+             
 */
- //SPA 
- function loadContent(page) {
-	fetch(`../../php/content.php?page=${page}`)
- 		.then(response => response.text())
- 		.then(data => document.getElementById('doc').innerHTML = data)
- 		.catch(error => console.error('Error:', error));
-
-		showLoader();		
- }
+// Single Page Application content loading
+function loadContent(page) {
+ 
+    fetch(`../../php/content.php?page=${page}`)
+        .then(response => response.text())
+        .then(data => document.getElementById('doc').innerHTML = data)
+        .catch(error => console.error('Error:', error));
+}
 
 
 /*
@@ -150,11 +153,7 @@ $('.remove-preview').on('click', function () {
 	reset(dropzone);
 });
 
-/*
-Created by: 
-Description: 
-*/
-//dashboard papakita
+
  window.onload = function () {
  	loadContent('home');
  };
@@ -185,8 +184,10 @@ document.documentElement.addEventListener("click", function () {
 });
 
 /*
-Created by: 
-Description: 
+Created by: Kevin king Yabut
+Description: makes an asynchronous ajax request to the server side php script notification.php
+to retrieve the notifications of the documents associated with the user. If successfull it will 
+update the content of the dropdown element with the received HTML response. If there are no notifications, displays a default message.
 */
 function getNotifications() {
     $.ajax({
@@ -209,8 +210,10 @@ function getNotifications() {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Kevin king Yabut
+Description: makes an asynchronous ajax request to the server side php script document.php
+to retrieve the notifications of the documents associated with the user. If successfull it will 
+update the content of the table element with the received HTML response.
 */
 function getDocs() {
     $.ajax({
