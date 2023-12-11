@@ -83,8 +83,8 @@ Created by: Adrienne Zapanta
 Description: This is the code section that verifies if the user is either an admin or reviewer, 
 and sets their status as online in the database. It will not allow the user to login should they be a user or 
 are already online.
-*/  
-app.get('/verify', function(request, response) {
+*/
+app.get('/verify', function (request, response) {
   if (request.session.loggedIn && request.session.status != 'Online') {
     request.session.verify = true;
     console.log('Role:', request.session.role);
@@ -441,7 +441,7 @@ app.post('/logout', (request, response) => {
 /*
 Created by: Adrienne Zapanta
 Description: This renders the add user form for the admin
-*/  
+*/
 
 app.get('/add_user', (request, response) => {
   if (request.session.verify) {
@@ -465,11 +465,11 @@ app.get('/add_user', (request, response) => {
     response.redirect('/');
   }
 })
-   
+
 /*
 Created by: Adrienne Zapanta
 Description: This processes the add user request and adds the newly created user details in the database
-*/ 
+*/
 
 app.post('/add_user_request', (request, response) => {
   if (request.session.verify) {
@@ -506,28 +506,28 @@ app.get('/edit_user', (request, response) => {
   if (request.session.verify) {
     var departmentOptions = '';
     var data = '';
-    connection.query(queries.getDepartmentOptions, function(error, result, fields) {
+    connection.query(queries.getDepartmentOptions, function (error, result, fields) {
       departmentOptions = result.map(row => ({
         department_ID: row.department_ID,
         department_Name: row.department_Name
-        }))
-        connection.query(queries.getUserOptions, function(error, result, fields) {
+      }))
+      connection.query(queries.getUserOptions, function (error, result, fields) {
         data = result.map(row => row.user_ID)
         console.log("Rendering edit user form...")
-        response.render('edit_user', {data, departmentOptions});
+        response.render('edit_user', { data, departmentOptions });
       });
     });
   }
   else {
     console.log("Please login or logout from your current session.")
     response.redirect('/');
-    }
+  }
 })
 
 /*
 Created by: Adrienne Zapanta
 Description: This processes the edit user request and updates the current user details in the database
-*/ 
+*/
 
 app.post('/edit_user_request', (request, response) => {
   if (request.session.verify) {
@@ -578,11 +578,11 @@ app.get("/review_doc", (request, response) => {
 /*
 Created by: Adrienne Zapanta
 Description: This sorts the content of the home page of the reviewer from oldest to newest
-*/ 
+*/
 
 app.get('/sort_asc_reviewer', (request, response) => {
   if (request.session.verify) {
-    connection.query(queries.sortAscReviewer,  [request.session.department_ID], function(error, result, fields) {
+    connection.query(queries.sortAscReviewer, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (reviewer - oldest)...")
       console.log(result);
       response.render('reviewer', { data: result })
@@ -597,7 +597,7 @@ app.get('/sort_asc_reviewer', (request, response) => {
 /*
 Created by: Adrienne Zapanta
 Description: This sorts the content of the home page of the reviewer from newest to oldest
-*/ 
+*/
 
 app.get('/sort_desc_reviewer', (request, response) => {
   if (request.session.verify) {
@@ -615,7 +615,7 @@ app.get('/sort_desc_reviewer', (request, response) => {
 /*
 Created by: Adrienne Zapanta
 Description: This filters the content of the home page of the reviewer to only show 'processing' documents
-*/ 
+*/
 
 app.get('/filter_processing_reviewer', (request, response) => {
   if (request.session.verify) {
@@ -629,11 +629,11 @@ app.get('/filter_processing_reviewer', (request, response) => {
     response.redirect('/');
   }
 })
-  
+
 /*
 Created by: Adrienne Zapanta
 Description: This filters the content of the home page of the reviewer to only show 'accepted' documents
-*/ 
+*/
 
 app.get('/filter_accepted_reviewer', (request, response) => {
   if (request.session.verify) {
@@ -651,7 +651,7 @@ app.get('/filter_accepted_reviewer', (request, response) => {
 /*
 Created by: Adrienne Zapanta
 Description: This filters the content of the home page of the reviewer to only show 'rejected' documents
-*/ 
+*/
 
 app.get('/filter_rejected_reviewer', (request, response) => {
   if (request.session.verify) {
@@ -744,334 +744,376 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This is used to download the blob file from the database and convert to PDF
 */
 app.get("/downloadAndConvert/:documentId", (req, res) => {
-    try {
-      const documentId = req.params.documentId;
-      const departmentID = req.session.department_ID;
-      console.log(documentId);
-  
-      if (!documentId) {
-        return res.status(400).json({ error: "Invalid request" });
-      }
-  
-      connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
-          if (err) {
-            console.error("Error executing query:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
-          }
-  
-          if (results.length === 0 || !results[0].received_file) {
-            return res
-              .status(404)
-              .json({ error: "Document not found or not processing" });
-          }
-  
-          const blobData = results[0].received_file;
-  
-          const tempFolderPath = path.resolve(__dirname, "../public/temp");
-          if (!fs.existsSync(tempFolderPath)) {
-            fs.mkdirSync(tempFolderPath);
-          }
-  
-          const filename = `temp/document_${documentId}.pdf`;
-          fs.writeFileSync(
-            path.resolve(__dirname, "../public", filename),
-            Buffer.from(blobData, "binary") 
-          );
-          console.log(filename);
-          res.contentType("application/pdf");
-          res.sendFile(path.resolve(__dirname, "../public", filename));
-        }
-      );
-    } catch (error) {
-      console.error("Error downloading and converting Blob data:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
-  
-  app.get("/pdfviewer", (request, response) => {
-    const filePath = path.join(__dirname, "temp", request.query.filePath);
-  
-    response.render("pdfviewer", { filePath });
-  });
-  
-  annotationHandler(app);
-  
-  app.post("/acceptDocument", async (req, res) => {
-    const { filePath } = req.body;
-  
-    if (!filePath) {
+  try {
+    const documentId = req.params.documentId;
+    const departmentID = req.session.department_ID;
+    console.log(documentId);
+
+    if (!documentId) {
       return res.status(400).json({ error: "Invalid request" });
     }
-  
-    const documentId = extractDocumentId(filePath);
-  
-    if (!documentId) {
-      return res.status(400).json({ error: "Invalid document ID" });
+
+    connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (results.length === 0 || !results[0].received_file) {
+        return res
+          .status(404)
+          .json({ error: "Document not found or not processing" });
+      }
+
+      const blobData = results[0].received_file;
+
+      const tempFolderPath = path.resolve(__dirname, "../public/temp");
+      if (!fs.existsSync(tempFolderPath)) {
+        fs.mkdirSync(tempFolderPath);
+      }
+
+      const filename = `temp/document_${documentId}.pdf`;
+      fs.writeFileSync(
+        path.resolve(__dirname, "../public", filename),
+        Buffer.from(blobData, "binary")
+      );
+      console.log(filename);
+      res.contentType("application/pdf");
+      res.sendFile(path.resolve(__dirname, "../public", filename));
     }
-  
-    const reviewedFilePath = path.resolve(
-      __dirname,
-      "../public/temp",
-      `document_${documentId}.pdf`
     );
-  
-    console.log("Original reviewed path: " + reviewedFilePath);
-  
-    try {
-      const referralDate = await getReferralDate(documentId);
-  
-      const originalFilePath = path.resolve(
-        __dirname,
-        "../public/temp",
-        `document_${documentId}.pdf`
-      );
-  
-      console.log("Original file path: " + originalFilePath);
-      const originalFileData = fs.readFileSync(originalFilePath);
-  
-      console.log(originalFileData);
-  
-      const departmentId = req.session.department_ID;
-  
-      if (departmentId <= 5) {
-        const user_ID = await getUserIDFromDepartment(departmentId);
-  
-        await updateAcceptLog(
-          documentId,
-          departmentId,
-          user_ID,
-          originalFileData,
-          reviewedFilePath,
-          filePath,
-          referralDate
-        );
-  
-        if (departmentId < 5) {
-          const nextDepartmentID = departmentId + 1;
-          const nextUser_ID = await getUserIDFromDepartment(nextDepartmentID);
-  
-          const nextReviewerDocumentLog = {
-            document_ID: documentId,
-            department_ID: nextDepartmentID,
-            user_ID: nextUser_ID,
-            referral_Date: referralDate,
-            review_Date: null,
-            received_file: originalFileData,
-            reviewed_file: null,
-            approved_file: null,
-            document_status: "processing",
-          };
-  
-          await insertDocumentLog(nextReviewerDocumentLog);
-        } else {
-          await updateDocumentStatus(documentId, "finished");
-        }
-      } else {
-        await updateAcceptLog(
-          documentId,
-          departmentId,
-          req.session.user_ID,
-          originalFileData,
-          null,
-          filePath,
-          referralDate
-        );
-      }
-      return res.json({ success: true });
-    } catch (error) {
-      console.error("Error:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
-  
-  
-  async function getUserIDFromDepartment(departmentId) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        queries.getUserIDFromDepartment,
-        [departmentId],
-        (err, result) => {
-          if (err) {
-            console.error("Error fetching user_ID from departments:", err);
-            reject(err);
-          } else {
-            const user_ID = result[0].user_ID;
-            resolve(user_ID);
-          }
-        }
-      );
-    });
+  } catch (error) {
+    console.error("Error downloading and converting Blob data:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-  
-  async function updateAcceptLog(
-    documentId,
-    departmentId,
-    user_ID,
-    originalFileData,
-    reviewedFilePath,
-    filePath,
-    referralDate
-  ) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        queries.updateAcceptDocumentLog,
-        [
-          new Date(),
-          originalFileData,
-          reviewedFilePath,
-          filePath,
-          "accepted",
-          documentId,
-          departmentId,
-          user_ID, 
-        ],
-        (err, result) => {
-          if (err) {
-            console.error("Error updating database:", err);
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        }
-      );
-    });
+});
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This creates the file path that pdfviewer will render.
+*/
+app.get("/pdfviewer", (request, response) => {
+  const filePath = path.join(__dirname, "temp", request.query.filePath);
+
+  response.render("pdfviewer", { filePath });
+});
+
+annotationHandler(app);
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This is the function to accept a document based on the documentID.
+Depending on the departmentID this will either pass it to the next department or just update the logs.
+*/
+app.post("/acceptDocument", async (req, res) => {
+  const { filePath } = req.body;
+
+  if (!filePath) {
+    return res.status(400).json({ error: "Invalid request" });
   }
-  
-  function insertDocumentLog(documentLog) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        "INSERT INTO document_logs SET ?",
-        documentLog,
-        (err, result) => {
-          if (err) {
-            console.error("Error updating database:", err);
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        }
-      );
-    });
+
+  const documentId = extractDocumentId(filePath);
+
+  if (!documentId) {
+    return res.status(400).json({ error: "Invalid document ID" });
   }
-  
-  function extractDocumentId(filePath) {
-    const match = filePath.match(/document_(\d+)\.pdf/);
-    return match ? match[1] : null;
-  }
-  
-  function getReferralDate(documentId) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        "SELECT upload_Date FROM document_details WHERE document_ID = ?",
-        [documentId],
-        (err, result) => {
-          if (err || result.length === 0) {
-            console.error("Error fetching referral date:", err);
-            reject(err);
-          } else {
-            resolve(result[0].upload_Date);
-          }
-        }
-      );
-    });
-  }
-  
-  app.post("/rejectDocument", async (req, res) => {
-    const { filePath } = req.body;
-  
-    if (!filePath) {
-      return res.status(400).json({ error: "Invalid request" });
-    }
-  
-    const documentId = extractDocumentId(filePath);
-  
-    if (!documentId) {
-      return res.status(400).json({ error: "Invalid document ID" });
-    }
-  
+
+  const reviewedFilePath = path.resolve(
+    __dirname,
+    "../public/temp",
+    `document_${documentId}.pdf`
+  );
+
+  console.log("Original reviewed path: " + reviewedFilePath);
+
+  try {
+    const referralDate = await getReferralDate(documentId);
+
     const originalFilePath = path.resolve(
       __dirname,
       "../public/temp",
       `document_${documentId}.pdf`
     );
-  
-    try {
-      const referralDate = await getReferralDate(documentId);
-  
-      const originalFileData = fs.readFileSync(originalFilePath);
-  
-      const departmentId = req.session.department_ID;
-  
+
+    console.log("Original file path: " + originalFilePath);
+    const originalFileData = fs.readFileSync(originalFilePath);
+
+    console.log(originalFileData);
+
+    const departmentId = req.session.department_ID;
+
+    if (departmentId <= 5) {
+      const user_ID = await getUserIDFromDepartment(departmentId);
+
+      await updateAcceptLog(
+        documentId,
+        departmentId,
+        user_ID,
+        originalFileData,
+        reviewedFilePath,
+        filePath,
+        referralDate
+      );
+
       if (departmentId < 5) {
-        await updateRejectLog(
-          documentId,
-          departmentId,
-          originalFileData,
-          filePath,
-          referralDate
-        );
+        const nextDepartmentID = departmentId + 1;
+        const nextUser_ID = await getUserIDFromDepartment(nextDepartmentID);
+
+        const nextReviewerDocumentLog = {
+          document_ID: documentId,
+          department_ID: nextDepartmentID,
+          user_ID: nextUser_ID,
+          referral_Date: referralDate,
+          review_Date: null,
+          received_file: originalFileData,
+          reviewed_file: null,
+          approved_file: null,
+          document_status: "processing",
+        };
+
+        await insertDocumentLog(nextReviewerDocumentLog);
       } else {
         await updateDocumentStatus(documentId, "finished");
       }
-      updateDocumentStatus(documentId, "rejected");
-      return res.json({ success: true });
-    } catch (error) {
-      console.error("Error:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      await updateAcceptLog(
+        documentId,
+        departmentId,
+        req.session.user_ID,
+        originalFileData,
+        null,
+        filePath,
+        referralDate
+      );
     }
-  });
-  
-  async function updateRejectLog(
-    documentId,
-    departmentId,
-    originalFileData,
-    filePath,
-    referralDate
-  ) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        queries.updateRejectDocumentLog,
-        [
-          new Date(),
-          originalFileData,
-          filePath,
-          originalFileData, 
-          "rejected",
-          documentId,
-          departmentId,
-        ],
-        (err, result) => {
-          if (err) {
-            console.error("Error updating database:", err);
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        }
-      );
-    });
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-  
-  async function updateDocumentStatus(documentId, status) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        "UPDATE document_details SET status = ? WHERE document_ID = ?",
-        [status, documentId],
-        (err, result) => {
-          if (err) {
-            console.error("Error updating document status:", err);
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        }
-      );
-    });
-  }
-  
-  app.get('/redirect-to-review-doc', (req, res) => {
-    res.redirect('/review_doc');
-  });
-  
-  
+});
 
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This is used to retrieve the userID of a departmentID.
+*/
+async function getUserIDFromDepartment(departmentId) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      queries.getUserIDFromDepartment,
+      [departmentId],
+      (err, result) => {
+        if (err) {
+          console.error("Error fetching user_ID from departments:", err);
+          reject(err);
+        } else {
+          const user_ID = result[0].user_ID;
+          resolve(user_ID);
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This is used to update the current log to accepted and stores the file to accepted_file.
+*/
+async function updateAcceptLog(
+  documentId,
+  departmentId,
+  user_ID,
+  originalFileData,
+  reviewedFilePath,
+  filePath,
+  referralDate
+) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      queries.updateAcceptDocumentLog,
+      [
+        new Date(),
+        originalFileData,
+        reviewedFilePath,
+        filePath,
+        "accepted",
+        documentId,
+        departmentId,
+        user_ID,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating database:", err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This is used to create a new row in the logs.
+*/
+function insertDocumentLog(documentLog) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "INSERT INTO document_logs SET ?",
+      documentLog,
+      (err, result) => {
+        if (err) {
+          console.error("Error updating database:", err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This extracts a document ID depending on the naming pattern set. 
+This either returns a documentID or null.
+*/
+function extractDocumentId(filePath) {
+  const match = filePath.match(/document_(\d+)\.pdf/);
+  return match ? match[1] : null;
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This is used to get the upload date in the logs.
+*/
+function getReferralDate(documentId) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT upload_Date FROM document_details WHERE document_ID = ?",
+      [documentId],
+      (err, result) => {
+        if (err || result.length === 0) {
+          console.error("Error fetching referral date:", err);
+          reject(err);
+        } else {
+          resolve(result[0].upload_Date);
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This rejects a document based on the documentID and sends it back to the user.
+*/
+app.post("/rejectDocument", async (req, res) => {
+  const { filePath } = req.body;
+
+  if (!filePath) {
+    return res.status(400).json({ error: "Invalid request" });
+  }
+
+  const documentId = extractDocumentId(filePath);
+
+  if (!documentId) {
+    return res.status(400).json({ error: "Invalid document ID" });
+  }
+
+  const originalFilePath = path.resolve(
+    __dirname,
+    "../public/temp",
+    `document_${documentId}.pdf`
+  );
+
+  try {
+    const referralDate = await getReferralDate(documentId);
+
+    const originalFileData = fs.readFileSync(originalFilePath);
+
+    const departmentId = req.session.department_ID;
+
+    if (departmentId < 5) {
+      await updateRejectLog(
+        documentId,
+        departmentId,
+        originalFileData,
+        filePath,
+        referralDate
+      );
+    } else {
+      await updateDocumentStatus(documentId, "finished");
+    }
+    updateDocumentStatus(documentId, "rejected");
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This updates the current log to rejected and stores the file in returned_file.
+*/
+async function updateRejectLog(
+  documentId,
+  departmentId,
+  originalFileData,
+  filePath,
+  referralDate
+) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      queries.updateRejectDocumentLog,
+      [
+        new Date(),
+        originalFileData,
+        filePath,
+        originalFileData,
+        "rejected",
+        documentId,
+        departmentId,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating database:", err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This updates the document status to pending, denied, or finished.
+*/
+async function updateDocumentStatus(documentId, status) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "UPDATE document_details SET status = ? WHERE document_ID = ?",
+      [status, documentId],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating document status:", err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This redirects the user back to the review page.
+*/
+app.get('/redirect-to-review-doc', (req, res) => {
+  res.redirect('/review_doc');
+});
