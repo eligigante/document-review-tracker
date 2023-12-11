@@ -32,9 +32,19 @@ app.set('views', path.resolve(__dirname + "/../public/views"))
 app.set('view engine', 'ejs');
 server.startServer(app);
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that sends the login page to the user
+*/
+
 app.get('/', function(request, response) {
   response.sendFile(path.resolve(__dirname + '/../public/index.html'))
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that verifies if the user is an existing user in the database
+*/
 
 app.post('/login', (request, response) => {
   const id = request.body.accountID;
@@ -66,6 +76,13 @@ app.post('/login', (request, response) => {
     }
   }})
 
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that verifies if the user is either an admin or reviewer, 
+and sets their status as online in the database. It will not allow the user to login should they be a user or 
+are already online.
+*/  
 app.get('/verify', function(request, response) {
   if (request.session.loggedIn && request.session.status != 'Online') {
     request.session.verify = true;
@@ -94,6 +111,11 @@ app.get('/verify', function(request, response) {
     response.redirect('/');
     }})
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that renders the home page for the admin
+*/
+
 app.get('/home_admin', (request, response) => {
   if (request.session.verify) {
   connection.query(queries.getUsers, function(error, result, fields) {
@@ -106,6 +128,11 @@ app.get('/home_admin', (request, response) => {
     response.redirect('/');
     }
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that sorts content of the admin home page alphabetically (A-Z)
+*/
 
 app.get("/sort_users_ascending", (request, response) => {
   if (request.session.verify) {
@@ -120,6 +147,11 @@ app.get("/sort_users_ascending", (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that sorts content of the admin home page alphabetically (Z-A)
+*/
+
 app.get("/sort_users_descending", (request, response) => {
   if (request.session.verify) {
       connection.query(queries.sortAdminUserDescending, function(error, result, fields) {
@@ -133,6 +165,11 @@ app.get("/sort_users_descending", (request, response) => {
       }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that filter offline users in the admin home page
+*/
+
 app.get("/filter_users_offline", (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterByOfflineUsers, function(error, result, fields) {
@@ -145,6 +182,11 @@ app.get("/filter_users_offline", (request, response) => {
       }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that filter online users in the admin home page
+*/
+
 app.get("/filter_users_online", (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterByOnlineUsers, function(error, result, fields) {
@@ -156,6 +198,11 @@ app.get("/filter_users_online", (request, response) => {
       response.redirect('/');
       }
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that sorts content of the admin manage user page alphabetically (A-Z)
+*/
 
 app.get("/sort_manage_ascending", (request, response) => {
   var data = '';
@@ -179,6 +226,11 @@ app.get("/sort_manage_ascending", (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that sorts content of the admin manage user page alphabetically (Z-A)
+*/
+
 app.get("/sort_manage_descending", (request, response) => {
   var data = '';
   if (request.session.verify) {
@@ -200,6 +252,11 @@ app.get("/sort_manage_descending", (request, response) => {
     response.redirect('/');
     }
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that filter offline users in the admin manage user page
+*/
 
 app.get("/filter_manage_offline", (request, response) => {
   var data = '';
@@ -223,6 +280,11 @@ app.get("/filter_manage_offline", (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that filter online users in the admin manage user page
+*/
+
 app.get("/filter_manage_online", (request, response) => {
   var data = '';
   if (request.session.verify) {
@@ -245,6 +307,11 @@ app.get("/filter_manage_online", (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that renders the home page for the reviewer
+*/
+
 app.get('/home_reviewer', (request, response) => {
     if (request.session.verify) {
     var departmentID = '';
@@ -261,6 +328,11 @@ app.get('/home_reviewer', (request, response) => {
       }
   })
   
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that renders the manage user page for the admin
+*/
 
 app.get('/manage_user', (request, response) => {
   var data = '';
@@ -284,6 +356,11 @@ app.get('/manage_user', (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that renders the manage profile page for the admin
+*/
+
 app.get('/admin_profile', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.getUserDetails, [request.session.userID], function(error, result, fields) {
@@ -297,6 +374,11 @@ app.get('/admin_profile', (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that renders the manage profile page for the reviewer
+*/
+
 app.get('/reviewer_profile', (request, response) => {
     if (request.session.verify) {
       connection.query(queries.getUserDetails, [request.session.userID], function(error, result, fields) {
@@ -309,6 +391,11 @@ app.get('/reviewer_profile', (request, response) => {
       response.redirect('/');
       }
   })
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that renders the my reviews page for the reviewer
+*/
 
 app.get('/my_review', (request, response) => {
     if (request.session.verify) {
@@ -326,6 +413,11 @@ app.get('/my_review', (request, response) => {
         }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This log outs the user from the application and sets their status as offline in the database
+*/
+
 app.post('/logout', (request, response) => {
   const check = request.body.logout;
   if (check) {
@@ -336,6 +428,11 @@ app.post('/logout', (request, response) => {
     console.log('User has logged out.');
   }
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This renders the add user form for the admin
+*/  
 
 app.get('/add_user', (request, response) => {
   if (request.session.verify) {
@@ -360,6 +457,11 @@ app.get('/add_user', (request, response) => {
     }
 })
    
+/*
+Created by: Adrienne Zapanta
+Description: This processes the add user request and adds the newly created user details in the database
+*/ 
+
 app.post('/add_user_request', (request, response) => {
   if (request.session.verify) {
     var email = request.body['contact-email'];
@@ -385,27 +487,38 @@ app.post('/add_user_request', (request, response) => {
     response.redirect('/');
     }
 })
-  app.get('/edit_user', (request, response) => {
-    if (request.session.verify) {
-      var departmentOptions = '';
-      var data = '';
-      connection.query(queries.getDepartmentOptions, function(error, result, fields) {
-          departmentOptions = result.map(row => ({
-            department_ID: row.department_ID,
-            department_Name: row.department_Name
-          }))
-          connection.query(queries.getUserOptions, function(error, result, fields) {
-          data = result.map(row => row.user_ID)
-          console.log("Rendering edit user form...")
-          response.render('edit_user', {data, departmentOptions});
-        });
+
+/*
+Created by: Adrienne Zapanta
+Description: This renders the edit user form for the admin
+*/
+
+app.get('/edit_user', (request, response) => {
+  if (request.session.verify) {
+    var departmentOptions = '';
+    var data = '';
+    connection.query(queries.getDepartmentOptions, function(error, result, fields) {
+      departmentOptions = result.map(row => ({
+        department_ID: row.department_ID,
+        department_Name: row.department_Name
+        }))
+        connection.query(queries.getUserOptions, function(error, result, fields) {
+        data = result.map(row => row.user_ID)
+        console.log("Rendering edit user form...")
+        response.render('edit_user', {data, departmentOptions});
       });
+    });
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
     }
-    else {
-      console.log("Please login or logout from your current session.")
-      response.redirect('/');
-      }
-  })
+})
+
+/*
+Created by: Adrienne Zapanta
+Description: This processes the edit user request and updates the current user details in the database
+*/ 
 
 app.post('/edit_user_request', (request, response) => {
   if (request.session.verify) {
@@ -448,10 +561,15 @@ app.get("/review_doc", (request, response) => {
     }
   });
 
+/*
+Created by: Adrienne Zapanta
+Description: This sorts the content of the home page of the reviewer from oldest to newest
+*/ 
+
 app.get('/sort_asc_reviewer', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortAscReviewer,  [request.session.department_ID], function(error, result, fields) {
-      console.log("Showing sorted users (reviewer - A-Z)...")
+      console.log("Showing sorted users (reviewer - oldest)...")
       console.log(result);
       response.render('reviewer', {data: result})})
     }
@@ -461,10 +579,15 @@ app.get('/sort_asc_reviewer', (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This sorts the content of the home page of the reviewer from newest to oldest
+*/ 
+
 app.get('/sort_desc_reviewer', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortDescReviewer, [request.session.department_ID], function(error, result, fields) {
-      console.log("Showing sorted users (reviewer - Z-A)...")
+      console.log("Showing sorted users (reviewer - newest)...")
       response.render('reviewer', {data: result})})
     }
     else {
@@ -472,6 +595,11 @@ app.get('/sort_desc_reviewer', (request, response) => {
       response.redirect('/');
     }
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This filters the content of the home page of the reviewer to only show 'processing' documents
+*/ 
 
 app.get('/filter_processing_reviewer', (request, response) => {
   if (request.session.verify) {
@@ -485,6 +613,11 @@ app.get('/filter_processing_reviewer', (request, response) => {
     }
 })
   
+/*
+Created by: Adrienne Zapanta
+Description: This filters the content of the home page of the reviewer to only show 'accepted' documents
+*/ 
+
 app.get('/filter_accepted_reviewer', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterAccepted, [request.session.department_ID], function(error, result, fields) {
@@ -496,6 +629,11 @@ app.get('/filter_accepted_reviewer', (request, response) => {
       response.redirect('/');
     }
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This filters the content of the home page of the reviewer to only show 'rejected' documents
+*/ 
 
 app.get('/filter_rejected_reviewer', (request, response) => {
   if (request.session.verify) {
@@ -509,6 +647,11 @@ app.get('/filter_rejected_reviewer', (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This sorts the content of the my review page of the reviewer from oldest to newest
+*/
+
 app.get('/my_sort_asc', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.mySortAsc, [request.session.department_ID], function(error, result, fields) {
@@ -520,6 +663,11 @@ app.get('/my_sort_asc', (request, response) => {
       response.redirect('/');
     }
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This sorts the content of the my review page of the reviewer from newest to oldest
+*/
 
 app.get('/my_sort_desc', (request, response) => {
   if (request.session.verify) {
@@ -534,6 +682,11 @@ app.get('/my_sort_desc', (request, response) => {
     }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This sorts the content of the review queue page of the reviewer from oldest to newest
+*/
+
 app.get('/sort_asc_queue', (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortAscQueue, [request.session.department_ID], function(error, result, fields) {
@@ -545,6 +698,11 @@ app.get('/sort_asc_queue', (request, response) => {
       response.redirect('/');
     }
 })
+
+/*
+Created by: Adrienne Zapanta
+Description: This sorts the content of the review queue page of the reviewer from newest to oldest
+*/
 
 app.get('/sort_desc_queue', (request, response) => {
   if (request.session.verify) {
@@ -887,6 +1045,3 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
   app.get('/redirect-to-review-doc', (req, res) => {
     res.redirect('/review_doc');
   });
-  
-  
-
