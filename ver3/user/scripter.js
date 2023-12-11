@@ -10,13 +10,17 @@ const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
+
+/*
+Created by: Hans Rafael Daligdig
+Description: This event listener is responsible for triggering the loader after visiting a link. It will show a loader to show that the 
+			 page that will be visited is being loaded properly.
+*/
 // Loader after visiting a link
 document.addEventListener('DOMContentLoaded', function() {
 	const loader = document.querySelector('.typewriter');
 	const loaderOverlay = document.querySelector('.loader-container');
 	const specificLinks = document.querySelectorAll('a.brand, ul.side-menu.top a, a.btn-add, a.edit-btn, a.cancel-btn, a.create-btn');
-
-
   
 	function showLoader() {
 	  loader.style.display = 'block'; // Show the loader
@@ -50,8 +54,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	  link.addEventListener('click', handleLinkClick);
 	});
   });
+// End of loader
 
-
+/*
+Created by: Diana Mae Carino
+Description: This is the action in toggling the sidebar of each webpage.
+*/
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector('#content nav .bx.bx-menu');
 const sidebar = document.getElementById('sidebar');
@@ -68,11 +76,15 @@ allSideMenu.forEach(item => {
 	})
 });
 
-
 menuBar.addEventListener('click', function () {
 	sidebar.classList.toggle('hide');
-})
+}) // end of toggle sidebar
 
+/*
+Created by: Hans Rafael Daligdig
+Description: This is the event listener for triggering the modal pop up for the logout screen 
+			 when the user presses the logout button.
+*/
 
 // Modal Pop Up
 showBtn.addEventListener("click", () => section.classList.add("active"));
@@ -83,9 +95,12 @@ overlay.addEventListener("click", () =>
 
 closeBtn.addEventListener("click", () =>
 	section.classList.remove("active")
-);
+); // end of modal pop up
 
-
+/*
+Created by: 
+Description: 
+*/
  //SPA 
  function loadContent(page) {
 	fetch(`../../php/content.php?page=${page}`)
@@ -93,16 +108,23 @@ closeBtn.addEventListener("click", () =>
  		.then(data => document.getElementById('doc').innerHTML = data)
  		.catch(error => console.error('Error:', error));
 
-		showLoader();
-
-		
+		showLoader();		
  }
 
+
+/*
+Created by: 
+Description: 
+*/ 
 function reset(e) {
 	e.wrap('<form>').closest('form').get(0).reset();
 	e.unwrap();
 }
 
+/*
+Created by: 
+Description: 
+*/
 $(".dropzone").change(function () {
 	readFile(this);
 });
@@ -128,12 +150,21 @@ $('.remove-preview').on('click', function () {
 	reset(dropzone);
 });
 
-
+/*
+Created by: 
+Description: 
+*/
 //dashboard papakita
  window.onload = function () {
  	loadContent('home');
  };
 
+
+/*
+Created by: Hans Rafael Daligdig
+Description: This dropdown function is used for the notification bell in the webpage to show a list of 
+			 notifications that were received by the user.
+*/ 
 // Toggle dropdown function
 const toggleDropdown = function () {
 	dropdownMenu.classList.toggle("show");
@@ -153,7 +184,10 @@ document.documentElement.addEventListener("click", function () {
 	}
 });
 
-
+/*
+Created by: 
+Description: 
+*/
 function getNotifications() {
     $.ajax({
         type: "GET",
@@ -174,6 +208,10 @@ function getNotifications() {
     });
 }
 
+/*
+Created by: 
+Description: 
+*/
 function getDocs() {
 	$.ajax({
 			type: "GET",
@@ -190,17 +228,14 @@ function getDocs() {
 }
 
 getNotifications();
-
-
 setInterval(getNotifications, 100);
-
 getDocs();
-
 setInterval(getDocs, 100);
 
-
-
-
+/*
+Created by: 
+Description: 
+*/
 // Upload File
 function readFile(input) {
 	if (input.files && input.files[0]) {

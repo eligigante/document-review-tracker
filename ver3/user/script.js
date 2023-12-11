@@ -32,6 +32,10 @@ const menuBar = document.querySelector("#content nav .bx.bx-menu");
 const sidebar = document.getElementById("sidebar");
 const switchMode = document.getElementById("switch-mode");
 
+/*
+Created by: Diana Mae Carino
+Description: This is the event listener for hiding the sidebar of the webpage.
+*/
 allSideMenu.forEach((item) => {
   const li = item.parentElement;
 
@@ -47,6 +51,13 @@ menuBar.addEventListener("click", function () {
   sidebar.classList.toggle("hide");
 });
 
+/*
+Created by: Hans Rafael Daligdig 
+Description: This is the function for creating a logout pop up modal that shows the 
+             confirmation message with buttons named "cancel" and "logout", once the
+             logout button is pressed the user will be logged out and will be redirected
+             to the login page.
+*/
 let overlayLogoutAdded = null;
 
 function createLogoutModal() {
@@ -123,6 +134,11 @@ function createLogoutModal() {
   );
 }
 
+/*
+Created by: Hans Rafael Daligdig
+Description:  This function creates a add user pop up modal in this pop up modal it displays a web form
+              that will be used for registering a new user in the database.
+*/
 let overlayAdded = null;
 
 function createAddUserModal() {
@@ -258,6 +274,13 @@ function createAddUserModal() {
   );
 }
 
+/*
+Created by: Hans Rafael Daligdig
+Description: This is the event listener for the logout button and create button in the webpage.
+             If the logout button is pressed it will trigger the event listener to perform logout
+             actions. When the create button is pressed it will trigger the event listener to 
+             perform actions in registering a new user in the database. 
+*/
 document.addEventListener("DOMContentLoaded", function () {
   const logoutBtn = document.querySelector(".logout");
   const addUserBtn = document.querySelector(".btn-add");
@@ -273,6 +296,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+/*
+Created by: 
+Description: 
+*/
 //SPA
 function loadContent(page) {
   fetch(`../../php/content.php?page=${page}`)
@@ -281,11 +308,19 @@ function loadContent(page) {
     .catch((error) => console.error("Error:", error));
 }
 
+/*
+Created by: 
+Description: 
+*/
 function reset(e) {
   e.wrap("<form>").closest("form").get(0).reset();
   e.unwrap();
 }
 
+/*
+Created by: 
+Description: 
+*/
 $(".dropzone").change(function () {
   readFile(this);
 });
@@ -311,11 +346,19 @@ $(".remove-preview").on("click", function () {
   reset(dropzone);
 });
 
+/*
+Created by: 
+Description: 
+*/
 //dashboard papakita
 window.onload = function () {
   loadContent("home");
 };
 
+/*
+Created by: 
+Description: 
+*/
 // Toggle dropdown function
 const toggleDropdown = function () {
   dropdownMenu.classList.toggle("show");
@@ -334,6 +377,10 @@ document.documentElement.addEventListener("click", function () {
   }
 });
 
+/*
+Created by: 
+Description: 
+*/
 //notif asynch
 function getNotifications() {
   $.ajax({
@@ -349,6 +396,10 @@ function getNotifications() {
   });
 }
 
+/*
+Created by: 
+Description: 
+*/
 function getDocs() {
   $.ajax({
     type: "GET",
@@ -363,6 +414,10 @@ function getDocs() {
   });
 }
 
+/*
+Created by: 
+Description: 
+*/
 function getRecentDocs() {
   $.ajax({
     type: "GET",
@@ -389,6 +444,10 @@ getRecentDocs();
 
 setInterval(getRecentDocs, 10);
 
+/*
+Created by: 
+Description: 
+*/
 // Upload File
 function readFile(input) {
   if (input.files && input.files[0]) {
