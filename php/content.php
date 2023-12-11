@@ -242,10 +242,10 @@ if ($_GET['page'] === 'home') {
         </div>
         <div class="row">
             <div class="col-25">
-                <label for="subject">Document Title</label>
+                <label for="subject">Subject</label>
             </div>
             <div class="col-75">
-                <textarea id="subject" name="subject" placeholder="Write something.." style="height:100px"></textarea>
+                <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
             </div>
         </div>
         <div class="row">
@@ -287,7 +287,7 @@ if ($_GET['page'] === 'home') {
    
     echo '<h1>Page not found</h1>';
 }
-
+?>
 
 
 

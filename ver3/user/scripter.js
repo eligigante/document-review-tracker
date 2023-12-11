@@ -213,18 +213,18 @@ Created by:
 Description: 
 */
 function getDocs() {
-	$.ajax({
-			type: "GET",
-			url: "../../php/document.php",
-			dataType: "html",
-			success: function (response) {
-					$('#tbody').html(response);
-			},
-			error: function (xhr, status, error) {
-					console.error('getDocs error:', status, error);
-					console.error('Response:', xhr.responseText);
-			}
-	});
+    $.ajax({
+        type: "GET",
+        url: "../../php/document.php",
+        dataType: "html",
+        success: function (response) {
+            $('#tbody').html(response);
+        },
+        error: function (xhr, status, error) {
+            console.error('getDocs error:', status, error);
+            console.error('Response:', xhr.responseText);
+        }
+    });
 }
 
 getNotifications();

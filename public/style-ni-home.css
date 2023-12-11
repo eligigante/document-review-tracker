@@ -2603,6 +2603,7 @@ Description: This is the media query for all of the landing pages of the admin m
   --radius: 5px;
   font-size: 25px;
 }
+}
 
 .review-btn {
   border: none;
@@ -2692,5 +2693,4 @@ Description: This is the media query for all of the landing pages of the admin m
   border-radius: 40px;
   cursor: pointer;
   z-index: 1;
-}
 }
