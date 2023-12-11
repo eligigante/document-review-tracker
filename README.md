@@ -16,8 +16,6 @@ The Document Review Tracker is a web application designed to streamline document
 
 - **PHP:** A server-side scripting language for handling backend logic and interactions.
 - **Node.js:** A JavaScript runtime that enables server-side development, enhancing the web application's scalability and responsiveness.
-- **Ejs:**
-- **Pug:**
 
 ## Features
 
