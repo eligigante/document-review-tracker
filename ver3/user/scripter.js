@@ -98,32 +98,38 @@ closeBtn.addEventListener("click", () =>
 ); // end of modal pop up
 
 /*
-Created by: 
-Description: 
+Created by: Kevin Yabut
+Description: a single-page application content loading by making an asynchronous
+HTTP request to the server-side PHP script 'content.php' that contains the html contents, with 'page' as
+parameter. The fetched content is then inserted into the html element with the ID 'doc' if successful.
+			
+             
 */
- //SPA 
- function loadContent(page) {
-	fetch(`../../php/content.php?page=${page}`)
- 		.then(response => response.text())
- 		.then(data => document.getElementById('doc').innerHTML = data)
- 		.catch(error => console.error('Error:', error));
-
-		showLoader();		
- }
-
+// Single Page Application content loading
+function loadContent(page) {
+ 
+    fetch(`../../php/content.php?page=${page}`)
+        .then(response => response.text())
+        .then(data => document.getElementById('doc').innerHTML = data)
+        .catch(error => console.error('Error:', error));
+}
 
 /*
-Created by: 
-Description: 
-*/ 
+Created by: Hans Rafael Daligdig
+Description: This function handles the reset function of a completed web form
+             It clears all of the input fields after the user has completed
+             submitting the web form.
+*/
 function reset(e) {
 	e.wrap('<form>').closest('form').get(0).reset();
 	e.unwrap();
 }
 
 /*
-Created by: 
-Description: 
+Created by: Hans Rafael Daligdig
+Description: This event listener is responsible for creating a drag and drop
+             upload field also showing the preview of the file name when the
+             file is uploaded
 */
 $(".dropzone").change(function () {
 	readFile(this);
@@ -150,11 +156,7 @@ $('.remove-preview').on('click', function () {
 	reset(dropzone);
 });
 
-/*
-Created by: 
-Description: 
-*/
-//dashboard papakita
+
  window.onload = function () {
  	loadContent('home');
  };
@@ -185,8 +187,10 @@ document.documentElement.addEventListener("click", function () {
 });
 
 /*
-Created by: 
-Description: 
+Created by: Kevin king Yabut
+Description: makes an asynchronous ajax request to the server side php script notification.php
+to retrieve the notifications of the documents associated with the user. If successfull it will 
+update the content of the dropdown element with the received HTML response. If there are no notifications, displays a default message.
 */
 function getNotifications() {
     $.ajax({
@@ -209,8 +213,10 @@ function getNotifications() {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Kevin king Yabut
+Description: makes an asynchronous ajax request to the server side php script document.php
+to retrieve the notifications of the documents associated with the user. If successfull it will 
+update the content of the table element with the received HTML response.
 */
 function getDocs() {
     $.ajax({
@@ -233,8 +239,10 @@ getDocs();
 setInterval(getDocs, 100);
 
 /*
-Created by: 
-Description: 
+Created by: Kevin King Yabut
+Description: This function handles the processing of files by reading the
+             file that was uploaded by the user and also creating a preview
+             icon.
 */
 // Upload File
 function readFile(input) {

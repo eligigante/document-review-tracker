@@ -2,6 +2,16 @@
 
 include_once('db.php');
 
+
+
+
+/*
+
+  Created by: kevin king Yabut
+  Description: Checks login credentials through the database. If execution is successful,
+  returns the user data; otherwise, returns null.
+
+ */
 function check_login($con, $accountID, $password) {
     $query = "SELECT * FROM user WHERE user_ID = ? AND password = ?";
     $stmt = mysqli_prepare($con, $query);
@@ -44,22 +54,35 @@ function check_login($con, $accountID, $password) {
     return null;
 }
 
-function set_user_offline($con, $userID) {
+
+/*
+  Created by: Kevin King Yabut
+  Description: Sets the user's status to 'Offline' in the database.
+ */
+function set_user_offline($con, $accountID) {
 
 
-    $offlineStatus = 'Offline';
+    $offline = 'Offline';
     $query = "UPDATE user SET status = ? WHERE user_ID = ?";
 
 
     $stmt = mysqli_prepare($con, $query);
 
-    mysqli_stmt_bind_param($stmt, "ss", $offlineStatus, $userID);
+    mysqli_stmt_bind_param($stmt, "ss", $offline, $accountID);
 
     mysqli_stmt_execute($stmt);
     
     mysqli_stmt_close($stmt);
 }
 
+
+/*
+  Created by: Kevin King Yabut
+  Description: Retrieves the general information of the user, including first name, middle name, 
+  last name, email, and user ID.
+  The information is stored in an array, which is later converted to a JSON-encoded string representation
+  of the $documents array.
+ */
 function get_name($con, $accountID) {
     $query = "SELECT last_Name, first_Name, middle_Name, email, user_ID FROM user WHERE user_ID = ?";
 
@@ -82,6 +105,12 @@ function get_name($con, $accountID) {
     }
 }
 
+
+/*
+  Created by: Kevin king Yabut
+  Description: Retrieves general information of the user's documents, including document ID,
+  title, upload date, status, department ID, and department name, and stores it in an array.
+ */
 function get_docs($con, $accountID){
     $query = "SELECT document_details.document_ID, document_details.document_Title, document_details.upload_Date, document_details.status, document_logs.department_ID, departments.department_Name FROM document_details
     JOIN document_logs ON document_details.document_ID = document_logs.document_ID
@@ -115,35 +144,13 @@ function get_docs($con, $accountID){
 }
 }
 
-function get_recent($con, $accountID){
 
-    $query = "SELECT document_ID, document_Title, upload_Date, status FROM document_details WHERE user_ID = ? ORDER BY document_ID DESC LIMIT 2";
 
-    $stmt = mysqli_prepare($con, $query);
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 's', $accountID);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $document_ID, $document_Title, $upload_Date, $status);
-        
-        $documents = array();
-
-        while (mysqli_stmt_fetch($stmt)) {
-            $documents[] = array(
-                "docID" => $document_ID,
-                "title" => $document_Title,
-                "uploadDate" => $upload_Date,
-                "status" => $status
-            );
-        }
-
-        mysqli_stmt_close($stmt);
-        return json_encode($documents);
-    } else {
-        return null;
-    }
-}
-
-//img
+/*
+  Created by: Kevin king Yabut
+  Description: retrieves the document notifications associated for the user, including document ID, department name,
+  and timestamp, and stores them in an array, then later converted into a json representation of the array.
+ */
 function documentNotif($con, $userID) {
     $notifications = array();
 
@@ -177,6 +184,13 @@ function documentNotif($con, $userID) {
     }
 }
 
+
+/*
+ Created by: Kevin king Yabut
+
+  Description: retrieves the rejected documents for the user, including document ID,
+  department ID, returned file, user ID, and document title, and stores it in an array.
+ */
 function getRejected($con, $accountID) {
     $query = "
         SELECT
@@ -220,7 +234,11 @@ function getRejected($con, $accountID) {
 }
 
 
-
+/*
+  Created by: Kevin king Yabut
+  Description: retrieves the document title and the blob file of the rejected documents associated based on the documentID to the user.
+  and stores it into $documentInfo array
+ */
 function getFile($con, $documentID) {
     $query = "
     SELECT dd.document_Title, dl.returned_file
@@ -254,7 +272,13 @@ function getFile($con, $documentID) {
     }
 }
 
-function updateFile($con, $docID, $userID, $newFileBlob) {
+/*
+  Created by: Kevin king Yabut
+  Description:
+  Updates a rejected document with a new file, changing its status to 'processing' and
+  incrementing the revision count.
+ */
+function updateFile($con, $docID, $accountID, $newFileBlob) {
     $query = "
         UPDATE document_logs
         JOIN document_details ON document_logs.document_ID = document_details.document_ID
@@ -268,7 +292,7 @@ function updateFile($con, $docID, $userID, $newFileBlob) {
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $userID);
+        mysqli_stmt_bind_param($stmt, 'sss', $newFileBlob, $docID, $accountID);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_send_long_data($stmt, 0, $newFileBlob);
         mysqli_stmt_close($stmt);

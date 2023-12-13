@@ -226,8 +226,10 @@ function sendLogoutUserServerRequest() {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Hans Rafael Daligdig
+Description: This function handles the reset function of a completed web form
+             It clears all of the input fields after the user has completed
+             submitting the web form.
 */
 function reset(e) {
   e.wrap("<form>").closest("form").get(0).reset();
@@ -235,8 +237,10 @@ function reset(e) {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Hans Rafael Daligdig
+Description: This event listener is responsible for creating a drag and drop
+             upload field also showing the preview of the file name when the
+             file is uploaded
 */
 $(".dropzone").change(function () {
   readFile(this);
@@ -264,8 +268,10 @@ $(".remove-preview").on("click", function () {
 });
 
 /*
-Created by: 
-Description: 
+Created by: Kevin King Yabut
+Description: This function handles the processing of files by reading the
+             file that was uploaded by the user and also creating a preview
+             icon.
 */
 // Upload File
 function readFile(input) {
@@ -300,8 +306,8 @@ function readFile(input) {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Dominic Gabriel O. Ronquillo
+Description: This calls the downloadPDF function once the review button is clicked
 */
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM content loaded");
@@ -316,8 +322,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /*
-Created by: 
-Description: 
+Created by: Dominic Gabriel O. Ronquillo
+Description: This sends a request to the server to download and convert a blob file from the database.
 */
 function downloadPDF(documentId) {
   fetch(`/downloadAndConvert/${documentId}`)
@@ -339,8 +345,8 @@ function downloadPDF(documentId) {
 }
 
 /*
-Created by: 
-Description: 
+Created by: Dominic Gabriel O. Ronquillo
+Description: Once a pdf file is downloaded in the temp folder this will change the current window to view the pdf.
 */
 function openNewPageWithPDF(filename) {
   const relativePath = `/pdfviewer?filePath=/temp/${encodeURIComponent(

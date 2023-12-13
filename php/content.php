@@ -16,7 +16,6 @@ $userDetails = get_name($con, $userID);
 $docDetails = get_docs($con, $userID);
 $docs = json_decode($docDetails, true);
 $documentRejected = getRejected($con, $userID);
-$docRecent = get_recent($con, $userID);
 $statusChange = "";
 $statusChanging = "";
 
@@ -117,7 +116,7 @@ if ($_GET['page'] === 'home') {
                      
     } else if ($_GET['page'] === 'myDocs') {
 
-    echo '<main id = "tite">
+    echo '<main id = "doc">
     
     <div class="head-title">
     <div class="left">
@@ -165,7 +164,7 @@ if ($_GET['page'] === 'home') {
 
 
 } elseif ($_GET['page'] === 'profile') {
-    echo '<main id = "tite">
+    echo '<main id = "doc">
     
     <div class="head-title">
     <div class="left">
@@ -186,7 +185,7 @@ if ($_GET['page'] === 'home') {
 <div class="profile-container">
     
     <div class="sample-image">
-        <img src="" class="sample-image">
+        <img src="../public/img/user-img.jpg" class="sample-image">
     </div>
     <div class="profile-info">
         <div class="general-information-label">GENERAL INFORMATION</div>
