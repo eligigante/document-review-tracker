@@ -126,7 +126,7 @@
                             <span class="text">Sort Z-A</span>
                         </a>
                     </div>
-                    <table>
+                    <table id="user-table">
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -134,7 +134,7 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="user-row">
                             <% data.forEach(element=> { %>
                                 <tr>
                                     <td>
@@ -155,9 +155,9 @@
                     </table>
                 </div>
             </div>
-            <%- include('footer.ejs') %>
         </main>
         <!-- MAIN -->
+        <%- include('footer.ejs') %>
     </section>
     <!-- CONTENT -->
     <script src="/script.js"></script>
