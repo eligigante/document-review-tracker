@@ -6,6 +6,57 @@ Description: This is the styles for the landing page of each tab in the user
 
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap");
 
+
+
+
+
+.delivery-tracking {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #e0e0e0;
+}
+
+.word-container {
+  text-align: center;
+  width: 20px; 
+  transition: background-color 0.3s ease, color 0.3s ease; 
+  margin-right: 20px;
+}
+
+.line {
+  height: 2px;
+  width: 20px; 
+  background-color: #e0e0e0;
+  transition: background-color 0.3s ease;
+}
+
+.green {
+  
+  color: #4caf50 !important; 
+}
+
+.orange{
+  color: #FFD580!important;
+}
+
+.green-line {
+  background-color: #4caf50 !important; 
+}
+
+.no-green {
+  background-color: #e0e0e0 !important;
+  color: #e0e0e0 !important; 
+}
+
+
+
+
+
+
+
+
+
 * {
   margin: 0;
   padding: 0;
