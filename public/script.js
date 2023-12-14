@@ -16,30 +16,31 @@ const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
 
-// // Text Field Validation
-//   document.querySelector('form').addEventListener('submit', function(event) {
-//   event.preventDefault(); // Prevent form submission for this example
+// Text Field Validation
+  document.querySelector('form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form submission for this example
 
-//   // Get input values
-//   const firstName = document.getElementById('firstName').value.trim();
-//   const middleName = document.getElementById('middleName').value.trim();
-//   const lastName = document.getElementById('lastName').value.trim();
+  // Get input values
+  const firstName = document.getElementById('contact-first-name').value.trim();
+  const middleName = document.getElementById('contact-middle-name').value.trim();
+  const lastName = document.getElementById('contact-last-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
 
-//   // Construct full name
-//   const fullName = `${firstName} ${middleName} ${lastName}`.trim().replace(/\s+/g, ' ');
+  // Construct full name
+  const fullName = `${firstName} ${middleName} ${lastName}`.trim().replace(/\s+/g, ' ');
 
-//   // Regular expression pattern for validating name
-//   const namePattern = /^[a-zA-Z\s]+$/; // Modify the pattern as needed
+  // Regular expression pattern for validating name
+  const namePattern = /^[a-zA-Z\s]+$/; // Modify the pattern as needed
 
-//   // Validation
-//   if (!namePattern.test(fullName)) {
-//     alert('Invalid name. Please enter a valid name.');
-//     return;
-//   }
+  // Validation
+  if (!namePattern.test(fullName)) {
+    alert('Invalid name. Please enter a valid name.');
+    return;
+  }
 
-//   // Form is valid, continue with submission or other actions
-//   console.log('Full name:', fullName);
-// });
+  // Form is valid, continue with submission or other actions
+  console.log('Full name:', fullName);
+});
 
 // Password
 function togglePasswordVisibility() {
@@ -50,6 +51,49 @@ function togglePasswordVisibility() {
   const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
   passwordInput.setAttribute("type", type);
 }
+
+// WORK SPACE NI BALONG ADZ
+const searchInput = document.querySelector('#search');
+const results_body = document.querySelector('#results');
+load_data();
+
+function load_data(query = ''){
+    const request = new XMLHttpRequest();
+    request.open('GET', `/search?q=${query}`);
+    request.onload = () => {
+        const results = JSON.parse(request.responseText);
+        let html = '';
+        
+        if(results.length > 0){
+            results.forEach(result => {
+                html += `
+                <tr>
+                    <td>`+result.customer_id+`</td>
+                    <td>`+result.customer_first_name+`</td>
+                    <td>`+result.customer_last_name+`</td>
+                    <td>`+result.customer_email+`</td>
+                    <td>`+result.customer_gender+`</td>
+                </tr>
+                `;
+            });
+        }
+        else{
+            html += `
+            <tr>
+                <td colspan="5" class="text-center">No Data Found</td>
+            </tr>
+            `;
+        }
+        results_body.innerHTML = html;
+    };
+    request.send();
+}
+
+searchInput.addEventListener('input', () => {
+    const query = searchInput.value;
+    load_data(query);
+});
+
 
 
 /*

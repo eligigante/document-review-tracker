@@ -1758,6 +1758,19 @@ textarea {
   resize: vertical;
 }
 
+input.form-control[type="text"],
+select.form-control,
+textarea.form-control {
+  /* Your specific styles for elements with the .form-control class */
+  /* This will apply to your input[type="text"] with class .form-control */
+  /* For example: */
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
 label {
   padding: 12px 12px 12px 0;
   display: inline-block;
@@ -2477,7 +2490,6 @@ Description: This is the media query for all of the landing pages of the admin m
   text-rendering: auto;
   display: inline-block;
   text-transform: none;
-  speak: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 25px;
