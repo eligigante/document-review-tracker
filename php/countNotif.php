@@ -1,5 +1,5 @@
 <?php
-// countNotif.php
+
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -8,12 +8,10 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once('functions.php');
-
 require_once('db.php');
 $userID = $_SESSION['user_id'];
 
-
 $notifications = countUnreadDocuments($con, $userID);
 
-echo json_encode($notifications);
+echo $notifications;
 ?>

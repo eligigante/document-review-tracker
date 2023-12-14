@@ -149,9 +149,7 @@ function get_docs($con, $accountID){
 
 function countUnreadDocuments($con, $userID) {
     $query = "SELECT COUNT(*) AS unreadCount FROM document_logs 
-    
               WHERE user_ID = ? AND is_read = 0";
-
 
     $stmt = mysqli_prepare($con, $query);
 
@@ -166,12 +164,11 @@ function countUnreadDocuments($con, $userID) {
 
         mysqli_stmt_close($stmt);
 
-        return json_encode($count);
+        return (int)$count;
     } else {
-        return json_encode(0);
+        return 0;
     }
 }
-
 
 /*
   Created by: Kevin king Yabut

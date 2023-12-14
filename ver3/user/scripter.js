@@ -219,11 +219,10 @@ function getCount() {
         dataType: "html",
         success: function (response) {
             if (response.trim() !== "") {
-                $('#countElement').html(response);
-				console.log(response);
-               
+                $('#countElement').html('<span class="count-text">' + response + '</span>');
+                console.log(response);
             } else {
-                $('#countElement').html('<div class="notify_item"><div class="notify_info"><p>0</p><span class="notify_time"></span></div></div>');
+                $('#countElement').html('<span class="count-text">0</span>');
             }
         },
         error: function (xhr, status, error) {

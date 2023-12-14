@@ -117,7 +117,7 @@ require_once('../../php/login.php');
           
        
             <button class="drop-btn" id="drop-btn">
-                <p id = "countElement"> </p>
+                <div id = "countElement"> </div>
                 <i class='bx bxs-bell'></i>
             </button>
               
