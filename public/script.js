@@ -15,32 +15,108 @@ const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
+// Check if the form exists in the DOM
+const formAdd = document.getElementById('form-add');
 
-// Text Field Validation
-  document.querySelector('form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent form submission for this example
+// If the form exists, attach the event listener
+if (formAdd) {
+  formAdd.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission for this example
 
-  // Get input values
-  const firstName = document.getElementById('contact-first-name').value.trim();
-  const middleName = document.getElementById('contact-middle-name').value.trim();
-  const lastName = document.getElementById('contact-last-name').value.trim();
-  const email = document.getElementById('contact-email').value.trim();
+    // Get input values
+    const firstNameElement = document.getElementById('contact-first-name');
+    const middleNameElement = document.getElementById('contact-middle-name');
+    const lastNameElement = document.getElementById('contact-last-name');
+    // const lastName = lastNameElement.value.replace(/\s/g, '');
+    const passwordElement = document.getElementById('contact-password');
+    const emailElement = document.getElementById('contact-email');
+    const positionElement = document.getElementById('contact-position');
 
-  // Construct full name
-  const fullName = `${firstName} ${middleName} ${lastName}`.trim().replace(/\s+/g, ' ');
+    // Regular expression patterns for validating different fields
+    const namePattern = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/; // For name fields
+    const positionPattern = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
+    const passwordPattern = /^\S{6,}$/; // Minimum 6 characters for password
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email pattern
 
-  // Regular expression pattern for validating name
-  const namePattern = /^[a-zA-Z\s]+$/; // Modify the pattern as needed
+    // Validation for each field
+    if (!namePattern.test(firstNameElement.value) || !namePattern.test(middleNameElement.value) || !namePattern.test(lastNameElement.value)) {
+      alert('Invalid name. Please enter a valid name without spaces and numbers not allowed.');
+      return;
+    }
+    
+    if (!passwordPattern.test(passwordElement.value)) {
+      alert('Invalid password. Password should be at least 6 characters.');
+      return;
+    }
+    
+    if (!emailPattern.test(emailElement.value)) {
+      alert('Invalid email. Please enter a valid email address.');
+      return;
+    }
+    
+    if (!positionPattern.test(positionElement.value)) {
+      alert('Invalid position. Please enter a valid position.');
+      return;
+    }
+    
 
-  // Validation
-  if (!namePattern.test(fullName)) {
-    alert('Invalid name. Please enter a valid name.');
-    return;
-  }
+    // Form is valid, continue with submission or other actions
+    console.log('Valid form submitted.');
+    console.log('First Name:', firstNameElement);
+    console.log('Middle Name:', middleNameElement);
+    console.log('Last Name:', lastNameElement);
+    console.log('Password:', passwordElement);
+    console.log('Email:', emailElement);
+    console.log('Position:', positionElement);
 
-  // Form is valid, continue with submission or other actions
-  console.log('Full name:', fullName);
-});
+    this.submit();
+  });
+}
+
+// document.querySelector('#form-edit', '.edt-btn').addEventListener('submit', function (event) {
+//   event.preventDefault(); // Prevent form submission for this example
+
+//   // Get input values
+//   const firstName = document.getElementById('contact-first-name').value.trim();
+//   const middleName = document.getElementById('contact-middle-name').value.trim();
+//   const lastName = document.getElementById('contact-last-name').value.trim();
+//   const password = document.getElementById('contact-password').value.trim();
+//   const email = document.getElementById('contact-email').value.trim();
+//   const position = document.getElementById('contact-position').value.trim();
+
+//   // Regular expression patterns for validating different fields
+//   const namePattern = /^[a-zA-Z\s]+$/; // For name fields
+//   const passwordPattern = /.{6,}/; // Minimum 6 characters for password
+//   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email pattern
+
+//   // Validation for each field
+//   if (!namePattern.test(firstName) || !namePattern.test(middleName) || !namePattern.test(lastName)) {
+//     alert('Invalid name. Please enter a valid name.');
+//     return;
+//   }
+
+//   if (!passwordPattern.test(password)) {
+//     alert('Invalid password. Password should be at least 6 characters.');
+//     return;
+//   }
+
+//   if (!emailPattern.test(email)) {
+//     alert('Invalid email. Please enter a valid email address.');
+//     return;
+//   }
+
+//   // Form is valid, continue with submission or other actions
+//   console.log('Valid form submitted.');
+//   console.log('First Name:', firstName);
+//   console.log('Middle Name:', middleName);
+//   console.log('Last Name:', lastName);
+//   console.log('Password:', password);
+//   console.log('Email:', email);
+//   console.log('Position:', position);
+
+//   this.submit(); 
+
+// });
 
 // Password
 function togglePasswordVisibility() {
@@ -53,44 +129,49 @@ function togglePasswordVisibility() {
 }
 
 // WORK SPACE NI BALONG ADZ
-const searchInput = document.querySelector('#search');
-const results_body = document.querySelector('#user-row');
-load_data();
+// const searchInput = document.querySelector('#search-user');
+// const results_body = document.querySelector('#results');
 
-function load_data(query = ''){
-    const request = new XMLHttpRequest();
-    request.open('GET', `/search_admin_home?q=${query}`);
-    request.onload = () => {
-        const results = JSON.parse(request.responseText);
-        let html = '';
-        if(results.length > 0){
-            results.forEach(result => {
-              console.log(result.last_Name, result.first_Name);
-                html += `
-                <tr>
-                    <td>${result.last_Name}  ${result.first_Name}</td>
-                    <td>${result.department_Name}</td>
-                    <td>${result.status}</td>
-                </tr>
-                `;
-            });
-        }
-        else {
-            html += `
-            <tr>
-                <td colspan="5" class="text-center">No Data Found</td>
-            </tr>
-            `;
-        }
-        results_body.innerHTML = html;
-    };
-    request.send();
-}
 
-searchInput.addEventListener('input', () => {
-    const query = searchInput.value;
-    load_data(query);
-});
+// load_data();
+
+// function load_data(query = '') {
+
+//   const request = new XMLHttpRequest();
+//   request.open('GET', `/search_admin_home?q=${query}`);
+//   request.onload = () => {
+//     const results = JSON.parse(request.responseText);
+//     let html = '';
+//     if (results.length > 0) {
+//       results.forEach(result => {
+//         console.log(result.last_Name, result.first_Name);
+//         html += `
+//                 <tr>
+//                     <td>${result.last_Name}  ${result.first_Name}</td>
+//                     <td>${result.department_Name}</td>
+//                     <td>${result.status}</td>
+//                 </tr>
+//                 `;
+//       });
+//     }
+//     else {
+//       html += `
+//             <tr>
+//                 <td colspan="5" class="text-center">No Data Found</td>
+//             </tr>
+//             `;
+//     }
+//     results_body.innerHTML = html;
+//   };
+//   request.send();
+
+ 
+// }
+
+// searchInput.addEventListener('input', () => {
+//   const query = searchInput.value;
+//   load_data(query);
+// });
 
 
 
