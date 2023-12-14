@@ -146,18 +146,32 @@ app.get('/home_admin', noCache, (request, response) => {
   }
 })
 
-app.get('/search_admin_home', (request, response) => {
-  const query = request.query.q;
+app.get('/search_home_admin', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
   var sql = '';
 
-  if (query != '') { sql = queries.searchGetUsers; }
+  if (query != '') { sql = queries.searchGetUsers; } 
   else { sql = queries.getUsers; }
 
-  connection.query(sql, (error, results) => {
-    if (error) throw error;
-    response.send(results);
+  connection.query(sql, [finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      response.render('admin', { data: result });
   });
 });
+
+app.get('/search_manage', (request, response) => {
+  const query = request.query.manage;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchManageUser; } 
+  else { sql = queries.manageUserDetails; }
+
+  connection.query(sql, [finalQuery, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+    response.render('manage_user', { data: result });
+  });
+});
+
 
 /*
 Created by: Adrienne Zapanta
