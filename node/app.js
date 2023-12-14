@@ -412,7 +412,6 @@ app.get('/admin_profile', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing admin profile...")
-      console.log(result[0]);
       response.render('admin_profile', { data: result[0] });
     })
   }
@@ -431,7 +430,6 @@ app.get('/reviewer_profile', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing reviewer profile...")
-      console.log(result[0]);
       response.render('reviewer_profile', { data: result[0] });
     })
   }

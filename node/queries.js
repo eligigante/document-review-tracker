@@ -15,13 +15,14 @@ const addUser =
 const deleteUser = "DELETE FROM user WHERE user.`user_ID` = ?";
 const editUser = "UPDATE user SET email = ?, password = ?, last_Name = ?, first_Name = ?, middle_Name = ?, " +
 "department_ID = ?, position = ?, role = ?, status = ? WHERE user_ID = ?";
-const getUserDetails = "SELECT user.user_ID, departments.department_ID, user.first_Name, user.middle_Name, user.last_Name, user.email, departments.department_Name, user.position, user.role FROM user JOIN departments ON user.department_ID = departments.department_ID WHERE user.user_ID = ?"
+const getUserDetails = 'SELECT user.user_ID, user.first_Name, user.last_Name, user.email, departments.department_Name, '
++ 'user.position, user.role FROM user JOIN departments ON user.department_ID = departments.department_ID WHERE user.user_ID = ?'
 const manageUserDetails =
   "SELECT user.first_Name, user.middle_Name, user.last_Name, departments.department_Name, user.role, user.status " 
 + "FROM user JOIN departments ON user.department_ID = departments.department_ID ORDER BY user.user_ID ASC";
-const searchManageUser = 'SELECT departments.department_Name, user.first_Name, user.last_Name, user.status, user.role FROM user ' +
-'JOIN departments ON user.department_ID = departments.department_ID WHERE user.last_Name LIKE ? '+ 
-'OR user.first_Name LIKE ? OR departments.department_Name LIKE ? OR user.role LIKE ? ORDER BY user.user_ID ASC';
+const searchManageUser = 'SELECT departments.department_Name, user.first_Name, user.last_Name, user.status, user.role FROM user ' 
++ 'JOIN departments ON user.department_ID = departments.department_ID WHERE user.last_Name LIKE ? '
++ 'OR user.first_Name LIKE ? OR departments.department_Name LIKE ? OR user.role LIKE ? ORDER BY user.user_ID ASC';
 const getLastUserID = "SELECT user_ID FROM user ORDER BY user_ID DESC LIMIT 1";
 const getDepartmentOptions = "SELECT department_ID, department_Name FROM departments";
 const getDepartmentID = "SELECT department_ID FROM departments WHERE department_Name = ?";
