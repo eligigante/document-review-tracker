@@ -23,6 +23,16 @@ app.use(session({
   cookie: {maxAge: 86400000}
 }));
 
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));;
+app.use(cookie());
+app.use(express.static(path.resolve(__dirname + "/../public")));
+app.use("/public", express.static(path.resolve(__dirname, "../public")));
+app.set('views', path.resolve(__dirname + "/../public/views"))
+app.set('view engine', 'ejs');
+server.startServer(app);
+
 /*
 Created by: Adrienne Zapanta
 Description: This is the code section that prevents the browser from caching the pages, thus preventing users from accessing
@@ -35,15 +45,6 @@ function noCache(req, res, next) {
   res.header('Pragma', 'no-cache');
   next();
 }
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));;
-app.use(cookie());
-app.use(express.static(path.resolve(__dirname + "/../public")));
-app.use("/public", express.static(path.resolve(__dirname, "../public")));
-app.set('views', path.resolve(__dirname + "/../public/views"))
-app.set('view engine', 'ejs');
-server.startServer(app);
 
 /*
 Created by: Adrienne Zapanta
@@ -132,7 +133,7 @@ Description: This is the code section that renders the home page for the admin
 */
 
 app.get('/home_admin', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.getUsers, function (error, result, fields) {
       console.log(result)
       console.log("Showing admin home page...")
@@ -151,7 +152,7 @@ Description: This is the code section that sorts content of the admin home page 
 */
 
 app.get("/sort_users_ascending", noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.sortAdminUserAscending, function (error, result, fields) {
       console.log("User data successfully retrieved.")
       response.render('admin', { data: result });
@@ -169,7 +170,7 @@ Description: This is the code section that sorts content of the admin home page 
 */
 
 app.get("/sort_users_descending", noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.sortAdminUserDescending, function (error, result, fields) {
       console.log("User data successfully retrieved.")
       response.render('admin', { data: result });
@@ -187,7 +188,7 @@ Description: This is the code section that filter offline users in the admin hom
 */
 
 app.get("/filter_users_offline", noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.filterByOfflineUsers, function (error, result, fields) {
       console.log("Showing filtered users (offline)...")
       response.render('admin', { data: result })
@@ -205,7 +206,7 @@ Description: This is the code section that filter online users in the admin home
 */
 
 app.get("/filter_users_online", noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.filterByOnlineUsers, function (error, result, fields) {
       console.log("Showing filtered users (online)...")
       response.render('admin', { data: result })
@@ -224,7 +225,7 @@ Description: This is the code section that sorts content of the admin manage use
 
 app.get("/sort_manage_ascending", noCache, (request, response) => {
   var data = '';
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.sortAdminManageAscending, function (error, result, fields) {
       data = result.map(row => ({
         first_Name: row.first_Name,
@@ -251,7 +252,7 @@ Description: This is the code section that sorts content of the admin manage use
 
 app.get("/sort_manage_descending", noCache, (request, response) => {
   var data = '';
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.sortAdminManageDescending, function (error, result, fields) {
       data = result.map(row => ({
         first_Name: row.first_Name,
@@ -278,7 +279,7 @@ Description: This is the code section that filter offline users in the admin man
 
 app.get("/filter_manage_offline", noCache, (request, response) => {
   var data = '';
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.filterManageOfflineUsers, function (error, result, fields) {
       data = result.map(row => ({
         first_Name: row.first_Name,
@@ -305,7 +306,7 @@ Description: This is the code section that filter online users in the admin mana
 
 app.get("/filter_manage_online", noCache, (request, response) => {
   var data = '';
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.filterManageOnlineUsers, function (error, result, fields) {
       data = result.map(row => ({
         first_Name: row.first_Name,
@@ -331,7 +332,7 @@ Description: This is the code section that renders the home page for the reviewe
 */
 
 app.get('/home_reviewer', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     var departmentID = '';
     connection.query(queries.getDepartmentIDOfUser, [request.session.userID], function (error, result, fields) {
       departmentID = result[0].department_ID;
@@ -355,7 +356,7 @@ Description: This is the code section that renders the manage user page for the 
 
 app.get('/manage_user', noCache, (request, response) => {
   var data = '';
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.manageUserDetails, function (error, result, fields) {
       data = result.map(row => ({
         first_Name: row.first_Name,
@@ -381,7 +382,7 @@ Description: This is the code section that renders the manage profile page for t
 */
 
 app.get('/admin_profile', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing admin profile...")
       console.log(result[0]);
@@ -400,7 +401,7 @@ Description: This is the code section that renders the manage profile page for t
 */
 
 app.get('/reviewer_profile', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing reviewer profile...")
       console.log(result[0]);
@@ -419,7 +420,7 @@ Description: This is the code section that renders the my reviews page for the r
 */
 
 app.get('/my_review', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     var departmentID = '';
     connection.query(queries.getDepartmentIDOfUser, [request.session.userID], function (error, result, fields) {
       departmentID = result[0].department_ID;
@@ -457,7 +458,7 @@ Description: This renders the add user form for the admin
 */
 
 app.get('/add_user', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     var userID = '';
     var departmentOptions = '';
     connection.query(queries.getLastUserID, function (error, result, fields) {
@@ -485,7 +486,7 @@ Description: This processes the add user request and adds the newly created user
 */
 
 app.post('/add_user_request', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     var email = request.body['contact-email'];
     var password = request.body['contact-password'];
     var lastName = request.body['contact-last-name'];
@@ -516,7 +517,7 @@ Description: This renders the edit user form for the admin
 */
 
 app.get('/edit_user', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     var departmentOptions = '';
     var data = '';
     connection.query(queries.getDepartmentOptions, function (error, result, fields) {
@@ -543,7 +544,7 @@ Description: This processes the edit user request and updates the current user d
 */
 
 app.post('/edit_user_request', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'admin') {
     var id = request.body.user;
     var email = request.body['contact-email'];
     console.log(email)
@@ -572,7 +573,7 @@ Description: Checks if the user is logged in as a reviewer and will render the v
 other will send the user back to the login page.
 */
 app.get("/review_doc", noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
 
     connection.query(queries.getReviewerDocuments, [request.session.department_ID], (err, results) => {
       if (err) {
@@ -595,7 +596,7 @@ Description: This sorts the content of the home page of the reviewer from oldest
 */
 
 app.get('/sort_asc_reviewer', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.sortAscReviewer, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (reviewer - oldest)...")
       console.log(result);
@@ -614,7 +615,7 @@ Description: This sorts the content of the home page of the reviewer from newest
 */
 
 app.get('/sort_desc_reviewer', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.sortDescReviewer, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (reviewer - Z-A)...")
       response.render('reviewer', { data: result })
@@ -632,7 +633,7 @@ Description: This filters the content of the home page of the reviewer to only s
 */
 
 app.get('/filter_processing_reviewer', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.filterProcessing, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing filtered documents (processing)...")
       response.render('reviewer', { data: result })
@@ -650,7 +651,7 @@ Description: This filters the content of the home page of the reviewer to only s
 */
 
 app.get('/filter_accepted_reviewer', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.filterAccepted, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing filtered documents (accepted)...")
       response.render('reviewer', { data: result })
@@ -668,7 +669,7 @@ Description: This filters the content of the home page of the reviewer to only s
 */
 
 app.get('/filter_rejected_reviewer', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.filterRejected, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing filtered documents (rejected)...")
       response.render('reviewer', { data: result })
@@ -686,7 +687,7 @@ Description: This sorts the content of the my review page of the reviewer from o
 */
 
 app.get('/my_sort_asc', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.mySortAsc, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Oldest) (accepted docs)...")
       response.render('my_review', { data: result })
@@ -704,7 +705,7 @@ Description: This sorts the content of the my review page of the reviewer from n
 */
 
 app.get('/my_sort_desc', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.mySortDesc, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Newest) (accepted docs)...")
 
@@ -723,7 +724,7 @@ Description: This sorts the content of the review queue page of the reviewer fro
 */
 
 app.get('/sort_asc_queue', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.sortAscQueue, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Oldest) (pending docs)...")
       response.render('review_doc', { data: result })
@@ -741,7 +742,7 @@ Description: This sorts the content of the review queue page of the reviewer fro
 */
 
 app.get('/sort_desc_queue', noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.sortDescQueue, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Newest) (pending docs)...")
       response.render('review_doc', { data: result })
@@ -758,7 +759,7 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This is used to download the blob file from the database and convert to PDF
 */
 app.get("/downloadAndConvert/:documentId", noCache, (req, res) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     try {
       const documentId = req.params.documentId;
       const departmentID = req.session.department_ID;
@@ -813,7 +814,7 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This creates the file path that pdfviewer will render.
 */
 app.get("/pdfviewer", noCache, (request, response) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     const filePath = path.join(__dirname, "temp", request.query.filePath);
     response.render("pdfviewer", { filePath });
   }
@@ -831,7 +832,7 @@ Description: This is the function to accept a document based on the documentID.
 Depending on the departmentID this will either pass it to the next department or just update the logs.
 */
 app.post("/acceptDocument", noCache, async (req, res) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     const { filePath } = req.body;
 
     if (!filePath) {
@@ -1041,7 +1042,7 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This rejects a document based on the documentID and sends it back to the user.
 */
 app.post("/rejectDocument", noCache, async (req, res) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     const { filePath } = req.body;
 
     if (!filePath) {
@@ -1152,7 +1153,7 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This redirects the user back to the review page.
 */
 app.get('/redirect-to-review-doc', noCache, (req, res) => {
-  if (request.session.verify) {
+  if (request.session.verify && request.session.role === 'reviewer') {
     res.redirect('/review_doc');
   }  
   else {
