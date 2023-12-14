@@ -25,12 +25,12 @@ const getDepartmentID = "SELECT department_ID FROM departments WHERE department_
 const getUsersAndDepartments = "SELECT user.user_ID, departments.department_ID, departments.department_Name " 
 + "FROM user JOIN departments ON user.department_ID = departments.department_ID";
 const getUserOptions = "SELECT user_ID from user ORDER BY user_ID ASC";
-const getReviewerDocuments = 'SELECT user.first_Name, user.middle_Name, user.last_Name, document_details.document_Title, '
-+ 'document_details.pages, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
-+ 'document_logs.document_status, document_details.document_ID FROM user JOIN '
-+ 'document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
-+ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.document_status = \'processing\' '
-+ 'AND document_logs.department_ID = ?'
+const getReviewerDocuments = 'SELECT user.first_Name, user.middle_Name, user.last_Name, document_details.document_Title, ' +
+    'document_details.pages, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, ' +
+    'document_logs.document_status, document_details.document_ID FROM user JOIN ' +
+    'document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON ' +
+    'document_details.document_ID = document_logs.document_ID WHERE document_logs.document_status = \'processing\' ' +
+    'AND document_logs.department_ID = ? ORDER BY document_logs.referral_Date ASC';
 const getReceivedFile = "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'processing'";
 const getUserIDFromDepartment = "SELECT user_ID FROM departments WHERE department_ID = ?";
 const updateAcceptDocumentLog =

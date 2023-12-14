@@ -386,20 +386,29 @@ function readFile(input) {
 
 /*
 Created by: Dominic Gabriel O. Ronquillo
-Description: This calls the downloadPDF function once the review button is clicked
+Description: This calls the downloadPDF function once the review button is clicked and is the first one in the queue
 */
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOM content loaded");
-  document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("review-btn")) {
-      console.log("Review button clicked");
-      var documentId = event.target.dataset.documentId;
-      console.log("Document ID:", documentId);
-      downloadPDF(documentId);
-    }
+  const reviewButtons = document.querySelectorAll(".review-btn");
+
+  reviewButtons.forEach(button => {
+    button.addEventListener("click", async () => {
+      const documentId = button.dataset.documentId;
+      console.log("I will pass this documentID: " + documentId);
+
+      const isReviewable = await checkIfReviewable(documentId);
+      console.log('Is Reviewable:', isReviewable);
+
+      if (!isReviewable) {
+        alert("You cannot review this document until the previous one is processed.");
+        return;
+      } else {
+        console.log("Document ID:", documentId);
+        downloadPDF(documentId);
+      }
+    });
   });
 });
-
 /*
 Created by: Dominic Gabriel O. Ronquillo
 Description: This sends a request to the server to download and convert a blob file from the database.
@@ -433,4 +442,32 @@ function openNewPageWithPDF(filename) {
   )}`;
   console.log("This is the path: " + relativePath);
   window.location.href = relativePath;
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: Checks if the document is first in the queue.
+*/
+async function checkIfReviewable(documentId) {
+  try {
+    const response = await fetch('/checkIfReviewable', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ documentId }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Response from server:', data);
+      return data.isReviewable;
+    } else {
+      console.error('Error checking if document is reviewable. Status:', response.status);
+      return false;
+    }
+  } catch (error) {
+    console.error('Error checking if document is reviewable:', error);
+    return false;
+  }
 }

@@ -9,6 +9,7 @@ const db = require('./db');
 const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
 const { request } = require('http');
+const moment = require('moment');
 // const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
@@ -962,11 +963,15 @@ async function updateAcceptLog(
   filePath,
   referralDate
 ) {
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1
+    }-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+
   return new Promise((resolve, reject) => {
     connection.query(
       queries.updateAcceptDocumentLog,
       [
-        new Date(),
+        formattedDate,
         originalFileData,
         reviewedFilePath,
         filePath,
@@ -1099,11 +1104,15 @@ async function updateRejectLog(
   filePath,
   referralDate
 ) {
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1
+    }-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+
   return new Promise((resolve, reject) => {
     connection.query(
       queries.updateRejectDocumentLog,
       [
-        new Date(),
+        formattedDate,
         originalFileData,
         filePath,
         originalFileData,
@@ -1241,6 +1250,81 @@ async function retrieveRemarksFromDatabase(documentId, departmentId) {
           } else {
             resolve({ remarks: null });
           }
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This checks if a document is reviewable
+*/
+app.post('/checkIfReviewable', async (req, res) => {
+  try {
+    const { documentId } = req.body;
+    const departmentId = req.session.department_ID;
+    // Assuming you have the referral date associated with the document (replace 'yourReferralDate' with the actual field)
+    const referralDate = await getReferralDateFromLogs(documentId, departmentId);
+    // Use the hasPendingDocumentsBefore function to check if there are pending documents with an earlier referral date
+    const isReviewable = !(await hasPendingDocumentsBefore(referralDate, departmentId));
+
+
+    res.status(200).json({ isReviewable });
+  } catch (error) {
+    console.error('Error checking if document is reviewable:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: Retrieves referral_Date from details_logs.
+*/
+function getReferralDateFromLogs(documentId, departmentId) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT referral_Date FROM document_logs WHERE document_ID = ? AND department_ID = ?",
+      [documentId, departmentId],
+      (err, result) => {
+        if (err || result.length === 0) {
+          console.error("Error fetching referral date:", err);
+          reject(err);
+        } else {
+          resolve(result[0].referral_Date);
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: Compares referral dates to determine which document can be reviewed first.
+*/
+async function hasPendingDocumentsBefore(referralDate, departmentId) {
+  return new Promise((resolve, reject) => {
+    console.log("Orginal date: " + referralDate)
+    console.log(departmentId)
+    const formattedReferralDate = moment(referralDate).format('YYYY-MM-DD HH:mm:ss');
+    console.log('Received referral date:', formattedReferralDate);
+    const query = 'SELECT COUNT(*) AS count FROM document_logs WHERE referral_Date < ? AND document_status = "processing" AND department_ID = ? ORDER BY referral_Date ASC';
+
+    connection.query(
+      query,
+      [formattedReferralDate, departmentId],
+      (err, results) => {
+        if (err) {
+          console.error('Error checking for pending documents:', err);
+          reject(err);
+        } else {
+          console.log('Raw SQL Query:', connection.format(query, [formattedReferralDate], departmentId));
+          console.log('SQL Query Results:', results);
+          console.log('SQL Query:', query);
+          console.log('Query Parameters:', [formattedReferralDate], departmentId);
+          const count = results[0].count;
+          console.log(count);
+          resolve(count > 0);
         }
       }
     );

@@ -62,7 +62,7 @@ Description: This function saves the document to the temp folder.
   acceptButton.addEventListener("click", async () => {
     const confirmAccept = window.confirm("Are you sure you want to accept?");
     if (confirmAccept) {
-      const remarks = remarksInput.value.trim(); // Trim to remove leading and trailing whitespaces
+      const remarks = remarksInput.value.trim();
       try {
         await saveDocument(filePath);
         await acceptDocument(filePath);
@@ -238,6 +238,5 @@ async function retrieveRemarks(filePath) {
     console.error('Error retrieving remarks:', error);
   }
 }
-
 
 retrieveRemarks(filePath)
