@@ -1747,24 +1747,28 @@ section.active .modal-box-edit {
   margin: 0 10px;
 }
 
-.search-btn{
-  font-size: 14px;
-  font-weight: 400;
-  font-family: var(--poppins);
-  color: #fff;
-  padding: 12px 20px;
-  border: none;
-  background: var(--light);
-  border-radius: 20px;
-  cursor: pointer;
-  position: absolute;
-  left: 331px;
-}
-
 /* Form container */
 input[type="text"],
 select,
 textarea {
+  width: 15%;
+  height: 20%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin-left: 1200px;
+  margin-top: -690px;
+  font-size: 10px;
+  padding-bottom: 130px;
+}
+
+input.form-control[type="text"],
+select.form-control,
+textarea.form-control {
+  /* Your specific styles for elements with the .form-control class */
+  /* This will apply to your input[type="text"] with class .form-control */
+  /* For example: */
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -1772,21 +1776,14 @@ textarea {
   resize: vertical;
 }
 
-input.form-control[type="text"],
-select.form-control,
-textarea.form-control {
-  width: 25%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  resize: vertical;
-  margin-right: 15px;
-  margin-bottom: 15px;
-}
-
 label {
   padding: 12px 12px 12px 0;
   display: inline-block;
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+  margin-left: 1200px;
+  margin-top: -730px;
+  font-size: 15px;
 }
 
 input[type="submit"] {
@@ -2016,12 +2013,140 @@ Created by: Diana Mae Carino
 Description: This is the media query for all of the landing pages of the admin module that is written in Node.js
 */
 
+@media screen and (min-width: 320px) and (max-width: 474px) {
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 175px;
+    height: 100%;
+    background: var(--light);
+    z-index: 2000;
+    font-family: var(--lato);
+    transition: 0.3s ease;
+    overflow-x: hidden;
+}
+
+#content {
+  position: relative;
+  width: calc(100% - 175px);
+  left: 175px;
+  transition: 0.3s ease;
+}
+
+#content main .head-title .left h1 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+#content main .head-title .left .breadcrumb li {
+  color: var(--dark);
+  font-size: 11px;
+}
+
+#content main .table-data .head h3 {
+  margin-right: auto;
+  margin-top: -50px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+}
+
+#content main .table-data .order table th {
+  padding-bottom: 12px;
+  font-size: 13px;
+  text-align: left;
+  border-bottom: 1px solid #000000;
+  padding-right: 18px;
+}
+
+img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 7%;
+}
+
+.sample-image {
+  border-color: #000000;
+  background-color: #cdcdcd;
+  width: 80px;
+  height: 80px;
+  border-radius: 14px;
+  margin-left: 1px;
+}
+
+.general-information-label {
+  font-size: 15px;
+  font-weight: 500;
+  padding-right: 0px;
+  margin-top: -20px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  --shadow: rgba(0, 0, 0, 0.05) 0px 6px 10px 0px, rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+  --gap: 0.5rem;
+  --radius: 5px;
+  font-size: 13px;
+}
+
+.footer-basic .copyright {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 8px;
+  font-family: var(--poppins);
+  color: #686868;
+  margin-bottom: 0;
+}
+
+.filter-btn {
+  border: none;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sort-btn {
+  border: none;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#content main .table-data .order table td {
+  padding: 16px 0;
+  padding-right: 20px;
+  font-size: 12px;
+}
+
+
+}
+
 @media screen and (min-width: 475px) and (max-width: 639px) {
   #sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 240px;
+    width: 180px;
     height: 100%;
     background: var(--light);
     z-index: 2000;
@@ -2053,7 +2178,7 @@ Description: This is the media query for all of the landing pages of the admin m
 }
 
 #content main {
-  width: 100%;
+  width: 130%;
   padding: 36px 24px;
   font-family: var(--poppins);
   background: #f0f0f0;
@@ -2097,13 +2222,14 @@ Description: This is the media query for all of the landing pages of the admin m
 }
 #content {
   position: relative;
-  width: calc(100% - 100px);
-  left: 240px;
+  width: calc(100% - 140px);
+  left: 180px;
   transition: 0.3s ease;
 }
 
 #content main .table-data .order table th {
   padding-bottom: 12px;
+  padding-right: 18px;
   font-size: 12px;
   text-align: center;
   border-bottom: 1px solid #000000;
@@ -2125,8 +2251,8 @@ Description: This is the media query for all of the landing pages of the admin m
 .sample-image {
   border-color: #000000;
   background-color: #cdcdcd;
-  width: 177px;
-  height: 177px;
+  width: 100px;
+  height: 100px;
   border-radius: 14px;
   margin-left: -15px;
 }
@@ -2185,7 +2311,8 @@ Description: This is the media query for all of the landing pages of the admin m
 .general-information-label {
   font-size: 20px;
   font-weight: 500;
-  padding-right: 380px;
+  padding-right: 0px;
+  margin-top: -20px;
 }
 
 .edt-btn {
@@ -2213,6 +2340,56 @@ Description: This is the media query for all of the landing pages of the admin m
   font-weight: 500;
   font-family: var(--poppins);
 }
+
+.filter-btn {
+  border: none;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sort-btn {
+  border: none;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+#content nav .profile img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: -70px;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 7%;
+}
+
+.footer-basic .copyright {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 9px;
+  font-family: var(--poppins);
+  color: #686868;
+  margin-bottom: 0;
+}
 }
 
 @media screen and (min-width: 640px) and (max-width: 767px) {
@@ -2231,7 +2408,7 @@ Description: This is the media query for all of the landing pages of the admin m
 
 #content {
   position: relative;
-  width: calc(100% - 200px);
+  width: calc(100% - 180px);
   left: 240px;
   transition: 0.3s ease;
 }
@@ -2246,10 +2423,19 @@ Description: This is the media query for all of the landing pages of the admin m
   margin-left: -10px;
 }
 
+#content nav .profile img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: -100px;
+}
+
 #content main .table-data .order table th {
   padding-bottom: 12px;
   font-size: 15px;
   text-align: center;
+  padding-right: 18px;
   border-bottom: 1px solid #000000;
 }
 
@@ -2304,9 +2490,10 @@ Description: This is the media query for all of the landing pages of the admin m
 }
 
 .general-information-label {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 500;
-  padding-right: 450px;
+  padding-right: 0px;
+  margin-top: -20px;
 }
 
 .edt-btn {
@@ -2321,7 +2508,50 @@ Description: This is the media query for all of the landing pages of the admin m
   cursor: pointer;
   margin-right: 100px;
 }
+
+.filter-btn {
+  border: none;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+
+.sort-btn {
+  border: none;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.sample-image {
+  border-color: #000000;
+  background-color: #cdcdcd;
+  width: 100px;
+  height: 100px;
+  border-radius: 14px;
+  margin-left: 1px;
+}
+}
+
+
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   #sidebar {
@@ -2424,6 +2654,16 @@ Description: This is the media query for all of the landing pages of the admin m
   border-radius: 6px;
   cursor: pointer;
   margin-right: 130px;
+}
+
+.footer-basic .copyright {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 10px;
+  font-family: var(--poppins);
+  color: #686868;
+  margin-bottom: 0;
 }
 }
 
