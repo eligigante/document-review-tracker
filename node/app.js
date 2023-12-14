@@ -1117,3 +1117,98 @@ Description: This redirects the user back to the review page.
 app.get('/redirect-to-review-doc', (req, res) => {
   res.redirect('/review_doc');
 });
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This function updates the remarks in the document_logs.
+*/
+async function updateRemarks(documentId, departmentId, remarks) {
+  return new Promise((resolve, reject) => {
+    const updateQuery = "UPDATE document_logs SET remarks = ? WHERE document_ID = ? AND department_ID = ?";
+    const params = [remarks || null, documentId, departmentId];
+
+    connection.query(updateQuery, params, (err, result) => {
+      if (err) {
+        console.error("Error updating remarks:", err);
+        reject(err);
+      } else {
+        console.log('Remarks updated successfully:', result);
+        resolve(result);
+      }
+    });
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This adds a remark in the document_logs.
+*/
+app.post('/submitRemarks', async (req, res) => {
+  try {
+    const { filePath, remarks } = req.body;
+    const departmentId = req.session.department_ID;
+
+    const documentId = extractDocumentId(filePath);
+
+    console.log("Submitting remarks for document: ", documentId);
+    const nextDepartmentID = departmentId + 1;
+
+    console.log(nextDepartmentID);
+    console.log(remarks);
+
+    await updateRemarks(documentId, nextDepartmentID, remarks);
+
+    res.status(200).json({ message: 'Remarks updated successfully!' });
+  } catch (error) {
+    console.error('Error handling submitRemarks:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This retrieves the remarks.
+*/
+app.post('/retrieveRemarks', async (req, res) => {
+  try {
+    const { filePath } = req.body;
+
+    const documentId = extractDocumentId(filePath);
+    const departmentId = req.session.department_ID;
+
+    console.log("Retrieving from document: " + documentId)
+    console.log("Retrieving from department: " + departmentId)
+
+    const result = await retrieveRemarksFromDatabase(documentId, departmentId);
+
+    res.status(200).json({ remarks: result.remarks || null });
+  } catch (error) {
+    console.error('Error retrieving remarks:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This is the query function that retrieves from the database.
+*/
+async function retrieveRemarksFromDatabase(documentId, departmentId) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      'SELECT remarks FROM document_logs WHERE document_ID = ? AND department_ID = ?',
+      [documentId, departmentId],
+      (err, results) => {
+        if (err) {
+          console.error('Error retrieving remarks from the database:', err);
+          reject(err);
+        } else {
+          if (results.length > 0) {
+            resolve({ remarks: results[0].remarks });
+          } else {
+            resolve({ remarks: null });
+          }
+        }
+      }
+    );
+  });
+}
