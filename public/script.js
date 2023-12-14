@@ -57,40 +57,40 @@ const searchInput = document.querySelector('#search');
 const results_body = document.querySelector('#user-row');
 load_data();
 
-function load_data(query = ''){
-    const request = new XMLHttpRequest();
-    request.open('GET', `/search_admin_home?q=${query}`);
-    request.onload = () => {
-        const results = JSON.parse(request.responseText);
-        let html = '';
-        if(results.length > 0){
-            results.forEach(result => {
-              console.log(result.last_Name, result.first_Name);
-                html += `
+function load_data(query = '') {
+  const request = new XMLHttpRequest();
+  request.open('GET', `/search_admin_home?q=${query}`);
+  request.onload = () => {
+    const results = JSON.parse(request.responseText);
+    let html = '';
+    if (results.length > 0) {
+      results.forEach(result => {
+        console.log(result.last_Name, result.first_Name);
+        html += `
                 <tr>
                     <td>${result.last_Name}  ${result.first_Name}</td>
                     <td>${result.department_Name}</td>
                     <td>${result.status}</td>
                 </tr>
                 `;
-            });
-        }
-        else {
-            html += `
+      });
+    }
+    else {
+      html += `
             <tr>
                 <td colspan="5" class="text-center">No Data Found</td>
             </tr>
             `;
-        }
-        results_body.innerHTML = html;
-    };
-    request.send();
+    }
+    results_body.innerHTML = html;
+  };
+  request.send();
 }
 
-searchInput.addEventListener('input', () => {
-    const query = searchInput.value;
-    load_data(query);
-});
+// searchInput.addEventListener('input', () => {
+//     const query = searchInput.value;
+//     load_data(query);
+// });
 
 
 
