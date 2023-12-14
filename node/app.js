@@ -146,6 +146,11 @@ app.get('/home_admin', noCache, (request, response) => {
   }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the home admin page
+*/
+
 app.get('/search_home_admin', (request, response) => {
   const query = request.query.search;
   const finalQuery = `%${query}%`;
@@ -159,6 +164,12 @@ app.get('/search_home_admin', (request, response) => {
   });
 });
 
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the manage user page
+*/
+
 app.get('/search_manage', (request, response) => {
   const query = request.query.manage;
   const finalQuery = `%${query}%`;
@@ -171,6 +182,12 @@ app.get('/search_manage', (request, response) => {
     response.render('manage_user', { data: result });
   });
 });
+
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the home reviewer page
+*/
 
 app.get('/search_home_reviewer', (request, response) => {
   const query = request.query.search;
@@ -186,6 +203,12 @@ app.get('/search_home_reviewer', (request, response) => {
   });
 });
 
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the document queue page
+*/
+
 app.get('/search_queue', (request, response) => {
   const query = request.query.search;
   const finalQuery = `%${query}%`;
@@ -199,6 +222,12 @@ app.get('/search_queue', (request, response) => {
       response.render('review_doc', { data: result });
   });
 });
+
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the my review page
+*/
 
 app.get('/search_my_review', (request, response) => {
   const query = request.query.search;
@@ -1238,7 +1267,7 @@ async function updateRemarks(documentId, departmentId, remarks) {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This adds a remark in the document_logs.
 */
-app.post('/submitRemarks', async (req, res) => {
+app.post('/submitRemarks', noCache, async (req, res) => {
   try {
     const { filePath, remarks } = req.body;
     const departmentId = req.session.department_ID;
@@ -1264,7 +1293,7 @@ app.post('/submitRemarks', async (req, res) => {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This retrieves the remarks.
 */
-app.post('/retrieveRemarks', async (req, res) => {
+app.post('/retrieveRemarks', noCache, async (req, res) => {
   try {
     const { filePath } = req.body;
 
@@ -1312,7 +1341,7 @@ async function retrieveRemarksFromDatabase(documentId, departmentId) {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This checks if a document is reviewable
 */
-app.post('/checkIfReviewable', async (req, res) => {
+app.post('/checkIfReviewable', noCache, async (req, res) => {
   try {
     const { documentId } = req.body;
     const departmentId = req.session.department_ID;
