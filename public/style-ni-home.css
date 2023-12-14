@@ -359,6 +359,36 @@ body {
 	margin-bottom: 0;
 }
 
+/* Password container
+.password-container{
+  width: 400px;
+  position: relative;
+}
+.password-container input[type="password"],
+.password-container input[type="text"]{
+  width: 100%;
+  padding: 12px 36px 12px 12px;
+  box-sizing: border-box;
+} */
+
+.fa-eye {
+  position: absolute;
+  top: 47%;
+  right: 28%;
+  cursor: pointer;
+  font-size: 20px;
+  color: #686868;
+}
+
+.fa-eye:active {
+  position: absolute;
+  top: 47%;
+  right: 28%;
+  cursor: pointer;
+  font-size: 20px;
+  color: #000000;
+}
+
 .input-field[readonly] {
   /* Define the styles for the readonly input */
   color: #696969; /* Change text color to a lighter shade */

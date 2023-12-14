@@ -9,6 +9,7 @@
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <!-- CSS -->
     <link rel="stylesheet" href="style-ni-home.css">
 
@@ -117,15 +118,13 @@
                                 <div class="label">
                                     First Name <span id="first-name-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-first-name"
-                                    id="contact-first-name" />
+                                <input type="text" class="input-field" name="contact-first-name" id="contact-first-name" required>
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
                                     Middle Name <span id="middle-name-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-middle-name"
-                                    id="contact-middle-name" />
+                                <input type="text" class="input-field" name="contact-middle-name" id="contact-middle-name" required>
                             </div>
                         </div>
                         <div class="third-row">
@@ -133,14 +132,16 @@
                                 <div class="label">
                                     Last Name <span id="last-name-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-last-name"
-                                    id="contact-last-name" />
+                                <input type="text" class="input-field" name="contact-last-name" id="contact-last-name" required>
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
                                     Password <span id="password-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-password" id="contact-password" />
+                                <div class="password-container">
+                                    <input type="password" class="input-field" name="contact-password" id="contact-password" required>
+                                    <i class="fa-solid fa-eye" id="eye"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="fourth-row">

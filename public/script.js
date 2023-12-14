@@ -15,6 +15,43 @@ const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
+
+// Text Field Validation
+  document.querySelector('form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form submission for this example
+  
+  // Get input values
+  const firstName = document.getElementById('firstName').value.trim();
+  const middleName = document.getElementById('middleName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  
+  // Construct full name
+  const fullName = `${firstName} ${middleName} ${lastName}`.trim().replace(/\s+/g, ' ');
+  
+  // Regular expression pattern for validating name
+  const namePattern = /^[a-zA-Z\s]+$/; // Modify the pattern as needed
+  
+  // Validation
+  if (!namePattern.test(fullName)) {
+    alert('Invalid name. Please enter a valid name.');
+    return;
+  }
+  
+  // Form is valid, continue with submission or other actions
+  console.log('Full name:', fullName);
+});
+
+
+// Password Eye icon 
+const passwordInput = document.querySelector("#contact-password")
+const eye = document.querySelector("#eye")
+
+eye.addEventListener("click", function(){
+  this.classList.toggle("fa-eye-slash")
+  const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
+  passwordInput.setAttribute("type", type)
+})
+
 /*
 Created by: Hans Rafael Daligdig
 Description: This event listener is responsible for triggering the loader after visiting a link. It will show a loader to show that the 
