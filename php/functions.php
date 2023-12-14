@@ -142,9 +142,33 @@ function get_docs($con, $accountID){
    
     return null;
 }
+
 }
 
 
+
+function countUnreadDocuments($con, $userID) {
+    $query = "SELECT COUNT(*) AS unreadCount FROM document_logs 
+              WHERE user_ID = ? AND is_read = 0";
+
+    $stmt = mysqli_prepare($con, $query);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $userID);
+
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_bind_result($stmt, $count);
+
+        mysqli_stmt_fetch($stmt);
+
+        mysqli_stmt_close($stmt);
+
+        return (int)$count;
+    } else {
+        return 0;
+    }
+}
 
 /*
   Created by: Kevin king Yabut
@@ -154,35 +178,77 @@ function get_docs($con, $accountID){
 function documentNotif($con, $userID) {
     $notifications = array();
 
-    $query = "SELECT DISTINCT document_ID, department_ID FROM document_logs WHERE user_ID = $userID";
+    $query = "SELECT document_ID, department_ID, referral_Date FROM document_logs 
+              WHERE user_ID = $userID AND is_read = 0 
+              GROUP BY document_ID, department_ID, referral_Date";
+              
     $result = mysqli_query($con, $query);
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
             $documentID = $row['document_ID'];
             $departmentID = $row['department_ID'];
+
+            $referralDate = $row['referral_Date'];
+
             $deptQuery = "SELECT department_name FROM departments WHERE department_ID = $departmentID";
+
+            
             $deptResult = mysqli_query($con, $deptQuery);
 
             if ($deptResult && mysqli_num_rows($deptResult) > 0) {
 
+
                 $departmentRow = mysqli_fetch_assoc($deptResult);
+
+
                 $departmentName = $departmentRow['department_name'];
 
                 $notification = array(
                     "documentID" => $documentID,
+
+
                     "departmentName" => $departmentName,
-                    "timestamp" => date('Y-m-d H:i:s')
+
+                    "referralDate" => $referralDate
                 );
                 array_push($notifications, $notification);
             }
         }
-        //serialize to json string
         return json_encode($notifications);
     } else {
         return null;
     }
 }
+/*
+ Created by: Kevin king Yabut
+
+  Description: updates the is_read to 1 on the document_details of the user for notification purposes.
+ */
+function updateDocumentLogs($userID, $con) {
+    $updateQuery = "UPDATE document_logs
+                    INNER JOIN document_details ON document_logs.document_ID = document_details.document_ID
+                
+                    SET document_logs.is_read = 1
+                    WHERE document_details.user_ID = ?";
+
+    $stmt = mysqli_prepare($con, $updateQuery);
+
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $userID);
+
+
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_close($stmt);
+        echo "success";
+    } else {
+        echo "error";
+    }
+}
+
+
 
 
 /*

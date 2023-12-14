@@ -198,11 +198,10 @@ function getNotifications() {
         url: "../../php/notification.php",
         dataType: "html",
         success: function (response) {
-         
             if (response.trim() !== "") {
                 $('#dropdown').html(response);
-            } else {
                
+            } else {
                 $('#dropdown').html('<div class="notify_item"><div class="notify_info"><p>You currently have no notifications</p><span class="notify_time"></span></div></div>');
             }
         },
@@ -212,6 +211,56 @@ function getNotifications() {
     });
 }
 
+
+function getCount() {
+    $.ajax({
+        type: "GET",
+        url: "../../php/countNotif.php",
+        dataType: "html",
+        success: function (response) {
+            if (response.trim() !== "") {
+                $('#countElement').html('<span class="count-text">' + response + '</span>');
+                console.log(response);
+            } else {
+                $('#countElement').html('<span class="count-text">0</span>');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(status + ": " + error);
+        }
+    });
+}
+
+getCount();
+setInterval(getCount, 100);
+
+
+
+
+function attachButtonClickListener() {
+    $('#drop-btn').on('click', function (event) {
+        event.preventDefault(); 
+
+
+        setTimeout(function () {
+            $.post("../../php/mark_notif.php", function (response) {
+                if (response.trim() === "success") {
+                    console.log("All notifications marked as read successfully");
+                    getNotifications();
+                } else {
+                    console.error("Error marking all notifications as read");
+                }
+            })
+            .fail(function (xhr, status, error) {
+                console.error(status + ": " + error);
+            });
+        }, 10000); 
+    });
+}
+
+$(document).ready(function () {
+    attachButtonClickListener();
+});
 /*
 Created by: Kevin king Yabut
 Description: makes an asynchronous ajax request to the server side php script document.php
