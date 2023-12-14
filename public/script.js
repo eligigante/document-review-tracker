@@ -54,7 +54,7 @@ function togglePasswordVisibility() {
 
 // WORK SPACE NI BALONG ADZ
 const searchInput = document.querySelector('#search');
-const results_body = document.querySelector('#results');
+const results_body = document.querySelector('#user-row');
 load_data();
 
 function load_data(query = ''){
