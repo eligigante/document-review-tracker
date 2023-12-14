@@ -20,8 +20,21 @@ app.use(session({
   secret: 'document-tracker-key',
   resave: true,
   saveUninitialized: true,
-  cookie: { maxAge: 86400000 }
+  cookie: {maxAge: 86400000}
 }));
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that prevents the browser from caching the pages, thus preventing users from accessing
+the pages once they have logged out of the application
+*/
+
+function noCache(req, res, next) {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  next();
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));;
@@ -118,7 +131,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that renders the home page for the admin
 */
 
-app.get('/home_admin', (request, response) => {
+app.get('/home_admin', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.getUsers, function (error, result, fields) {
       console.log(result)
@@ -137,7 +150,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that sorts content of the admin home page alphabetically (A-Z)
 */
 
-app.get("/sort_users_ascending", (request, response) => {
+app.get("/sort_users_ascending", noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortAdminUserAscending, function (error, result, fields) {
       console.log("User data successfully retrieved.")
@@ -155,7 +168,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that sorts content of the admin home page alphabetically (Z-A)
 */
 
-app.get("/sort_users_descending", (request, response) => {
+app.get("/sort_users_descending", noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortAdminUserDescending, function (error, result, fields) {
       console.log("User data successfully retrieved.")
@@ -173,7 +186,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that filter offline users in the admin home page
 */
 
-app.get("/filter_users_offline", (request, response) => {
+app.get("/filter_users_offline", noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterByOfflineUsers, function (error, result, fields) {
       console.log("Showing filtered users (offline)...")
@@ -191,7 +204,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that filter online users in the admin home page
 */
 
-app.get("/filter_users_online", (request, response) => {
+app.get("/filter_users_online", noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterByOnlineUsers, function (error, result, fields) {
       console.log("Showing filtered users (online)...")
@@ -209,7 +222,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that sorts content of the admin manage user page alphabetically (A-Z)
 */
 
-app.get("/sort_manage_ascending", (request, response) => {
+app.get("/sort_manage_ascending", noCache, (request, response) => {
   var data = '';
   if (request.session.verify) {
     connection.query(queries.sortAdminManageAscending, function (error, result, fields) {
@@ -236,7 +249,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that sorts content of the admin manage user page alphabetically (Z-A)
 */
 
-app.get("/sort_manage_descending", (request, response) => {
+app.get("/sort_manage_descending", noCache, (request, response) => {
   var data = '';
   if (request.session.verify) {
     connection.query(queries.sortAdminManageDescending, function (error, result, fields) {
@@ -263,7 +276,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that filter offline users in the admin manage user page
 */
 
-app.get("/filter_manage_offline", (request, response) => {
+app.get("/filter_manage_offline", noCache, (request, response) => {
   var data = '';
   if (request.session.verify) {
     connection.query(queries.filterManageOfflineUsers, function (error, result, fields) {
@@ -290,7 +303,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that filter online users in the admin manage user page
 */
 
-app.get("/filter_manage_online", (request, response) => {
+app.get("/filter_manage_online", noCache, (request, response) => {
   var data = '';
   if (request.session.verify) {
     connection.query(queries.filterManageOnlineUsers, function (error, result, fields) {
@@ -317,7 +330,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that renders the home page for the reviewer
 */
 
-app.get('/home_reviewer', (request, response) => {
+app.get('/home_reviewer', noCache, (request, response) => {
   if (request.session.verify) {
     var departmentID = '';
     connection.query(queries.getDepartmentIDOfUser, [request.session.userID], function (error, result, fields) {
@@ -340,7 +353,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that renders the manage user page for the admin
 */
 
-app.get('/manage_user', (request, response) => {
+app.get('/manage_user', noCache, (request, response) => {
   var data = '';
   if (request.session.verify) {
     connection.query(queries.manageUserDetails, function (error, result, fields) {
@@ -367,7 +380,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that renders the manage profile page for the admin
 */
 
-app.get('/admin_profile', (request, response) => {
+app.get('/admin_profile', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing admin profile...")
@@ -386,7 +399,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that renders the manage profile page for the reviewer
 */
 
-app.get('/reviewer_profile', (request, response) => {
+app.get('/reviewer_profile', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing reviewer profile...")
@@ -405,7 +418,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that renders the my reviews page for the reviewer
 */
 
-app.get('/my_review', (request, response) => {
+app.get('/my_review', noCache, (request, response) => {
   if (request.session.verify) {
     var departmentID = '';
     connection.query(queries.getDepartmentIDOfUser, [request.session.userID], function (error, result, fields) {
@@ -427,7 +440,7 @@ Created by: Adrienne Zapanta
 Description: This log outs the user from the application and sets their status as offline in the database
 */
 
-app.post('/logout', (request, response) => {
+app.post('/logout', noCache, (request, response) => {
   const check = request.body.logout;
   if (check) {
     console.log(check)
@@ -443,7 +456,7 @@ Created by: Adrienne Zapanta
 Description: This renders the add user form for the admin
 */
 
-app.get('/add_user', (request, response) => {
+app.get('/add_user', noCache, (request, response) => {
   if (request.session.verify) {
     var userID = '';
     var departmentOptions = '';
@@ -471,7 +484,7 @@ Created by: Adrienne Zapanta
 Description: This processes the add user request and adds the newly created user details in the database
 */
 
-app.post('/add_user_request', (request, response) => {
+app.post('/add_user_request', noCache, (request, response) => {
   if (request.session.verify) {
     var email = request.body['contact-email'];
     var password = request.body['contact-password'];
@@ -502,7 +515,7 @@ Created by: Adrienne Zapanta
 Description: This renders the edit user form for the admin
 */
 
-app.get('/edit_user', (request, response) => {
+app.get('/edit_user', noCache, (request, response) => {
   if (request.session.verify) {
     var departmentOptions = '';
     var data = '';
@@ -529,7 +542,7 @@ Created by: Adrienne Zapanta
 Description: This processes the edit user request and updates the current user details in the database
 */
 
-app.post('/edit_user_request', (request, response) => {
+app.post('/edit_user_request', noCache, (request, response) => {
   if (request.session.verify) {
     var id = request.body.user;
     var email = request.body['contact-email'];
@@ -558,8 +571,8 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: Checks if the user is logged in as a reviewer and will render the view of the reviewer
 other will send the user back to the login page.
 */
-app.get("/review_doc", (request, response) => {
-  if (request.session.loggedIn && request.session.role === "reviewer") {
+app.get("/review_doc", noCache, (request, response) => {
+  if (request.session.verify) {
 
     connection.query(queries.getReviewerDocuments, [request.session.department_ID], (err, results) => {
       if (err) {
@@ -571,7 +584,8 @@ app.get("/review_doc", (request, response) => {
       response.render("review_doc", { data: results });
     });
   } else {
-    response.redirect("/");
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
   }
 });
 
@@ -580,7 +594,7 @@ Created by: Adrienne Zapanta
 Description: This sorts the content of the home page of the reviewer from oldest to newest
 */
 
-app.get('/sort_asc_reviewer', (request, response) => {
+app.get('/sort_asc_reviewer', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortAscReviewer, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (reviewer - oldest)...")
@@ -599,7 +613,7 @@ Created by: Adrienne Zapanta
 Description: This sorts the content of the home page of the reviewer from newest to oldest
 */
 
-app.get('/sort_desc_reviewer', (request, response) => {
+app.get('/sort_desc_reviewer', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortDescReviewer, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (reviewer - Z-A)...")
@@ -617,7 +631,7 @@ Created by: Adrienne Zapanta
 Description: This filters the content of the home page of the reviewer to only show 'processing' documents
 */
 
-app.get('/filter_processing_reviewer', (request, response) => {
+app.get('/filter_processing_reviewer', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterProcessing, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing filtered documents (processing)...")
@@ -635,7 +649,7 @@ Created by: Adrienne Zapanta
 Description: This filters the content of the home page of the reviewer to only show 'accepted' documents
 */
 
-app.get('/filter_accepted_reviewer', (request, response) => {
+app.get('/filter_accepted_reviewer', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterAccepted, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing filtered documents (accepted)...")
@@ -653,7 +667,7 @@ Created by: Adrienne Zapanta
 Description: This filters the content of the home page of the reviewer to only show 'rejected' documents
 */
 
-app.get('/filter_rejected_reviewer', (request, response) => {
+app.get('/filter_rejected_reviewer', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.filterRejected, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing filtered documents (rejected)...")
@@ -671,7 +685,7 @@ Created by: Adrienne Zapanta
 Description: This sorts the content of the my review page of the reviewer from oldest to newest
 */
 
-app.get('/my_sort_asc', (request, response) => {
+app.get('/my_sort_asc', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.mySortAsc, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Oldest) (accepted docs)...")
@@ -689,7 +703,7 @@ Created by: Adrienne Zapanta
 Description: This sorts the content of the my review page of the reviewer from newest to oldest
 */
 
-app.get('/my_sort_desc', (request, response) => {
+app.get('/my_sort_desc', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.mySortDesc, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Newest) (accepted docs)...")
@@ -708,7 +722,7 @@ Created by: Adrienne Zapanta
 Description: This sorts the content of the review queue page of the reviewer from oldest to newest
 */
 
-app.get('/sort_asc_queue', (request, response) => {
+app.get('/sort_asc_queue', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortAscQueue, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Oldest) (pending docs)...")
@@ -726,7 +740,7 @@ Created by: Adrienne Zapanta
 Description: This sorts the content of the review queue page of the reviewer from newest to oldest
 */
 
-app.get('/sort_desc_queue', (request, response) => {
+app.get('/sort_desc_queue', noCache, (request, response) => {
   if (request.session.verify) {
     connection.query(queries.sortDescQueue, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Newest) (pending docs)...")
@@ -743,48 +757,54 @@ app.get('/sort_desc_queue', (request, response) => {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This is used to download the blob file from the database and convert to PDF
 */
-app.get("/downloadAndConvert/:documentId", (req, res) => {
-  try {
-    const documentId = req.params.documentId;
-    const departmentID = req.session.department_ID;
-    console.log(documentId);
-
-    if (!documentId) {
-      return res.status(400).json({ error: "Invalid request" });
-    }
-
-    connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
-      if (err) {
-        console.error("Error executing query:", err);
-        return res.status(500).json({ error: "Internal Server Error" });
+app.get("/downloadAndConvert/:documentId", noCache, (req, res) => {
+  if (request.session.verify) {
+    try {
+      const documentId = req.params.documentId;
+      const departmentID = req.session.department_ID;
+      console.log(documentId);
+  
+      if (!documentId) {
+        return res.status(400).json({ error: "Invalid request" });
       }
-
-      if (results.length === 0 || !results[0].received_file) {
-        return res
-          .status(404)
-          .json({ error: "Document not found or not processing" });
+  
+      connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
+        if (err) {
+          console.error("Error executing query:", err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+  
+        if (results.length === 0 || !results[0].received_file) {
+          return res
+            .status(404)
+            .json({ error: "Document not found or not processing" });
+        }
+  
+        const blobData = results[0].received_file;
+  
+        const tempFolderPath = path.resolve(__dirname, "../public/temp");
+        if (!fs.existsSync(tempFolderPath)) {
+          fs.mkdirSync(tempFolderPath);
+        }
+  
+        const filename = `temp/document_${documentId}.pdf`;
+        fs.writeFileSync(
+          path.resolve(__dirname, "../public", filename),
+          Buffer.from(blobData, "binary")
+        );
+        console.log(filename);
+        res.contentType("application/pdf");
+        res.sendFile(path.resolve(__dirname, "../public", filename));
       }
-
-      const blobData = results[0].received_file;
-
-      const tempFolderPath = path.resolve(__dirname, "../public/temp");
-      if (!fs.existsSync(tempFolderPath)) {
-        fs.mkdirSync(tempFolderPath);
-      }
-
-      const filename = `temp/document_${documentId}.pdf`;
-      fs.writeFileSync(
-        path.resolve(__dirname, "../public", filename),
-        Buffer.from(blobData, "binary")
       );
-      console.log(filename);
-      res.contentType("application/pdf");
-      res.sendFile(path.resolve(__dirname, "../public", filename));
+    } catch (error) {
+      console.error("Error downloading and converting Blob data:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-    );
-  } catch (error) {
-    console.error("Error downloading and converting Blob data:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
   }
 });
 
@@ -792,10 +812,15 @@ app.get("/downloadAndConvert/:documentId", (req, res) => {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This creates the file path that pdfviewer will render.
 */
-app.get("/pdfviewer", (request, response) => {
-  const filePath = path.join(__dirname, "temp", request.query.filePath);
-
-  response.render("pdfviewer", { filePath });
+app.get("/pdfviewer", noCache, (request, response) => {
+  if (request.session.verify) {
+    const filePath = path.join(__dirname, "temp", request.query.filePath);
+    response.render("pdfviewer", { filePath });
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+  }
 });
 
 annotationHandler(app);
@@ -805,91 +830,97 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This is the function to accept a document based on the documentID.
 Depending on the departmentID this will either pass it to the next department or just update the logs.
 */
-app.post("/acceptDocument", async (req, res) => {
-  const { filePath } = req.body;
+app.post("/acceptDocument", noCache, async (req, res) => {
+  if (request.session.verify) {
+    const { filePath } = req.body;
 
-  if (!filePath) {
-    return res.status(400).json({ error: "Invalid request" });
-  }
-
-  const documentId = extractDocumentId(filePath);
-
-  if (!documentId) {
-    return res.status(400).json({ error: "Invalid document ID" });
-  }
-
-  const reviewedFilePath = path.resolve(
-    __dirname,
-    "../public/temp",
-    `document_${documentId}.pdf`
-  );
-
-  console.log("Original reviewed path: " + reviewedFilePath);
-
-  try {
-    const referralDate = await getReferralDate(documentId);
-
-    const originalFilePath = path.resolve(
+    if (!filePath) {
+      return res.status(400).json({ error: "Invalid request" });
+    }
+  
+    const documentId = extractDocumentId(filePath);
+  
+    if (!documentId) {
+      return res.status(400).json({ error: "Invalid document ID" });
+    }
+  
+    const reviewedFilePath = path.resolve(
       __dirname,
       "../public/temp",
       `document_${documentId}.pdf`
     );
-
-    console.log("Original file path: " + originalFilePath);
-    const originalFileData = fs.readFileSync(originalFilePath);
-
-    console.log(originalFileData);
-
-    const departmentId = req.session.department_ID;
-
-    if (departmentId <= 5) {
-      const user_ID = await getUserIDFromDepartment(departmentId);
-
-      await updateAcceptLog(
-        documentId,
-        departmentId,
-        user_ID,
-        originalFileData,
-        reviewedFilePath,
-        filePath,
-        referralDate
+  
+    console.log("Original reviewed path: " + reviewedFilePath);
+  
+    try {
+      const referralDate = await getReferralDate(documentId);
+  
+      const originalFilePath = path.resolve(
+        __dirname,
+        "../public/temp",
+        `document_${documentId}.pdf`
       );
-
-      if (departmentId < 5) {
-        const nextDepartmentID = departmentId + 1;
-        const nextUser_ID = await getUserIDFromDepartment(nextDepartmentID);
-
-        const nextReviewerDocumentLog = {
-          document_ID: documentId,
-          department_ID: nextDepartmentID,
-          user_ID: nextUser_ID,
-          referral_Date: referralDate,
-          review_Date: null,
-          received_file: originalFileData,
-          reviewed_file: null,
-          approved_file: null,
-          document_status: "processing",
-        };
-
-        await insertDocumentLog(nextReviewerDocumentLog);
+  
+      console.log("Original file path: " + originalFilePath);
+      const originalFileData = fs.readFileSync(originalFilePath);
+  
+      console.log(originalFileData);
+  
+      const departmentId = req.session.department_ID;
+  
+      if (departmentId <= 5) {
+        const user_ID = await getUserIDFromDepartment(departmentId);
+  
+        await updateAcceptLog(
+          documentId,
+          departmentId,
+          user_ID,
+          originalFileData,
+          reviewedFilePath,
+          filePath,
+          referralDate
+        );
+  
+        if (departmentId < 5) {
+          const nextDepartmentID = departmentId + 1;
+          const nextUser_ID = await getUserIDFromDepartment(nextDepartmentID);
+  
+          const nextReviewerDocumentLog = {
+            document_ID: documentId,
+            department_ID: nextDepartmentID,
+            user_ID: nextUser_ID,
+            referral_Date: referralDate,
+            review_Date: null,
+            received_file: originalFileData,
+            reviewed_file: null,
+            approved_file: null,
+            document_status: "processing",
+          };
+  
+          await insertDocumentLog(nextReviewerDocumentLog);
+        } else {
+          await updateDocumentStatus(documentId, "finished");
+        }
       } else {
-        await updateDocumentStatus(documentId, "finished");
+        await updateAcceptLog(
+          documentId,
+          departmentId,
+          req.session.user_ID,
+          originalFileData,
+          null,
+          filePath,
+          referralDate
+        );
       }
-    } else {
-      await updateAcceptLog(
-        documentId,
-        departmentId,
-        req.session.user_ID,
-        originalFileData,
-        null,
-        filePath,
-        referralDate
-      );
+      return res.json({ success: true });
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-    return res.json({ success: true });
-  } catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
   }
 });
 
@@ -1009,48 +1040,54 @@ function getReferralDate(documentId) {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This rejects a document based on the documentID and sends it back to the user.
 */
-app.post("/rejectDocument", async (req, res) => {
-  const { filePath } = req.body;
+app.post("/rejectDocument", noCache, async (req, res) => {
+  if (request.session.verify) {
+    const { filePath } = req.body;
 
-  if (!filePath) {
-    return res.status(400).json({ error: "Invalid request" });
-  }
-
-  const documentId = extractDocumentId(filePath);
-
-  if (!documentId) {
-    return res.status(400).json({ error: "Invalid document ID" });
-  }
-
-  const originalFilePath = path.resolve(
-    __dirname,
-    "../public/temp",
-    `document_${documentId}.pdf`
-  );
-
-  try {
-    const referralDate = await getReferralDate(documentId);
-
-    const originalFileData = fs.readFileSync(originalFilePath);
-
-    const departmentId = req.session.department_ID;
-
-    if (departmentId < 5) {
-      await updateRejectLog(
-        documentId,
-        departmentId,
-        originalFileData,
-        filePath,
-        referralDate
-      );
-    } else {
-      await updateDocumentStatus(documentId, "finished");
+    if (!filePath) {
+      return res.status(400).json({ error: "Invalid request" });
     }
-    updateDocumentStatus(documentId, "rejected");
-    return res.json({ success: true });
-  } catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+  
+    const documentId = extractDocumentId(filePath);
+  
+    if (!documentId) {
+      return res.status(400).json({ error: "Invalid document ID" });
+    }
+  
+    const originalFilePath = path.resolve(
+      __dirname,
+      "../public/temp",
+      `document_${documentId}.pdf`
+    );
+  
+    try {
+      const referralDate = await getReferralDate(documentId);
+  
+      const originalFileData = fs.readFileSync(originalFilePath);
+  
+      const departmentId = req.session.department_ID;
+  
+      if (departmentId < 5) {
+        await updateRejectLog(
+          documentId,
+          departmentId,
+          originalFileData,
+          filePath,
+          referralDate
+        );
+      } else {
+        await updateDocumentStatus(documentId, "finished");
+      }
+      updateDocumentStatus(documentId, "rejected");
+      return res.json({ success: true });
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
   }
 });
 
@@ -1114,6 +1151,12 @@ async function updateDocumentStatus(documentId, status) {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This redirects the user back to the review page.
 */
-app.get('/redirect-to-review-doc', (req, res) => {
-  res.redirect('/review_doc');
+app.get('/redirect-to-review-doc', noCache, (req, res) => {
+  if (request.session.verify) {
+    res.redirect('/review_doc');
+  }  
+  else {
+    console.log("Please login or logout from your current session.")
+    response.redirect('/');
+  }
 });
