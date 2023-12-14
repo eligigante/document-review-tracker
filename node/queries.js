@@ -4,6 +4,9 @@ const userLogin = "SELECT user_ID, role, department_ID, status FROM user WHERE u
 const getUsers =
   "SELECT departments.department_Name, user.first_Name, user.middle_Name, user.last_Name, user.status " +
   "FROM user JOIN departments ON user.department_ID = departments.department_ID";
+const searchGetUsers = 'SELECT departments.department_Name, user.first_Name, user.last_Name FROM user ' +
+'JOIN departments ON user.department_ID = departments.department_ID WHERE user.last_Name LIKE \'%${query}%\' '+ 
+'OR user.first_Name LIKE \'%${query}%\' OR departments.department_Name LIKE \'%${query}%\'';
 const setOnlineStatus = "UPDATE user SET status = 'Online' WHERE user_ID = ?";
 const setOfflineStatus = "UPDATE user SET status = 'Offline' WHERE user_ID = ?";
 const addUser =
@@ -145,6 +148,7 @@ module.exports = {
   verifyUser,
   userLogin,
   getUsers,
+  searchGetUsers,
   setOnlineStatus,
   setOfflineStatus,
   addUser,

@@ -146,6 +146,19 @@ app.get('/home_admin', noCache, (request, response) => {
   }
 })
 
+app.get('/search_admin_home', (request, response) => {
+	const query = request.query.q;
+	var sql = '';
+
+	  if(query != '') { sql = queries.searchGetUsers; }
+	  else { sql = queries.getUsers; }
+
+  connection.query(sql, (error, results) => {
+		if (error) throw error;
+		response.send(results);
+	});
+});
+
 /*
 Created by: Adrienne Zapanta
 Description: This is the code section that sorts content of the admin home page alphabetically (A-Z)
