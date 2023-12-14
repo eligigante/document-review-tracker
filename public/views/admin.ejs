@@ -126,6 +126,7 @@
                             <span class="text">Sort Z-A</span>
                         </a>
                     </div>
+                    <input type="text" id="search-user" placeholder="Search..." class="form-control" autocomplete="off" oninput="handleSearch()">
                     <table id="user-table">
                         <form id="searchForm" method="GET" action="/search_home_admin">
                             <input type="text" id="search" placeholder="Search..." class="form-control" name="search">
@@ -138,8 +139,8 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody id="user-row">
-                            <% data.forEach(element=> { %>
+                        <tbody id="results">
+                            <!-- <% data.forEach(element=> { %>
                                 <tr>
                                     <td>
                                         <p>
@@ -153,7 +154,7 @@
                                             <%= element.status%>
                                         </span></td>
                                 </tr>
-                                <% }) %>
+                                <% }) %> -->
                         </tbody>
                     </table>
                 </div>

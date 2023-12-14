@@ -95,7 +95,7 @@
             <div class="doc-container">
                 <h2 class="new-user">Edit User</h2>
                 <div class="form-container">
-                    <form name="frmContact" id="" frmContact"" method="post" action="/edit_user_request" enctype="" onsubmit="">
+                    <form name="frmContact" id="form-add" frmContact"" method="post" action="/edit_user_request" enctype="" onsubmit="">
                         <div class="first-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
@@ -123,7 +123,7 @@
                                     First Name <span id="first-name-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-first-name"
-                                    id="contact-first-name" />
+                                    id="contact-first-name" required />
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
@@ -139,14 +139,14 @@
                                     Last Name <span id="last-name-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-last-name"
-                                    id="contact-last-name" />
+                                    id="contact-last-name" required/>
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
                                     Password <span id="password-info" class="info"></span>
                                 </div>
                                 <div class="password-container">
-                                    <input type="password" class="input-field" name="contact-password" id="contact-password" />
+                                    <input type="password" class="input-field" name="contact-password" id="contact-password" required/>
                                     <i id="eye" class="fa fa-eye" onclick="togglePasswordVisibility()"></i>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                 <div class="label">
                                     Email <span id="email-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-email" id="contact-email" />
+                                <input type="text" class="input-field" name="contact-email" id="contact-email" required/>
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
@@ -182,7 +182,7 @@
                                 <div class="label">
                                     Position <span id="position-info" class="info"></span>
                                 </div>
-                                <input type="text" class="input-field" name="contact-position" id="contact-position" />
+                                <input type="text" class="input-field" name="contact-position" id="contact-position" required/>
                             </div>
                         </div>
                         <div class="buttons">
