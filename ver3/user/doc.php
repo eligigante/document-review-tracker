@@ -10,6 +10,8 @@ if (!isset($_SESSION['user_id'])) {
 $userID = $_SESSION['user_id'];
 
 require_once('../../php/login.php');
+
+
 ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -20,6 +22,8 @@ require_once('../../php/login.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
@@ -92,6 +96,7 @@ require_once('../../php/login.php');
                 </a>
             </li>
         </ul>
+        
 
 
     </section>
@@ -108,10 +113,16 @@ require_once('../../php/login.php');
                     <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
                 </div>
             </form>
+
+          
+       
             <button class="drop-btn" id="drop-btn">
+                <p id = "countElement"> </p>
                 <i class='bx bxs-bell'></i>
             </button>
+              
             <div class="dropdown" id="dropdown">
+
               </div>
             <a href="#" class="profile">
                 <img src="">
