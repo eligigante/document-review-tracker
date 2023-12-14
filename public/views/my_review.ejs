@@ -126,6 +126,10 @@
                         </a>
                     </div>
                     <table>
+                        <form id="searchForm" method="GET" action="/search_my_review">
+                            <input type="text" id="search" placeholder="Search..." class="form-control" name="search">
+                            <button type="submit">Search</button>
+                        </form> 
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -137,7 +141,7 @@
                         <tbody>
                             <% data.forEach(element => { %> 
                                 <tr>
-                                    <td><p><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></p></td> 
+                                    <td><p><%= element.first_Name + ' ' + element.last_Name %></p></td> 
                                     <td><%= element.document_Title %></td>
                                     <td><%= element.review_Date %></td>
                                     <td><span><%= element.document_status%></span></td>  

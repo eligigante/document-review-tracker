@@ -126,6 +126,10 @@
                         </a>
                     </div>
                     <table>
+                        <form id="searchForm" method="GET" action="/search_queue">
+                            <input type="text" id="search" placeholder="Search..." class="form-control" name="search">
+                            <button type="submit">Search</button>
+                        </form>  
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -140,7 +144,7 @@
                             <% data.forEach((row) => { %>
                                 <tr>
                                     <td>
-                                        <p><%= row.first_Name + ' ' + row.middle_Name.charAt(0) + '. ' + row.last_Name %></p>
+                                        <p><%= row.first_Name + ' ' + row.last_Name %></p>
                                     </td>
                                     <td>
                                         <span class="text"><%= row.document_Title %></span>

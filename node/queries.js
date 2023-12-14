@@ -4,9 +4,9 @@ const userLogin = "SELECT user_ID, role, department_ID, status FROM user WHERE u
 const getUsers =
   "SELECT departments.department_Name, user.first_Name, user.middle_Name, user.last_Name, user.status " +
   "FROM user JOIN departments ON user.department_ID = departments.department_ID";
-const searchGetUsers = 'SELECT departments.department_Name, user.first_Name, user.last_Name FROM user ' +
-'JOIN departments ON user.department_ID = departments.department_ID WHERE user.last_Name LIKE \'%${query}%\' '+ 
-'OR user.first_Name LIKE \'%${query}%\' OR departments.department_Name LIKE \'%${query}%\'';
+const searchGetUsers = 'SELECT departments.department_Name, user.first_Name, user.last_Name, user.status FROM user ' +
+'JOIN departments ON user.department_ID = departments.department_ID WHERE user.last_Name LIKE ? '+ 
+'OR user.first_Name LIKE ? OR departments.department_Name LIKE ?';
 const setOnlineStatus = "UPDATE user SET status = 'Online' WHERE user_ID = ?";
 const setOfflineStatus = "UPDATE user SET status = 'Offline' WHERE user_ID = ?";
 const addUser =
@@ -15,10 +15,14 @@ const addUser =
 const deleteUser = "DELETE FROM user WHERE user.`user_ID` = ?";
 const editUser = "UPDATE user SET email = ?, password = ?, last_Name = ?, first_Name = ?, middle_Name = ?, " +
 "department_ID = ?, position = ?, role = ?, status = ? WHERE user_ID = ?";
-const getUserDetails = "SELECT user.user_ID, departments.department_ID, user.first_Name, user.middle_Name, user.last_Name, user.email, departments.department_Name, user.position, user.role FROM user JOIN departments ON user.department_ID = departments.department_ID WHERE user.user_ID = ?"
+const getUserDetails = 'SELECT user.user_ID, user.first_Name, user.last_Name, user.email, departments.department_Name, '
++ 'user.position, user.role FROM user JOIN departments ON user.department_ID = departments.department_ID WHERE user.user_ID = ?'
 const manageUserDetails =
   "SELECT user.first_Name, user.middle_Name, user.last_Name, departments.department_Name, user.role, user.status " 
 + "FROM user JOIN departments ON user.department_ID = departments.department_ID ORDER BY user.user_ID ASC";
+const searchManageUser = 'SELECT departments.department_Name, user.first_Name, user.last_Name, user.status, user.role FROM user ' 
++ 'JOIN departments ON user.department_ID = departments.department_ID WHERE user.last_Name LIKE ? '
++ 'OR user.first_Name LIKE ? OR departments.department_Name LIKE ? OR user.role LIKE ? ORDER BY user.user_ID ASC';
 const getLastUserID = "SELECT user_ID FROM user ORDER BY user_ID DESC LIMIT 1";
 const getDepartmentOptions = "SELECT department_ID, department_Name FROM departments";
 const getDepartmentID = "SELECT department_ID FROM departments WHERE department_Name = ?";
@@ -31,6 +35,13 @@ const getReviewerDocuments = 'SELECT user.first_Name, user.middle_Name, user.las
     'document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON ' +
     'document_details.document_ID = document_logs.document_ID WHERE document_logs.document_status = \'processing\' ' +
     'AND document_logs.department_ID = ? ORDER BY document_logs.referral_Date ASC';
+const searchReviewerDocuments = 'SELECT user.first_Name, user.last_Name, document_details.document_Title, '
++ 'document_details.pages, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'document_logs.document_status, document_details.document_ID FROM user JOIN '
++ 'document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.document_status = \'processing\' '
++ 'AND document_logs.department_ID = ? AND '
++ '(user.last_Name LIKE ? OR user.first_Name LIKE ? OR document_details.document_Title LIKE ?)'
 const getReceivedFile = "SELECT received_file FROM document_logs WHERE document_ID = ? AND department_ID = ? AND document_status = 'processing'";
 const getUserIDFromDepartment = "SELECT user_ID FROM departments WHERE department_ID = ?";
 const updateAcceptDocumentLog =
@@ -43,13 +54,25 @@ const getPendingDocuments = 'SELECT document_details.document_Title, document_de
 + 'user.middle_Name, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
 + 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
 + 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
-+ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ?'
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ?';
+const searchHomeReviewer = 'SELECT document_details.document_Title, document_details.document_ID, user.last_Name, user.first_Name, '
++ 'DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
++ 'DATE_FORMAT(document_details.upload_Date, \'%Y-%m-%d\') AS upload_Date, document_logs.document_status FROM user '
++ 'JOIN document_details ON user.user_ID = document_details.user_ID JOIN document_logs ON '
++ 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? AND '
++ '(user.last_Name LIKE ? OR user.first_Name LIKE ? OR document_details.document_Title LIKE ?)';
 const getDepartmentIDOfUser = 'SELECT department_ID FROM user WHERE user_ID = ?'
 const getMyReviewDetails = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
 + 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
 + 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
 + 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
 + 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\'';
+const searchMyReview = 'SELECT user.last_Name, user.first_Name, document_details.document_Title, '
++ 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
++ 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
++ 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
++ 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\' AND '
++ '(user.last_Name LIKE ? OR user.first_Name LIKE ? OR document_details.document_Title LIKE ?)';
 const sortAdminUserAscending = 'SELECT departments.department_Name, user.first_Name, user.middle_Name, user.last_Name, '
 + 'user.status FROM user JOIN departments ON user.department_ID = departments.department_ID ORDER BY user.last_Name ASC';
 const sortAdminUserDescending = 'SELECT departments.department_Name, user.first_Name, user.middle_Name, user.last_Name, '
@@ -156,18 +179,22 @@ module.exports = {
   editUser,
   getUserDetails,
   manageUserDetails,
+  searchManageUser,
   getLastUserID,
   getDepartmentOptions,
   getDepartmentID,
   getUsersAndDepartments,
   getUserOptions,
   getReviewerDocuments,
+  searchReviewerDocuments,
   getReceivedFile,
   updateAcceptDocumentLog,
   updateRejectDocumentLog,
   getPendingDocuments,
+  searchHomeReviewer,
   getDepartmentIDOfUser,
   getMyReviewDetails,
+  searchMyReview,
   sortAdminUserAscending, 
   sortAdminUserDescending,
   filterByOfflineUsers,

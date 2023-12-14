@@ -127,7 +127,10 @@
                         </a>
                     </div>
                     <table id="user-table">
-                        <input type="text" id="search" placeholder="Search..." class="form-control" autocomplete="off">
+                        <form id="searchForm" method="GET" action="/search_home_admin">
+                            <input type="text" id="search" placeholder="Search..." class="form-control" name="search">
+                            <button type="submit" class="search-btn">Search</button>
+                        </form>                        
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -135,13 +138,12 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody id="user-row">
+                        <tbody id="results">
                             <% data.forEach(element=> { %>
                                 <tr>
                                     <td>
                                         <p>
-                                            <%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' +
-                                                element.last_Name %>
+                                            <%= element.first_Name + ' ' + element.last_Name %>
                                         </p>
                                     </td>
                                     <td>

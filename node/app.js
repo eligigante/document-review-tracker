@@ -136,7 +136,6 @@ Description: This is the code section that renders the home page for the admin
 app.get('/home_admin', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.getUsers, function (error, result, fields) {
-      console.log(result)
       console.log("Showing admin home page...")
       response.render('admin', { data: result })
     })
@@ -147,16 +146,71 @@ app.get('/home_admin', noCache, (request, response) => {
   }
 })
 
-app.get('/search_admin_home', (request, response) => {
-  const query = request.query.q;
+app.get('/search_home_admin', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
   var sql = '';
 
-  if (query != '') { sql = queries.searchGetUsers; }
+  if (query != '') { sql = queries.searchGetUsers; } 
   else { sql = queries.getUsers; }
 
-  connection.query(sql, (error, results) => {
-    if (error) throw error;
-    response.send(results);
+  connection.query(sql, [finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      response.render('admin', { data: result });
+  });
+});
+
+app.get('/search_manage', (request, response) => {
+  const query = request.query.manage;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchManageUser; } 
+  else { sql = queries.manageUserDetails; }
+
+  connection.query(sql, [finalQuery, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+    response.render('manage_user', { data: result });
+  });
+});
+
+app.get('/search_home_reviewer', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchHomeReviewer; } 
+  else { sql = queries.getPendingDocuments; }
+
+  connection.query(sql, [request.session.department_ID, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      console.log(result)
+      response.render('reviewer', { data: result });
+  });
+});
+
+app.get('/search_queue', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchReviewerDocuments; } 
+  else { sql = queries.getReviewerDocuments; }
+
+  connection.query(sql, [request.session.department_ID, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      console.log(result)
+      response.render('review_doc', { data: result });
+  });
+});
+
+app.get('/search_my_review', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchMyReview; } 
+  else { sql = queries.getMyReviewDetails; }
+
+  connection.query(sql, [request.session.department_ID, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      console.log(result)
+      response.render('my_review', { data: result });
   });
 });
 
@@ -399,7 +453,6 @@ app.get('/admin_profile', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing admin profile...")
-      console.log(result[0]);
       response.render('admin_profile', { data: result[0] });
     })
   }
@@ -418,7 +471,6 @@ app.get('/reviewer_profile', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing reviewer profile...")
-      console.log(result[0]);
       response.render('reviewer_profile', { data: result[0] });
     })
   }

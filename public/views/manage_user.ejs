@@ -124,6 +124,10 @@
                         </a>
                     </div>
                     <table>
+                        <form id="searchForm" method="GET" action="/search_manage">
+                            <input type="text" id="search" placeholder="Type a user" class="form-control" name="manage">
+                            <button type="submit" class="search-btn">Search</button>
+                        </form> 
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -135,7 +139,7 @@
                         <tbody>
                             <% data.forEach(element=> { %> 
                                 <tr>
-                                    <td><%= element.first_Name + ' ' + element.middle_Name.charAt(0) + '. ' + element.last_Name %></td> 
+                                    <td><%= element.first_Name + ' ' + element.last_Name %></td> 
                                     <td><%= element.department_Name %></td>
                                     <td><%= element.role %></td>
                                     <td><span><%= element.status%></span></td>  
