@@ -21,9 +21,10 @@ document.querySelector('form').addEventListener('submit', function (event) {
   event.preventDefault(); // Prevent form submission for this example
 
   // Get input values
-  const firstName = document.getElementById('firstName').value.trim();
-  const middleName = document.getElementById('middleName').value.trim();
-  const lastName = document.getElementById('lastName').value.trim();
+  const firstName = document.getElementById('contact-first-name').value.trim();
+  const middleName = document.getElementById('contact-middle-name').value.trim();
+  const lastName = document.getElementById('contact-last-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
 
   // Construct full name
   const fullName = `${firstName} ${middleName} ${lastName}`.trim().replace(/\s+/g, ' ');
@@ -41,16 +42,57 @@ document.querySelector('form').addEventListener('submit', function (event) {
   console.log('Full name:', fullName);
 });
 
+// Password
+function togglePasswordVisibility() {
+  const passwordInput = document.querySelector("#contact-password");
+  const eye = document.querySelector("#eye");
 
-// // Password Eye icon 
-// const passwordInput = document.querySelector("#contact-password")
-// const eye = document.querySelector("#eye")
+  eye.classList.toggle("fa-eye-slash");
+  const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+  passwordInput.setAttribute("type", type);
+}
 
-// eye.addEventListener("click", function(){
-//   this.classList.toggle("fa-eye-slash")
-//   const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
-//   passwordInput.setAttribute("type", type)
-// })
+// WORK SPACE NI BALONG ADZ
+const searchInput = document.querySelector('#search');
+const results_body = document.querySelector('#user-row');
+load_data();
+
+function load_data(query = ''){
+    const request = new XMLHttpRequest();
+    request.open('GET', `/search_admin_home?q=${query}`);
+    request.onload = () => {
+        const results = JSON.parse(request.responseText);
+        let html = '';
+        if(results.length > 0){
+            results.forEach(result => {
+              console.log(result.last_Name, result.first_Name);
+                html += `
+                <tr>
+                    <td>${result.last_Name}  ${result.first_Name}</td>
+                    <td>${result.department_Name}</td>
+                    <td>${result.status}</td>
+                </tr>
+                `;
+            });
+        }
+        else {
+            html += `
+            <tr>
+                <td colspan="5" class="text-center">No Data Found</td>
+            </tr>
+            `;
+        }
+        results_body.innerHTML = html;
+    };
+    request.send();
+}
+
+searchInput.addEventListener('input', () => {
+    const query = searchInput.value;
+    load_data(query);
+});
+
+
 
 /*
 Created by: Hans Rafael Daligdig
