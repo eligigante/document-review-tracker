@@ -39,7 +39,7 @@ if (formAdd) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email pattern
 
     // Validation for each field
-    if (!namePattern.test(firstNameElement.value) || !namePattern.test(middleNameElement.value) || !namePattern.test(lastNameElement.value)) {
+    if (!namePattern.test(firstNameElement.value) || !namePattern.test(lastNameElement.value)) {
       alert('Invalid name. Please enter a valid name without spaces and numbers not allowed.');
       return;
     }

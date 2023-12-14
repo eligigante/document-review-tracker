@@ -135,7 +135,6 @@ Description: This is the code section that renders the home page for the admin
 app.get('/home_admin', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.getUsers, function (error, result, fields) {
-      console.log(result)
       console.log("Showing admin home page...")
       response.render('admin', { data: result })
     })
