@@ -14,15 +14,16 @@
   </head>
 
   <body>
-    <div class="image-pos">
-      <img src="public/img/logo.png" alt="logo" />
-    </div>
     <div class="container">
+      <div class="image-pos">
+        <img src="public/img/logo.png" alt="logo" />
+      </div>
+      <hr>
       <div class="forms">
         <div class="form login">
           <span class="title">Login</span>
           <form name="form" action="php/login.php" method="POST">
-            <div class="input-field">
+            <div class="input-field" id="account-id-input">
               <input
                 type="text"
                 placeholder="Enter your account ID"

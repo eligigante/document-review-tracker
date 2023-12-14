@@ -344,7 +344,7 @@ body {
 
 /* Footer */
 .footer-basic {
-	padding: 40px 0;
+	padding: 15px 0;
 	background-color: #f0f0f0;
 	color: #4b4c4d;
 }
@@ -355,8 +355,15 @@ body {
 	font-weight: 400;
 	font-size: 13px;
 	font-family: var(--poppins);
-	color: #000000;
+	color: #686868;
 	margin-bottom: 0;
+}
+
+.input-field[readonly] {
+  /* Define the styles for the readonly input */
+  color: #696969; /* Change text color to a lighter shade */
+  background-color: #f0f0f0; /* Change background color */
+  /* Add any other styles you want for the readonly appearance */
 }
 
 /* SIDEBAR */
@@ -2626,10 +2633,10 @@ Description: This is the media query for all of the landing pages of the admin m
   margin-top: -20px;
 }
 
-.new-user {
+/* .new-user {
   text-align: end;
   margin-right: 330px;
-}
+} */
 
 #acceptpdf-btn {
   font-size: 12px;
