@@ -20,7 +20,7 @@ app.use(session({
   secret: 'document-tracker-key',
   resave: true,
   saveUninitialized: true,
-  cookie: {maxAge: 86400000}
+  cookie: { maxAge: 86400000 }
 }));
 
 
@@ -146,18 +146,32 @@ app.get('/home_admin', noCache, (request, response) => {
   }
 })
 
-app.get('/search_admin_home', (request, response) => {
-	const query = request.query.q;
-	var sql = '';
+app.get('/search_home_admin', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
+  var sql = '';
 
-	  if(query != '') { sql = queries.searchGetUsers; }
-	  else { sql = queries.getUsers; }
+  if (query != '') { sql = queries.searchGetUsers; } 
+  else { sql = queries.getUsers; }
 
-  connection.query(sql, (error, results) => {
-		if (error) throw error;
-		response.send(results);
-	});
+  connection.query(sql, [finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      response.render('admin', { data: result });
+  });
 });
+
+app.get('/search_manage', (request, response) => {
+  const query = request.query.manage;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchManageUser; } 
+  else { sql = queries.manageUserDetails; }
+
+  connection.query(sql, [finalQuery, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+    response.render('manage_user', { data: result });
+  });
+});
+
 
 /*
 Created by: Adrienne Zapanta
@@ -398,7 +412,6 @@ app.get('/admin_profile', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'admin') {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing admin profile...")
-      console.log(result[0]);
       response.render('admin_profile', { data: result[0] });
     })
   }
@@ -417,7 +430,6 @@ app.get('/reviewer_profile', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.getUserDetails, [request.session.userID], function (error, result, fields) {
       console.log("Showing reviewer profile...")
-      console.log(result[0]);
       response.render('reviewer_profile', { data: result[0] });
     })
   }
@@ -772,55 +784,50 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This is used to download the blob file from the database and convert to PDF
 */
 app.get("/downloadAndConvert/:documentId", noCache, (req, res) => {
-  if (request.session.verify && request.session.role === 'reviewer') {
-    try {
-      const documentId = req.params.documentId;
-      const departmentID = req.session.department_ID;
-      console.log(documentId);
-  
-      if (!documentId) {
-        return res.status(400).json({ error: "Invalid request" });
-      }
-  
-      connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
-        if (err) {
-          console.error("Error executing query:", err);
-          return res.status(500).json({ error: "Internal Server Error" });
-        }
-  
-        if (results.length === 0 || !results[0].received_file) {
-          return res
-            .status(404)
-            .json({ error: "Document not found or not processing" });
-        }
-  
-        const blobData = results[0].received_file;
-  
-        const tempFolderPath = path.resolve(__dirname, "../public/temp");
-        if (!fs.existsSync(tempFolderPath)) {
-          fs.mkdirSync(tempFolderPath);
-        }
-  
-        const filename = `temp/document_${documentId}.pdf`;
-        fs.writeFileSync(
-          path.resolve(__dirname, "../public", filename),
-          Buffer.from(blobData, "binary")
-        );
-        console.log(filename);
-        res.contentType("application/pdf");
-        res.sendFile(path.resolve(__dirname, "../public", filename));
-      }
-      );
-    } catch (error) {
-      console.error("Error downloading and converting Blob data:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
+  try {
+    const documentId = req.params.documentId;
+    const departmentID = req.session.department_ID;
+    console.log(documentId);
+
+    if (!documentId) {
+      return res.status(400).json({ error: "Invalid request" });
     }
+
+    connection.query(queries.getReceivedFile, [documentId, departmentID], (err, results) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (results.length === 0 || !results[0].received_file) {
+        return res
+          .status(404)
+          .json({ error: "Document not found or not processing" });
+      }
+
+      const blobData = results[0].received_file;
+
+      const tempFolderPath = path.resolve(__dirname, "../public/temp");
+      if (!fs.existsSync(tempFolderPath)) {
+        fs.mkdirSync(tempFolderPath);
+      }
+
+      const filename = `temp/document_${documentId}.pdf`;
+      fs.writeFileSync(
+        path.resolve(__dirname, "../public", filename),
+        Buffer.from(blobData, "binary")
+      );
+      console.log(filename);
+      res.contentType("application/pdf");
+      res.sendFile(path.resolve(__dirname, "../public", filename));
+    }
+    );
+  } catch (error) {
+    console.error("Error downloading and converting Blob data:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-  else {
-    console.log("Please login or logout from your current session.")
-    response.redirect('/');
-  }
-});
+})
+
 
 /*
 Created by: Dominic Gabriel O. Ronquillo
@@ -845,96 +852,90 @@ Description: This is the function to accept a document based on the documentID.
 Depending on the departmentID this will either pass it to the next department or just update the logs.
 */
 app.post("/acceptDocument", noCache, async (req, res) => {
-  if (request.session.verify && request.session.role === 'reviewer') {
-    const { filePath } = req.body;
+  const { filePath } = req.body;
 
-    if (!filePath) {
-      return res.status(400).json({ error: "Invalid request" });
-    }
-  
-    const documentId = extractDocumentId(filePath);
-  
-    if (!documentId) {
-      return res.status(400).json({ error: "Invalid document ID" });
-    }
-  
-    const reviewedFilePath = path.resolve(
+  if (!filePath) {
+    return res.status(400).json({ error: "Invalid request" });
+  }
+
+  const documentId = extractDocumentId(filePath);
+
+  if (!documentId) {
+    return res.status(400).json({ error: "Invalid document ID" });
+  }
+
+  const reviewedFilePath = path.resolve(
+    __dirname,
+    "../public/temp",
+    `document_${documentId}.pdf`
+  );
+
+  console.log("Original reviewed path: " + reviewedFilePath);
+
+  try {
+    const referralDate = await getReferralDate(documentId);
+
+    const originalFilePath = path.resolve(
       __dirname,
       "../public/temp",
       `document_${documentId}.pdf`
     );
-  
-    console.log("Original reviewed path: " + reviewedFilePath);
-  
-    try {
-      const referralDate = await getReferralDate(documentId);
-  
-      const originalFilePath = path.resolve(
-        __dirname,
-        "../public/temp",
-        `document_${documentId}.pdf`
+
+    console.log("Original file path: " + originalFilePath);
+    const originalFileData = fs.readFileSync(originalFilePath);
+
+    console.log(originalFileData);
+
+    const departmentId = req.session.department_ID;
+
+    if (departmentId <= 5) {
+      const user_ID = await getUserIDFromDepartment(departmentId);
+
+      await updateAcceptLog(
+        documentId,
+        departmentId,
+        user_ID,
+        originalFileData,
+        reviewedFilePath,
+        filePath,
+        referralDate
       );
-  
-      console.log("Original file path: " + originalFilePath);
-      const originalFileData = fs.readFileSync(originalFilePath);
-  
-      console.log(originalFileData);
-  
-      const departmentId = req.session.department_ID;
-  
-      if (departmentId <= 5) {
-        const user_ID = await getUserIDFromDepartment(departmentId);
-  
-        await updateAcceptLog(
-          documentId,
-          departmentId,
-          user_ID,
-          originalFileData,
-          reviewedFilePath,
-          filePath,
-          referralDate
-        );
-  
-        if (departmentId < 5) {
-          const nextDepartmentID = departmentId + 1;
-          const nextUser_ID = await getUserIDFromDepartment(nextDepartmentID);
-  
-          const nextReviewerDocumentLog = {
-            document_ID: documentId,
-            department_ID: nextDepartmentID,
-            user_ID: nextUser_ID,
-            referral_Date: referralDate,
-            review_Date: null,
-            received_file: originalFileData,
-            reviewed_file: null,
-            approved_file: null,
-            document_status: "processing",
-          };
-  
-          await insertDocumentLog(nextReviewerDocumentLog);
-        } else {
-          await updateDocumentStatus(documentId, "finished");
-        }
+
+      if (departmentId < 5) {
+        const nextDepartmentID = departmentId + 1;
+        const nextUser_ID = await getUserIDFromDepartment(nextDepartmentID);
+
+        const nextReviewerDocumentLog = {
+          document_ID: documentId,
+          department_ID: nextDepartmentID,
+          user_ID: nextUser_ID,
+          referral_Date: referralDate,
+          review_Date: null,
+          received_file: originalFileData,
+          reviewed_file: null,
+          approved_file: null,
+          document_status: "processing",
+        };
+
+        await insertDocumentLog(nextReviewerDocumentLog);
       } else {
-        await updateAcceptLog(
-          documentId,
-          departmentId,
-          req.session.user_ID,
-          originalFileData,
-          null,
-          filePath,
-          referralDate
-        );
+        await updateDocumentStatus(documentId, "finished");
       }
-      return res.json({ success: true });
-    } catch (error) {
-      console.error("Error:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      await updateAcceptLog(
+        documentId,
+        departmentId,
+        req.session.user_ID,
+        originalFileData,
+        null,
+        filePath,
+        referralDate
+      );
     }
-  }
-  else {
-    console.log("Please login or logout from your current session.")
-    response.redirect('/');
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -1055,53 +1056,47 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This rejects a document based on the documentID and sends it back to the user.
 */
 app.post("/rejectDocument", noCache, async (req, res) => {
-  if (request.session.verify && request.session.role === 'reviewer') {
-    const { filePath } = req.body;
+  const { filePath } = req.body;
 
-    if (!filePath) {
-      return res.status(400).json({ error: "Invalid request" });
-    }
-  
-    const documentId = extractDocumentId(filePath);
-  
-    if (!documentId) {
-      return res.status(400).json({ error: "Invalid document ID" });
-    }
-  
-    const originalFilePath = path.resolve(
-      __dirname,
-      "../public/temp",
-      `document_${documentId}.pdf`
-    );
-  
-    try {
-      const referralDate = await getReferralDate(documentId);
-  
-      const originalFileData = fs.readFileSync(originalFilePath);
-  
-      const departmentId = req.session.department_ID;
-  
-      if (departmentId < 5) {
-        await updateRejectLog(
-          documentId,
-          departmentId,
-          originalFileData,
-          filePath,
-          referralDate
-        );
-      } else {
-        await updateDocumentStatus(documentId, "finished");
-      }
-      updateDocumentStatus(documentId, "rejected");
-      return res.json({ success: true });
-    } catch (error) {
-      console.error("Error:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
+  if (!filePath) {
+    return res.status(400).json({ error: "Invalid request" });
   }
-  else {
-    console.log("Please login or logout from your current session.")
-    response.redirect('/');
+
+  const documentId = extractDocumentId(filePath);
+
+  if (!documentId) {
+    return res.status(400).json({ error: "Invalid document ID" });
+  }
+
+  const originalFilePath = path.resolve(
+    __dirname,
+    "../public/temp",
+    `document_${documentId}.pdf`
+  );
+
+  try {
+    const referralDate = await getReferralDate(documentId);
+
+    const originalFileData = fs.readFileSync(originalFilePath);
+
+    const departmentId = req.session.department_ID;
+
+    if (departmentId < 5) {
+      await updateRejectLog(
+        documentId,
+        departmentId,
+        originalFileData,
+        filePath,
+        referralDate
+      );
+    } else {
+      await updateDocumentStatus(documentId, "finished");
+    }
+    updateDocumentStatus(documentId, "rejected");
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -1166,11 +1161,100 @@ Created by: Dominic Gabriel O. Ronquillo
 Description: This redirects the user back to the review page.
 */
 app.get('/redirect-to-review-doc', noCache, (req, res) => {
-  if (request.session.verify && request.session.role === 'reviewer') {
-    res.redirect('/review_doc');
-  }  
-  else {
-    console.log("Please login or logout from your current session.")
-    response.redirect('/');
+  res.redirect('/review_doc');
+});
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This function updates the remarks in the document_logs.
+*/
+async function updateRemarks(documentId, departmentId, remarks) {
+  return new Promise((resolve, reject) => {
+    const updateQuery = "UPDATE document_logs SET remarks = ? WHERE document_ID = ? AND department_ID = ?";
+    const params = [remarks || null, documentId, departmentId];
+
+    connection.query(updateQuery, params, (err, result) => {
+      if (err) {
+        console.error("Error updating remarks:", err);
+        reject(err);
+      } else {
+        console.log('Remarks updated successfully:', result);
+        resolve(result);
+      }
+    });
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This adds a remark in the document_logs.
+*/
+app.post('/submitRemarks', async (req, res) => {
+  try {
+    const { filePath, remarks } = req.body;
+    const departmentId = req.session.department_ID;
+
+    const documentId = extractDocumentId(filePath);
+
+    console.log("Submitting remarks for document: ", documentId);
+    const nextDepartmentID = departmentId + 1;
+
+    console.log(nextDepartmentID);
+    console.log(remarks);
+
+    await updateRemarks(documentId, nextDepartmentID, remarks);
+
+    res.status(200).json({ message: 'Remarks updated successfully!' });
+  } catch (error) {
+    console.error('Error handling submitRemarks:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This retrieves the remarks.
+*/
+app.post('/retrieveRemarks', async (req, res) => {
+  try {
+    const { filePath } = req.body;
+
+    const documentId = extractDocumentId(filePath);
+    const departmentId = req.session.department_ID;
+
+    console.log("Retrieving from document: " + documentId)
+    console.log("Retrieving from department: " + departmentId)
+
+    const result = await retrieveRemarksFromDatabase(documentId, departmentId);
+
+    res.status(200).json({ remarks: result.remarks || null });
+  } catch (error) {
+    console.error('Error retrieving remarks:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This is the query function that retrieves from the database.
+*/
+async function retrieveRemarksFromDatabase(documentId, departmentId) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      'SELECT remarks FROM document_logs WHERE document_ID = ? AND department_ID = ?',
+      [documentId, departmentId],
+      (err, results) => {
+        if (err) {
+          console.error('Error retrieving remarks from the database:', err);
+          reject(err);
+        } else {
+          if (results.length > 0) {
+            resolve({ remarks: results[0].remarks });
+          } else {
+            resolve({ remarks: null });
+          }
+        }
+      }
+    );
+  });
+}

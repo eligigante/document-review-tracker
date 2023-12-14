@@ -27,7 +27,7 @@ WebViewer(
     });
   });
 
-  /*
+/*
 Created by: Kevin King Yabut
 Description: This function saves the document to the temp folder.
 */
@@ -57,13 +57,12 @@ Description: This function saves the document to the temp folder.
   };
 
 
+  const remarksInput = document.getElementById("remarks");
   const acceptButton = document.getElementById("acceptpdf-btn");
   acceptButton.addEventListener("click", async () => {
     const confirmAccept = window.confirm("Are you sure you want to accept?");
     if (confirmAccept) {
-      // const allAnnotations = annotationManager.getAnnotationsList();
-      // annotationManager.deleteAnnotations(allAnnotations);
-
+      const remarks = remarksInput.value.trim(); // Trim to remove leading and trailing whitespaces
       try {
         await saveDocument(filePath);
         await acceptDocument(filePath);
@@ -75,6 +74,8 @@ Description: This function saves the document to the temp folder.
           },
         });
 
+        await submitRemarks(filePath, remarks);
+
         if (response.ok) {
           window.location.href = '/review_doc';
         } else {
@@ -85,6 +86,28 @@ Description: This function saves the document to the temp folder.
       }
     }
   });
+
+/*
+Created by: Dominic Gabriel Ronquillo
+Description: This function saves the remarks made by the reviewer
+*/
+  async function submitRemarks(filePath, remarks) {
+    try {
+      const response = await fetch('/submitRemarks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ filePath, remarks }),
+      });
+
+      if (!response.ok) {
+        console.error('Error submitting remarks');
+      }
+    } catch (error) {
+      console.error('Error submitting remarks:', error);
+    }
+  }
 
 
   const clearButton = document.getElementById("clearpdf-btn");
@@ -116,9 +139,7 @@ Description: This function saves the document to the temp folder.
     }
   });
 
-
-
-  /*
+/*
 Created by: Kevin King Yabut
 Description: This function saves the document to the temp folder.
 */
@@ -148,7 +169,7 @@ Description: This function saves the document to the temp folder.
     }
   });
 
-  /*
+/*
 Created by: Dominic Gabriel O. Ronquillo
 Description: Sends a request to the server to reject a document.
 */
@@ -165,7 +186,7 @@ Description: Sends a request to the server to reject a document.
     console.log("Reject document response:", data);
   }
 
-  /*
+/*
 Created by: Dominic Gabriel O. Ronquillo
 Description: Sends a request to the server to accept a document.
 */
@@ -186,3 +207,37 @@ Description: Sends a request to the server to accept a document.
       });
   }
 });
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: Sends a request to the server to receive remarks.
+*/
+async function retrieveRemarks(filePath) {
+  try {
+    const response = await fetch('/retrieveRemarks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ filePath }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      if (data && typeof data.remarks !== 'undefined') {
+        const displayRemarksDiv = document.getElementById("displayRemarks");
+        displayRemarksDiv.textContent = `Remarks: ${data.remarks !== null ? data.remarks : 'No remarks'}`;
+      } else {
+        console.error('Invalid response format:', data);
+      }
+    } else {
+      console.error('Error retrieving remarks. Status:', response.status);
+    }
+  } catch (error) {
+    console.error('Error retrieving remarks:', error);
+  }
+}
+
+
+retrieveRemarks(filePath)
