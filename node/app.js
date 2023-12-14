@@ -171,6 +171,47 @@ app.get('/search_manage', (request, response) => {
   });
 });
 
+app.get('/search_home_reviewer', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchHomeReviewer; } 
+  else { sql = queries.getPendingDocuments; }
+
+  connection.query(sql, [request.session.department_ID, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      console.log(result)
+      response.render('reviewer', { data: result });
+  });
+});
+
+app.get('/search_queue', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchReviewerDocuments; } 
+  else { sql = queries.getReviewerDocuments; }
+
+  connection.query(sql, [request.session.department_ID, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      console.log(result)
+      response.render('review_doc', { data: result });
+  });
+});
+
+app.get('/search_my_review', (request, response) => {
+  const query = request.query.search;
+  const finalQuery = `%${query}%`;
+  var sql = '';
+
+  if (query != '') { sql = queries.searchMyReview; } 
+  else { sql = queries.getMyReviewDetails; }
+
+  connection.query(sql, [request.session.department_ID, finalQuery, finalQuery, finalQuery], (error, result, fields) => {
+      console.log(result)
+      response.render('my_review', { data: result });
+  });
+});
 
 /*
 Created by: Adrienne Zapanta
