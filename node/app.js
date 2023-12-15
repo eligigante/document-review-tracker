@@ -1345,9 +1345,7 @@ app.post('/checkIfReviewable', noCache, async (req, res) => {
   try {
     const { documentId } = req.body;
     const departmentId = req.session.department_ID;
-    // Assuming you have the referral date associated with the document (replace 'yourReferralDate' with the actual field)
     const referralDate = await getReferralDateFromLogs(documentId, departmentId);
-    // Use the hasPendingDocumentsBefore function to check if there are pending documents with an earlier referral date
     const isReviewable = !(await hasPendingDocumentsBefore(referralDate, departmentId));
 
 
