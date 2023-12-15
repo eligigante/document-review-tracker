@@ -372,13 +372,14 @@ body {
 } */
 
 .fa-eye {
-  position: absolute;
-  top: 47%;
-  right: 28%;
+  top: 51.6%;
+  right: 18%;
   cursor: pointer;
   font-size: 20px;
+  position: absolute;
   color: #686868;
 }
+
 
 .fa-eye:active {
   position: absolute;
@@ -824,15 +825,15 @@ img {
   color: #000000;
 }
 
-input[type="text"].input-field,
-select.input-field,
-textarea.input-field {
+input[type="text"].input-field, select.input-field, textarea.input-field {
   width: 340px;
   border-radius: 3px;
-  padding: 10px;
+  padding: 27px;
   border: #91949d 1px solid;
   box-sizing: border-box;
   margin: 5px 10px 0px 0px;
+  font-size: 22px;
+  height: 40px;
 }
 
 .input-field-select {
@@ -849,10 +850,11 @@ textarea.input-field {
 .input-field {
   width: 340px;
   border-radius: 3px;
-  padding: 10px;
+  padding: 8px;
   border: #91949d 1px solid;
   box-sizing: border-box;
-  margin: 5px 10px 0px 0px;
+  margin: 4px 10px 0px 0px;
+  font-size: 25px;
 }
 
 .btn-submit {
@@ -928,6 +930,7 @@ textarea.input-field {
 .text-center {
   text-align: center;
 }
+
 
 /* MAIN */
 #content main {
@@ -1748,9 +1751,7 @@ section.active .modal-box-edit {
 }
 
 /* Form container */
-input[type="text"],
-select,
-textarea {
+input[type="text"], select, textarea {
   width: 15%;
   height: 20%;
   padding: 12px;
@@ -1758,9 +1759,23 @@ textarea {
   border-radius: 4px;
   resize: vertical;
   margin-left: 1200px;
-  margin-top: -690px;
-  font-size: 10px;
+  margin-top: -480px;
+  font-size: 15px;
   padding-bottom: 130px;
+}
+
+#displayRemarks {
+  width: 15%;
+  height: 20%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin-left: 1180px;
+  margin-top: -720px;
+  font-size: 15px;
+  padding-bottom: 130px;
+  font-weight: 500;
 }
 
 input.form-control[type="text"],
@@ -1782,8 +1797,8 @@ label {
   padding: 12px 12px 12px 0;
   display: inline-block;
   margin-left: 1200px;
-  margin-top: -730px;
-  font-size: 15px;
+  margin-top: -520px;
+  font-size: 17px;
 }
 
 input[type="submit"] {
@@ -2137,8 +2152,6 @@ img {
   padding-right: 20px;
   font-size: 12px;
 }
-
-
 }
 
 @media screen and (min-width: 475px) and (max-width: 639px) {
