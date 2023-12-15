@@ -28,12 +28,11 @@ The Document Review Tracker is a web application designed to streamline document
 - **Admins:** 
   - Create and manage user accounts.
   - View login activity.
-  - Delete user accounts.
 - **Reviewers:**
   - Review submitted documents.
-  - Provide comments on specific sections.
+  - Provide comments on specific sections of the document.
   - Send reviewed documents back to document owners.
-- **Normal Users:**
+- **Requesters:**
   - Submit documents for review.
   - Receive notifications about the status of submitted documents.
   - Track the review process.
@@ -44,7 +43,7 @@ The Document Review Tracker is a web application designed to streamline document
 
 ### 4. Document Submission
 
-- Users can submit documents for review.
+- Requesters can submit documents for review.
 - Supported file formats only includes PDF.
 
 ### 5. Commenting System
@@ -58,5 +57,7 @@ The Document Review Tracker is a web application designed to streamline document
 
 ### 7. Sorting and Filtering
 
-- Users can sort documents based on criteria such as submission date, review status, and document owner.
+- Requesters can sort all of their documents based on criteria such as submission date and review status.
+- Reviewers can also sort documents based on criteria such as submission date and review status.
+- Admins can also sort and filter users based on role and position.
 - Filter documents based on various parameters to easily locate specific files.
