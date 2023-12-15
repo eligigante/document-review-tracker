@@ -107,23 +107,19 @@ require_once('../../php/login.php');
         <!-- NAVBAR -->
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-
-          
-       
-            <button class="drop-btn" id="drop-btn">
+            <form action="#"></form>
+            <button class="drop-btn">
                 <div id = "countElement"> </div>
                 <i class='bx bxs-bell'></i>
             </button>
-              
-            <div class="dropdown" id="dropdown">
+            
+            <button type="button" class="icon-button" id="drop-btn">
+                <span class="material-icons">notifications</span>
+                <span class="icon-button__badge"></span>
+            </button>
 
-              </div>
+            <div class="dropdown" id="dropdown"></div>
+
             <a href="#" class="profile">
                 <img src="">
             </a>

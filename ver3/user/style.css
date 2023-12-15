@@ -55,8 +55,8 @@ Description: This is the styles for the landing page of each tab in the user
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   color: #333333;
   background: #dddddd;
   border: none;
@@ -74,16 +74,16 @@ Description: This is the styles for the landing page of each tab in the user
 
 .icon-button__badge {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 25px;
-  height: 25px;
-  background: red;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
+    top: -6px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: red;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
 }
 
 #countElement .count-text {
@@ -427,7 +427,6 @@ html {
 }
 
 #view{
-
   font-size: 16px;
   font-weight: 400;
   font-family: var(--poppins);
@@ -438,12 +437,10 @@ html {
   border-radius: 6px;
   cursor: pointer;
   position : relative;
-  left: 80px;
-
+  left: 510px;
 }
 
 #file {
-
   font-size: 16px;
   font-weight: 400;
   font-family: var(--poppins);
@@ -453,10 +450,9 @@ html {
   border-radius: 6px;
   cursor: pointer;
   position : relative;
-  left: 80px;
-
-
+  left: 465px;
 }
+
 
 .titleDoc{
   position : relative;
@@ -486,8 +482,7 @@ input[type=file]::file-selector-button:hover {
   background: #0d45a5;
 }
 
-#upload{
-
+#upload {
   font-size: 16px;
   font-weight: 400;
   font-family: var(--poppins);
@@ -497,8 +492,9 @@ input[type=file]::file-selector-button:hover {
   background: var(--light);
   border-radius: 6px;
   cursor: pointer;
-  position : relative;
-  left: 100px;
+  margin-right: 0px;
+  float: right;
+  margin-top: 7px;
 }
 
 body.dark {

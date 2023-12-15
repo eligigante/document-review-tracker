@@ -6,7 +6,7 @@ const section = document.querySelector("section"),
 const searchButton = document.querySelector('#content nav form .form-input button');
 const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
 const searchForm = document.querySelector('#content nav form');
-const dropdownBtn = document.getElementById("drop-btn");
+const dropdownBtn = document.getElementById("#drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
