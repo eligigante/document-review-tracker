@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 include_once('db.php');
 $userID = $_SESSION['user_id'];
 $dateNow = new DateTime('now', new DateTimeZone('Asia/Manila'));
-$dateFormat = $dateNow->format('Y-m-d');
+$dateFormat = $dateNow->format('Y-m-d H:i:s');
 $newDocumentTitle = $_POST['subject'] ?? "Default Title";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $documentID = $stmtInsertDocumentDetails->insert_id;
 
                         $sqlInsertDocumentLogs = "INSERT INTO document_logs (document_ID, department_ID, user_ID, referral_Date, review_Date, received_file, reviewed_file, approved_file, document_status)
-                        SELECT ?, d.department_ID, d.user_ID, ?, null, ?, null, null, 'Processing'
+                        SELECT ?, d.department_ID, d.user_ID, ?, null, ?, null, null, 'processing'
                         FROM departments d
                         WHERE d.department_ID = ?";
 
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                         if ($stmtInsertDocumentLogs) {
                             $departmentID = 1; 
-                            $stmtInsertDocumentLogs->bind_param("issi", $documentID, $dateFormat, $fileContent, $departmentID);
+                            $stmtInsertDocumentLogs->bind_param("isss", $documentID, $dateFormat, $fileContent, $departmentID);
                             $stmtInsertDocumentLogs->execute();
 
                             if ($stmtInsertDocumentLogs->affected_rows > 0) {

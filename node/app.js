@@ -9,6 +9,7 @@ const db = require('./db');
 const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
 const { request } = require('http');
+const moment = require('moment');
 // const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
@@ -145,6 +146,11 @@ app.get('/home_admin', noCache, (request, response) => {
   }
 })
 
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the home admin page
+*/
+
 app.get('/search_home_admin', (request, response) => {
   const query = request.query.search;
   const finalQuery = `%${query}%`;
@@ -158,6 +164,12 @@ app.get('/search_home_admin', (request, response) => {
   });
 });
 
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the manage user page
+*/
+
 app.get('/search_manage', (request, response) => {
   const query = request.query.manage;
   const finalQuery = `%${query}%`;
@@ -170,6 +182,12 @@ app.get('/search_manage', (request, response) => {
     response.render('manage_user', { data: result });
   });
 });
+
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the home reviewer page
+*/
 
 app.get('/search_home_reviewer', (request, response) => {
   const query = request.query.search;
@@ -185,6 +203,12 @@ app.get('/search_home_reviewer', (request, response) => {
   });
 });
 
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the document queue page
+*/
+
 app.get('/search_queue', (request, response) => {
   const query = request.query.search;
   const finalQuery = `%${query}%`;
@@ -198,6 +222,12 @@ app.get('/search_queue', (request, response) => {
       response.render('review_doc', { data: result });
   });
 });
+
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that implements the search function in the my review page
+*/
 
 app.get('/search_my_review', (request, response) => {
   const query = request.query.search;
@@ -1014,11 +1044,15 @@ async function updateAcceptLog(
   filePath,
   referralDate
 ) {
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1
+    }-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+
   return new Promise((resolve, reject) => {
     connection.query(
       queries.updateAcceptDocumentLog,
       [
-        new Date(),
+        formattedDate,
         originalFileData,
         reviewedFilePath,
         filePath,
@@ -1151,11 +1185,15 @@ async function updateRejectLog(
   filePath,
   referralDate
 ) {
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1
+    }-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+
   return new Promise((resolve, reject) => {
     connection.query(
       queries.updateRejectDocumentLog,
       [
-        new Date(),
+        formattedDate,
         originalFileData,
         filePath,
         originalFileData,
@@ -1229,7 +1267,7 @@ async function updateRemarks(documentId, departmentId, remarks) {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This adds a remark in the document_logs.
 */
-app.post('/submitRemarks', async (req, res) => {
+app.post('/submitRemarks', noCache, async (req, res) => {
   try {
     const { filePath, remarks } = req.body;
     const departmentId = req.session.department_ID;
@@ -1255,7 +1293,7 @@ app.post('/submitRemarks', async (req, res) => {
 Created by: Dominic Gabriel O. Ronquillo
 Description: This retrieves the remarks.
 */
-app.post('/retrieveRemarks', async (req, res) => {
+app.post('/retrieveRemarks', noCache, async (req, res) => {
   try {
     const { filePath } = req.body;
 
@@ -1293,6 +1331,79 @@ async function retrieveRemarksFromDatabase(documentId, departmentId) {
           } else {
             resolve({ remarks: null });
           }
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: This checks if a document is reviewable
+*/
+app.post('/checkIfReviewable', noCache, async (req, res) => {
+  try {
+    const { documentId } = req.body;
+    const departmentId = req.session.department_ID;
+    const referralDate = await getReferralDateFromLogs(documentId, departmentId);
+    const isReviewable = !(await hasPendingDocumentsBefore(referralDate, departmentId));
+
+
+    res.status(200).json({ isReviewable });
+  } catch (error) {
+    console.error('Error checking if document is reviewable:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: Retrieves referral_Date from details_logs.
+*/
+function getReferralDateFromLogs(documentId, departmentId) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT referral_Date FROM document_logs WHERE document_ID = ? AND department_ID = ?",
+      [documentId, departmentId],
+      (err, result) => {
+        if (err || result.length === 0) {
+          console.error("Error fetching referral date:", err);
+          reject(err);
+        } else {
+          resolve(result[0].referral_Date);
+        }
+      }
+    );
+  });
+}
+
+/*
+Created by: Dominic Gabriel O. Ronquillo
+Description: Compares referral dates to determine which document can be reviewed first.
+*/
+async function hasPendingDocumentsBefore(referralDate, departmentId) {
+  return new Promise((resolve, reject) => {
+    console.log("Orginal date: " + referralDate)
+    console.log(departmentId)
+    const formattedReferralDate = moment(referralDate).format('YYYY-MM-DD HH:mm:ss');
+    console.log('Received referral date:', formattedReferralDate);
+    const query = 'SELECT COUNT(*) AS count FROM document_logs WHERE referral_Date < ? AND document_status = "processing" AND department_ID = ? ORDER BY referral_Date ASC';
+
+    connection.query(
+      query,
+      [formattedReferralDate, departmentId],
+      (err, results) => {
+        if (err) {
+          console.error('Error checking for pending documents:', err);
+          reject(err);
+        } else {
+          console.log('Raw SQL Query:', connection.format(query, [formattedReferralDate], departmentId));
+          console.log('SQL Query Results:', results);
+          console.log('SQL Query:', query);
+          console.log('Query Parameters:', [formattedReferralDate], departmentId);
+          const count = results[0].count;
+          console.log(count);
+          resolve(count > 0);
         }
       }
     );

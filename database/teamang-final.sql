@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 14, 2023 at 10:14 AM
+-- Generation Time: Dec 14, 2023 at 02:10 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -60,12 +60,12 @@ CREATE TABLE IF NOT EXISTS `document_details` (
   `document_Title` varchar(255) NOT NULL,
   `pages` int NOT NULL,
   `status` varchar(255) NOT NULL,
-  `upload_Date` date NOT NULL,
+  `upload_Date` datetime NOT NULL,
   `file` mediumblob NOT NULL,
   `revisions` int DEFAULT '0',
   PRIMARY KEY (`document_ID`),
   KEY `user_ID_doc_details` (`user_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10056 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10067 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `document_logs` (
   `document_ID` int NOT NULL,
   `department_ID` int NOT NULL,
   `user_ID` int NOT NULL,
-  `referral_Date` date NOT NULL,
-  `review_Date` date DEFAULT NULL,
+  `referral_Date` datetime NOT NULL,
+  `review_Date` datetime DEFAULT NULL,
   `received_file` mediumblob NOT NULL,
   `reviewed_file` mediumblob,
   `returned_file` mediumblob,
@@ -118,12 +118,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_ID`, `email`, `password`, `last_Name`, `first_Name`, `middle_Name`, `department_ID`, `position`, `role`, `status`) VALUES
-(1, 'user1@slu.edu.ph', '123', 'Cariño', 'Diana Mae', 'De Leon', 4, 'Secretary', 'user', 'Offline'),
+(1, 'user1@slu.edu.ph', '123', 'Cariño', 'Diana Mae', 'De Leon', 4, 'Secretary', 'user', 'Online'),
 (2, 'admin1@slu.edu.ph', '321', 'Zapanta', 'Adrienne Marie', 'Banday', 5, 'Admin', 'admin', 'Offline'),
 (3, 'reviewer1@slu.edu.ph', '312', 'Ronquillo', 'Dominic Gabriel', 'Oaing', 1, 'Director', 'reviewer', 'Offline'),
-(4, 'reviewer2@slu.edu.ph', '213', 'Daligdig', 'Hans Rafael', 'Pascual', 2, 'Vice President', 'reviewer', 'Offline'),
+(4, 'reviewer2@slu.edu.ph', '213', 'Daligdig', 'Hans Rafael', 'Pascual', 2, 'Vice President', 'reviewer', 'Online'),
 (5, 'reviewer3@slu.edu.ph', '132', 'Yabut', 'Kevin King', 'Dela Cruz', 3, 'Vice President', 'reviewer', 'Offline'),
-(6, 'reviewer4@slu.edu.ph', '231', 'Gigante', 'Elijah', 'Medina', 4, 'Director', 'reviewer', 'Online'),
+(6, 'reviewer4@slu.edu.ph', '231', 'Gigante', 'Elijah', 'Medina', 4, 'Director', 'reviewer', 'Offline'),
 (7, 'reviewer5@slu.edu.ph', '143', 'Catapusan', 'Heto Nya', 'Ang', 5, 'Vice President', 'reviewer', 'Offline'),
 (9, 'user2@slu.edu.ph', '000', 'Lang', 'Tess', 'Ting', 1, 'Staff', 'user', 'Offline'),
 (10, 'user3@slu.edu.ph', '000', 'Talaga', 'Ito Na', 'Ba', 4, 'Teacher', 'user', 'Offline'),
