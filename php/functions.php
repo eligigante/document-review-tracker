@@ -148,15 +148,22 @@ function get_docs($con, $accountID){
 
 
 function countUnreadDocuments($con, $userID) {
-    $query = "SELECT COUNT(*) AS unreadCount FROM document_logs 
-              WHERE user_ID = ? AND is_read = 0";
+    $query = "SELECT COUNT(*) AS total_unread_count  FROM document_logs dl
+    JOIN document_details dd ON dl.document_ID = dd.document_ID
+    WHERE dd.user_ID = ?
+    
+      AND dl.is_read = 0";
 
     $stmt = mysqli_prepare($con, $query);
+
 
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, "s", $userID);
 
+
         mysqli_stmt_execute($stmt);
+
+
 
         mysqli_stmt_bind_result($stmt, $count);
 
