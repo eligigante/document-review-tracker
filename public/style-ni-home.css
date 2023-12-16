@@ -1748,6 +1748,17 @@ section.active .modal-box-edit {
   margin: 0 10px;
 }
 
+
+
+input[type="text"].form-control , select.form-control , textarea.form-control  {
+  width: 30%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
 #displayRemarks {
   width: 15%;
   height: 20%;
@@ -1782,7 +1793,7 @@ input.inputRemarks[type="text"], select.inputRemarks, textarea.inputRemarks {
   color: #ffffff;
   padding: 11px;
   width: 3%;
-  font-size: 15px;
+  font-size: 16px;
   position: absolute;
   left: 445px;
 }
