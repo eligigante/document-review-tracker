@@ -202,7 +202,7 @@ function getNotifications() {
         success: function (response) {
             if (response.trim() !== "") {
                 $('#dropdown').html(response);
-               
+				
             } else {
                 $('#dropdown').html('<div class="notify_item"><div class="notify_info"><p>You currently have no notifications</p><span class="notify_time"></span></div></div>');
             }
@@ -212,7 +212,6 @@ function getNotifications() {
         }
     });
 }
-
 
 
 function getCount() {
@@ -259,8 +258,9 @@ setInterval(getCount, 100);
 
 
 
+
 function attachButtonClickListener() {
-    $('#drop-btn').on('click', function (event) {
+    $('.mark-btn').on('click', function (event) {
         event.preventDefault(); 
 
 
@@ -276,7 +276,7 @@ function attachButtonClickListener() {
             .fail(function (xhr, status, error) {
                 console.error(status + ": " + error);
             });
-        }, 10000); 
+        }, 10); 
     });
 }
 

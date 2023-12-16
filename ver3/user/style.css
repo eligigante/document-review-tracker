@@ -2869,3 +2869,11 @@ b {
 .hidden {
   display: none;
 }
+
+.mark-btn{
+  float: right;
+  border: transparent;
+  padding: 10px;
+  font-size: 10px;
+  cursor: pointer;
+}
