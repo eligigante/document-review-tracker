@@ -5,28 +5,47 @@ Description: This is the styles for the login page of the admin module that is w
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
-body{
+body {
     height: 100vh;
     display: flex;
     align-items: center;
-	flex-direction: column;
+    flex-direction: column;
     background-color: #073066;
 }
 
-.image-pos{
-	margin-top: 15px;
+#eye.fa-eye {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    cursor: pointer;
+    font-size: 20px;
+    color: #686868;
+}
+
+
+#eye.fa-eye:active {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    cursor: pointer;
+    font-size: 20px;
+    color: #000000;
+}
+
+.image-pos {
+    margin-top: 15px;
     margin-left: 16px;
 }
 
-.img{
-	max-width: 430px;
+.img {
+    max-width: 430px;
     width: 100%;
 }
 
@@ -34,7 +53,7 @@ hr {
     margin: 0 30px;
 }
 
-.container{
+.container {
     max-width: 430px;
     width: 100%;
     background: #fff;
@@ -45,7 +64,7 @@ hr {
     margin-top: 100px;
 }
 
-.container .forms{
+.container .forms {
     display: flex;
     align-items: center;
     height: 315px;
@@ -54,7 +73,7 @@ hr {
 }
 
 
-.container .form{
+.container .form {
     width: 100%;
     padding: 30px;
     background-color: #fff;
@@ -62,23 +81,24 @@ hr {
     padding-top: 15px;
 }
 
-.container.active .login{
+.container.active .login {
     margin-left: -50%;
     opacity: 0;
     transition: margin-left 0.18s ease, opacity 0.15s ease;
 }
 
-.container.active .forms{
+.container.active .forms {
     height: 600px;
 }
-.container .form .title{
-	display: flex;
+
+.container .form .title {
+    display: flex;
     font-size: 25px;
     font-weight: bolder;
 }
 
 
-.form .input-field{
+.form .input-field {
     position: relative;
     height: 50px;
     width: 100%;
@@ -90,7 +110,7 @@ hr {
 }
 
 
-.input-field input{
+.input-field input {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -103,11 +123,11 @@ hr {
     padding-right: 15px;
 }
 
-.input-field input:is(:focus, :valid){
+.input-field input:is(:focus, :valid) {
     border-bottom-color: #073066;
 }
 
-.input-field i{
+.input-field i {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -116,50 +136,51 @@ hr {
     transition: all 0.2s ease;
 }
 
-.input-field input:is(:focus, :valid) ~ i{
+.input-field input:is(:focus, :valid)~i {
     color: #4070f4;
 }
 
-.input-field i.icon{
+.input-field i.icon {
     left: 13px;
 }
 
 
-.form .checkbox-text{
+.form .checkbox-text {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-.checkbox-text .checkbox-content{
+.checkbox-text .checkbox-content {
     display: flex;
     align-items: center;
 }
 
-.checkbox-content input{
+.checkbox-content input {
     margin-right: 10px;
     accent-color: #4070f4;
 }
 
-.form .text{
+.form .text {
     color: #333;
     font-size: 14px;
 }
 
-.form a.text{
+.form a.text {
     color: #073066;
     text-decoration: none;
 }
-.form a:hover{
+
+.form a:hover {
     text-decoration: underline;
 }
 
-.form .button{
+.form .button {
     margin-top: 35px;
 }
 
-.form .button input{
+.form .button input {
     border: none;
     color: #fff;
     font-size: 17px;
@@ -172,6 +193,6 @@ hr {
     padding: 0 45px;
 }
 
-.button input:hover{
+.button input:hover {
     background-color: #073066;
 }

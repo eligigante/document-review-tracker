@@ -15,6 +15,18 @@ const searchButtonIcon = document.querySelector(
 );
 const searchForm = document.querySelector("#content nav form");
 
+document.getElementById("eye").addEventListener("click", togglePasswordVisibility);
+
+function togglePasswordVisibility() {
+    const passwordInput = document.querySelector(".password");
+    const eye = document.querySelector("#eye");
+
+    eye.classList.toggle("fa-eye-slash");
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+}
+
+
 // TOGGLE NOTIFICATION POP UP
 const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");

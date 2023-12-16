@@ -99,13 +99,13 @@
                         <div class="first-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
-                                    User ID <span id="user-id-info" class="info"></span>
+                                    User ID: <span id="user-id-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-id" id="contact-id" value="<%- include('user_id.ejs') %>" readonly/>
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
-                                    Status <span id="department-id-info" class="info"></span>
+                                    Status: <span id="department-id-info" class="info"></span>
                                 </div>
                                 <select id="status" class="input-field" name="status">
                                     <option value="Online">Online</option>
@@ -116,13 +116,13 @@
                         <div class="second-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
-                                    First Name <span id="first-name-info" class="info"></span>
+                                    First Name: <b style="color: red;">*</b>  <span id="first-name-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-first-name" id="contact-first-name" required>
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
-                                    Middle Name <span id="middle-name-info" class="info"></span>
+                                    Middle Name (Optional) <span id="middle-name-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-middle-name" id="contact-middle-name">
                             </div>
@@ -130,13 +130,13 @@
                         <div class="third-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
-                                    Last Name <span id="last-name-info" class="info"></span>
+                                    Last Name: <b style="color: red;">*</b>  <span id="last-name-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-last-name" id="contact-last-name" required>
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
-                                    Password <span id="password-info" class="info"></span>
+                                    Password: <b style="color: red;">*</b>  <span id="password-info" class="info"></span>
                                 </div>
                                 <div class="password-container">
                                     <input type="password" class="input-field" name="contact-password" id="contact-password" required>
@@ -147,13 +147,13 @@
                         <div class="fourth-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
-                                    Email <span id="email-info" class="info"></span>
+                                    Email: <b style="color: red;">*</b>  <span id="email-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-email" id="contact-email" />
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
-                                    Role <span id="role-info" class="info"></span>
+                                    Role: <span id="role-info" class="info"></span>
                                 </div>
                                 <select id="role" class="input-field" name="role">
                                     <option value="user">User</option>
@@ -165,7 +165,7 @@
                         <div class="fifth-row">
                             <div class="inline-block right-margin">
                                 <div class="label">
-                                    Department <span id="department-info" class="info"></span>
+                                    Department: <span id="department-info" class="info"></span>
                                 </div>
                                 <select id="department" class="input-field" name="department">
                                     <%- include('department_options.ejs') %>
@@ -173,7 +173,7 @@
                             </div>
                             <div class="inline-block responsive">
                                 <div class="label">
-                                    Position <span id="position-info" class="info"></span>
+                                    Position: <b style="color: red;">*</b>  <span id="position-info" class="info"></span>
                                 </div>
                                 <input type="text" class="input-field" name="contact-position" id="contact-position" />
                             </div>

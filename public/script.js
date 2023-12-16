@@ -44,6 +44,14 @@ if (formAdd) {
       return;
     }
     
+    if (middleNameElement.value === '') {
+      middleNameElement.value = null; // Assign null value if middle name is empty
+      console.log("No Middle Name");
+    }else if (!namePattern.test(middleNameElement.value)) {
+      alert('Invalid middle name. Please enter a valid name without spaces and numbers not allowed.');
+      return;
+    }
+
     if (!passwordPattern.test(passwordElement.value)) {
       alert('Invalid password. Password should be at least 6 characters.');
       return;
