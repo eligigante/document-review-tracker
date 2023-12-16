@@ -147,6 +147,7 @@ function get_docs($con, $accountID){
 
 
 
+
 function countUnreadDocuments($con, $userID) {
     $query = "SELECT COUNT(*) AS total_unread_count  FROM document_logs dl
     JOIN document_details dd ON dl.document_ID = dd.document_ID
