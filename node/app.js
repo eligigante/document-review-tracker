@@ -833,7 +833,6 @@ app.get('/my_sort_desc', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'reviewer') {
     connection.query(queries.mySortDesc, [request.session.department_ID], function (error, result, fields) {
       console.log("Showing sorted users (Newest) (accepted docs)...")
-
       response.render('my_review', { data: result })
     })
   }
