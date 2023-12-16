@@ -6,7 +6,7 @@ const section = document.querySelector("section"),
 const searchButton = document.querySelector('#content nav form .form-input button');
 const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
 const searchForm = document.querySelector('#content nav form');
-const dropdownBtn = document.getElementById("#drop-btn");
+const dropdownBtn = document.getElementById("drop-btn");
 const dropdownMenu = document.getElementById("dropdown");
 const toggleArrow = document.getElementById("arrow");
 
@@ -107,12 +107,15 @@ parameter. The fetched content is then inserted into the html element with the I
 */
 // Single Page Application content loading
 function loadContent(page) {
- 
-    fetch(`../../php/content.php?page=${page}`)
-        .then(response => response.text())
-        .then(data => document.getElementById('doc').innerHTML = data)
-        .catch(error => console.error('Error:', error));
-}
+	fetch(`../../php/content.php?page=${page}`)
+ 		.then(response => response.text())
+ 		.then(data => document.getElementById('doc').innerHTML = data)
+ 		.catch(error => console.error('Error:', error));
+
+		showLoader();
+
+		
+ }
 
 /*
 Created by: Hans Rafael Daligdig
@@ -139,7 +142,7 @@ $('.dropzone-wrapper').on('dragover', function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	$(this).addClass('dragover');
-});
+});https://github.com/eligigante/document-review-tracker.git
 
 $('.dropzone-wrapper').on('dragleave', function (e) {
 	e.preventDefault();
@@ -157,10 +160,9 @@ $('.remove-preview').on('click', function () {
 });
 
 
- window.onload = function () {
- 	loadContent('home');
- };
-
+window.onload = function () {
+	loadContent('home');
+};
 
 /*
 Created by: Hans Rafael Daligdig
@@ -212,17 +214,37 @@ function getNotifications() {
 }
 
 
+
 function getCount() {
     $.ajax({
         type: "GET",
         url: "../../php/countNotif.php",
         dataType: "html",
         success: function (response) {
+         
+
             if (response.trim() !== "") {
-                $('#countElement').html('<span class="count-text">' + response + '</span>');
-                console.log(response);
+
+                $('.icon-button__badge').html('<span class="count-text">' + response + '</span>');
+
+
+
+     
+                if (parseInt($('.count-text').text()) >= 1) {
+
+
+                    document.getElementById('badge').style.display = 'block';
+
+
+                } else {
+
+                    document.getElementById('badge').style.display = 'none';
+                }
             } else {
-                $('#countElement').html('<span class="count-text">0</span>');
+
+                $('.icon-button__badge').html('<span class="count-text">0</span>');
+
+                document.getElementById('badge').style.display = 'none';
             }
         },
         error: function (xhr, status, error) {

@@ -17,7 +17,6 @@ if ($notifArr !== null) {
         echo '<div class="notify_item">';
         echo '<div class="notify_info">';
         echo '<p>Document ID: ' . $notification['documentID'] . ' is now at: ' . $notification['departmentName'] . '.</p>';
-        echo '<span class="notify_time">' . $notification['referralDate'] . '</span>';
         echo '</div>';
         echo '</div>';
     }
