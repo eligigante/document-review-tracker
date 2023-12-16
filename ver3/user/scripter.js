@@ -267,10 +267,10 @@ function attachButtonClickListener() {
         setTimeout(function () {
             $.post("../../php/mark_notif.php", function (response) {
                 if (response.trim() === "success") {
-                    console.log("All notifications marked as read successfully");
+                    console.log("notif sucess");
                     getNotifications();
                 } else {
-                    console.error("Error marking all notifications as read");
+                    console.error("error notif");
                 }
             })
             .fail(function (xhr, status, error) {
