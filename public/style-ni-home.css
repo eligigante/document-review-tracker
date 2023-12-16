@@ -2237,6 +2237,117 @@ Description: This is the media query for all of the landing pages of the admin m
     padding-right: 20px;
     font-size: 12px;
   }
+
+  .search-btn {
+    border-radius: 500px;
+    border: none;
+    background: var(--light);
+    color: #ffffff;
+    padding: 9px;
+    width: 3%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-size: 15px;
+    position: absolute;
+    left: 145px;
+    margin-top: 10px;
+    margin-left: -5px;
+}
+.bx-search:before {
+  content: "\ee5a";
+  margin-left: -5px;
+}
+
+input.form-control[type="text"], select.form-control, textarea.form-control {
+  width: 70%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+input[type="text"].input-field, select.input-field, textarea.input-field {
+  width: 150px;
+  border-radius: 3px;
+  padding: 10px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+}
+
+.password-container input[type="password"], .password-container input[type="text"] {
+  width: 150px;
+  border-radius: 3px;
+  padding: 10px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+}
+
+.fa-eye {
+  position: absolute;
+  top: 35%;
+  left: 29%;
+  cursor: pointer;
+  font-size: 18px;
+  color: #686868;
+}
+
+.fa-eye:active {
+  position: absolute;
+  top: 35%;
+  left: 29%;
+  cursor: pointer;
+  font-size: 18px;
+  color: #686868;
+}
+
+.cancel-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #a19e9e;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+
+.edt-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 10px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 300px;
+  margin-left: -70px;
+}
+
+.create-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 10px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 300px;
+  margin-left: -70px;
+}
+
+.new-user {
+  text-align: left;
+  font-size: 20px;
+}
 }
 
 @media screen and (min-width: 475px) and (max-width: 639px) {
@@ -2340,12 +2451,14 @@ Description: This is the media query for all of the landing pages of the admin m
     grid-gap: 12px;
     padding-left: 2px;
     font-size: 12px;
+    text-align: left;
   }
 
   #content main .table-data .order table td {
     font-size: 12px;
     padding: 16px 20px;
-  }
+    text-align: left;
+}
 
   .sample-image {
     border-color: #000000;
@@ -2393,11 +2506,6 @@ Description: This is the media query for all of the landing pages of the admin m
     color: #1e2a28;
     width: 940px;
     margin: 0 auto;
-  }
-
-  .new-user {
-    text-align: end;
-    margin-right: -100px;
   }
 
   #content main .table-data .order {
@@ -2490,6 +2598,119 @@ Description: This is the media query for all of the landing pages of the admin m
     color: #686868;
     margin-bottom: 0;
   }
+
+  input.form-control[type="text"], select.form-control, textarea.form-control {
+    width: 50%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    resize: vertical;
+    margin-bottom: 15px;
+    margin-left: -155px;
+}
+
+.search-btn {
+  border-radius: 500px;
+  border: none;
+  background: var(--light);
+  color: #ffffff;
+  padding: 11px;
+  width: 5%;
+  font-size: 15px;
+  position: absolute;
+  left: 180px;
+  margin-top: 11.5px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 1px;
+}
+
+.bx-search:before {
+  content: "\ee5a";
+  margin-left: 1.6px;
+}
+
+input[type="text"].input-field, select.input-field, textarea.input-field {
+  width: 180px;
+  border-radius: 3px;
+  padding: 10px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+}
+
+.password-container input[type="password"], .password-container input[type="text"] {
+  width: 180px;
+  border-radius: 3px;
+  padding: 10px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+}
+
+.fa-eye {
+  position: absolute;
+  top: 35%;
+  left: 36%;
+  cursor: pointer;
+  font-size: 20px;
+  color: #686868;
+}
+
+.fa-eye:active {
+  position: absolute;
+  top: 35%;
+  left: 36%;
+  cursor: pointer;
+  font-size: 20px;
+  color: #686868;
+}
+
+.new-user {
+  text-align: end;
+  margin-right: 265px;
+}
+
+.cancel-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #a19e9e;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+
+.edt-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #428bca;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 500px;
+  margin-left: -80px;
+}
+
+.create-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 10px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 500px;
+  margin-left: -80px;
+}
 }
 
 @media screen and (min-width: 640px) and (max-width: 767px) {
@@ -2545,11 +2766,13 @@ Description: This is the media query for all of the landing pages of the admin m
     grid-gap: 12px;
     padding-left: 6px;
     margin-left: 10px;
-  }
+    text-align: left;
+}
 
-  #content main .table-data .order table td {
-    padding: 16px;
-  }
+#content main .table-data .order table td {
+  padding: 16px;
+  text-align: left;
+}
 
   #content main .table-data .order table {
     width: 100%;
@@ -2649,6 +2872,70 @@ Description: This is the media query for all of the landing pages of the admin m
     border-radius: 14px;
     margin-left: 1px;
   }
+
+  .search-btn {
+    border-radius: 500px;
+    border: none;
+    background: var(--light);
+    color: #ffffff;
+    padding: 11px;
+    width: 5%;
+    font-size: 18px;
+    position: absolute;
+    left: 360px;
+    margin-top: 9px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+input.form-control[type="text"], select.form-control, textarea.form-control {
+  width: 50%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+input[type="text"].input-field, select.input-field, textarea.input-field {
+  width: 340px;
+  border-radius: 3px;
+  padding: 15px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+  font-size: 18px;
+}
+
+.password-container input[type="password"], .password-container input[type="text"] {
+  width: 340px;
+  border-radius: 3px;
+  padding: 15px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+  font-size: 18px;
+}
+
+.fa-eye {
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  cursor: pointer;
+  font-size: 25px;
+  color: #686868;
+}
+
+.fa-eye:active {
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  cursor: pointer;
+  font-size: 25px;
+  color: #686868;
+}
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -2691,7 +2978,8 @@ Description: This is the media query for all of the landing pages of the admin m
 
   #content main .table-data .order table td {
     padding: 16px;
-  }
+    text-align: left;
+}
 
   #content main .table-data .order table th {
     padding-bottom: 12px;
@@ -2763,15 +3051,84 @@ Description: This is the media query for all of the landing pages of the admin m
     color: #686868;
     margin-bottom: 0;
   }
+
+  input.form-control[type="text"], select.form-control, textarea.form-control {
+    width: 50%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+.search-btn {
+  border-radius: 500px;
+  border: none;
+  background: var(--light);
+  color: #ffffff;
+  padding: 11px;
+  width: 5%;
+  font-size: 20px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-right: 1px;
+  padding-left: 1px;
+  position: absolute;
+  left: 460px;
+  margin-top: 7px;
+}
+
+input[type="text"].input-field, select.input-field, textarea.input-field {
+  width: 340px;
+  border-radius: 3px;
+  padding: 20px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+  font-size: 20px;
+}
+
+.label {
+  color: #000000;
+  font-size: 20px;
+}
+
+.password-container input[type="password"], .password-container input[type="text"] {
+  width: 340px;
+  border-radius: 3px;
+  padding: 20px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+  font-size: 20px;
+}
+
+.fa-eye {
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  cursor: pointer;
+  font-size: 25px;
+  color: #686868;
+}
+
+.fa-eye:active {
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  cursor: pointer;
+  font-size: 25px;
+  color: #686868;
+}
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1279px) {
   #content main .table-data .order table td {
     padding: 16px 40px;
     font-size: 22px;
-    text-align: center;
+    text-align: left;
     margin-left: 10px;
-  }
+}
 
   #content main .table-data {
     display: flex;
@@ -2898,6 +3255,93 @@ Description: This is the media query for all of the landing pages of the admin m
     font-size: 15px;
     font-family: var(--poppins);
   }
+
+  input.form-control[type="text"], select.form-control, textarea.form-control {
+    width: 350px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+.search-btn {
+  border-radius: 500px;
+  border: none;
+  background: var(--light);
+  color: #ffffff;
+  padding: 1px;
+  width: 5%;
+  font-size: 20px;
+  position: absolute;
+  left: 350px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-right: 1px;
+  margin-top: 6.5px;
+}
+
+.bx-search:before {
+  content: "\ee5a";
+  margin-left: 2px;
+}
+
+input[type="text"].input-field, select.input-field, textarea.input-field {
+  width: 340px;
+  border-radius: 3px;
+  padding: 30px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+  font-size: 25px;
+}
+
+.password-container input[type="password"], .password-container input[type="text"] {
+  width: 340px;
+  border-radius: 3px;
+  padding: 30px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+  font-size: 25px;
+}
+
+.fa-eye {
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  cursor: pointer;
+  font-size: 30px;
+  color: #686868;
+}
+
+.fa-eye:active {
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  cursor: pointer;
+  font-size: 30px;
+  color: #686868;
+}
+
+.label {
+  color: #000000;
+  font-size: 20px;
+}
+
+.cancel-btn {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 13px 15px;
+  border: none;
+  background: #a19e9e;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 15px;
+  padding-top: 15px;
+}
 }
 
 @media screen and (min-width: 1280px) and (max-width: 1536px) {
@@ -2965,13 +3409,14 @@ Description: This is the media query for all of the landing pages of the admin m
     grid-gap: 12px;
     padding-left: 6px;
     margin-left: 10px;
-    text-align: center;
+    text-align: left;
   }
 
   #content main .table-data .order table td {
     padding: 16px;
     font-size: 25px;
-  }
+    text-align: left;
+}
 
   #content main .table-data .order table tr td .status.pending {
     background: #7b8089;
@@ -3003,4 +3448,111 @@ Description: This is the media query for all of the landing pages of the admin m
     --radius: 5px;
     font-size: 25px;
   }
+
+  input.form-control[type="text"], select.form-control, textarea.form-control {
+    width: 50%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+.search-btn {
+  border-radius: 50px;
+  border: none;
+  background: var(--light);
+  color: #ffffff;
+  padding: 11px;
+  width: 6%;
+  font-size: 15px;
+  position: absolute;
+  left: 810px;
+  margin-top: 5px;
+}
+
+input[type="text"].input-field, select.input-field, textarea.input-field {
+  width: 450px;
+  border-radius: 3px;
+  padding: 30px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+  font-size: 30px;
+}
+
+.password-container input[type="password"], .password-container input[type="text"] {
+  width: 450px;
+  border-radius: 3px;
+  padding: 30px;
+  border: #91949d 1px solid;
+  box-sizing: border-box;
+  margin: 5px 10px 0px 0px;
+  font-size: 30px;
+}
+
+.fa-eye {
+  position: absolute;
+  top: 35%;
+  left: 95%;
+  cursor: pointer;
+  font-size: 40px;
+  color: #686868;
+}
+
+.fa-eye:active {
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  cursor: pointer;
+  font-size: 30px;
+  color: #686868;
+}
+
+.create-btn {
+  font-size: 35px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: -180px;
+  margin-left: 30px;
+}
+
+.cancel-btn {
+  font-size: 35px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #a19e9e;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.new-user {
+  text-align: center;
+  font-size: 40px;
+  margin-left: 250px;
+}
+
+.edt-btn {
+  font-size: 35px;
+  font-weight: 400;
+  font-family: var(--poppins);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  background: #1dc455;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: -180px;
+  margin-left: 30px;
+}
 }
