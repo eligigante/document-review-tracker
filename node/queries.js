@@ -63,7 +63,7 @@ const searchHomeReviewer = 'SELECT document_details.document_Title, document_det
 + '(user.last_Name LIKE ? OR user.first_Name LIKE ? OR document_details.document_Title LIKE ?)';
 const getDepartmentIDOfUser = 'SELECT department_ID FROM user WHERE user_ID = ?'
 const getMyReviewDetails = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
-+ 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
++ 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d %H:%i:%s\') AS review_Date, '
 + 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
 + 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
 + 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\'';
@@ -118,7 +118,7 @@ const filterRejected = 'SELECT document_details.document_Title, document_details
 + 'document_details.document_ID = document_logs.document_ID WHERE document_logs.department_ID = ? AND '
 + 'document_logs.document_status = \'rejected\'';
 const mySortAsc = 'SELECT user.last_Name, user.first_Name, user.middle_Name, document_details.document_Title, '
-+ 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d\') AS review_Date, '
++ 'DATE_FORMAT(document_logs.review_Date, \'%Y-%m-%d %H:%i:%s\') AS review_Date, '
 + 'document_logs.department_ID, document_logs.document_status FROM user JOIN document_details ON '
 + 'user.user_ID = document_details.user_ID JOIN document_logs ON document_details.document_ID = document_logs.document_ID '
 + 'WHERE document_logs.department_ID = ? AND document_logs.document_status = \'accepted\' ORDER BY document_logs.review_Date ASC';
@@ -128,7 +128,7 @@ const mySortDesc = `
     user.first_Name,
     user.middle_Name,
     document_details.document_Title,
-    DATE_FORMAT(document_logs.review_Date, '%Y-%m-%d') AS review_Date,
+    DATE_FORMAT(document_logs.review_Date, '%Y-%m-%d %H:%i:%s') AS review_Date,
     document_logs.department_ID,
     document_logs.document_status
   FROM
@@ -140,7 +140,7 @@ const mySortDesc = `
   WHERE
     document_logs.department_ID = ? AND document_logs.document_status = 'accepted'
   ORDER BY
-    review_Date DESC
+    document_logs.review_Date DESC
 `;
 const sortAscQueue = 'SELECT user.first_Name, user.middle_Name, user.last_Name, document_details.document_Title, '
 + 'document_details.pages, DATE_FORMAT(document_logs.referral_Date, \'%Y-%m-%d\') AS referral_Date, '
