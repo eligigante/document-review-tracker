@@ -10,7 +10,6 @@ const fs = require("fs");
 const annotationHandler = require("./annotationHandler");
 const { request } = require('http');
 const moment = require('moment');
-// const { request } = require('http');
 
 const connection = db.connectDatabase(mysql);
 db.getConnection(connection);
@@ -592,13 +591,20 @@ app.post('/add_user_request', noCache, (request, response) => {
     var role = request.body.role;
     var status = request.body.status;
 
-    console.log(email, password);
-
-    connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status],
-      function (error, result, fields) {
-        console.log('User successfully added.');
-        response.redirect('/manage_user');
-      });
+    if (middleName === null || middleName === '') {
+      connection.query(queries.addUser, [email, password, lastName, firstName, null, departmentID, position, role, status],
+        function (error, result, fields) {
+          console.log('User successfully added (No middle name).');
+          response.redirect('/manage_user');
+        });
+    }
+    else {
+      connection.query(queries.addUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status],
+        function (error, result, fields) {
+          console.log('User successfully added.');
+          response.redirect('/manage_user');
+        });
+    }
   }
   else {
     console.log("Please login or logout from your current session.")
@@ -642,7 +648,6 @@ app.post('/edit_user_request', noCache, (request, response) => {
   if (request.session.verify && request.session.role === 'admin') {
     var id = request.body.user;
     var email = request.body['contact-email'];
-    console.log(email)
     var password = request.body['contact-password'];
     var lastName = request.body['contact-last-name'];
     var firstName = request.body['contact-first-name'];
@@ -652,9 +657,20 @@ app.post('/edit_user_request', noCache, (request, response) => {
     var role = request.body.role;
     var status = request.body.status;
 
-    connection.query(queries.editUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status, id]);
-    console.log('User details successfully updated.');
-    response.redirect('/manage_user');
+    if (middleName == null || middleName == '') {
+      connection.query(queries.editUser, [email, password, lastName, firstName, null, departmentID, position, role, status, id],
+        function (error, result, fields) {
+          console.log('User details successfully updated (No middle name).');
+          response.redirect('/manage_user');
+        });
+    }
+    else {
+      connection.query(queries.editUser, [email, password, lastName, firstName, middleName, departmentID, position, role, status, id],
+        function (error, result, fields) {
+          console.log('User details successfully updated.');
+          response.redirect('/manage_user');
+        });
+    }
   }
   else {
     console.log("Please login or logout from your current session.")
