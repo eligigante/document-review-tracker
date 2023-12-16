@@ -2239,23 +2239,26 @@ Description: This is the media query for all of the landing pages of the admin m
   }
 
   .search-btn {
-    border-radius: 500px;
+    border-radius: 40px;
     border: none;
     background: var(--light);
     color: #ffffff;
     padding: 9px;
-    width: 3%;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    font-size: 15px;
+    width: 12%;
+    padding-top: 12px;
+    padding-bottom: 8px;
     position: absolute;
-    left: 145px;
-    margin-top: 10px;
+    left: 128px;
+    margin-top: 1px;
+    padding-left: 30px;
+    padding-right: 10px;
     margin-left: -5px;
 }
+
 .bx-search:before {
+  font-size: 20px;
   content: "\ee5a";
-  margin-left: -5px;
+  margin-left: -20px;
 }
 
 input.form-control[type="text"], select.form-control, textarea.form-control {
@@ -2615,14 +2618,14 @@ input[type="text"].input-field, select.input-field, textarea.input-field {
   background: var(--light);
   color: #ffffff;
   padding: 11px;
-  width: 5%;
-  font-size: 15px;
+  width: 10%;
+  font-size: 20px;
   position: absolute;
-  left: 180px;
-  margin-top: 11.5px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-  padding-left: 1px;
+  left: 168px;
+  margin-top: 1px;
+  padding-bottom: 6px;
+  padding-top: 8px;
+  padding-left: 10px;
 }
 
 .bx-search:before {
@@ -2879,15 +2882,15 @@ input[type="text"].input-field, select.input-field, textarea.input-field {
     background: var(--light);
     color: #ffffff;
     padding: 11px;
-    width: 5%;
-    font-size: 18px;
+    width: 9%;
+    font-size: 20px;
     position: absolute;
-    left: 360px;
-    margin-top: 9px;
-    padding-left: 1px;
-    padding-right: 1px;
-    padding-top: 1px;
-    padding-bottom: 1px;
+    left: 350px;
+    margin-top: 1px;
+    padding-left: 6px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 6px;
 }
 
 input.form-control[type="text"], select.form-control, textarea.form-control {
@@ -2935,6 +2938,11 @@ input[type="text"].input-field, select.input-field, textarea.input-field {
   cursor: pointer;
   font-size: 25px;
   color: #686868;
+}
+
+.bx-search:before {
+  content: "\ee5a";
+  margin-left: 6px;
 }
 }
 
@@ -3067,15 +3075,15 @@ input[type="text"].input-field, select.input-field, textarea.input-field {
   background: var(--light);
   color: #ffffff;
   padding: 11px;
-  width: 5%;
-  font-size: 20px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-right: 1px;
-  padding-left: 1px;
+  width: 8%;
+  font-size: 25px;
+  padding-top: 6px;
+  padding-bottom: 5px;
+  padding-right: 12px;
+  padding-left: 10px;
   position: absolute;
-  left: 460px;
-  margin-top: 7px;
+  left: 451px;
+  margin-top: -1px;
 }
 
 input[type="text"].input-field, select.input-field, textarea.input-field {
@@ -3271,19 +3279,19 @@ input[type="text"].input-field, select.input-field, textarea.input-field {
   background: var(--light);
   color: #ffffff;
   padding: 1px;
-  width: 5%;
-  font-size: 20px;
+  width: 6%;
+  font-size: 25px;
   position: absolute;
   left: 350px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-right: 1px;
-  margin-top: 6.5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  margin-top: -1px;
 }
 
 .bx-search:before {
   content: "\ee5a";
-  margin-left: 2px;
+  margin-left: 10px;
 }
 
 input[type="text"].input-field, select.input-field, textarea.input-field {
@@ -3464,11 +3472,15 @@ input[type="text"].input-field, select.input-field, textarea.input-field {
   background: var(--light);
   color: #ffffff;
   padding: 11px;
-  width: 6%;
-  font-size: 15px;
+  width: 7%;
+  font-size: 20px;
   position: absolute;
-  left: 810px;
-  margin-top: 5px;
+  left: 815px;
+  margin-top: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 14px;
+  padding-bottom: 16px;
 }
 
 input[type="text"].input-field, select.input-field, textarea.input-field {
