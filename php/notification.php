@@ -16,7 +16,7 @@ if ($notifArr !== null) {
     foreach ($notifArr as $notification) {
         echo '<div class="notify_item">';
         echo '<div class="notify_info">';
-        echo '<p>Document ID: ' . $notification['documentID'] . ' is now at: ' . $notification['departmentName'] . '.</p>';
+        echo '<p>Document: ' . $notification['title'] . ' is now at: ' . $notification['departmentName'] . '.</p>';
         echo '</div>';
         echo '</div>';
     }

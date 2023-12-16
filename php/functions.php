@@ -186,11 +186,11 @@ function countUnreadDocuments($con, $userID) {
 function documentNotif($con, $userID) {
     $notifications = array();
 
-              $query = "SELECT dd.document_ID, dl.user_ID, dl.department_ID, d.department_Name
+              $query = "SELECT dd.document_ID, dd.document_Title, dl.user_ID, dl.department_ID, d.department_Name
               FROM document_details dd
               JOIN document_logs dl ON dd.document_ID = dl.document_ID
               JOIN departments d ON dl.department_ID = d.department_ID
-              WHERE dd.user_Id = $userID AND is_read = 0";
+              WHERE dd.user_Id = $userID AND dl.is_read = 0";
 
 
     $result = mysqli_query($con, $query);
@@ -199,8 +199,8 @@ function documentNotif($con, $userID) {
         while ($row = mysqli_fetch_assoc($result)) {
             $documentID = $row['document_ID'];
             $departmentID = $row['department_ID'];
-
-        
+              $departmentName = $row['department_Name'];
+            $documentTitle = $row['document_Title'];
 
             $deptQuery = "SELECT department_name FROM departments WHERE department_ID = $departmentID";
 
@@ -218,8 +218,8 @@ function documentNotif($con, $userID) {
                 $notification = array(
                     "documentID" => $documentID,
 
-
-                    "departmentName" => $departmentName,
+                    "title" => $documentTitle,
+                    "departmentName" => $departmentName
 
                 );
                 array_push($notifications, $notification);

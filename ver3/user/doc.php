@@ -123,9 +123,9 @@ require_once('../../php/login.php');
             <button class="mark-btn"><i class='bx bx-envelope'></i>Mark as read</button>
               
             <div class="dropdown" id="dropdown">
-         
+         <div class = "inner-div">
                 <button class="mark-btn" id = "mark"><i class='bx bx-envelope'></i>Mark as read</button>
-           
+         </div>
               </div>
 
             <a href="#" class="profile">
