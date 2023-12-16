@@ -39,12 +39,26 @@ Description: This is the code section that prevents the browser from caching the
 the pages once they have logged out of the application
 */
 
-function noCache(req, res, next) {
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
+function noCache(request, response, next) {
+  response.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  response.header('Expires', '-1');
+  response.header('Pragma', 'no-cache');
   next();
 }
+
+/*
+Created by: Adrienne Zapanta
+Description: This is the code section that checks if the user has an active session; mostly used so that users are not able
+to access former webpages that have a query in the URI
+*/
+
+const checkAuthentication = (request, response, next) => {
+  if (request.session && request.session.verify) {
+    next();
+  } else {
+    response.redirect('/'); 
+  }
+};
 
 /*
 Created by: Adrienne Zapanta
@@ -150,7 +164,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that implements the search function in the home admin page
 */
 
-app.get('/search_home_admin', (request, response) => {
+app.get('/search_home_admin', checkAuthentication, noCache, (request, response) => {
   const query = request.query.search;
   const finalQuery = `%${query}%`;
   var sql = '';
@@ -169,7 +183,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that implements the search function in the manage user page
 */
 
-app.get('/search_manage', (request, response) => {
+app.get('/search_manage',  checkAuthentication, noCache, (request, response) => {
   const query = request.query.manage;
   const finalQuery = `%${query}%`;
   var sql = '';
@@ -188,7 +202,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that implements the search function in the home reviewer page
 */
 
-app.get('/search_home_reviewer', (request, response) => {
+app.get('/search_home_reviewer', checkAuthentication, noCache, (request, response) => {
   const query = request.query.search;
   const finalQuery = `%${query}%`;
   var sql = '';
@@ -208,7 +222,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that implements the search function in the document queue page
 */
 
-app.get('/search_queue', (request, response) => {
+app.get('/search_queue', checkAuthentication, noCache, (request, response) => {
   const query = request.query.search;
   const finalQuery = `%${query}%`;
   var sql = '';
@@ -228,7 +242,7 @@ Created by: Adrienne Zapanta
 Description: This is the code section that implements the search function in the my review page
 */
 
-app.get('/search_my_review', (request, response) => {
+app.get('/search_my_review', checkAuthentication, noCache, (request, response) => {
   const query = request.query.search;
   const finalQuery = `%${query}%`;
   var sql = '';
