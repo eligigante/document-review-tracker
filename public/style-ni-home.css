@@ -1755,22 +1755,24 @@ section.active .modal-box-edit {
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: vertical;
-  margin-left: 1180px;
+  margin-left: 1190px;
   margin-top: -720px;
   font-size: 15px;
   padding-bottom: 130px;
   font-weight: 500;
 }
 
-input.form-control[type="text"],
-select.form-control,
-textarea.form-control {
-  width: 30%;
-  padding: 12px;
+input.inputRemarks[type="text"], select.inputRemarks, textarea.inputRemarks {
+  width: 15%;
+  padding: 6px;
   border: 1px solid #ccc;
-  border-radius: 25px;
+  border-radius: 5px;
   resize: vertical;
   margin-bottom: 15px;
+  margin-left: 1205px;
+  margin-top: -510px;
+  font-size: 14px;
+  padding-bottom: 130px;
 }
 
 .search-btn {
@@ -1790,8 +1792,8 @@ label {
   display: inline-block;
   padding: 12px 12px 12px 0;
   display: inline-block;
-  margin-left: 1200px;
-  margin-top: -520px;
+  margin-left: 1205px;
+  margin-top: -550px;
   font-size: 17px;
 }
 
