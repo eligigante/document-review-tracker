@@ -233,10 +233,6 @@ if ($_GET['page'] === 'home') {
             <div class="col-75">
                 <select id="department" name="department" onchange = getDoc() >
                     <option value="OGRAA">OGRAA</option>
-                    <option value="OVPAA">OVPAA</option>
-                    <option value="OVPF">OVPF</option>
-                    <option value="OLA">OLA</option>
-                    <option value="OVPA">OVPA</option>
                 </select>
             </div>
         </div>
