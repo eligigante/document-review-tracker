@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "docuhehi";
+$dbname = "teamang-final";
 
 $con = new mysqli($servername, $username, $password, $dbname);
 // die("Connection successful");

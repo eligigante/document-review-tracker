@@ -360,6 +360,7 @@ function updateFile($con, $docID, $accountID, $newFileBlob) {
         JOIN document_details ON document_logs.document_ID = document_details.document_ID
         SET document_logs.received_file = ?,
             document_logs.document_status = 'processing',
+            document_logs.remarks = NULL,
             document_logs.referral_Date = NOW(),
             document_details.status = 'pending',
             document_details.revisions = document_details.revisions + 1,

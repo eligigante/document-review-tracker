@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 14, 2023 at 02:10 PM
+-- Generation Time: Dec 16, 2023 at 02:04 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `document_tracker_db`
+-- Database: `teamang-final`
 --
 
 -- --------------------------------------------------------
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `document_details` (
   `revisions` int DEFAULT '0',
   PRIMARY KEY (`document_ID`),
   KEY `user_ID_doc_details` (`user_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10067 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10073 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `document_logs` (
   `approved_file` mediumblob,
   `document_status` varchar(255) NOT NULL,
   `remarks` varchar(255) DEFAULT NULL,
+  `is_read` int NOT NULL DEFAULT '0',
   KEY `document_ID` (`document_ID`),
   KEY `department_ID` (`department_ID`),
   KEY `user_ID` (`user_ID`)
@@ -118,10 +119,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_ID`, `email`, `password`, `last_Name`, `first_Name`, `middle_Name`, `department_ID`, `position`, `role`, `status`) VALUES
-(1, 'user1@slu.edu.ph', '123', 'Cariño', 'Diana Mae', 'De Leon', 4, 'Secretary', 'user', 'Online'),
+(1, 'user1@slu.edu.ph', '123', 'Cariño', 'Diana Mae', 'De Leon', 4, 'Secretary', 'user', 'Offline'),
 (2, 'admin1@slu.edu.ph', '321', 'Zapanta', 'Adrienne Marie', 'Banday', 5, 'Admin', 'admin', 'Offline'),
 (3, 'reviewer1@slu.edu.ph', '312', 'Ronquillo', 'Dominic Gabriel', 'Oaing', 1, 'Director', 'reviewer', 'Offline'),
-(4, 'reviewer2@slu.edu.ph', '213', 'Daligdig', 'Hans Rafael', 'Pascual', 2, 'Vice President', 'reviewer', 'Online'),
+(4, 'reviewer2@slu.edu.ph', '213', 'Daligdig', 'Hans Rafael', 'Pascual', 2, 'Vice President', 'reviewer', 'Offline'),
 (5, 'reviewer3@slu.edu.ph', '132', 'Yabut', 'Kevin King', 'Dela Cruz', 3, 'Vice President', 'reviewer', 'Offline'),
 (6, 'reviewer4@slu.edu.ph', '231', 'Gigante', 'Elijah', 'Medina', 4, 'Director', 'reviewer', 'Offline'),
 (7, 'reviewer5@slu.edu.ph', '143', 'Catapusan', 'Heto Nya', 'Ang', 5, 'Vice President', 'reviewer', 'Offline'),
