@@ -1,8 +1,8 @@
-# Document Review Tracker Web Application
+# DocFlow: An Intuitive Web-based Application for Tracking Document Reviews 
 
 ## Overview
 
-The Document Review Tracker is a web application designed to streamline document reviews within a collaborative environment. This application facilitates the submission of documents, allows reviewers to provide comments on PDFs, and enables efficient communication between reviewers and document owners. The system includes user authentication, user roles (admin, reviewer, user), session management, and features sorting and filtering capabilities.
+The Document Review Tracker is a web application designed to streamline document reviews within a collaborative environment. This application facilitates the submission of documents, allows reviewers to provide comments on PDFs, and enables efficient communication between reviewers and document owners. The system includes user authentication, user roles (admin, reviewer, user), session management, and sorting and filtering capabilities.
 
 ## Technologies Used
 
