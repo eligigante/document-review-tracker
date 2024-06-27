@@ -1,4 +1,4 @@
-# DocFlow: An Intuitive Web-based Application for Tracking Document Reviews 
+# DocFlow: An Intuitive Web-based Application for Managing Documents 
 
 ## Overview
 
